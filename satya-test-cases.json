@@ -1,0 +1,463 @@
+{
+  "project": "SATYA",
+  "suite_version": "1.0.0",
+  "purpose": "Functional and acceptance test cases derived from the SATYA master development requirements, including its testing requirements.",
+  "scope_note": "These are test definitions, not claimed execution results. Run them against the current SATYA project. Synthetic demo evidence must remain clearly labelled and unmatched claims must remain UNVERIFIED.",
+  "verdicts": [
+    "VERIFIED",
+    "FALSE",
+    "MISLEADING",
+    "UNVERIFIED",
+    "CONFLICTING"
+  ],
+  "test_cases": [
+    {
+      "id": "SATYA-001",
+      "category": "Application",
+      "priority": "P0",
+      "title": "Application loads",
+      "steps": [
+        "Open the SATYA application in a supported browser."
+      ],
+      "input": null,
+      "expected": [
+        "Both WhatsApp and SATYA phone frames render.",
+        "No fatal runtime error prevents interaction."
+      ],
+      "verification_method": "manual_browser",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-002",
+      "category": "WhatsApp workflow",
+      "priority": "P0",
+      "title": "Select a sample forwarded message",
+      "steps": [
+        "Open the WhatsApp simulation.",
+        "Select each available sample message."
+      ],
+      "input": "Each configured demo sample",
+      "expected": [
+        "The selected sample appears in the simulated conversation.",
+        "The selected sample is the one offered for copying."
+      ],
+      "verification_method": "manual_browser",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-003",
+      "category": "WhatsApp workflow",
+      "priority": "P0",
+      "title": "Copy and paste message into SATYA",
+      "steps": [
+        "Select a sample forward.",
+        "Copy it.",
+        "Paste it into SATYA."
+      ],
+      "input": "A selected WhatsApp demo message",
+      "expected": [
+        "The pasted text matches the selected message exactly.",
+        "The message is transferred only through a user-initiated action."
+      ],
+      "verification_method": "manual_browser",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-004",
+      "category": "Input validation",
+      "priority": "P0",
+      "title": "Reject empty input gracefully",
+      "steps": [
+        "Leave the message input empty.",
+        "Click Verify."
+      ],
+      "input": "",
+      "expected": [
+        "No fabricated claim or verdict is generated.",
+        "A clear validation message is shown.",
+        "The application remains usable."
+      ],
+      "verification_method": "automated_and_manual",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-005",
+      "category": "Language detection",
+      "priority": "P0",
+      "title": "Detect English input",
+      "steps": [
+        "Submit a clear English message."
+      ],
+      "input": "The government has announced a new public service scheme.",
+      "expected": [
+        "Detected language is English (en)."
+      ],
+      "verification_method": "unit",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-006",
+      "category": "Language detection",
+      "priority": "P0",
+      "title": "Detect Hindi input",
+      "steps": [
+        "Submit a clear Hindi message written in Devanagari."
+      ],
+      "input": "सरकार ने सभी विद्यार्थियों के लिए नई योजना शुरू की है।",
+      "expected": [
+        "Detected language is Hindi (hi), subject to the documented detector's supported cases."
+      ],
+      "verification_method": "unit",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-007",
+      "category": "Language detection",
+      "priority": "P0",
+      "title": "Detect Marathi input",
+      "steps": [
+        "Submit a clear Marathi message written in Devanagari."
+      ],
+      "input": "सरकारने विद्यार्थ्यांसाठी नवीन योजना सुरू केली आहे.",
+      "expected": [
+        "Detected language is Marathi (mr), subject to the documented detector's supported cases."
+      ],
+      "verification_method": "unit",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-008",
+      "category": "Claim extraction",
+      "priority": "P0",
+      "title": "Extract multiple factual claims separately",
+      "steps": [
+        "Submit a message containing at least two distinct factual statements.",
+        "Inspect the report."
+      ],
+      "input": "The scheme started in 2020. Every student is eligible.",
+      "expected": [
+        "Distinct factual statements are represented as separate claims where the extraction logic supports sentence splitting.",
+        "Each extracted claim receives its own assessment."
+      ],
+      "verification_method": "unit_and_manual",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-009",
+      "category": "Verdict logic",
+      "priority": "P0",
+      "title": "Support all five verdict values",
+      "steps": [
+        "Exercise evidence fixtures representing each supported outcome."
+      ],
+      "input": {
+        "required_verdicts": [
+          "VERIFIED",
+          "FALSE",
+          "MISLEADING",
+          "UNVERIFIED",
+          "CONFLICTING"
+        ]
+      },
+      "expected": [
+        "The engine and report support exactly the five listed primary statuses.",
+        "Each status has a readable text label and distinguishable visual treatment."
+      ],
+      "verification_method": "unit_and_manual",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-010",
+      "category": "Evidence handling",
+      "priority": "P0",
+      "title": "Unmatched claim remains unverified",
+      "steps": [
+        "Submit a novel claim that does not match any evidence record."
+      ],
+      "input": "A newly invented local claim with no matching evidence record.",
+      "expected": [
+        "Claim verdict is UNVERIFIED.",
+        "The application does not infer FALSE solely because no match exists.",
+        "The explanation states the limits of available evidence."
+      ],
+      "verification_method": "unit",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-011",
+      "category": "Evidence handling",
+      "priority": "P0",
+      "title": "Display evidence provenance",
+      "steps": [
+        "Submit a claim matching a populated evidence record.",
+        "Inspect its report card."
+      ],
+      "input": "A deterministic claim matching a configured evidence fixture",
+      "expected": [
+        "Available source title, issuing organisation, publication date, excerpt and URL are displayed.",
+        "Missing metadata is not invented.",
+        "Synthetic fixtures are labelled as demonstrations."
+      ],
+      "verification_method": "integration_and_manual",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-012",
+      "category": "Verdict aggregation",
+      "priority": "P1",
+      "title": "Generate an overall assessment from claim results",
+      "steps": [
+        "Submit a message with multiple claims and inspect the overall verdict."
+      ],
+      "input": "A message containing claims with different evidence outcomes",
+      "expected": [
+        "An overall assessment is generated from claim-level results.",
+        "The report does not hide materially different claim outcomes."
+      ],
+      "verification_method": "unit_and_manual",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-013",
+      "category": "Output language",
+      "priority": "P1",
+      "title": "Change report or spoken output language",
+      "steps": [
+        "Verify a message.",
+        "Change output language among English, Hindi and Marathi."
+      ],
+      "input": {
+        "languages": [
+          "en",
+          "hi",
+          "mr"
+        ]
+      },
+      "expected": [
+        "The selected language changes the explanation or speech output where translation is implemented.",
+        "Changing output language does not change the underlying verification verdict.",
+        "Unavailable translations or voices are disclosed rather than silently substituted."
+      ],
+      "verification_method": "manual_browser",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-014",
+      "category": "Speech",
+      "priority": "P1",
+      "title": "Speech controls behave correctly",
+      "steps": [
+        "Verify a message.",
+        "Test Play, Pause, Resume, Replay and Stop."
+      ],
+      "input": "A generated verification report",
+      "expected": [
+        "Controls invoke the corresponding SpeechSynthesis actions when supported.",
+        "If the requested language voice is unavailable, the app informs the user and preserves the written report."
+      ],
+      "verification_method": "manual_browser",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-015",
+      "category": "Workflow",
+      "priority": "P0",
+      "title": "Verify a second message without reloading",
+      "steps": [
+        "Verify one message.",
+        "Clear or replace the input.",
+        "Verify another message."
+      ],
+      "input": [
+        "First demo message",
+        "Second demo message"
+      ],
+      "expected": [
+        "The second report reflects the second message.",
+        "Stale claims or evidence from the first report are not retained."
+      ],
+      "verification_method": "manual_browser",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-016",
+      "category": "Workflow",
+      "priority": "P1",
+      "title": "Reset demo resets both frames",
+      "steps": [
+        "Change the WhatsApp sample.",
+        "Enter text and generate a report in SATYA.",
+        "Click Reset demo."
+      ],
+      "input": "Modified WhatsApp sample and populated SATYA report",
+      "expected": [
+        "WhatsApp returns to its default sample.",
+        "SATYA input and report are cleared.",
+        "Relevant selectors and status state return to their defaults."
+      ],
+      "verification_method": "manual_browser",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-017",
+      "category": "Responsive UI",
+      "priority": "P1",
+      "title": "Layout works on narrow screens",
+      "steps": [
+        "Open the app at a narrow mobile viewport.",
+        "Scroll and interact with both frames."
+      ],
+      "input": {
+        "viewport_width_px": 375
+      },
+      "expected": [
+        "Phone frames stack without horizontal overflow.",
+        "Inputs, buttons and reports remain readable and usable."
+      ],
+      "verification_method": "manual_browser",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-018",
+      "category": "Privacy",
+      "priority": "P0",
+      "title": "No WhatsApp account access or background collection",
+      "steps": [
+        "Inspect network requests and browser permissions during ordinary local demo use."
+      ],
+      "input": "A user-submitted demo message",
+      "expected": [
+        "The web prototype does not connect to WhatsApp or read private WhatsApp messages.",
+        "No message is transmitted to a third party by default.",
+        "The user deliberately initiates message submission."
+      ],
+      "verification_method": "manual_security_review",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-019",
+      "category": "Speech",
+      "priority": "P1",
+      "title": "Spoken summaries are concise and verdict-safe",
+      "steps": [
+        "Generate spoken summaries for all five verdicts in English, Hindi and Marathi.",
+        "Inspect the synthetic FALSE summary."
+      ],
+      "input": "Reports containing each supported verdict",
+      "expected": [
+        "Each summary is concise, localized, and does not read claim text or report metadata.",
+        "Synthetic FALSE is explicitly described as a demonstration and not a real-world fact-check.",
+        "UNVERIFIED explicitly does not mean false."
+      ],
+      "verification_method": "unit",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-020",
+      "category": "Speech",
+      "priority": "P1",
+      "title": "Speech voice selection matches the report language",
+      "steps": [
+        "Select voices for English, Hindi and Marathi from a mixed-language voice list.",
+        "Try selecting Hindi or Marathi when the matching voice is absent."
+      ],
+      "input": "A mixed-language set of browser voice descriptors",
+      "expected": [
+        "Only voices matching the requested language are selected.",
+        "Natural-sounding matching voices are preferred.",
+        "No voice is selected when the requested language is unavailable."
+      ],
+      "verification_method": "unit_and_manual_browser",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-021",
+      "category": "Speech",
+      "priority": "P1",
+      "title": "Speech settings and transcript preview are applied",
+      "steps": [
+        "Inspect the configured utterance settings.",
+        "Open a report and compare the visible preview with the spoken text."
+      ],
+      "input": "A generated report",
+      "expected": [
+        "Pitch is within 1.08–1.15, rate within 0.92–0.98, and volume is 1.0.",
+        "The report passes the short generated summary to audio controls.",
+        "The same exact summary is visible before playback."
+      ],
+      "verification_method": "automated_and_manual_browser",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-022",
+      "category": "Speech",
+      "priority": "P1",
+      "title": "VoiceAPI request maps all language and gender choices",
+      "steps": [
+        "Send mock VoiceAPI synthesis requests for English, Hindi and Marathi male and female voices.",
+        "Inspect each request voice key, speed, pitch and response audio format."
+      ],
+      "input": "Six language and gender combinations",
+      "expected": [
+        "Voice IDs are en_male, en_female, hi_male, hi_female, mr_male and mr_female.",
+        "The React frontend sends the short summary and selected speed and pitch to POST /synthesize.",
+        "The client accepts WAV audio and includes no backend credentials."
+      ],
+      "verification_method": "automated_mock_api",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-023",
+      "category": "Speech",
+      "priority": "P1",
+      "title": "Voice selection, synthesis controls and browser fallback are available",
+      "steps": [
+        "Inspect language and male/female selectors, speed and pitch controls.",
+        "Stop existing playback when changing reports or settings.",
+        "Verify browser speech fallback when VoiceAPI is unavailable."
+      ],
+      "input": "A generated report and unavailable VoiceAPI",
+      "expected": [
+        "Play, Pause, Resume, Replay and Stop are retained.",
+        "VoiceAPI loading and error states are shown.",
+        "A matching-language browser voice is used as fallback when available; unavailable voice errors are shown otherwise.",
+        "Only one voice or audio stream plays at a time."
+      ],
+      "verification_method": "automated_and_manual_browser",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "SATYA-024",
+      "category": "Speech",
+      "priority": "P1",
+      "title": "Listen to each neural voice with the real VoiceAPI backend",
+      "steps": [
+        "Start VoiceAPI with the required model weights downloaded.",
+        "Generate and listen to each of the six language and gender combinations.",
+        "Confirm voice identity, language pronunciation, output quality and controls."
+      ],
+      "input": [
+        "en_male",
+        "en_female",
+        "hi_male",
+        "hi_female",
+        "mr_male",
+        "mr_female"
+      ],
+      "expected": [
+        "Each selected neural voice returns playable audio in the selected language and gender.",
+        "Speed and pitch controls affect the generated audio.",
+        "Audio is intelligible, natural and suitable for the short report summary."
+      ],
+      "verification_method": "manual_voice_quality_with_backend",
+      "execution_status": "NOT_RUN"
+    }
+  ],
+  "execution_summary": {
+    "total": 24,
+    "passed": 0,
+    "failed": 0,
+    "blocked_or_not_run": 24,
+    "note": "Execution statuses are intentionally NOT_RUN until the JSON suite is run against the current source project in its working environment."
+  }
+}
