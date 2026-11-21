@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { ArrowRight, ChevronRight, Compass, LayoutGrid, Lock, Send } from "lucide-react";
 import { APP_NAME } from "@raasta/config";
@@ -66,10 +66,31 @@ export function Landing() {
   const tt = useT();
   const textRef = useRef<HTMLTextAreaElement>(null);
 
+  // Keep an unsent message on this device, so leaving and coming back does not lose it.
+  useEffect(() => {
+    const el = textRef.current;
+    if (!el) return;
+    try {
+      const saved = localStorage.getItem("raasta_draft");
+      if (saved && !el.value) el.value = saved;
+    } catch {
+      /* storage blocked */
+    }
+  }, []);
+  const remember = (v: string) => {
+    try {
+      if (v.trim()) localStorage.setItem("raasta_draft", v.slice(0, 1000));
+      else localStorage.removeItem("raasta_draft");
+    } catch {
+      /* storage blocked */
+    }
+  };
+
   const fill = (text: string) => {
     const el = textRef.current;
     if (!el) return;
     el.value = text;
+    remember(text);
     el.focus();
   };
 
@@ -107,6 +128,10 @@ export function Landing() {
                 <h1 id="h1">{tt("ui.home.h1")}</h1>
                 <p>{tt("ui.home.lead")}</p>
               </div>
+
+            </div>
+
+            <div className="chat-bottom">
               <ul className="chat-try" aria-label={tt("ui.home.examples")} role="list">
                 {EXAMPLE_KEYS.map((k) => {
                   const text = tt(k);
@@ -126,8 +151,6 @@ export function Landing() {
                   );
                 })}
               </ul>
-            </div>
-
             <form className="chat-form" method="post" action="/r/ask">
               <label htmlFor="ask-text" className="sr-only">
                 {tt("ui.home.prompt_label")}
@@ -140,6 +163,7 @@ export function Landing() {
                 rows={3}
                 maxLength={1000}
                 placeholder={tt("ui.home.placeholder")}
+                onInput={(e) => remember(e.currentTarget.value)}
                 required
               />
               <input type="hidden" name="lang" value={lang} />
@@ -159,6 +183,7 @@ export function Landing() {
                 {tt("ui.home.prefer")} <ArrowRight size={16} aria-hidden="true" />
               </Link>
             </p>
+            </div>
           </section>
 
           <aside className="lp-common" aria-labelledby="common-h">
