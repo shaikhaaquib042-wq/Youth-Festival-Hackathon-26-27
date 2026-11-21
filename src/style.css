@@ -415,3 +415,6 @@ a { color: inherit; }
 #cool-bar .chip.on { background: #0e7490; color: #fff; border-color: #0e7490; }
 #cool-bar .cool-add { background: #1c7ed6; color: #fff; border-color: #1c7ed6; font-weight: 700; }
 @media (min-width: 760px) { #cool-bar { right: auto; width: var(--col); bottom: 250px; flex-wrap: wrap; overflow: visible; } }
+
+/* Notch / installed-app status bar: keep the top bar below it (viewport-fit=cover) */
+#topbar { padding-top: max(12px, env(safe-area-inset-top)) !important; }

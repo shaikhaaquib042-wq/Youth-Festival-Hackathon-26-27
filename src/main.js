@@ -17,6 +17,7 @@ import { initUnwell } from './heat/ui/unwell.js';
 import { initScenario } from './scenario/player.js';
 import { initMore } from './ui/more.js';
 import { initCoolingBar } from './ui/coolingBar.js';
+import { initTopStack } from './ui/topStack.js';
 import { initHelp, openHelp } from './ui/help.js';
 import { initMyReports } from './ui/myreports.js';
 import { initPaste } from './ui/paste.js';
@@ -108,6 +109,7 @@ document.getElementById('cool-btn').addEventListener('click', () => {
 initCoolingBar({ openAddWater: () => openReport({ prefill: { amenities: ['water'] } }) });
 window.addEventListener('sajag:hazard', () => { coolingOn = false; document.getElementById('cool-btn').classList.remove('on'); });
 startOnboarding();
+initTopStack(); // measured top stack: top bar → replay bar → alert banner → status cards
 
 // ==== step 4 wiring (agy) ====
 startWeather(pack);
