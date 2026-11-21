@@ -1,5 +1,5 @@
 // First-run setup: 3 taps — language → who are you → location. Big buttons, pictures, own-script language names.
-// Shown once (sajag.onboarded). ?setup=1 shows it again. Skipped for ?scenario= links (judge demo).
+// Shown once (sajag.onboarded). ?setup=1 shows it again, ?setup=0 skips it. Skipped for ?scenario= links (judge demo).
 import { t, setLang, LANGS, pickerLangs, getLang } from '../i18n/index.js';
 import { speak } from '../i18n/speak.js';
 import { cityPack, CITY_PACKS } from '../../config.js';
@@ -63,6 +63,7 @@ function finish() {
 export function startOnboarding({ force = false } = {}) {
   const q = new URLSearchParams(location.search);
   let done = false; try { done = localStorage.getItem('sajag.onboarded') === '1'; } catch { /* ignore */ }
+  if (!force && q.get('setup') === '0') return; // ?setup=0 = skip (demo links, screenshots)
   if (!force && (done || q.has('scenario')) && !q.has('setup')) return;
   step = 0; rec = null;
   el = document.createElement('div');
