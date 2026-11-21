@@ -106,7 +106,7 @@ function crewText() {
 
 function render() {
   if (!el) return;
-  btn.textContent = shift ? `⏹ ${t('action.endShift')}` : `▶ ${t('action.startShift')}`;
+  btn.innerHTML = shift ? `<span class="ico">⏹</span><span>${esc(t('bar.endWork'))}</span>` : `<span class="ico">▶</span><span>${esc(t('bar.startWork'))}</span>`;
   if (!shift) {
     const p = loadPrefs();
     el.innerHTML = el.hidden ? '' : `<div class="rp-head"><b>${esc(t('action.startShift'))}</b><button class="btn btn-ghost" data-act="close">✕</button></div>

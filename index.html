@@ -3,27 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#1f9d55" />
+    <meta name="theme-color" content="#1b1f24" />
     <title>Sajag · सजग — Pune</title>
   </head>
   <body>
     <div id="app">
       <div id="map"></div>
+
+      <!-- Top: two big picture tabs + More. Nothing else. -->
       <div id="topbar">
-        <div id="mode-chip">LIVE</div>
         <div id="hazard-toggle" role="tablist">
-          <button role="tab" data-h="flood">🌧 <span data-k="hazard.flood"></span></button>
-          <button role="tab" data-h="heat">☀️ <span data-k="hazard.heat"></span></button>
+          <button role="tab" data-h="flood"><span class="ico">🌧</span><span data-k="tab.rain"></span></button>
+          <button role="tab" data-h="heat"><span class="ico">☀️</span><span data-k="tab.heat"></span></button>
         </div>
-        <select id="lang-picker" aria-label="Language / भाषा"></select>
-        <button id="account-chip" hidden></button>
+        <button id="more-btn" aria-haspopup="dialog">⋯ <span data-k="more.title"></span></button>
       </div>
+      <div id="mode-chip">LIVE</div>
       <div id="alert-banner" hidden></div>
-      <button id="report-fab"></button>
-      <button id="route-btn"></button>
-      <div id="heat-btns"><button id="shift-btn" hidden></button><button id="unwell-btn" hidden>🆘 <span data-k="action.unwell"></span></button></div>
+
+      <!-- Bottom: three big buttons per side. -->
+      <nav id="action-bar">
+        <button id="route-btn" class="flood-only"></button>
+        <button id="report-fab" class="flood-only"></button>
+        <button id="shift-btn" class="heat-only" hidden></button>
+        <button id="cool-btn" class="heat-only"><span class="ico">💧</span><span data-k="bar.cooling"></span></button>
+        <button id="help-btn" class="flood-only help"><span class="ico">🆘</span><span data-k="bar.help"></span></button>
+        <button id="unwell-btn" class="heat-only help" hidden><span class="ico">🆘</span><span data-k="bar.help"></span></button>
+      </nav>
+
       <div id="disclaimer"></div>
       <div id="toast" role="status" hidden></div>
+
+      <!-- Moved into the More menu (kept in the DOM for the existing modules). -->
+      <div id="more-holder" hidden><select id="lang-picker" aria-label="Language / भाषा"></select><button id="account-chip" hidden></button></div>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>

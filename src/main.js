@@ -6,13 +6,16 @@ import { CONFIG, cityPack } from '../config.js';
 import { t, initLang, setLang, onLang, pickerLangs, LANGS } from './i18n/index.js';
 import { speak, voiceSupport } from './i18n/speak.js';
 import { startStore, getPins } from './store.js';
-import { initReport, onVote, setReportHazard } from './ui/report.js';
+import { initReport, onVote, setReportHazard, openReport } from './ui/report.js';
 import { mountAccountChip } from './ui/signin.js';
 import { initLocation, getFix } from './location.js';
 import { initRoute } from './ui/route.js';
 import { initShift } from './heat/ui/shift.js';
 import { initUnwell } from './heat/ui/unwell.js';
 import { initScenario } from './scenario/player.js';
+import { initMore } from './ui/more.js';
+import { initHelp } from './ui/help.js';
+import { startOnboarding } from './ui/onboarding.js';
 import { startWeather } from './feeds/openmeteo.js';
 import { initWeatherLayers } from './map/weather.js';
 import { initCards } from './ui/cards.js';
@@ -68,8 +71,20 @@ window.addEventListener('sajag:set-hazard', (e) => setHazard(e.detail.hazard)); 
 // Official alert banner (Tier 1, SACHET live; scenario alerts tagged SIMULATED).
 initAlerts(pack);
 
-// Scenario player (PRD §6.6) — tap the LIVE chip. ?scenario=<id> autoloads.
+// Scenario player (PRD §6.6) — tap the LIVE chip or More → Demo. ?scenario=<id> autoloads.
 initScenario();
+
+// Simple shell (UX pass): More menu, Help sheet, 💧 near-me toggle, first-run setup.
+initMore(map, { openReportCooling: () => openReport() });
+initHelp();
+let coolingOn = false;
+document.getElementById('cool-btn').addEventListener('click', () => {
+  coolingOn = !coolingOn;
+  document.getElementById('cool-btn').classList.toggle('on', coolingOn);
+  window.dispatchEvent(new CustomEvent('sajag:show-cooling', { detail: { on: coolingOn } }));
+});
+window.addEventListener('sajag:hazard', () => { coolingOn = false; document.getElementById('cool-btn').classList.remove('on'); });
+startOnboarding();
 
 // ==== step 4 wiring (agy) ====
 startWeather(pack);

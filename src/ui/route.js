@@ -139,6 +139,7 @@ function onClick(e) {
 
 function toggle(open) {
   panel.hidden = !open;
+  window.dispatchEvent(new CustomEvent('sajag:route', { detail: { active: open } })); // pins show flood spots while checking
   if (!open) { active = null; result = null; drawRoutes(null); }
   render();
 }
@@ -159,7 +160,7 @@ export function initRoute(m) {
     panel.querySelector(`[data-f=${pickTarget}]`).value = `${e.lngLat.lat.toFixed(5)}, ${e.lngLat.lng.toFixed(5)}`;
     pickTarget = null;
   });
-  onLang(() => { btn.textContent = '🛣 ' + t('action.checkRoute'); render(); });
+  onLang(() => { btn.innerHTML = `<span class="ico">🛣</span><span>${esc(t('bar.route'))}</span>`; render(); });
   // Live: when reports change (new report, confirmation, expiry, scenario tick) re-plan the active route.
   let sig = '';
   subscribe(() => {
