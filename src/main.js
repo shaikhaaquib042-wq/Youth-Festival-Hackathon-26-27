@@ -24,6 +24,7 @@ import { startWeather } from './feeds/openmeteo.js';
 import { initWeatherLayers } from './map/weather.js';
 import { initCards } from './ui/cards.js';
 import { initCitySwitch } from './ui/citySwitch.js';
+import './theme-fixes.css';
 
 const pack = cityPack();
 initLang(pack);

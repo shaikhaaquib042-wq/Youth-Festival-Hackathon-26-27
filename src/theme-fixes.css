@@ -1,0 +1,743 @@
+/* ══════════════════════════════════════════════════════════════════════════════
+   Sajag Theme Fixes (Dark Mode, High Contrast, 320px, Long Languages)
+   Override stylesheet loaded after style.css and cards.css.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Text Wrapping & Typography for Long Languages (mr, hi, kn, te) ─────── */
+body, button, input, select, textarea {
+  text-rendering: optimizeLegibility;
+}
+
+#action-bar button,
+.btn,
+.chip,
+.tile,
+.report-tile-btn {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ── 2. Onboarding Screen Fixes ────────────────────────────────────────────── */
+#onboarding {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+}
+
+.onb-logo {
+  color: var(--ink) !important;
+}
+
+.onb h1 {
+  color: var(--ink) !important;
+}
+
+.tile {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+}
+
+.tile.on {
+  background: var(--primary) !important;
+  color: var(--primary-ink) !important;
+  border-color: var(--primary) !important;
+}
+
+:root[data-theme="dark"] .tile.rec {
+  background: var(--ok-bg) !important;
+  border-color: var(--ok-line) !important;
+}
+
+:root[data-theme="dark"] .rec-tag {
+  color: var(--ok-ink) !important;
+}
+
+:root[data-theme="light"] .tile.rec {
+  background: #eaf7ef !important;
+  border-color: #1f9d55 !important;
+}
+
+:root[data-theme="light"] .rec-tag {
+  color: #15803d !important;
+}
+
+/* ── 3. Topbar & Hazard Toggle ─────────────────────────────────────────────── */
+#hazard-toggle {
+  background: var(--surface) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+#hazard-toggle button {
+  font-size: clamp(14px, 3.8vw, 17px) !important;
+  color: var(--muted) !important;
+}
+
+#hazard-toggle button[aria-selected="true"] {
+  background: var(--primary) !important;
+  color: var(--primary-ink) !important;
+}
+
+#more-btn {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+}
+
+#mode-chip {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+:root[data-theme="dark"] #mode-chip:not(.scenario) {
+  background: var(--ok) !important;
+  color: #0f1115 !important;
+}
+
+:root[data-theme="dark"] #mode-chip.scenario {
+  background: #a855f7 !important;
+  color: #0f1115 !important;
+}
+
+/* ── 4. Official Alert Banner ──────────────────────────────────────────────── */
+#alert-banner {
+  border-radius: 12px !important;
+  box-shadow: var(--shadow) !important;
+}
+
+:root[data-theme="light"] #alert-banner {
+  background: #fffbeb !important;
+  border-color: rgba(180, 83, 9, 0.35) !important;
+  color: #78350f !important;
+}
+
+:root[data-theme="light"] #alert-banner.simulated {
+  background: #faf5ff !important;
+  border-color: rgba(123, 44, 191, 0.35) !important;
+  color: #581c87 !important;
+}
+
+:root[data-theme="dark"] #alert-banner {
+  background: var(--warn-bg) !important;
+  border-color: var(--warn-line) !important;
+  color: var(--warn-ink) !important;
+}
+
+:root[data-theme="dark"] #alert-banner a {
+  color: var(--warn-ink) !important;
+}
+
+:root[data-theme="dark"] #alert-banner.simulated {
+  background: #231530 !important;
+  border-color: rgba(168, 85, 247, 0.4) !important;
+  color: #e9d5ff !important;
+}
+
+:root[data-theme="dark"] #alert-banner.simulated a {
+  color: #e9d5ff !important;
+}
+
+/* ── 5. Status Card Dark Mode Overrides ─────────────────────────────────────── */
+.status-card {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+}
+
+:root[data-theme="dark"] .status-card.sev-green {
+  background: var(--ok-bg) !important;
+  box-shadow: 0 0 0 1px var(--ok-line), var(--shadow) !important;
+}
+
+:root[data-theme="dark"] .status-card.sev-yellow {
+  background: var(--warn-bg) !important;
+  box-shadow: 0 0 0 1px var(--warn-line), var(--shadow) !important;
+}
+
+:root[data-theme="dark"] .status-card.sev-orange {
+  background: var(--hot-bg) !important;
+  box-shadow: 0 0 0 1px var(--hot-line), var(--shadow) !important;
+}
+
+:root[data-theme="dark"] .status-card.sev-red {
+  background: var(--bad-bg) !important;
+  box-shadow: 0 0 0 1px var(--bad-line), var(--shadow) !important;
+}
+
+:root[data-theme="dark"] .card-safe-again {
+  color: var(--heat-primary) !important;
+}
+
+:root[data-theme="dark"] .btn-wbgt-info {
+  color: #60a5fa !important;
+}
+
+:root[data-theme="dark"] .wbgt-popup {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line) !important;
+}
+
+:root[data-theme="dark"] .card-ndma {
+  background: var(--warn-bg) !important;
+  border-color: var(--warn-line) !important;
+  color: var(--warn-ink) !important;
+}
+
+:root[data-theme="dark"] .card-sop {
+  background: var(--bad-bg) !important;
+  border-color: var(--bad-line) !important;
+  color: var(--bad-ink) !important;
+}
+
+:root[data-theme="dark"] .card-advisory-strip {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+}
+
+:root[data-theme="dark"] .card-breakthrough {
+  background: var(--bad) !important;
+  color: #ffffff !important;
+}
+
+.card-mini-chip {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line) !important;
+}
+
+.card-mini-chip:hover {
+  background: var(--surface-2) !important;
+}
+
+.btn-speak-big {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line) !important;
+}
+
+.btn-speak-big:hover {
+  background: var(--line) !important;
+}
+
+.btn-card-fold {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line) !important;
+}
+
+/* ── 6. Bottom Action Bar ──────────────────────────────────────────────────── */
+#action-bar {
+  background: var(--surface) !important;
+  border-top: 1px solid var(--line) !important;
+}
+
+#action-bar button {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line) !important;
+}
+
+#action-bar button:active {
+  transform: scale(0.97);
+}
+
+#action-bar #route-btn {
+  background: var(--primary) !important;
+  color: var(--primary-ink) !important;
+  border-color: var(--primary) !important;
+}
+
+#action-bar #shift-btn {
+  background: #0c8599 !important;
+  color: #ffffff !important;
+  border-color: #0c8599 !important;
+}
+
+:root[data-theme="dark"] #action-bar #shift-btn {
+  background: var(--heat-primary) !important;
+  color: #082029 !important;
+  border-color: var(--heat-primary) !important;
+  font-weight: 800 !important;
+}
+
+#action-bar #report-fab,
+#action-bar #cool-btn {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+}
+
+#action-bar #voice-btn {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+}
+
+#action-bar #voice-btn.rec {
+  background: #dc2626 !important;
+  color: #ffffff !important;
+  border-color: #dc2626 !important;
+}
+
+#action-bar .help,
+.btn-danger {
+  background: #dc2626 !important;
+  color: #ffffff !important;
+  border-color: #dc2626 !important;
+}
+
+/* ── 7. More Menu Sheet ────────────────────────────────────────────────────── */
+.more-sheet {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+}
+
+.more-sec,
+.more-row {
+  border-bottom: 1px solid var(--line) !important;
+}
+
+.more-row {
+  color: var(--ink) !important;
+}
+
+.more-row:hover {
+  background: var(--surface-2) !important;
+  border-radius: 8px;
+}
+
+.more-row.muted {
+  color: var(--muted) !important;
+}
+
+/* ── 8. Voice Overlay ──────────────────────────────────────────────────────── */
+#voice-overlay {
+  background: rgba(0, 0, 0, 0.65) !important;
+}
+
+.vo-card {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.vo-card small {
+  color: var(--muted) !important;
+}
+
+.rs-heard,
+.help-heard {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line) !important;
+}
+
+/* ── 9. Sign-In Sheet ──────────────────────────────────────────────────────── */
+.sheet {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+}
+
+.field input,
+input {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+  border: 1.5px solid var(--line) !important;
+}
+
+input::placeholder {
+  color: var(--muted) !important;
+  opacity: 0.8;
+}
+
+.btn-google {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+  border: 1.5px solid var(--line) !important;
+}
+
+.btn-google:hover {
+  background: var(--line) !important;
+}
+
+.or {
+  color: var(--muted) !important;
+}
+
+.msg.bad {
+  color: var(--bad) !important;
+}
+
+/* ── 10. Report Sheet Overrides ────────────────────────────────────────────── */
+.report-sheet {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+}
+
+.report-step-title {
+  color: var(--ink) !important;
+}
+
+.report-tile-btn {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+  border: 2px solid var(--line) !important;
+}
+
+.report-tile-btn:hover {
+  border-color: var(--muted) !important;
+}
+
+:root[data-theme="light"] .report-tile-btn.selected {
+  border-color: #1971c2 !important;
+  background: #e7f5ff !important;
+  color: #1864ab !important;
+}
+
+:root[data-theme="dark"] .report-tile-btn.selected {
+  border-color: #60a5fa !important;
+  background: rgba(96, 165, 250, 0.2) !important;
+  color: #93c5fd !important;
+}
+
+.report-photo-tile {
+  background: var(--surface-2) !important;
+  border-color: var(--line) !important;
+  color: var(--muted) !important;
+}
+
+:root[data-theme="light"] .report-photo-tile.has-photo {
+  background: #ebfbee !important;
+  border-color: #2b8a3e !important;
+  color: #2b8a3e !important;
+}
+
+:root[data-theme="dark"] .report-photo-tile.has-photo {
+  background: var(--ok-bg) !important;
+  border-color: var(--ok-line) !important;
+  color: var(--ok-ink) !important;
+}
+
+:root[data-theme="light"] .report-proof-tile {
+  background: #f8f9fa !important;
+  border-color: #1971c2 !important;
+  color: #1864ab !important;
+}
+
+:root[data-theme="dark"] .report-proof-tile {
+  background: var(--surface-2) !important;
+  border-color: rgba(96, 165, 250, 0.45) !important;
+  color: #93c5fd !important;
+}
+
+:root[data-theme="light"] .report-proof-preview {
+  background: #ebfbee !important;
+  border-color: #63e6be !important;
+}
+
+:root[data-theme="dark"] .report-proof-preview {
+  background: var(--ok-bg) !important;
+  border-color: var(--ok-line) !important;
+}
+
+:root[data-theme="dark"] .proof-badge {
+  color: var(--ok-ink) !important;
+}
+
+:root[data-theme="dark"] .btn-retake {
+  color: #93c5fd !important;
+}
+
+.report-more-summary {
+  color: var(--muted) !important;
+}
+
+.btn-submit-big {
+  background: var(--primary) !important;
+  color: var(--primary-ink) !important;
+  border: 0 !important;
+}
+
+/* ── 11. Route Panel & Verdict ─────────────────────────────────────────────── */
+.route-panel {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+}
+
+.route-verdict {
+  background: var(--surface-2) !important;
+  border-radius: 14px !important;
+}
+
+:root[data-theme="dark"] .rv-alt {
+  color: var(--ok) !important;
+}
+
+:root[data-theme="light"] .rv-alt {
+  color: var(--ok) !important;
+}
+
+/* ── 12. Heat Shift Panel & Unwell ─────────────────────────────────────────── */
+.shift-panel {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+}
+
+.shift-status {
+  background: var(--surface-2) !important;
+}
+
+:root[data-theme="light"] .sop {
+  background: #fff4e5 !important;
+  color: #78350f !important;
+  border: 1px solid rgba(180, 83, 9, 0.25) !important;
+}
+
+:root[data-theme="dark"] .sop {
+  background: var(--warn-bg) !important;
+  color: var(--warn-ink) !important;
+  border: 1px solid var(--warn-line) !important;
+}
+
+:root[data-theme="dark"] .chip-red {
+  border-color: var(--bad-line) !important;
+}
+
+.sheet-emergency {
+  border-top: 8px solid var(--bad) !important;
+}
+
+.sheet-emergency h2 {
+  color: var(--bad) !important;
+}
+
+/* ── 13. Scenario Bar ──────────────────────────────────────────────────────── */
+#scenario-bar {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border-color: rgba(168, 85, 247, 0.5) !important;
+}
+
+:root[data-theme="dark"] .sb-clock {
+  color: #c084fc !important;
+}
+
+:root[data-theme="dark"] #scenario-bar input[type=range] {
+  accent-color: #c084fc !important;
+}
+
+/* Compact Scenario Bar & prevent overlap when panels/sheets are open */
+body:has(.route-panel:not([hidden])) #scenario-bar .sb-sub,
+body:has(.shift-panel:not([hidden])) #scenario-bar .sb-sub,
+body:has(.report-sheet:not([hidden])) #scenario-bar .sb-sub {
+  display: none !important;
+}
+
+body:has(.route-panel:not([hidden])) #scenario-bar,
+body:has(.shift-panel:not([hidden])) #scenario-bar,
+body:has(.report-sheet:not([hidden])) #scenario-bar {
+  padding: 6px 10px !important;
+  gap: 4px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) !important;
+}
+
+body:has(.route-panel:not([hidden])) #scenario-bar .sb-row,
+body:has(.shift-panel:not([hidden])) #scenario-bar .sb-row,
+body:has(.report-sheet:not([hidden])) #scenario-bar .sb-row {
+  gap: 4px !important;
+}
+
+body:has(.route-panel:not([hidden])) #scenario-bar .sb-controls,
+body:has(.shift-panel:not([hidden])) #scenario-bar .sb-controls,
+body:has(.report-sheet:not([hidden])) #scenario-bar .sb-controls {
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  padding-bottom: 2px !important;
+}
+
+body:has(.route-panel:not([hidden])) #scenario-bar .btn,
+body:has(.shift-panel:not([hidden])) #scenario-bar .btn,
+body:has(.report-sheet:not([hidden])) #scenario-bar .btn {
+  min-height: 36px !important;
+  height: 36px !important;
+  padding: 4px 8px !important;
+  font-size: 13px !important;
+}
+
+body:has(.route-panel:not([hidden])) #scenario-bar select,
+body:has(.shift-panel:not([hidden])) #scenario-bar select,
+body:has(.report-sheet:not([hidden])) #scenario-bar select {
+  min-height: 36px !important;
+  height: 36px !important;
+  padding: 2px 4px !important;
+  font-size: 13px !important;
+}
+
+body:has(#scenario-bar:not([hidden])) .route-panel,
+body:has(#scenario-bar:not([hidden])) .shift-panel,
+body:has(#scenario-bar:not([hidden])) .report-sheet {
+  top: auto !important;
+  max-height: calc(100dvh - var(--bar-h) - 145px) !important;
+}
+
+@media (min-width: 760px) {
+  body:has(#scenario-bar:not([hidden])) .route-panel,
+  body:has(#scenario-bar:not([hidden])) .shift-panel,
+  body:has(#scenario-bar:not([hidden])) .report-sheet {
+    max-height: calc(100dvh - 320px) !important;
+  }
+}
+
+/* ── 14. Pin Popups (Flood & Cooling) ──────────────────────────────────────── */
+.maplibregl-popup-content {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line) !important;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: var(--surface) !important;
+  border-bottom-color: var(--surface) !important;
+  border-left-color: var(--surface) !important;
+  border-right-color: var(--surface) !important;
+}
+
+.maplibregl-popup-close-button {
+  color: var(--muted) !important;
+  font-size: 18px !important;
+  padding: 4px 8px !important;
+}
+
+.maplibregl-popup-content .pin-popup .vote-row button {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+}
+
+.maplibregl-popup-content .pin-popup .vote-row button:hover {
+  background: var(--line) !important;
+}
+
+:root[data-theme="light"] .maplibregl-popup-content .badge-proof {
+  background: #ebfbee !important;
+  color: #15803d !important;
+  border-color: #8ce99a !important;
+}
+
+:root[data-theme="dark"] .maplibregl-popup-content .badge-proof {
+  background: var(--ok-bg) !important;
+  color: var(--ok-ink) !important;
+  border-color: var(--ok-line) !important;
+}
+
+/* ── 15. Map Controls ──────────────────────────────────────────────────────── */
+.maplibregl-ctrl-group {
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+}
+
+:root[data-theme="dark"] .maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--line) !important;
+}
+
+:root[data-theme="dark"] .maplibregl-ctrl-group button:hover {
+  background-color: var(--surface-2) !important;
+}
+
+:root[data-theme="dark"] .sj-locate[data-state="on"] {
+  background: rgba(34, 163, 196, 0.25) !important;
+}
+
+/* ── 16. City Switch Banner ────────────────────────────────────────────────── */
+:root[data-theme="dark"] #sajag-city-switch {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+:root[data-theme="dark"] #sajag-city-switch [data-city-act="stay"] {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+}
+
+/* ── 17. Toast ─────────────────────────────────────────────────────────────── */
+#toast {
+  box-shadow: var(--shadow) !important;
+  border: 1px solid var(--line) !important;
+}
+
+/* ── 18. Narrow Viewport Tweaks (320px - 380px) ────────────────────────────── */
+@media (max-width: 380px) {
+  /* Onboarding: 2 columns fit cleanly */
+  .onb {
+    padding: 16px 12px 30px !important;
+    gap: 12px !important;
+  }
+  .onb-grid {
+    grid-template-columns: repeat(auto-fit, minmax(115px, 1fr)) !important;
+    gap: 8px !important;
+  }
+  .tile {
+    min-height: 76px !important;
+    padding: 10px 6px !important;
+    font-size: 15px !important;
+  }
+  .tile .big {
+    font-size: 18px !important;
+  }
+  .tile .ico {
+    font-size: 28px !important;
+  }
+
+  /* Status card compacting */
+  .status-card {
+    padding: 10px 10px !important;
+    gap: 6px !important;
+  }
+  .card-emoji {
+    font-size: 28px !important;
+  }
+  .card-headline {
+    font-size: 19px !important;
+  }
+  .card-subline {
+    font-size: 13px !important;
+  }
+  .btn-speak-big {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 20px !important;
+  }
+
+  /* Bottom action bar: prevent text overflow in 3-column row */
+  #action-bar {
+    padding: 8px 8px calc(10px + env(safe-area-inset-bottom)) !important;
+    gap: 6px !important;
+    grid-auto-rows: 54px !important;
+  }
+  #action-bar button {
+    font-size: 12px !important;
+    padding: 4px 2px !important;
+    gap: 2px !important;
+  }
+  #action-bar button .ico {
+    font-size: 18px !important;
+  }
+  #action-bar #route-btn,
+  #action-bar #shift-btn {
+    font-size: 16px !important;
+    gap: 6px !important;
+  }
+
+  /* Top bar */
+  #hazard-toggle button {
+    min-height: 40px !important;
+    padding: 6px 8px !important;
+    font-size: 14px !important;
+  }
+  #more-btn {
+    min-height: 40px !important;
+    padding: 0 10px !important;
+  }
+}
