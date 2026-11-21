@@ -1,93 +1,243 @@
 [
-  {
-    "name": "Hitech City",
-    "aliases": [
-      "hi tech city",
-      "hitec city"
-    ],
-    "lat": 17.4435,
-    "lng": 78.3772,
-    "approx": true
-  },
-  {
-    "name": "Gachibowli",
-    "aliases": [
-      "gachibowli"
-    ],
-    "lat": 17.4401,
-    "lng": 78.3489,
-    "approx": true
-  },
-  {
-    "name": "Secunderabad",
-    "aliases": [
-      "secunderabad station"
-    ],
-    "lat": 17.4399,
-    "lng": 78.4983,
-    "approx": true
-  },
-  {
-    "name": "Ameerpet",
-    "aliases": [
-      "ameerpet"
-    ],
-    "lat": 17.4375,
-    "lng": 78.4483,
-    "approx": true
-  },
-  {
-    "name": "LB Nagar",
-    "aliases": [
-      "lb nagar"
-    ],
-    "lat": 17.3457,
-    "lng": 78.5522,
-    "approx": true
-  },
-  {
-    "name": "Kukatpally",
-    "aliases": [
-      "kukatpally"
-    ],
-    "lat": 17.4849,
-    "lng": 78.4138,
-    "approx": true
-  },
-  {
-    "name": "Begumpet",
-    "aliases": [
-      "begumpet"
-    ],
-    "lat": 17.4448,
-    "lng": 78.466,
-    "approx": true
-  },
-  {
-    "name": "Mehdipatnam",
-    "aliases": [
-      "mehdipatnam"
-    ],
-    "lat": 17.3936,
-    "lng": 78.4315,
-    "approx": true
-  },
-  {
-    "name": "Malakpet",
-    "aliases": [
-      "malakpet"
-    ],
-    "lat": 17.3731,
-    "lng": 78.4964,
-    "approx": true
-  },
-  {
-    "name": "Banjara Hills",
-    "aliases": [
-      "banjara hills"
-    ],
-    "lat": 17.4156,
-    "lng": 78.4347,
-    "approx": true
-  }
+ {
+  "name": "Hitech City",
+  "aliases": [
+   "hi tech city",
+   "hitec city"
+  ],
+  "lat": 17.4435,
+  "lng": 78.3772,
+  "approx": true
+ },
+ {
+  "name": "Gachibowli",
+  "aliases": [
+   "gachibowli"
+  ],
+  "lat": 17.4401,
+  "lng": 78.3489,
+  "approx": true
+ },
+ {
+  "name": "Secunderabad",
+  "aliases": [
+   "secunderabad station"
+  ],
+  "lat": 17.4399,
+  "lng": 78.4983,
+  "approx": true
+ },
+ {
+  "name": "Ameerpet",
+  "aliases": [
+   "ameerpet"
+  ],
+  "lat": 17.4375,
+  "lng": 78.4483,
+  "approx": true
+ },
+ {
+  "name": "LB Nagar",
+  "aliases": [
+   "lb nagar"
+  ],
+  "lat": 17.3457,
+  "lng": 78.5522,
+  "approx": true
+ },
+ {
+  "name": "Kukatpally",
+  "aliases": [
+   "kukatpally"
+  ],
+  "lat": 17.4849,
+  "lng": 78.4138,
+  "approx": true
+ },
+ {
+  "name": "Begumpet",
+  "aliases": [
+   "begumpet"
+  ],
+  "lat": 17.4448,
+  "lng": 78.466,
+  "approx": true
+ },
+ {
+  "name": "Mehdipatnam",
+  "aliases": [
+   "mehdipatnam"
+  ],
+  "lat": 17.3936,
+  "lng": 78.4315,
+  "approx": true
+ },
+ {
+  "name": "Malakpet",
+  "aliases": [
+   "malakpet"
+  ],
+  "lat": 17.3731,
+  "lng": 78.4964,
+  "approx": true
+ },
+ {
+  "name": "Banjara Hills",
+  "aliases": [
+   "banjara hills"
+  ],
+  "lat": 17.4156,
+  "lng": 78.4347,
+  "approx": true
+ },
+ {
+  "name": "Balkampet RUB",
+  "aliases": [
+   "balkampet rub"
+  ],
+  "lat": 17.44692,
+  "lng": 78.45045,
+  "approx": true,
+  "hotspotId": "hyd26-01"
+ },
+ {
+  "name": "Maitrivanam Junction",
+  "aliases": [
+   "maitrivanam junction"
+  ],
+  "lat": 17.4353,
+  "lng": 78.44563,
+  "approx": false,
+  "hotspotId": "hyd26-02"
+ },
+ {
+  "name": "Under FOB, ESI (Erragadda)",
+  "aliases": [
+   "under fob, esi (erragadda)"
+  ],
+  "lat": 17.44764,
+  "lng": 78.43997,
+  "approx": true,
+  "hotspotId": "hyd26-03"
+ },
+ {
+  "name": "Rajiv Gruhakalpa ORR underpass",
+  "aliases": [
+   "rajiv gruhakalpa orr underpass"
+  ],
+  "lat": 17.29855,
+  "lng": 78.539,
+  "approx": true,
+  "hotspotId": "hyd26-04"
+ },
+ {
+  "name": "Khairatabad",
+  "aliases": [
+   "khairatabad"
+  ],
+  "lat": 17.41297,
+  "lng": 78.46106,
+  "approx": true,
+  "hotspotId": "hyd26-05"
+ },
+ {
+  "name": "Tank Bund Road (Hussain Sagar)",
+  "aliases": [
+   "tank bund road (hussain sagar)"
+  ],
+  "lat": 17.4239,
+  "lng": 78.4738,
+  "approx": true,
+  "hotspotId": "hyd26-07"
+ },
+ {
+  "name": "Lakdikapul",
+  "aliases": [
+   "lakdikapul"
+  ],
+  "lat": 17.40705,
+  "lng": 78.4609,
+  "approx": false,
+  "hotspotId": "hyd26-08"
+ },
+ {
+  "name": "Masab Tank",
+  "aliases": [
+   "masab tank"
+  ],
+  "lat": 17.40296,
+  "lng": 78.45075,
+  "approx": true,
+  "hotspotId": "hyd26-09"
+ },
+ {
+  "name": "Safilguda",
+  "aliases": [
+   "safilguda"
+  ],
+  "lat": 17.46162,
+  "lng": 78.53312,
+  "approx": true,
+  "hotspotId": "hyd26-10"
+ },
+ {
+  "name": "Anand Bagh underpass",
+  "aliases": [
+   "anand bagh underpass"
+  ],
+  "lat": 17.45663,
+  "lng": 78.54317,
+  "approx": true,
+  "hotspotId": "hyd26-11"
+ },
+ {
+  "name": "Mirjalguda crossroads",
+  "aliases": [
+   "mirjalguda crossroads"
+  ],
+  "lat": 17.44398,
+  "lng": 78.53123,
+  "approx": true,
+  "hotspotId": "hyd26-12"
+ },
+ {
+  "name": "Chilkalguda",
+  "aliases": [
+   "chilkalguda"
+  ],
+  "lat": 17.43153,
+  "lng": 78.50716,
+  "approx": true,
+  "hotspotId": "hyd26-13"
+ },
+ {
+  "name": "Madhapur",
+  "aliases": [
+   "madhapur"
+  ],
+  "lat": 17.44089,
+  "lng": 78.39163,
+  "approx": true,
+  "hotspotId": "hyd26-14"
+ },
+ {
+  "name": "Miyapur",
+  "aliases": [
+   "miyapur"
+  ],
+  "lat": 17.49816,
+  "lng": 78.35676,
+  "approx": true,
+  "hotspotId": "hyd26-16"
+ },
+ {
+  "name": "KBR Park pillars 10–12 (Banjara Hills)",
+  "aliases": [
+   "kbr park pillars 10–12 (banjara hills)"
+  ],
+  "lat": 17.42018,
+  "lng": 78.42052,
+  "approx": true,
+  "hotspotId": "hyd26-17"
+ }
 ]

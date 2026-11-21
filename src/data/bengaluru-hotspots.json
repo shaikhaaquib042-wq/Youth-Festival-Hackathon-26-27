@@ -1,1 +1,189 @@
-[]
+[
+ {
+  "id": "ben26-01",
+  "name": "Panathur railway underpass",
+  "aliases": [
+   "panathur railway underpass"
+  ],
+  "lat": 12.93607,
+  "lng": 77.70752,
+  "inUnderpass": true,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 1 Oct 2026 (Deccan Herald)",
+   "url": "https://www.deccanherald.com/amp/story/india/karnataka/bengaluru/heavy-rain-leaves-bengaluru-drenched-commuters-caught-in-long-traffic-snarls-4166149"
+  },
+  "lastReported": "2026-10-01"
+ },
+ {
+  "id": "ben26-02",
+  "name": "Mahadevapura – Lowry Junction",
+  "aliases": [
+   "mahadevapura – lowry junction"
+  ],
+  "lat": 12.99654,
+  "lng": 77.69272,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 1 Oct 2026 (Deccan Herald)",
+   "url": "https://www.deccanherald.com/amp/story/india/karnataka/bengaluru/heavy-rain-leaves-bengaluru-drenched-commuters-caught-in-long-traffic-snarls-4166149"
+  },
+  "lastReported": "2026-10-01"
+ },
+ {
+  "id": "ben26-03",
+  "name": "Devarabeesanahalli – Bellandur",
+  "aliases": [
+   "devarabeesanahalli – bellandur"
+  ],
+  "lat": 12.92686,
+  "lng": 77.68951,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 1 Oct 2026 (Deccan Herald)",
+   "url": "https://www.deccanherald.com/amp/story/india/karnataka/bengaluru/heavy-rain-leaves-bengaluru-drenched-commuters-caught-in-long-traffic-snarls-4166149"
+  },
+  "lastReported": "2026-10-01"
+ },
+ {
+  "id": "ben26-04",
+  "name": "Kalyan Nagar",
+  "aliases": [
+   "kalyan nagar"
+  ],
+  "lat": 13.02214,
+  "lng": 77.64034,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 1 Oct 2026 (Deccan Herald)",
+   "url": "https://www.deccanherald.com/amp/story/india/karnataka/bengaluru/heavy-rain-leaves-bengaluru-drenched-commuters-caught-in-long-traffic-snarls-4166149"
+  },
+  "lastReported": "2026-10-01"
+ },
+ {
+  "id": "ben26-05",
+  "name": "Okalipuram",
+  "aliases": [
+   "okalipuram"
+  ],
+  "lat": 12.9852,
+  "lng": 77.56451,
+  "inUnderpass": true,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 5 Oct 2026 (News Karnataka)",
+   "url": "https://newskarnataka.com/bengaluru/bengaluru-rain-floods-roads-as-karnataka-sees-showers/06102026/"
+  },
+  "lastReported": "2026-10-05"
+ },
+ {
+  "id": "ben26-06",
+  "name": "Windsor Manor bridge",
+  "aliases": [
+   "windsor manor bridge"
+  ],
+  "lat": 12.99418,
+  "lng": 77.58602,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 5 Oct 2026 (News Karnataka)",
+   "url": "https://newskarnataka.com/bengaluru/bengaluru-rain-floods-roads-as-karnataka-sees-showers/06102026/"
+  },
+  "lastReported": "2026-10-05"
+ },
+ {
+  "id": "ben26-07",
+  "name": "Kasturi Nagar",
+  "aliases": [
+   "kasturi nagar"
+  ],
+  "lat": 13.00153,
+  "lng": 77.65124,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 5 Oct 2026 (News Karnataka)",
+   "url": "https://newskarnataka.com/bengaluru/bengaluru-rain-floods-roads-as-karnataka-sees-showers/06102026/"
+  },
+  "lastReported": "2026-10-05"
+ },
+ {
+  "id": "ben26-08",
+  "name": "Doddanekundi",
+  "aliases": [
+   "doddanekundi"
+  ],
+  "lat": 12.97132,
+  "lng": 77.69648,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 5 Oct 2026 (News Karnataka)",
+   "url": "https://newskarnataka.com/bengaluru/bengaluru-rain-floods-roads-as-karnataka-sees-showers/06102026/"
+  },
+  "lastReported": "2026-10-05"
+ },
+ {
+  "id": "ben26-09",
+  "name": "Hennur – Bagalur Road",
+  "aliases": [
+   "hennur – bagalur road"
+  ],
+  "lat": 13.06319,
+  "lng": 77.64968,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 20 Jun 2026 (Deccan Herald)",
+   "url": "https://www.deccanherald.com/india/karnataka/bengaluru/bengaluru-flooded-roads-paralyse-the-it-corridor-4046771"
+  },
+  "lastReported": "2026-06-20"
+ },
+ {
+  "id": "ben26-10",
+  "name": "Hulimavu Lake Junction",
+  "aliases": [
+   "hulimavu lake junction"
+  ],
+  "lat": 12.87008,
+  "lng": 77.6042,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "official",
+   "name": "Bengaluru South City Corporation priority waterlogging spot (2026)",
+   "url": "https://tradebrains.in/money/monsoon-alert-bengaluru-south-corporation-identifies-10-waterlogging-prone-areas-is-your-area-on-the-list/"
+  },
+  "lastReported": "2026-06-01"
+ },
+ {
+  "id": "ben26-11",
+  "name": "HSR Layout 14th Main Road",
+  "aliases": [
+   "hsr layout 14th main road"
+  ],
+  "lat": 12.90747,
+  "lng": 77.63707,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "official",
+   "name": "Bengaluru South City Corporation priority waterlogging spot (2026)",
+   "url": "https://tradebrains.in/money/monsoon-alert-bengaluru-south-corporation-identifies-10-waterlogging-prone-areas-is-your-area-on-the-list/"
+  },
+  "lastReported": "2026-06-01"
+ }
+]

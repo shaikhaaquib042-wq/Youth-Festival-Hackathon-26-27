@@ -1,97 +1,207 @@
 [
-  {
-    "name": "Andheri Subway",
-    "aliases": [
-      "andheri",
-      "andheri west"
-    ],
-    "lat": 19.1197,
-    "lng": 72.8468,
-    "approx": true
-  },
-  {
-    "name": "Milan Subway",
-    "aliases": [
-      "milan subway",
-      "santacruz"
-    ],
-    "lat": 19.0645,
-    "lng": 72.8464,
-    "approx": true
-  },
-  {
-    "name": "Hindmata",
-    "aliases": [
-      "hindmata junction"
-    ],
-    "lat": 19.0178,
-    "lng": 72.8565,
-    "approx": true
-  },
-  {
-    "name": "King's Circle",
-    "aliases": [
-      "kings circle",
-      "matunga"
-    ],
-    "lat": 19.0269,
-    "lng": 72.8562,
-    "approx": true
-  },
-  {
-    "name": "Sion",
-    "aliases": [
-      "sion station"
-    ],
-    "lat": 19.039,
-    "lng": 72.8619,
-    "approx": true
-  },
-  {
-    "name": "Kurla",
-    "aliases": [
-      "kurla station"
-    ],
-    "lat": 19.0726,
-    "lng": 72.8845,
-    "approx": true
-  },
-  {
-    "name": "Dadar TT",
-    "aliases": [
-      "dadar t.t.",
-      "dadar"
-    ],
-    "lat": 19.0178,
-    "lng": 72.8433,
-    "approx": true
-  },
-  {
-    "name": "Bandra",
-    "aliases": [
-      "bandra station"
-    ],
-    "lat": 19.0544,
-    "lng": 72.8402,
-    "approx": true
-  },
-  {
-    "name": "Borivali",
-    "aliases": [
-      "borivali station"
-    ],
-    "lat": 19.2307,
-    "lng": 72.8567,
-    "approx": true
-  },
-  {
-    "name": "Thane Station",
-    "aliases": [
-      "thane",
-      "thane railway station"
-    ],
-    "lat": 19.186,
-    "lng": 72.975,
-    "approx": true
-  }
+ {
+  "name": "Andheri Subway",
+  "aliases": [
+   "andheri",
+   "andheri west"
+  ],
+  "lat": 19.1197,
+  "lng": 72.8468,
+  "approx": true
+ },
+ {
+  "name": "Milan Subway",
+  "aliases": [
+   "milan subway",
+   "santacruz"
+  ],
+  "lat": 19.0645,
+  "lng": 72.8464,
+  "approx": true
+ },
+ {
+  "name": "Hindmata",
+  "aliases": [
+   "hindmata junction"
+  ],
+  "lat": 19.0178,
+  "lng": 72.8565,
+  "approx": true
+ },
+ {
+  "name": "King's Circle",
+  "aliases": [
+   "kings circle",
+   "matunga"
+  ],
+  "lat": 19.0269,
+  "lng": 72.8562,
+  "approx": true
+ },
+ {
+  "name": "Sion",
+  "aliases": [
+   "sion station"
+  ],
+  "lat": 19.039,
+  "lng": 72.8619,
+  "approx": true
+ },
+ {
+  "name": "Kurla",
+  "aliases": [
+   "kurla station"
+  ],
+  "lat": 19.0726,
+  "lng": 72.8845,
+  "approx": true
+ },
+ {
+  "name": "Dadar TT",
+  "aliases": [
+   "dadar t.t.",
+   "dadar"
+  ],
+  "lat": 19.0178,
+  "lng": 72.8433,
+  "approx": true
+ },
+ {
+  "name": "Bandra",
+  "aliases": [
+   "bandra station"
+  ],
+  "lat": 19.0544,
+  "lng": 72.8402,
+  "approx": true
+ },
+ {
+  "name": "Borivali",
+  "aliases": [
+   "borivali station"
+  ],
+  "lat": 19.2307,
+  "lng": 72.8567,
+  "approx": true
+ },
+ {
+  "name": "Thane Station",
+  "aliases": [
+   "thane",
+   "thane railway station"
+  ],
+  "lat": 19.186,
+  "lng": 72.975,
+  "approx": true
+ },
+ {
+  "name": "Chunabhatti",
+  "aliases": [
+   "chunabhatti"
+  ],
+  "lat": 19.05209,
+  "lng": 72.86741,
+  "approx": true,
+  "hotspotId": "mum26-02"
+ },
+ {
+  "name": "Masjid Bunder",
+  "aliases": [
+   "masjid bunder"
+  ],
+  "lat": 18.95229,
+  "lng": 72.83818,
+  "approx": true,
+  "hotspotId": "mum26-03"
+ },
+ {
+  "name": "LBS Road, Kurla",
+  "aliases": [
+   "lbs road, kurla"
+  ],
+  "lat": 19.07999,
+  "lng": 72.88042,
+  "approx": true,
+  "hotspotId": "mum26-04"
+ },
+ {
+  "name": "Mahalaxmi railway culvert",
+  "aliases": [
+   "mahalaxmi railway culvert"
+  ],
+  "lat": 18.98252,
+  "lng": 72.82422,
+  "approx": true,
+  "hotspotId": "mum26-05"
+ },
+ {
+  "name": "Saki Naka",
+  "aliases": [
+   "saki naka"
+  ],
+  "lat": 19.10821,
+  "lng": 72.88284,
+  "approx": true,
+  "hotspotId": "mum26-07"
+ },
+ {
+  "name": "Everard Nagar, Chembur",
+  "aliases": [
+   "everard nagar, chembur"
+  ],
+  "lat": 19.04843,
+  "lng": 72.87756,
+  "approx": true,
+  "hotspotId": "mum26-08"
+ },
+ {
+  "name": "Veera Desai Road, Andheri",
+  "aliases": [
+   "veera desai road, andheri"
+  ],
+  "lat": 19.12827,
+  "lng": 72.83692,
+  "approx": true,
+  "hotspotId": "mum26-09"
+ },
+ {
+  "name": "Oval Maidan",
+  "aliases": [
+   "oval maidan"
+  ],
+  "lat": 18.92959,
+  "lng": 72.82894,
+  "approx": false,
+  "hotspotId": "mum26-10"
+ },
+ {
+  "name": "Churchgate",
+  "aliases": [
+   "churchgate"
+  ],
+  "lat": 18.93548,
+  "lng": 72.82717,
+  "approx": false,
+  "hotspotId": "mum26-11"
+ },
+ {
+  "name": "Kemps Corner",
+  "aliases": [
+   "kemps corner"
+  ],
+  "lat": 18.96375,
+  "lng": 72.80686,
+  "approx": false,
+  "hotspotId": "mum26-12"
+ },
+ {
+  "name": "Hutatma Chowk",
+  "aliases": [
+   "hutatma chowk"
+  ],
+  "lat": 18.93274,
+  "lng": 72.83163,
+  "approx": false,
+  "hotspotId": "mum26-13"
+ }
 ]

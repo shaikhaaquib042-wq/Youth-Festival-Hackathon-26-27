@@ -1,1 +1,223 @@
-[]
+[
+ {
+  "id": "mum26-01",
+  "name": "Andheri Subway",
+  "aliases": [
+   "andheri subway"
+  ],
+  "lat": 19.12025,
+  "lng": 72.84755,
+  "inUnderpass": true,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported, monsoon 2026 (Mumbai TV)",
+   "url": "https://www.mumbaitv.org/article/mumbai-monsoon-2026-heavy-rain-floods-roads-disrupts-traffic-and-tests-citys-infrastructure"
+  },
+  "lastReported": "2026-07-01"
+ },
+ {
+  "id": "mum26-02",
+  "name": "Chunabhatti",
+  "aliases": [
+   "chunabhatti"
+  ],
+  "lat": 19.05209,
+  "lng": 72.86741,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "official",
+   "name": "BMC dewatering-pump plan for chronic waterlogging spots (Free Press Journal, 2026)",
+   "url": "https://www.freepressjournal.in/mumbai/mumbai-monsoon-preparedness-bmc-proposes-110-crore-dewatering-pump-plan-to-tackle-flooding-at-key-waterlogging-hotspots"
+  },
+  "lastReported": "2026-06-01"
+ },
+ {
+  "id": "mum26-03",
+  "name": "Masjid Bunder",
+  "aliases": [
+   "masjid bunder"
+  ],
+  "lat": 18.95229,
+  "lng": 72.83818,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "official",
+   "name": "BMC dewatering-pump plan for chronic waterlogging spots (Free Press Journal, 2026)",
+   "url": "https://www.freepressjournal.in/mumbai/mumbai-monsoon-preparedness-bmc-proposes-110-crore-dewatering-pump-plan-to-tackle-flooding-at-key-waterlogging-hotspots"
+  },
+  "lastReported": "2026-06-01"
+ },
+ {
+  "id": "mum26-04",
+  "name": "LBS Road, Kurla",
+  "aliases": [
+   "lbs road, kurla"
+  ],
+  "lat": 19.07999,
+  "lng": 72.88042,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "official",
+   "name": "BMC dewatering-pump plan for chronic waterlogging spots (Free Press Journal, 2026)",
+   "url": "https://www.freepressjournal.in/mumbai/mumbai-monsoon-preparedness-bmc-proposes-110-crore-dewatering-pump-plan-to-tackle-flooding-at-key-waterlogging-hotspots"
+  },
+  "lastReported": "2026-06-01"
+ },
+ {
+  "id": "mum26-05",
+  "name": "Mahalaxmi railway culvert",
+  "aliases": [
+   "mahalaxmi railway culvert"
+  ],
+  "lat": 18.98252,
+  "lng": 72.82422,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "official",
+   "name": "BMC dewatering-pump plan for chronic waterlogging spots (Free Press Journal, 2026)",
+   "url": "https://www.freepressjournal.in/mumbai/mumbai-monsoon-preparedness-bmc-proposes-110-crore-dewatering-pump-plan-to-tackle-flooding-at-key-waterlogging-hotspots"
+  },
+  "lastReported": "2026-06-01"
+ },
+ {
+  "id": "mum26-06",
+  "name": "King's Circle",
+  "aliases": [
+   "king's circle"
+  ],
+  "lat": 19.03168,
+  "lng": 72.85774,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported, monsoon 2026 (Mumbai TV)",
+   "url": "https://www.mumbaitv.org/article/mumbai-monsoon-2026-heavy-rain-floods-roads-disrupts-traffic-and-tests-citys-infrastructure"
+  },
+  "lastReported": "2026-07-01"
+ },
+ {
+  "id": "mum26-07",
+  "name": "Saki Naka",
+  "aliases": [
+   "saki naka"
+  ],
+  "lat": 19.10821,
+  "lng": 72.88284,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported, monsoon 2026 (Mumbai TV)",
+   "url": "https://www.mumbaitv.org/article/mumbai-monsoon-2026-heavy-rain-floods-roads-disrupts-traffic-and-tests-citys-infrastructure"
+  },
+  "lastReported": "2026-07-01"
+ },
+ {
+  "id": "mum26-08",
+  "name": "Everard Nagar, Chembur",
+  "aliases": [
+   "everard nagar, chembur"
+  ],
+  "lat": 19.04843,
+  "lng": 72.87756,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported, monsoon 2026 (Mumbai TV)",
+   "url": "https://www.mumbaitv.org/article/mumbai-monsoon-2026-heavy-rain-floods-roads-disrupts-traffic-and-tests-citys-infrastructure"
+  },
+  "lastReported": "2026-07-01"
+ },
+ {
+  "id": "mum26-09",
+  "name": "Veera Desai Road, Andheri",
+  "aliases": [
+   "veera desai road, andheri"
+  ],
+  "lat": 19.12827,
+  "lng": 72.83692,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Road closed by BMC for waterlogging, 4 Jul 2026 (The Week)",
+   "url": "https://www.theweek.in/news/india/2026/07/04/mumbai-rains-these-roads-bus-routes-are-shut-by-bmc.html"
+  },
+  "lastReported": "2026-07-04"
+ },
+ {
+  "id": "mum26-10",
+  "name": "Oval Maidan",
+  "aliases": [
+   "oval maidan"
+  ],
+  "lat": 18.92959,
+  "lng": 72.82894,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "media",
+   "name": "Added to BMC flooding-spot list after last year (via Indian Express, 2026)",
+   "url": "https://tukkbook.in/mumbai-monsoon-2026-smart-pumps/"
+  },
+  "lastReported": "2026-05-15"
+ },
+ {
+  "id": "mum26-11",
+  "name": "Churchgate",
+  "aliases": [
+   "churchgate"
+  ],
+  "lat": 18.93548,
+  "lng": 72.82717,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "media",
+   "name": "Added to BMC flooding-spot list after last year (via Indian Express, 2026)",
+   "url": "https://tukkbook.in/mumbai-monsoon-2026-smart-pumps/"
+  },
+  "lastReported": "2026-05-15"
+ },
+ {
+  "id": "mum26-12",
+  "name": "Kemps Corner",
+  "aliases": [
+   "kemps corner"
+  ],
+  "lat": 18.96375,
+  "lng": 72.80686,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "media",
+   "name": "Added to BMC flooding-spot list after last year (via Indian Express, 2026)",
+   "url": "https://tukkbook.in/mumbai-monsoon-2026-smart-pumps/"
+  },
+  "lastReported": "2026-05-15"
+ },
+ {
+  "id": "mum26-13",
+  "name": "Hutatma Chowk",
+  "aliases": [
+   "hutatma chowk"
+  ],
+  "lat": 18.93274,
+  "lng": 72.83163,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "media",
+   "name": "Added to BMC flooding-spot list after last year (via Indian Express, 2026)",
+   "url": "https://tukkbook.in/mumbai-monsoon-2026-smart-pumps/"
+  },
+  "lastReported": "2026-05-15"
+ }
+]

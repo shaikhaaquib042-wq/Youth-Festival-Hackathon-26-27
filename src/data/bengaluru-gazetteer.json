@@ -1,94 +1,204 @@
 [
-  {
-    "name": "Silk Board",
-    "aliases": [
-      "silk board junction",
-      "btm"
-    ],
-    "lat": 12.9177,
-    "lng": 77.6233,
-    "approx": true
-  },
-  {
-    "name": "Hebbal",
-    "aliases": [
-      "hebbal flyover"
-    ],
-    "lat": 13.0358,
-    "lng": 77.597,
-    "approx": true
-  },
-  {
-    "name": "Majestic",
-    "aliases": [
-      "kempegowda bus station"
-    ],
-    "lat": 12.9767,
-    "lng": 77.5713,
-    "approx": true
-  },
-  {
-    "name": "KR Puram",
-    "aliases": [
-      "krishnarajapuram",
-      "kr puram railway station"
-    ],
-    "lat": 13.007,
-    "lng": 77.695,
-    "approx": true
-  },
-  {
-    "name": "Koramangala",
-    "aliases": [
-      "koramangala"
-    ],
-    "lat": 12.9352,
-    "lng": 77.6245,
-    "approx": true
-  },
-  {
-    "name": "Whitefield",
-    "aliases": [
-      "whitefield"
-    ],
-    "lat": 12.9698,
-    "lng": 77.75,
-    "approx": true
-  },
-  {
-    "name": "Marathahalli",
-    "aliases": [
-      "marathahalli bridge"
-    ],
-    "lat": 12.9591,
-    "lng": 77.6974,
-    "approx": true
-  },
-  {
-    "name": "Bellandur",
-    "aliases": [
-      "bellandur"
-    ],
-    "lat": 12.9304,
-    "lng": 77.6784,
-    "approx": true
-  },
-  {
-    "name": "Yelahanka",
-    "aliases": [
-      "yelahanka"
-    ],
-    "lat": 13.1007,
-    "lng": 77.5963,
-    "approx": true
-  },
-  {
-    "name": "Jayanagar",
-    "aliases": [
-      "jayanagar"
-    ],
-    "lat": 12.925,
-    "lng": 77.5838,
-    "approx": true
-  }
+ {
+  "name": "Silk Board",
+  "aliases": [
+   "silk board junction",
+   "btm"
+  ],
+  "lat": 12.9177,
+  "lng": 77.6233,
+  "approx": true
+ },
+ {
+  "name": "Hebbal",
+  "aliases": [
+   "hebbal flyover"
+  ],
+  "lat": 13.0358,
+  "lng": 77.597,
+  "approx": true
+ },
+ {
+  "name": "Majestic",
+  "aliases": [
+   "kempegowda bus station"
+  ],
+  "lat": 12.9767,
+  "lng": 77.5713,
+  "approx": true
+ },
+ {
+  "name": "KR Puram",
+  "aliases": [
+   "krishnarajapuram",
+   "kr puram railway station"
+  ],
+  "lat": 13.007,
+  "lng": 77.695,
+  "approx": true
+ },
+ {
+  "name": "Koramangala",
+  "aliases": [
+   "koramangala"
+  ],
+  "lat": 12.9352,
+  "lng": 77.6245,
+  "approx": true
+ },
+ {
+  "name": "Whitefield",
+  "aliases": [
+   "whitefield"
+  ],
+  "lat": 12.9698,
+  "lng": 77.75,
+  "approx": true
+ },
+ {
+  "name": "Marathahalli",
+  "aliases": [
+   "marathahalli bridge"
+  ],
+  "lat": 12.9591,
+  "lng": 77.6974,
+  "approx": true
+ },
+ {
+  "name": "Bellandur",
+  "aliases": [
+   "bellandur"
+  ],
+  "lat": 12.9304,
+  "lng": 77.6784,
+  "approx": true
+ },
+ {
+  "name": "Yelahanka",
+  "aliases": [
+   "yelahanka"
+  ],
+  "lat": 13.1007,
+  "lng": 77.5963,
+  "approx": true
+ },
+ {
+  "name": "Jayanagar",
+  "aliases": [
+   "jayanagar"
+  ],
+  "lat": 12.925,
+  "lng": 77.5838,
+  "approx": true
+ },
+ {
+  "name": "Panathur railway underpass",
+  "aliases": [
+   "panathur railway underpass"
+  ],
+  "lat": 12.93607,
+  "lng": 77.70752,
+  "approx": true,
+  "hotspotId": "ben26-01"
+ },
+ {
+  "name": "Mahadevapura – Lowry Junction",
+  "aliases": [
+   "mahadevapura – lowry junction"
+  ],
+  "lat": 12.99654,
+  "lng": 77.69272,
+  "approx": true,
+  "hotspotId": "ben26-02"
+ },
+ {
+  "name": "Devarabeesanahalli – Bellandur",
+  "aliases": [
+   "devarabeesanahalli – bellandur"
+  ],
+  "lat": 12.92686,
+  "lng": 77.68951,
+  "approx": true,
+  "hotspotId": "ben26-03"
+ },
+ {
+  "name": "Kalyan Nagar",
+  "aliases": [
+   "kalyan nagar"
+  ],
+  "lat": 13.02214,
+  "lng": 77.64034,
+  "approx": true,
+  "hotspotId": "ben26-04"
+ },
+ {
+  "name": "Okalipuram",
+  "aliases": [
+   "okalipuram"
+  ],
+  "lat": 12.9852,
+  "lng": 77.56451,
+  "approx": true,
+  "hotspotId": "ben26-05"
+ },
+ {
+  "name": "Windsor Manor bridge",
+  "aliases": [
+   "windsor manor bridge"
+  ],
+  "lat": 12.99418,
+  "lng": 77.58602,
+  "approx": true,
+  "hotspotId": "ben26-06"
+ },
+ {
+  "name": "Kasturi Nagar",
+  "aliases": [
+   "kasturi nagar"
+  ],
+  "lat": 13.00153,
+  "lng": 77.65124,
+  "approx": true,
+  "hotspotId": "ben26-07"
+ },
+ {
+  "name": "Doddanekundi",
+  "aliases": [
+   "doddanekundi"
+  ],
+  "lat": 12.97132,
+  "lng": 77.69648,
+  "approx": true,
+  "hotspotId": "ben26-08"
+ },
+ {
+  "name": "Hennur – Bagalur Road",
+  "aliases": [
+   "hennur – bagalur road"
+  ],
+  "lat": 13.06319,
+  "lng": 77.64968,
+  "approx": true,
+  "hotspotId": "ben26-09"
+ },
+ {
+  "name": "Hulimavu Lake Junction",
+  "aliases": [
+   "hulimavu lake junction"
+  ],
+  "lat": 12.87008,
+  "lng": 77.6042,
+  "approx": true,
+  "hotspotId": "ben26-10"
+ },
+ {
+  "name": "HSR Layout 14th Main Road",
+  "aliases": [
+   "hsr layout 14th main road"
+  ],
+  "lat": 12.90747,
+  "lng": 77.63707,
+  "approx": false,
+  "hotspotId": "ben26-11"
+ }
 ]

@@ -1,1 +1,291 @@
-[]
+[
+ {
+  "id": "hyd26-01",
+  "name": "Balkampet RUB",
+  "aliases": [
+   "balkampet rub"
+  ],
+  "lat": 17.44692,
+  "lng": 78.45045,
+  "inUnderpass": true,
+  "approx": true,
+  "source": {
+   "kind": "official",
+   "name": "Hyderabad Traffic Police water-logging points (official list)",
+   "url": "https://echallan.tspolice.gov.in/htp/water_logging.html"
+  },
+  "lastReported": "2026-06-01"
+ },
+ {
+  "id": "hyd26-02",
+  "name": "Maitrivanam Junction",
+  "aliases": [
+   "maitrivanam junction"
+  ],
+  "lat": 17.4353,
+  "lng": 78.44563,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "official",
+   "name": "Hyderabad Traffic Police water-logging points (official list)",
+   "url": "https://echallan.tspolice.gov.in/htp/water_logging.html"
+  },
+  "lastReported": "2026-06-01"
+ },
+ {
+  "id": "hyd26-03",
+  "name": "Under FOB, ESI (Erragadda)",
+  "aliases": [
+   "under fob, esi (erragadda)"
+  ],
+  "lat": 17.44764,
+  "lng": 78.43997,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "official",
+   "name": "Hyderabad Traffic Police water-logging points (official list)",
+   "url": "https://echallan.tspolice.gov.in/htp/water_logging.html"
+  },
+  "lastReported": "2026-06-01"
+ },
+ {
+  "id": "hyd26-04",
+  "name": "Rajiv Gruhakalpa ORR underpass",
+  "aliases": [
+   "rajiv gruhakalpa orr underpass"
+  ],
+  "lat": 17.29855,
+  "lng": 78.539,
+  "inUnderpass": true,
+  "approx": true,
+  "source": {
+   "kind": "official",
+   "name": "Hyderabad Traffic Police water-logging points (official list)",
+   "url": "https://echallan.tspolice.gov.in/htp/water_logging.html"
+  },
+  "lastReported": "2026-06-01"
+ },
+ {
+  "id": "hyd26-05",
+  "name": "Khairatabad",
+  "aliases": [
+   "khairatabad"
+  ],
+  "lat": 17.41297,
+  "lng": 78.46106,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 10 Jun 2026 (Hyderabad Mail)",
+   "url": "https://hyderabadmail.com/hyderabad-monsoon-rain-electrocution-traffic-waterlogging/"
+  },
+  "lastReported": "2026-06-10"
+ },
+ {
+  "id": "hyd26-06",
+  "name": "Begumpet",
+  "aliases": [
+   "begumpet"
+  ],
+  "lat": 17.44619,
+  "lng": 78.46302,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 10 Jun 2026 (Hyderabad Mail)",
+   "url": "https://hyderabadmail.com/hyderabad-monsoon-rain-electrocution-traffic-waterlogging/"
+  },
+  "lastReported": "2026-06-10"
+ },
+ {
+  "id": "hyd26-07",
+  "name": "Tank Bund Road (Hussain Sagar)",
+  "aliases": [
+   "tank bund road (hussain sagar)"
+  ],
+  "lat": 17.4239,
+  "lng": 78.4738,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 10 Jun 2026 (Hyderabad Mail)",
+   "url": "https://hyderabadmail.com/hyderabad-monsoon-rain-electrocution-traffic-waterlogging/"
+  },
+  "lastReported": "2026-06-10"
+ },
+ {
+  "id": "hyd26-08",
+  "name": "Lakdikapul",
+  "aliases": [
+   "lakdikapul"
+  ],
+  "lat": 17.40705,
+  "lng": 78.4609,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging inspected by traffic police, Jul 2026 (UK Bulletins)",
+   "url": "https://ukbulletins.com/hyderabad-grapples-with-waterlogging-after-heavy-rain/"
+  },
+  "lastReported": "2026-07-29"
+ },
+ {
+  "id": "hyd26-09",
+  "name": "Masab Tank",
+  "aliases": [
+   "masab tank"
+  ],
+  "lat": 17.40296,
+  "lng": 78.45075,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging inspected by traffic police, Jul 2026 (UK Bulletins)",
+   "url": "https://ukbulletins.com/hyderabad-grapples-with-waterlogging-after-heavy-rain/"
+  },
+  "lastReported": "2026-07-29"
+ },
+ {
+  "id": "hyd26-10",
+  "name": "Safilguda",
+  "aliases": [
+   "safilguda"
+  ],
+  "lat": 17.46162,
+  "lng": 78.53312,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Heavy water accumulation, Jul 2026 (Telangana Today)",
+   "url": "https://telanganatoday.com/waterlogging-infrastructure-works-trigger-massive-traffic-jams-across-hyderabad"
+  },
+  "lastReported": "2026-07-28"
+ },
+ {
+  "id": "hyd26-11",
+  "name": "Anand Bagh underpass",
+  "aliases": [
+   "anand bagh underpass"
+  ],
+  "lat": 17.45663,
+  "lng": 78.54317,
+  "inUnderpass": true,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Heavy water accumulation, Jul 2026 (Telangana Today)",
+   "url": "https://telanganatoday.com/waterlogging-infrastructure-works-trigger-massive-traffic-jams-across-hyderabad"
+  },
+  "lastReported": "2026-07-28"
+ },
+ {
+  "id": "hyd26-12",
+  "name": "Mirjalguda crossroads",
+  "aliases": [
+   "mirjalguda crossroads"
+  ],
+  "lat": 17.44398,
+  "lng": 78.53123,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Heavy water accumulation, Jul 2026 (Telangana Today)",
+   "url": "https://telanganatoday.com/waterlogging-infrastructure-works-trigger-massive-traffic-jams-across-hyderabad"
+  },
+  "lastReported": "2026-07-28"
+ },
+ {
+  "id": "hyd26-13",
+  "name": "Chilkalguda",
+  "aliases": [
+   "chilkalguda"
+  ],
+  "lat": 17.43153,
+  "lng": 78.50716,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Heavy water accumulation, Jul 2026 (Telangana Today)",
+   "url": "https://telanganatoday.com/waterlogging-infrastructure-works-trigger-massive-traffic-jams-across-hyderabad"
+  },
+  "lastReported": "2026-07-28"
+ },
+ {
+  "id": "hyd26-14",
+  "name": "Madhapur",
+  "aliases": [
+   "madhapur"
+  ],
+  "lat": 17.44089,
+  "lng": 78.39163,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 29 Jul 2026 (Okay Weekly)",
+   "url": "https://okayweekly.com/hyderabad-hit-by-heavy-rain-waterlogging-and-traffic-delays/"
+  },
+  "lastReported": "2026-07-29"
+ },
+ {
+  "id": "hyd26-15",
+  "name": "Gachibowli",
+  "aliases": [
+   "gachibowli"
+  ],
+  "lat": 17.44362,
+  "lng": 78.35196,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 29 Jul 2026 (Okay Weekly)",
+   "url": "https://okayweekly.com/hyderabad-hit-by-heavy-rain-waterlogging-and-traffic-delays/"
+  },
+  "lastReported": "2026-07-29"
+ },
+ {
+  "id": "hyd26-16",
+  "name": "Miyapur",
+  "aliases": [
+   "miyapur"
+  ],
+  "lat": 17.49816,
+  "lng": 78.35676,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Waterlogging reported 29 Jul 2026 (Okay Weekly)",
+   "url": "https://okayweekly.com/hyderabad-hit-by-heavy-rain-waterlogging-and-traffic-delays/"
+  },
+  "lastReported": "2026-07-29"
+ },
+ {
+  "id": "hyd26-17",
+  "name": "KBR Park pillars 10–12 (Banjara Hills)",
+  "aliases": [
+   "kbr park pillars 10–12 (banjara hills)"
+  ],
+  "lat": 17.42018,
+  "lng": 78.42052,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "media",
+   "name": "Traffic police waterlogging alert, 30 Oct 2026 (Daily Pioneer)",
+   "url": "https://dailypioneer.com/telangana/heavy-rains-flood-hyderabad-roads-disrupt-traffic-across-city"
+  },
+  "lastReported": "2026-10-30"
+ }
+]
