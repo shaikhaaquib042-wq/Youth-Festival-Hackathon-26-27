@@ -1,0 +1,15 @@
+{
+  "id": "bengaluru",
+  "name": "Bengaluru",
+  "status": "stub",
+  "center": [77.5946, 12.9716],
+  "regionZoom": 10,
+  "cityZoom": 12,
+  "bounds": [77.40, 12.80, 77.80, 13.15],
+  "tiles": null,
+  "sachet": {
+    "feed": "https://sachet.ndma.gov.in/cap_public_website/rss/rss_karnataka.xml",
+    "match": ["bengaluru", "bangalore", "ಬೆಂಗಳೂರು"]
+  },
+  "facts": { "floodProneLocationsBBMP": 226 }
+}

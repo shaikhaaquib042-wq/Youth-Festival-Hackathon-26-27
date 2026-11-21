@@ -1,0 +1,15 @@
+{
+  "id": "mumbai",
+  "name": "Mumbai",
+  "status": "stub",
+  "center": [72.8777, 19.0760],
+  "regionZoom": 10,
+  "cityZoom": 12,
+  "bounds": [72.77, 18.89, 73.05, 19.30],
+  "tiles": null,
+  "sachet": {
+    "feed": "https://sachet.ndma.gov.in/cap_public_website/rss/rss_maharashtra.xml",
+    "match": ["mumbai", "मुंबई", "thane", "ठाणे"]
+  },
+  "facts": { "knownSpotsBMC2025": 498 }
+}

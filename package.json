@@ -1,0 +1,36 @@
+{
+  "name": "floodwatch",
+  "version": "1.0.0",
+  "description": "FloodWatch — live verified map of waterlogged roads (Naya Bharat 2047, PS 7.3)",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "osrm": "bash infra/osrm/build-mac.sh",
+    "tiles": "bash infra/tiles/extract.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaikhaaquib042-wq/Youth-Festival-Hackathon-26-27.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/shaikhaaquib042-wq/Youth-Festival-Hackathon-26-27/issues"
+  },
+  "homepage": "https://github.com/shaikhaaquib042-wq/Youth-Festival-Hackathon-26-27#readme",
+  "dependencies": {
+    "@protomaps/basemaps": "^5.7.2",
+    "maplibre-gl": "^5.24.1",
+    "pmtiles": "^4.5.0"
+  },
+  "devDependencies": {
+    "vite": "^7.3.8"
+  },
+  "private": true
+}
