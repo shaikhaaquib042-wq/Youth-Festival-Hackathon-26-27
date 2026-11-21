@@ -54,7 +54,7 @@ export function Offices() {
       <h1>{tt("ui.offices.h1")}</h1>
       <p className="page-lead">{tt("ui.offices.lead")}</p>
 
-      <form method="get" action="/offices" className="card cluster">
+      <form method="get" action="/offices" className="card cluster offices-filter">
         <label className="field">
           <span>{tt("ui.offices.filter_label")}</span>
           <select name="type" value={only} onChange={(e) => setOnly(e.target.value)}>
