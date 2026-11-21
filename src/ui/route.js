@@ -80,6 +80,11 @@ function shareText(r) {
 
 function render() {
   if (!panel) return;
+  if (pickTarget) {
+    panel.innerHTML = `<div class="rp-head"><b>${esc(t('route.tapMap'))}</b>
+      <button class="btn btn-ghost" data-act="cancelPick">${esc(t('report.cancel'))}</button></div>`;
+    return;
+  }
   const saved = loadSaved(), demo = DEMO_ROUTES[CONFIG.CITY] ?? [];
   const chips = [...demo, ...saved].map((s, i) => `<button class="chip" data-saved="${i}">${esc(s.name)}</button>`).join('');
   let res = '';
@@ -222,7 +227,8 @@ function onClick(e) {
     panel.querySelector('[data-f=from]').value = fields.from = t('route.myLoc');
     return;
   }
-  if (act === 'pick') { pickTarget = b.dataset.t; toast(t('route.tapMap')); return; }
+  if (act === 'pick') { pickTarget = b.dataset.t; render(); return; }
+  if (act === 'cancelPick') { pickTarget = null; render(); return; }
   if (act === 'share' && result) return window.open(`https://wa.me/?text=${encodeURIComponent(shareText(result))}`, '_blank', 'noopener');
   if (act === 'save' && active) {
     storeSaved([{ name: `${active.from.label} → ${active.to.label}`, from: active.fromText, to: active.toText }, ...loadSaved()]);
@@ -260,9 +266,9 @@ export function initRoute(m) {
   btn.addEventListener('click', () => toggle(panel.hidden));
   map.on('click', (e) => {
     if (!pickTarget || panel.hidden || !editing) return;
-    const input = panel.querySelector(`[data-f=${pickTarget}]`);
-    if (input) input.value = fields[pickTarget] = `${e.lngLat.lat.toFixed(5)}, ${e.lngLat.lng.toFixed(5)}`;
+    fields[pickTarget] = `${e.lngLat.lat.toFixed(5)}, ${e.lngLat.lng.toFixed(5)}`;
     pickTarget = null;
+    render();
   });
   onLang(() => { btn.innerHTML = `<span class="ico">🛣</span><span>${esc(t('bar.route'))}</span>`; render(); });
   // Live: when reports change (new report, confirmation, expiry, scenario tick) re-plan the active route.
