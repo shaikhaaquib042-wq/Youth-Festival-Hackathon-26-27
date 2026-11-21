@@ -82,3 +82,16 @@ body[data-hazard="heat"] #report-fab { background: #0c8599; }
 .sj-locate[data-state="asking"] { animation: sjpulse 1s infinite; }
 .sj-locate[data-state="denied"], .sj-locate[data-state="unavailable"] { opacity: .5; }
 @keyframes sjpulse { 50% { opacity: .4; } }
+
+/* ── Route check ──────────────────────────────────────────────── */
+#route-btn { position: absolute; left: 12px; bottom: 44px; z-index: 3; padding: 12px 16px; border: 1.5px solid #1b1f24; border-radius: 999px;
+  background: #fff; color: #1b1f24; font: 700 15px/1 inherit; font-family: inherit; box-shadow: 0 4px 14px rgb(0 0 0 / .18); cursor: pointer; }
+#route-btn[hidden] { display: none; }
+.route-panel { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; background: #fff; border-radius: 16px 16px 0 0;
+  box-shadow: 0 -6px 24px rgb(0 0 0 / .18); padding: 12px 16px 18px; max-height: 62dvh; overflow: auto; }
+@media (min-width: 760px) { .route-panel { left: 12px; right: auto; bottom: 12px; width: 380px; border-radius: 16px; max-height: calc(100dvh - 140px); } }
+.rp-head { display: flex; justify-content: space-between; align-items: center; }
+.rp-in { display: flex; gap: 6px; } .rp-in input { flex: 1; min-width: 0; }
+.route-verdict { border: 2px solid; border-radius: 12px; padding: 10px 12px; margin-top: 8px; display: grid; gap: 4px; font-size: 14px; }
+.rv-head { font-size: 18px; font-weight: 800; }
+.rv-reason { font-size: 13px; } .rv-alt { font-weight: 600; color: #1f7a45; }

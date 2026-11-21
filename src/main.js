@@ -9,6 +9,7 @@ import { startStore, getPins } from './store.js';
 import { initReport, onVote, setReportHazard } from './ui/report.js';
 import { mountAccountChip } from './ui/signin.js';
 import { initLocation, getFix } from './location.js';
+import { initRoute } from './ui/route.js';
 
 const pack = cityPack();
 initLang(pack);
@@ -40,6 +41,7 @@ initLocation(map);
 window.__fix = getFix;
 addPinLayers(map, { onVote });
 initReport(map);
+initRoute(map);
 mountAccountChip(document.getElementById('account-chip'));
 
 // Flood | Heat toggle (PRD §22.1). ?hazard=heat deep link; last choice remembered.
@@ -50,6 +52,7 @@ function setHazard(h) {
   showHazard(map, h);
   setReportHazard(h);
   try { localStorage.setItem(HZ_KEY, h); } catch { /* ignore */ }
+  window.dispatchEvent(new CustomEvent('sajag:hazard', { detail: { hazard: h } }));
 }
 document.getElementById('hazard-toggle').addEventListener('click', (e) => { const b = e.target.closest('[data-h]'); if (b) setHazard(b.dataset.h); });
 let saved = null; try { saved = localStorage.getItem(HZ_KEY); } catch { /* ignore */ }
