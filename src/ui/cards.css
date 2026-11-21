@@ -562,3 +562,18 @@
 :root[data-theme="dark"] .report-proof-tile .proof-label,
 :root[data-theme="dark"] .report-proof-tile .proof-opt { color: inherit; }
 :root[data-theme="dark"] .report-proof-tile, :root[data-theme="dark"] .report-photo-tile { color: #93c5fd; border-color: rgba(147,197,253,.45); }
+
+/* Collapsed card docks to the LEFT edge as a small tab (icon + one word + ▾); map stays clear. */
+#status-cards-root:has(.status-card.collapsed) { left: 0; right: auto; align-items: flex-start; }
+.status-card.collapsed {
+  align-self: flex-start; width: auto; max-width: 70vw;
+  border-radius: 0 999px 999px 0 !important;
+  padding: 6px 8px 6px 14px !important;
+}
+.status-card.collapsed .card-main-row { gap: 8px; }
+.status-card.collapsed .card-emoji { font-size: 22px; }
+.status-card.collapsed .card-headline { font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.status-card.collapsed .btn-speak-big { display: none !important; } /* one tap = expand; 🔊 lives in the open card */
+.status-card.collapsed .btn-card-fold { min-width: 36px !important; min-height: 36px !important; width: 36px !important; height: 36px !important; }
+#status-cards-root:has(.status-card.collapsed) .card-mini-chip { border-radius: 0 999px 999px 0 !important; padding-left: 14px !important; }
+@media (min-width: 760px) { #status-cards-root:has(.status-card.collapsed) { left: 0; } }
