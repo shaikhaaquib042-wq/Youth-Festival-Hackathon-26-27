@@ -60,13 +60,34 @@ export async function planRoute(from, to, pins, { osrmUrl, mode, bufferM, detour
   let chosen = scored.find((s) => !s.score.blocker) ?? null;
 
   if (!chosen && primary.score.blocker) {
-    for (const via of detourPoints(primary.route.coords, primary.score.blocker.pin, detourM)) {
-      try {
-        const [r] = await osrm(osrmUrl, [from, via, to], 0, signal);
-        const s = scoreRoute(r.coords, pins, { mode, bufferM, heavyRainAt });
-        if (!s.blocker) { chosen = { route: r, score: s, detour: true }; break; }
-      } catch { signal?.throwIfAborted(); /* otherwise try the other side */ }
+    // Widen the search: several blockers often sit on one corridor (e.g. a drain + a flooded stretch),
+    // so a 1 km via-point can still pass one of them. Try 1×, 2×, 3× the offset, both sides; the
+    // shortest clean detour wins. Bounded: at most 6 extra OSRM calls.
+    let best = null;
+    const tried = [...scored.slice(1)]; // OSRM's own alternatives also count as "safer" candidates
+    for (const mult of [1, 2, 3]) {
+      for (const via of detourPoints(primary.route.coords, primary.score.blocker.pin, detourM * mult)) {
+        try {
+          const [r] = await osrm(osrmUrl, [from, via, to], 0, signal);
+          if (!r?.coords?.length) continue; // "NoRoute" is not a clean route
+          const s = scoreRoute(r.coords, pins, { mode, bufferM, heavyRainAt });
+          tried.push({ route: r, score: s, detour: true });
+          if (!s.blocker && (!best || r.distanceM < best.route.distanceM)) best = { route: r, score: s, detour: true };
+        } catch { signal?.throwIfAborted(); /* otherwise try the other side */ }
+      }
+      if (best) break; // closest ring with a clean detour
     }
+    // "Safer, not safe": when every road out passes some hazard (e.g. one bridge with a blocked drain),
+    // offer the route whose worst hazard is LESS severe than the primary's (red flood → orange drain),
+    // shortest first. It keeps its own level, so the panel shows it with a caution, never as "safe".
+    if (!best) {
+      const worstRank = (s) => RANK[s.score.blocker?.sev ?? s.score.level] ?? 0;
+      const pRank = worstRank(primary);
+      best = tried.filter((c) => worstRank(c) < pRank)
+        .sort((a, b) => worstRank(a) - worstRank(b) || a.route.distanceM - b.route.distanceM)[0] ?? null;
+      if (best) best = { ...best, saferNotSafe: true };
+    }
+    chosen = best;
   }
 
   const blocked = !!primary.score.blocker;

@@ -85,8 +85,15 @@ function alternateText(r) {
   if (r.noSafe) return t('route.noSafe');
   const km = (r.chosen.route.distanceM / 1000).toFixed(1);
   const min = Math.round(r.chosen.route.durationS / 60);
-  const label = r.chosen.score.level === 'yellow' ? 'route.altCaution' : 'route.altShown';
-  return t(label, { km, min });
+  const lvl = r.chosen.score.level;
+  if (lvl === 'yellow' || lvl === 'orange') {
+    // "Safer, not safe": name what is still on the safer route (e.g. a blocked drain at Dandekar Bridge).
+    const h = r.chosen.score.blocker ?? r.chosen.score.hits?.[0];
+    const what = h ? (h.pin.type === 'clog' ? t('action.reportClog') : t('depth.' + h.pin.depth)) : '';
+    const where = h ? (h.pin.name ?? h.pin.near ?? '') : '';
+    return t('route.altCaution', { km, min }) + (what ? ` — ${what}${where ? ' · ' + where : ''}` : '');
+  }
+  return t('route.altShown', { km, min });
 }
 
 function shareText(r) {
