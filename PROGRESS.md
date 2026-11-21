@@ -1,7 +1,7 @@
 # RaktSetu — Implementation Progress
 
 ## Phases
-- [ ] **Phase 1**: Foundation: scaffold, tokens, fonts, types, config, seed generator, repository interface, PROGRESS.md
+- [x] **Phase 1**: Foundation: scaffold, tokens, fonts, types, config, seed generator, repository interface, PROGRESS.md
 - [ ] **Phase 2**: Matching engine + tests (SPEC §6, pure parts of §7)
 - [ ] **Phase 3**: State: Zustand slices, JSON repository + API routes, clock, event reducer, response simulation
 - [ ] **Phase 4**: Live Map (deck.gl + MapLibre GL, 3D tilt, columns, arcs, pulse, fallbacks)
@@ -13,8 +13,8 @@
 - [ ] **Phase 10**: Documentation & pitch script: comprehensive README.md, clean build verification
 
 ## SPEC §16 Definition of Done Checklist
-- [ ] Fresh `npm install` + `npm run dev` work; app opens on the live map
-- [ ] 300 donors, 8 hospitals, 60 historical requests; seed deterministic
+- [x] Fresh `npm install` + `npm run dev` work; app opens on the live map
+- [x] 300 donors, 8 hospitals, 60 historical requests; seed deterministic
 - [ ] Compatibility, eligibility, scoring, escalation, rare-group and cap logic correct and tested
 - [ ] Unverified requests cannot notify; verification works end to end
 - [ ] Accept, decline, reveal, audit work; contacts masked until authorized reveal
