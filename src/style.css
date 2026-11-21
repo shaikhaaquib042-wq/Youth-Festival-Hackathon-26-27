@@ -1,7 +1,7 @@
 :root {
   --green: #1f9d55; --yellow: #e5b400; --orange: #f0710f; --red: #d62828;
   --ink: #1b1f24; --muted: #5b6470; --bg: #ffffff; --chip-live: #1f9d55; --chip-sim: #7b2cbf;
-  font-family: system-ui, -apple-system, 'Segoe UI', 'Noto Sans Devanagari', sans-serif;
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Noto Sans', 'Noto Sans Devanagari', 'Noto Sans Kannada', 'Noto Sans Telugu', 'Kohinoor Devanagari', 'Kannada Sangam MN', 'Telugu Sangam MN', sans-serif;
   color: var(--ink);
 }
 * { box-sizing: border-box; }
@@ -9,8 +9,9 @@ html, body { margin: 0; height: 100%; background: var(--bg); }
 #app { position: relative; height: 100dvh; }
 #map { position: absolute; inset: 0; }
 
+#topbar { position: absolute; top: 12px; left: 12px; z-index: 2; display: flex; gap: 8px; align-items: center; }
+#lang-picker { font: 600 13px/1.2 inherit; font-family: inherit; padding: 4px 6px; border-radius: 8px; border: 1px solid #c9ced6; background: #fff; }
 #mode-chip {
-  position: absolute; top: 12px; left: 12px; z-index: 2;
   padding: 4px 10px; border-radius: 999px; font: 700 12px/1.4 system-ui; letter-spacing: .06em;
   color: #fff; background: var(--chip-live);
 }

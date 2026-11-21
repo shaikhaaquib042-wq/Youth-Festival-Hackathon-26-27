@@ -68,5 +68,17 @@
   "facts": {
     "knownSpotsTrafficPolice2026": 26,
     "knownSpotsPMC2026": 201
+  },
+  "languages": {
+    "default": "mr",
+    "ui": [
+      "en",
+      "mr",
+      "hi"
+    ],
+    "voice": [
+      "mr",
+      "hi"
+    ]
   }
 }

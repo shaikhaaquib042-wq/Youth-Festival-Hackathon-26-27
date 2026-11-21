@@ -25,5 +25,17 @@
   },
   "facts": {
     "floodProneLocationsBBMP": 226
+  },
+  "languages": {
+    "default": "kn",
+    "ui": [
+      "en",
+      "kn",
+      "te"
+    ],
+    "voice": [
+      "kn",
+      "te"
+    ]
   }
 }

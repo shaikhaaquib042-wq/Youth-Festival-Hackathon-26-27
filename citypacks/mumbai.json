@@ -26,5 +26,17 @@
   },
   "facts": {
     "knownSpotsBMC2025": 498
+  },
+  "languages": {
+    "default": "mr",
+    "ui": [
+      "en",
+      "mr",
+      "hi"
+    ],
+    "voice": [
+      "mr",
+      "hi"
+    ]
   }
 }

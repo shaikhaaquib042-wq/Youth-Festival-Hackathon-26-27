@@ -23,7 +23,7 @@ Vanilla JS ES modules + Vite 7. MapLibre GL 5 + pmtiles 4 + @protomaps/basemaps 
 | Owner | Paths |
 |---|---|
 | **Worker** | `src/ui/`, `src/map/`, `src/engine/` (except the contract), `src/feeds/openmeteo.js`, `src/feeds/rainviewer.js`, `src/style.css` |
-| **Orchestrator** | `src/heat/` (whole heat module, PRD §21), `infra/`, `src/scenario/`, `src/feeds/sachet.js`, `functions/`, `config.js`, `citypacks/`, `src/data/`, `index.html`, `src/main.js` |
+| **Orchestrator** | `src/heat/` (whole heat module, PRD §21), `src/i18n/` (languages + voice), `infra/`, `src/scenario/`, `src/feeds/sachet.js`, `functions/`, `config.js`, `citypacks/`, `src/data/`, `index.html`, `src/main.js` |
 | **Shared / frozen** | `src/engine/pin.js` — the Pin contract. Do NOT rename fields or enum values. Types: `flood`, `clog`, `hotspot`, `cooling` (cooling pins carry optional `amenities`). |
 
 Need a change in a file you don't own? Leave a `// REQUEST(orchestrator): …` note in your own file, or say so in the commit message. Don't edit theirs.
@@ -41,7 +41,8 @@ Need a change in a file you don't own? Leave a `// REQUEST(orchestrator): …` n
 4. **Underpass = RED at any depth.** Rider mode: confirmed ankle-deep → RED (not ORANGE). Never advise wading through knee+ water.
 5. **All tunables in `config.js`** (expiry, radii, thresholds). Advisory rules live in ONE table file `src/engine/advisory.js`.
 6. Engine code is identical in Live and Scenario mode — only the input source differs. Engine functions take `now` as a parameter (never call `Date.now()` inside engine logic) so the scenario clock works.
-7. Report flow < 10 s, one hand, no login. Marathi labels on key actions (e.g. "Report / तक्रार करा").
+7. Report flow < 10 s, one hand, no login.
+9. **No hard-coded user-facing text.** `import { t, onLang } from '../i18n/index.js'` and use `t('action.report')`, `t('pin.ageMin', {n: 12})`. Render inside `onLang(() => …)` (or listen for the `langchange` window event) so text updates when the language changes. Languages: en, mr, hi, kn, te. Need a new string? Add the key to `src/i18n/en.js` only and note it in the commit message — the orchestrator adds the other four. Voice: `speak('heat.water')` from `src/i18n/speak.js` (never call speechSynthesis directly). Official SACHET text is shown as published (not translated).
 8. Credits must stay visible: "Protomaps © OpenStreetMap", "Weather data by RainViewer" (when radar on).
 
 ## Heat module (PRD §21) — what the worker needs to know

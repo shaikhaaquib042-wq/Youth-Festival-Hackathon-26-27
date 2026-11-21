@@ -25,5 +25,17 @@
       "medchal"
     ]
   },
-  "facts": {}
+  "facts": {},
+  "languages": {
+    "default": "te",
+    "ui": [
+      "en",
+      "te",
+      "hi"
+    ],
+    "voice": [
+      "te",
+      "hi"
+    ]
+  }
 }
