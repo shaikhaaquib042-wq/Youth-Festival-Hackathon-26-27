@@ -5,6 +5,9 @@ import { getPins, subscribe, now } from '../store.js';
 import { pinSeverity, minutesLeft } from '../engine/lifecycle.js';
 import { CONFIG } from '../../config.js';
 import { t, onLang } from '../i18n/index.js';
+import { showWeatherHazard, WEATHER_LAYERS } from './weather.js';
+
+export { WEATHER_LAYERS, showWeatherHazard };
 
 export const SEV_COLOR = { red: '#d62828', orange: '#f0710f', yellow: '#e5b400', green: '#1f9d55', grey: '#8a94a3', none: '#8a94a3' };
 const AMENITY_COLOR = { water: '#1c7ed6', ors: '#9c36b5', clinic: '#e03131', shade: '#2f9e44', toilet: '#495057', cool_room: '#0c8599' };
@@ -18,7 +21,11 @@ const fc = (features) => ({ type: 'FeatureCollection', features });
 const pt = (p, props) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { id: p.id, ...props } });
 
 let mode = 'commuter';
-export const setMode = (m) => { mode = m; };
+let refreshMapPins = null;
+export const setMode = (m) => {
+  mode = m;
+  if (refreshMapPins) refreshMapPins();
+};
 
 function build() {
   const pins = getPins();
@@ -77,6 +84,7 @@ export function addPinLayers(map, actions = {}) {
       map.getSource('sj-reports')?.setData(n.rep);
       map.getSource('sj-cooling')?.setData(n.cool);
     };
+    refreshMapPins = refresh;
     subscribe(refresh);
     onLang(refresh);
 
@@ -103,6 +111,7 @@ export function showHazard(map, hazard) {
     for (const [h, ids] of Object.entries(LAYERS)) for (const id of ids) {
       if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', h === hazard ? 'visible' : 'none');
     }
+    showWeatherHazard(map, hazard);
   };
   if (map.getLayer('sj-reports')) apply(); else map.once('idle', apply);
 }

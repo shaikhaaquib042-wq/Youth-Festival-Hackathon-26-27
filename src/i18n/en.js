@@ -114,4 +114,34 @@ export default {
   'loc.use': 'Use my location',
   'loc.denied': 'Location permission denied — allow it in the browser settings to report',
   'loc.unavailable': 'Location not available on this device',
+
+  // Modes (PRD §3, §22.1)
+  'mode.commuter': 'Commuter',
+  'mode.rider': 'Delivery / Rider',
+  'mode.parent': 'Parent / School',
+  'mode.pedestrian': 'Pedestrian',
+
+  // Advisory rules (PRD §8)
+  'advice.waterproofBag': 'Waterproof bag or laptop cover recommended',
+  'advice.windRider': 'High wind gusts ({speed} km/h) — two-wheeler riders postpone if possible',
+  'advice.kneeWarning': 'Deep flood water reported — do not enter. Never wade through knee-deep water.',
+  'advice.heat37': 'Carry water and a cap. Outdoor workers: take extra rest breaks.',
+  'advice.heat40': 'Drink water with ORS, wear light clothing, avoid 11 am–4 pm.',
+  'advice.heat45': 'Extreme heat hazard — stop outdoor work. Rest in shade.',
+  'advice.title': 'Before you leave',
+
+  // Heat extras & Maharashtra SOP (PRD §21, §23)
+  'heat.mhSop': 'State SOP: Mandatory break 12–4 pm; work 6–11 am & 4–8 pm',
+  'heat.conditions': '{temp}°C · Est. heat stress (WBGT) {wbgt}°C',
+
+  // Radar (PRD §7)
+  'radar.toggle': 'Radar',
+  'radar.credit': 'Weather data by RainViewer',
+
+  // Cards UI (PRD §22.1)
+  'card.floodTitle': 'Flood status',
+  'card.heatTitle': 'Heat status',
+  'card.noFloodNearby': 'No waterlogged roads reported within 1 km',
+  'card.tapToSwitch': 'Tap to view',
+  'card.readAloud': 'Listen to advisory',
 };

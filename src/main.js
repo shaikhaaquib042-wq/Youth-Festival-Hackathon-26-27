@@ -9,6 +9,9 @@ import { startStore, getPins } from './store.js';
 import { initReport, onVote, setReportHazard } from './ui/report.js';
 import { mountAccountChip } from './ui/signin.js';
 import { initLocation, getFix } from './location.js';
+import { startWeather } from './feeds/openmeteo.js';
+import { initWeatherLayers } from './map/weather.js';
+import { initCards } from './ui/cards.js';
 
 const pack = cityPack();
 initLang(pack);
@@ -66,3 +69,17 @@ watchSachet((alerts) => {
   const src = /^https:\/\/sachet\.ndma\.gov\.in\//.test(a.link) ? a.link : 'https://sachet.ndma.gov.in/';
   banner.innerHTML = `<b>${esc(t('alert.official'))} · SACHET/${esc(a.author.match(/\(([^)]+)\)/)?.[1] ?? 'NDMA')}</b> · ${ageH} h — ${esc(a.title)} <a href="${esc(src)}" target="_blank" rel="noopener">↗</a>`;
 }, pack);
+
+// ==== step 4 wiring (agy) ====
+startWeather(pack);
+initWeatherLayers(map, pack);
+initCards(map, {
+  getHazard: () => document.body.dataset.hazard ?? 'flood',
+  onHazardChange: (fn) => {
+    window.addEventListener('sajag:hazard', (e) => fn(e.detail.hazard));
+    document.getElementById('hazard-toggle')?.addEventListener('click', () => {
+      setTimeout(() => fn(document.body.dataset.hazard ?? 'flood'), 0);
+    });
+  },
+});
+// ==== end step 4 wiring ====
