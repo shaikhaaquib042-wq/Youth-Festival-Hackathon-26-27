@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 260" role="img" aria-hidden="true" focusable="false">
+  <title>Street of doors</title>
+  <rect x="0" y="0" width="1200" height="260" fill="none"/>
+  <circle cx="600" cy="38" r="26" fill="#FFE6CC"/>
+  <g fill="#FFFFFF" opacity="0.85">
+    <ellipse cx="150" cy="52" rx="58" ry="14"/>
+    <ellipse cx="420" cy="30" rx="70" ry="13"/>
+    <ellipse cx="930" cy="50" rx="62" ry="14"/>
+  </g>
+  <path d="M0 160 Q150 110 300 150 T600 140 T900 150 T1200 120 V260 H0Z" fill="#E6EFE2"/>
+  <path d="M0 196 Q200 152 420 188 T840 182 T1200 172 V260 H0Z" fill="#D3E3CB"/>
+  <rect x="0" y="232" width="1200" height="28" fill="#D3E3CB"/>
+  <path d="M0 232 H1200" stroke="#8FB57F" stroke-width="2" fill="none"/>
+
+  <g id="door-police" stroke="#3B4A40" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="20" y="82" width="140" height="150" rx="14" fill="#FFE6CC"/>
+    <rect x="34" y="96" width="112" height="26" rx="13" fill="#FFFFFF"/>
+    <rect x="34" y="130" width="26" height="22" rx="6" fill="#FFFFFF"/>
+    <rect x="120" y="130" width="26" height="22" rx="6" fill="#FFFFFF"/>
+    <rect class="door" x="72" y="178" width="36" height="54" rx="18" fill="#8FB57F"/>
+    <text x="90" y="113" font-family="Nunito, Arial, sans-serif" font-size="12" font-weight="700" fill="#1D2B22" stroke="none" text-anchor="middle">Police Chowki</text>
+  </g>
+
+  <g id="door-consumer" stroke="#3B4A40" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="190" y="104" width="140" height="128" rx="14" fill="#F4F8F2"/>
+    <rect x="204" y="118" width="112" height="26" rx="13" fill="#FFFFFF"/>
+    <rect x="204" y="152" width="26" height="22" rx="6" fill="#FFFFFF"/>
+    <rect x="290" y="152" width="26" height="22" rx="6" fill="#FFFFFF"/>
+    <rect class="door" x="242" y="178" width="36" height="54" rx="18" fill="#8FB57F"/>
+    <text x="260" y="135" font-family="Nunito, Arial, sans-serif" font-size="12" font-weight="700" fill="#1D2B22" stroke="none" text-anchor="middle">Consumer Commission</text>
+  </g>
+
+  <g id="door-labour" stroke="#3B4A40" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="360" y="70" width="140" height="162" rx="14" fill="#FFE6CC"/>
+    <rect x="374" y="84" width="112" height="26" rx="13" fill="#FFFFFF"/>
+    <rect x="374" y="118" width="26" height="22" rx="6" fill="#FFFFFF"/>
+    <rect x="460" y="118" width="26" height="22" rx="6" fill="#FFFFFF"/>
+    <rect class="door" x="412" y="178" width="36" height="54" rx="18" fill="#8FB57F"/>
+    <text x="430" y="101" font-family="Nunito, Arial, sans-serif" font-size="12" font-weight="700" fill="#1D2B22" stroke="none" text-anchor="middle">Labour Office</text>
+  </g>
+
+  <g id="door-ward" stroke="#3B4A40" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="530" y="112" width="140" height="120" rx="14" fill="#F4F8F2"/>
+    <rect x="544" y="126" width="112" height="26" rx="13" fill="#FFFFFF"/>
+    <rect x="544" y="160" width="26" height="22" rx="6" fill="#FFFFFF"/>
+    <rect x="630" y="160" width="26" height="22" rx="6" fill="#FFFFFF"/>
+    <rect class="door" x="582" y="178" width="36" height="54" rx="18" fill="#8FB57F"/>
+    <text x="600" y="143" font-family="Nunito, Arial, sans-serif" font-size="12" font-weight="700" fill="#1D2B22" stroke="none" text-anchor="middle">Ward Office</text>
+  </g>
+
+  <g id="door-legal_aid" stroke="#3B4A40" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="700" y="76" width="140" height="156" rx="14" fill="#FFE6CC"/>
+    <rect x="714" y="90" width="112" height="26" rx="13" fill="#FFFFFF"/>
+    <rect x="714" y="124" width="26" height="22" rx="6" fill="#FFFFFF"/>
+    <rect x="800" y="124" width="26" height="22" rx="6" fill="#FFFFFF"/>
+    <rect class="door" x="752" y="178" width="36" height="54" rx="18" fill="#8FB57F"/>
+    <text x="770" y="107" font-family="Nunito, Arial, sans-serif" font-size="12" font-weight="700" fill="#1D2B22" stroke="none" text-anchor="middle">Legal Aid</text>
+  </g>
+
+  <g id="door-bank" stroke="#3B4A40" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="870" y="98" width="140" height="134" rx="14" fill="#F4F8F2"/>
+    <rect x="884" y="112" width="112" height="26" rx="13" fill="#FFFFFF"/>
+    <rect x="884" y="146" width="26" height="22" rx="6" fill="#FFFFFF"/>
+    <rect x="970" y="146" width="26" height="22" rx="6" fill="#FFFFFF"/>
+    <rect class="door" x="922" y="178" width="36" height="54" rx="18" fill="#8FB57F"/>
+    <text x="940" y="129" font-family="Nunito, Arial, sans-serif" font-size="12" font-weight="700" fill="#1D2B22" stroke="none" text-anchor="middle">Bank</text>
+  </g>
+
+  <g id="door-post" stroke="#3B4A40" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="1040" y="86" width="140" height="146" rx="14" fill="#FFE6CC"/>
+    <rect x="1054" y="100" width="112" height="26" rx="13" fill="#FFFFFF"/>
+    <rect x="1054" y="134" width="26" height="22" rx="6" fill="#FFFFFF"/>
+    <rect x="1140" y="134" width="26" height="22" rx="6" fill="#FFFFFF"/>
+    <rect class="door" x="1092" y="178" width="36" height="54" rx="18" fill="#8FB57F"/>
+    <text x="1110" y="117" font-family="Nunito, Arial, sans-serif" font-size="12" font-weight="700" fill="#1D2B22" stroke="none" text-anchor="middle">Post Office</text>
+  </g>
+
+  <path id="path" d="M30 248 C200 240 330 252 500 246 S820 240 1000 250 S1140 246 1176 248" fill="none" stroke="#F57A2F" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 11"/>
+</svg>

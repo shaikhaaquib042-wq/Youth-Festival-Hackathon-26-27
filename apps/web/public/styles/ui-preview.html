@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raasta UI preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Caveat:wght@600&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/raasta.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header container">
+  <a class="brand" href="#">Raasta</a>
+  <nav aria-label="Main">
+    <a href="#" aria-current="page">Start</a>
+    <a href="#">Offices</a>
+    <a href="#">Help</a>
+    <a href="#" class="chip">Emergency</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <section class="hero container">
+    <h1>Find the right office for your problem</h1>
+    <p class="hero-lede">Tell us what happened in a few words. Raasta shows the authority to approach first, and what to bring.</p>
+    <p class="text-free">Free to use</p>
+    <p class="cluster">
+      <a class="btn btn-primary" href="#">Start a complaint</a>
+      <a class="btn btn-secondary" href="#">See offices near me</a>
+      <a class="btn btn-ghost" href="#">Read how this works</a>
+    </p>
+    <p style="font-family: var(--font-hand); font-size: 1.3rem; color: var(--ink-600);">a short note, once per page</p>
+  </section>
+
+  <section class="section container grid-2">
+    <div class="card lift">
+      <h2>Cards</h2>
+      <p>A standard card with a 24px radius and a soft, forest-tinted shadow.</p>
+    </div>
+    <div class="card-warm">
+      <h3>Warm card</h3>
+      <p>Used for a warm highlight that is not an error.</p>
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2>Chips</h2>
+    <p class="cluster">
+      <button class="chip" type="button" aria-pressed="true">Landlord</button>
+      <button class="chip" type="button" aria-pressed="false">Shop</button>
+      <button class="chip" type="button" aria-pressed="false">Employer</button>
+    </p>
+  </section>
+
+  <section class="section container grid-2">
+    <form class="card" action="#" method="post">
+      <h2>Fields</h2>
+      <div class="field">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" autocomplete="name">
+        <span class="field-hint">As it appears on your documents.</span>
+      </div>
+      <div class="field is-error">
+        <label for="town">Town</label>
+        <select id="town" name="town">
+          <option>Choose a town</option>
+          <option>Pune</option>
+        </select>
+        <span class="field-error">Please choose a town.</span>
+      </div>
+      <div class="field">
+        <label for="details">What happened</label>
+        <textarea id="details" name="details"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit">Continue</button>
+    </form>
+
+    <div class="card">
+      <h2>Stepper</h2>
+      <ol class="stepper">
+        <li class="is-done"><span class="step-title">Try a written request</span><span class="step-body">Send a dated letter first.</span></li>
+        <li class="is-current"><span class="step-title">Contact the office</span><span class="step-body">Use the number on the notice board.</span></li>
+        <li><span class="step-title">Escalate if needed</span><span class="step-body">Next authority, if there is no reply.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2>Checklist</h2>
+    <ul class="checklist">
+      <li><label><input type="checkbox" checked><span class="item-text">Copy of the rent agreement</span></label></li>
+      <li><label><input type="checkbox"><span class="item-text">Photographs of the damage</span><span class="item-note">Dated if you can.</span></label></li>
+    </ul>
+  </section>
+
+  <section class="section container grid-2">
+    <div class="notice">
+      <strong>Note.</strong> Offices may ask for an appointment. Check their hours before you go.
+    </div>
+    <div class="alert" role="alert">
+      <p class="alert-title">Emergency</p>
+      <p>If someone is in danger, call the police emergency number now.</p>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="card office-card lift">
+      <h3>Ward office</h3>
+      <p class="office-meta">Address and hours come from the official listing.</p>
+      <p class="timer">Open until 5 pm</p>
+      <ul class="action-list">
+        <li><span class="action-label">Get directions</span><a class="btn btn-secondary" href="#">Open map</a></li>
+        <li><span class="action-label">Print the letter</span><a class="btn btn-ghost" href="#">Print</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="door-street container" aria-label="Street of doors">
+    <img src="/img/street-of-doors.svg" alt="" width="1200" height="260">
+  </section>
+
+  <div class="blob" aria-hidden="true"></div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-disclaimer">Raasta gives procedural guidance based on public government rules. It is not legal advice.</p>
+    <p><a href="#">About</a> · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+  </div>
+</footer>
+</body>
+</html>
