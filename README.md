@@ -8,7 +8,7 @@
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v3.4-38B2AC.svg)](https://tailwindcss.com/)
 [![Vitest](https://img.shields.io/badge/Vitest-34%20Passed-green.svg)](https://vitest.dev/)
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
-![Project Screenshot](downloads/main dashboard.jpg)
+![Project Screenshot](downloads/main dashboard.jpeg)
 ---
 
 ## 1. Executive Summary & Core Thesis
