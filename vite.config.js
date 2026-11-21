@@ -1,6 +1,9 @@
 import { isIP } from 'node:net';
+import { Readable } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
 import { defineConfig, loadEnv } from 'vite';
 import { transcribe } from './api/transcribe.js';
+import { GET as sachet } from './api/sachet.js';
 
 function requestBody(req) {
   const chunks = req.iterator({ destroyOnReturn: false });
@@ -17,12 +20,11 @@ function requestBody(req) {
 async function sendResponse(res, response) {
   res.statusCode = response.status;
   response.headers.forEach((value, name) => res.setHeader(name, value));
-  res.end(Buffer.from(await response.arrayBuffer()));
+  if (response.body) await pipeline(Readable.fromWeb(response.body), res);
+  else res.end();
 }
 
-// SACHET has no CORS → proxy in dev. Prod uses api/sachet.js (Vercel Function).
-// /api/sachet?state=karnataka switches feed; default maharashtra.
-// /api/transcribe → the same handler as the Vercel Function (reads DEEPGRAM_API_KEY from .env.local).
+// Use the production API handlers in dev as well.
 export default defineConfig(({ command, mode, isPreview }) => {
   const key = command === 'serve' && !isPreview
     ? loadEnv(mode, process.cwd(), 'DEEPGRAM_API_KEY').DEEPGRAM_API_KEY
@@ -30,7 +32,7 @@ export default defineConfig(({ command, mode, isPreview }) => {
   return {
     plugins: [
       {
-        name: 'sajag-api-transcribe',
+        name: 'sajag-api',
         configureServer(server) {
           server.middlewares.use('/api/transcribe', async (req, res) => {
             try {
@@ -50,21 +52,22 @@ export default defineConfig(({ command, mode, isPreview }) => {
               res.end();
             }
           });
+          server.middlewares.use('/api/sachet', async (req, res) => {
+            try {
+              const url = new URL(req.originalUrl, 'http://localhost');
+              if (url.pathname !== '/api/sachet') { res.statusCode = 404; return res.end(); }
+              if (req.method !== 'GET') { res.statusCode = 405; res.setHeader('allow', 'GET'); return res.end(); }
+              await sendResponse(res, await sachet(new Request(url)));
+            } catch {
+              if (!res.headersSent) res.statusCode = 502;
+              res.end();
+            }
+          });
         },
       },
     ],
     server: {
       port: 5173,
-      proxy: {
-        '/api/sachet': {
-          target: 'https://sachet.ndma.gov.in',
-          changeOrigin: true,
-          rewrite: (p) => {
-            const state = new URL(p, 'http://x').searchParams.get('state') || 'maharashtra';
-            return `/cap_public_website/rss/rss_${state.replace(/[^a-z]/g, '')}.xml`;
-          },
-        },
-      },
     },
   };
 });
