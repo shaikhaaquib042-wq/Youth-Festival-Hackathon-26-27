@@ -13,6 +13,7 @@ import { getFix, requestLocation } from '../location.js';
 import { depthIcon } from './depthIcons.js';
 
 let map, hazard = 'flood', sheet, crosshair, draft = null;
+const MAX_PHOTO_BYTES = 200_000;
 
 export function toast(msg, ms = 3500) {
   const b = document.getElementById('toast');
@@ -223,16 +224,29 @@ function onClick(e) {
 }
 
 async function readPhoto(file) {
-  if (!file) return;
-  const img = await createImageBitmap(file);
-  const s = Math.min(1, 900 / Math.max(img.width, img.height));
-  const c = Object.assign(document.createElement('canvas'), {
-    width: Math.round(img.width * s),
-    height: Math.round(img.height * s),
-  });
-  c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-  draft.photo = c.toDataURL('image/jpeg', 0.6); // ~60–150 KB, under the DB's 400 KB cap
-  render();
+  const target = draft;
+  if (!file || !target) return;
+  let img;
+  try {
+    img = await createImageBitmap(file);
+    const canvas = document.createElement('canvas');
+    let scale = Math.min(1, 900 / Math.max(img.width, img.height));
+    let photo;
+    do {
+      canvas.width = Math.max(1, Math.round(img.width * scale));
+      canvas.height = Math.max(1, Math.round(img.height * scale));
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      photo = canvas.toDataURL('image/jpeg', 0.6);
+      scale *= 0.75;
+    } while (photo.length > MAX_PHOTO_BYTES);
+    if (draft !== target) return;
+    target.photo = photo;
+    render();
+  } catch {
+    if (draft === target) toast(t('report.retakePhoto'));
+  } finally {
+    img?.close();
+  }
 }
 
 /** @param {{prefill?: {type?, depth?, inUnderpass?, place?: {name,lat,lng}, transcript?: string}}} [opts] — from voice */
@@ -306,7 +320,7 @@ export async function onVote(pin, value) {
     refreshLive();
     toast(t('report.thanks'));
   } catch (err) {
-    toast(t('auth.error', { msg: err.message }));
+    toast(err.message === 'cannot_vote_own_report' ? t('report.cannotVoteOwn') : t('auth.error', { msg: err.message }));
   }
 }
 
