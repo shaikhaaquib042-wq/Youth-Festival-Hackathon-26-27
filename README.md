@@ -12,7 +12,7 @@ Describe a problem in plain language, and Raasta identifies:
 
 Built for the Rotary x Rotaract **Naya Bharat 2047, Code for Bharat** hackathon, **Problem 1.2: Access to justice for everyday disputes**.
 
-[Open Raasta](https://raasta.safalmutha.in) · [View presentation](https://docs.google.com/presentation/d/1dnuOC1ywQWUNKwZHfftk374Q-fy9hMWIxCEiY3u8N7M/edit?usp=sharing)
+[Open Raasta](https://raasta.safalmutha.in) · [View presentation](https://docs.google.com/presentation/d/1gjLC7LVAvpcu--g7VRy9oKp2w6mmk0qhqNEts9DHrJs/edit?usp=sharing)
 
 ---
 
