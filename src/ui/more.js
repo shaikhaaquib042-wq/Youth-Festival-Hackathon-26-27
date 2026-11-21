@@ -11,9 +11,16 @@ import { openHelp } from './help.js';
 import { openPaste } from './paste.js';
 import { startOnboarding } from './onboarding.js';
 import * as weather from '../map/weather.js';
+import { toast } from './report.js';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 let el, map, open = false;
+// PWA install: Chrome/Android gives a prompt event; iPhone needs Share → Add to Home Screen.
+let installEvt = null;
+window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); installEvt = e; if (open) render(); });
+window.addEventListener('appinstalled', () => { installEvt = null; if (open) render(); });
+const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
 function render() {
   if (!open) { el.hidden = true; return; }
@@ -31,6 +38,7 @@ function render() {
       <div class="rs-row">${Object.values(CITY_PACKS).map((c) => `<button class="chip ${cityPack().id === c.id ? 'on' : ''}" data-city="${c.id}">${esc(c.name)}</button>`).join('')}</div></div>
     <div class="more-sec"><div class="more-h">🌓 ${esc(t('more.theme'))}</div>
       <div class="rs-row">${['auto', 'light', 'dark'].map((m) => `<button class="chip ${themePref() === m ? 'on' : ''}" data-theme-pick="${m}">${esc(t('theme.' + m))}</button>`).join('')}</div></div>
+    <button class="more-row" data-act="install"${isStandalone() ? ' disabled' : ''}>📲 ${esc(isStandalone() ? t('install.done') : t('more.install'))}</button>
     <button class="more-row" data-act="help">☎️ ${esc(t('more.helplines'))}</button>
     <button class="more-row" data-act="paste">📋 ${esc(t('paste.menu'))}</button>
     ${heat ? `<button class="more-row" data-act="cooling">➕💧 ${esc(t('more.addCooling'))}</button>` : `<button class="more-row" data-act="radar">📡 ${esc(t('more.radar'))}: ${radarOn ? '✅' : '—'}</button>`}
@@ -57,6 +65,11 @@ export function initMore(m, { openReportCooling } = {}) {
     open = act === 'radar'; // every other row closes the menu
     if (act === 'close') return render();
     if (act === 'help') { render(); return openHelp(); }
+    if (act === 'install') {
+      render();
+      if (installEvt) { const ev = installEvt; installEvt = null; ev.prompt(); return ev.userChoice?.catch(() => {}); }
+      return toast(t(isIOS() ? 'install.ios' : 'install.manual'), 8000);
+    }
     if (act === 'paste') { render(); return openPaste(); }
     if (act === 'radar') { weather.setRadarVisible?.(map, !(weather.isRadarVisible?.() ?? false)); open = true; return render(); }
     if (act === 'account') { render(); return currentUser() && !currentUser().anonymous ? signOut() : openSignIn(); }

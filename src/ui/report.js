@@ -258,7 +258,7 @@ export async function openReport(opts = {}) {
   if (!currentUser() && requestedHazard === 'heat') {
     const user = await ensureAnonUser();
     if (hazard !== requestedHazard) return;
-    if (!user) return toast(t('report.heatUnavailable'));
+    // anonymous sign-ins switched off → fall through to the normal sign-in sheet (Google / email)
   }
   if (!currentUser() || (hazard === 'flood' && currentUser().anonymous)) return openSignIn(() => openReport(opts), { kind: 'report', hazard, opts }); // flood reports need a real login
   ensureSheet();
@@ -270,7 +270,7 @@ export async function openReport(opts = {}) {
     depth: pre.depth ?? null,
     inUnderpass: !!pre.inUnderpass,
     passable: { bike: true, car: true },
-    amenities: [],
+    amenities: hazard === 'heat' && Array.isArray(opts.prefill?.amenities) ? [...opts.prefill.amenities] : [],
     photo: null,
     transcript: pre.transcript ?? null,
     placeName: pre.place?.name ?? null,

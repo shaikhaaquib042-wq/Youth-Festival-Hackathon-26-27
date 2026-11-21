@@ -67,6 +67,9 @@ let refreshMapPins = null;
 let mapRef = null;
 let currentHazard = 'flood';
 let coolingVisible = false;
+// Cooling categories (chips in src/ui/coolingBar.js). Public spots first; clinics / ORS shops are opt-in.
+let coolCats = new Set(['water', 'shade', 'toilet']);
+const coolCat = (am = []) => (am[0] === 'clinic' || am[0] === 'ors') ? 'medical' : am.includes('water') ? 'water' : am.includes('shade') ? 'shade' : am.includes('toilet') ? 'toilet' : 'water';
 let routeActive = false;
 
 export const setMode = (m) => {
@@ -82,7 +85,9 @@ function build() {
     if (p.type === 'hotspot') {
       hot.push(pt(p, { name: p.name, under: p.inUnderpass }));
     } else if (p.type === 'cooling') {
-      cool.push(pt(p, { a: p.amenities?.[0] ?? 'water' }));
+      const cat = coolCat(p.amenities);
+      if (!coolCats.has(cat)) continue;
+      cool.push(pt(p, { a: cat === 'medical' ? p.amenities[0] : cat, m: cat === 'medical' ? 1 : 0 }));
     } else if (p.status !== 'cleared') {
       const sev = pinSeverity(p, { mode });
       rep.push(
@@ -96,6 +101,7 @@ function build() {
       );
     }
   }
+  cool.sort((a, b) => b.properties.m - a.properties.m); // medical drawn first → public spots on top
   return { hot: fc(hot), rep: fc(rep), cool: fc(cool), byId: new Map(pins.map((p) => [p.id, p])) };
 }
 
@@ -254,7 +260,7 @@ export function addPinLayers(map, actions = {}) {
       filter: ['!', ['has', 'point_count']],
       layout: { visibility: 'none' },
       paint: {
-        'circle-radius': 6,
+        'circle-radius': ['case', ['==', ['get', 'm'], 1], 4.5, 7],
         'circle-color': ['match', ['get', 'a'], ...Object.entries(AMENITY_COLOR).flat(), '#0c8599'],
         'circle-stroke-color': '#fff',
         'circle-stroke-width': 1.5,
@@ -320,6 +326,8 @@ export function addPinLayers(map, actions = {}) {
     routeActive = Boolean(e.detail?.active);
     updateHotspotsZoom();
   });
+
+  window.addEventListener('sajag:cool-filter', (e) => { coolCats = new Set(e.detail?.cats ?? []); refresh(); });
 
   // Listen to cooling visibility toggle (Water / shade near me)
   window.addEventListener('sajag:show-cooling', (e) => {

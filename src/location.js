@@ -91,5 +91,14 @@ export function initLocation(m) {
     draw();
   };
   if (map.isStyleLoaded()) setup(); else map.once('load', setup);
+  // Open on the person, not the whole city: the first fix after load zooms in (skipped for ?scenario= demo links).
+  let zoomed = new URLSearchParams(location.search).has('scenario');
+  onFix((f) => {
+    if (zoomed || f?.lat == null || f?.lng == null) return;
+    zoomed = true;
+    const b = map.getMaxBounds?.();
+    if (b && !b.contains([f.lng, f.lat])) return; // outside this city pack → the city-switch banner handles it
+    map.flyTo({ center: [f.lng, f.lat], zoom: 14.5, duration: 1200 });
+  });
   navigator.permissions?.query({ name: 'geolocation' }).then((p) => { if (p.state === 'granted') requestLocation(); }).catch(() => {});
 }
