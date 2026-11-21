@@ -187,7 +187,7 @@
   },
   {
     "id": "e_jagriti",
-    "name": "e-Jagriti (Unified Consumer Commission Portal — Replaced e-Daakhil)",
+    "name": "e-Jagriti (Unified Consumer Commission Portal, Replaced e-Daakhil)",
     "managing_body": "Department of Consumer Affairs / NCDRC, Government of India",
     "tier": "Central / Quasi-Judicial Consumer Commissions",
     "domain": "Formal Consumer Litigation (Refund, Replacement, Compensation)",
@@ -360,7 +360,7 @@
       "physical_fir_escalation_trigger": "If no response within 7-10 days or loss exceeds INR 1 lakh"
     },
     "mandatory_pre_steps": [
-      "For financial fraud: Call 1930 FIRST and notify your bank within the same hour (phone + written) to block cards/UPI—do not delay to collect documents."
+      "For financial fraud: Call 1930 FIRST and notify your bank within the same hour (phone + written) to block cards/UPI, do not delay to collect documents."
     ],
     "exclusions": [
       "Portal acknowledgement does NOT automatically guarantee an FIR has been registered; police process per procedure.",
@@ -398,7 +398,7 @@
   },
   {
     "id": "rbi_cms",
-    "name": "RBI Complaint Management System (CMS — Integrated Ombudsman Scheme)",
+    "name": "RBI Complaint Management System (CMS, Integrated Ombudsman Scheme)",
     "managing_body": "Reserve Bank of India (RB-IOS)",
     "tier": "Sectoral Regulator",
     "domain": "Banks, NBFCs, Digital Lenders, UPI/Wallets & Credit Bureaus (CIBIL/Experian)",
@@ -780,7 +780,7 @@
     "contact_channels": {
       "helpline": [
         "022-26572922 (Mumbai HQ)",
-        "020-25542611 (Pune Division Addl. Commissioner — verify via pune.gov.in)"
+        "020-25542611 (Pune Division Addl. Commissioner, verify via pune.gov.in)"
       ],
       "email": "mahalabourcommr@gmail.com",
       "offline_pune_anchor": "Addl. Commissioner of Labour, Pune: Bungalow No. 5, Mumbai-Pune Road, Shivajinagar, Pune – 411005; Pune City WFC: Inaam Nagar, Tadiwala Rd (9970765491)"
@@ -1034,7 +1034,7 @@
     "categories": [
       "Emergency crimes & threats to personal safety (dial 112)",
       "e-Complaint / Cognizable offences",
-      "Lost & Found documents/items (informational report only — no police investigation)",
+      "Lost & Found documents/items (informational report only, no police investigation)",
       "Missing mobile phone (with IMEI blocking follow-up)"
     ],
     "fees": {
@@ -1176,7 +1176,7 @@
       "helpline": [
         "020-27425500 (cited in third-party Pune civic guide)"
       ],
-      "whatsapp": "+919922501450 (Official WhatsApp & SMS — include full name and address if unregistered)"
+      "whatsapp": "+919922501450 (Official WhatsApp & SMS, include full name and address if unregistered)"
     },
     "categories": [
       "Water supply, drainage, garbage, roads, streetlights, encroachments, and municipal services in PCMC wards"
@@ -1312,7 +1312,7 @@
       },
       {
         "city": "Bengaluru",
-        "body": "Greater Bengaluru Authority (GBA — delimited into 5 Corporations in July 2025; formerly BBMP)",
+        "body": "Greater Bengaluru Authority (GBA, delimited into 5 Corporations in July 2025; formerly BBMP)",
         "urls": {
           "property_tax_grievance": "https://bbmptax.karnataka.gov.in/forms/grievancesreq.aspx",
           "sahaaya_app": "https://play.google.com/store/apps/details?id=com.nammabengaluruNew.org"
@@ -1359,7 +1359,7 @@
           "040-21111111",
           "040-23225397"
         ],
-        "whatsapp": "+918125966586 (My GHMC — garbage & construction debris)",
+        "whatsapp": "+918125966586 (My GHMC, garbage & construction debris)",
         "whatsapp_prefill_url_template": "https://wa.me/918125966586?text={{encoded_message}}",
         "social": "@GHMCOnline"
       },
@@ -1525,7 +1525,7 @@
       "Brief written account of the dispute and relevant supporting papers"
     ],
     "step_by_step_guide": [
-      "Verify Section 12 eligibility (status-based or below state income ceiling—INR 3 lakh/year in Maharashtra).",
+      "Verify Section 12 eligibility (status-based or below state income ceiling, INR 3 lakh/year in Maharashtra).",
       "Apply online via NALSA's LSMS portal (linked from nalsa.gov.in / maharashtra.nalsa.gov.in), by email, by post, or in person at DLSA Front Office (or call 15100).",
       "Receive decision and Panel Advocate appointment letter within 7 days.",
       "For pre-litigation Public Utility disputes (<= INR 1 crore), apply directly to the Permanent Lok Adalat at District Court before filing any court case."

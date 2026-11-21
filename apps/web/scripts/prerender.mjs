@@ -1,5 +1,6 @@
 // Renders every static route once per locale into dist/**/index.html using the SSR bundle.
-import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, readdirSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -109,3 +110,49 @@ const sitemapEntries = paths.map((p) => {
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${sitemapEntries.join("\n")}\n</urlset>\n`;
 writeFileSync(join(dist, "sitemap.xml"), sitemap);
 console.log(`prerender: wrote sitemap.xml with ${paths.length * LOCALES.length} URLs`);
+
+// CSP: allow every distinct inline <script> and <style> body by sha256 hash (no 'unsafe-inline').
+function listHtml(dir) {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+    const p = join(dir, e.name);
+    if (e.isDirectory()) return listHtml(p);
+    return e.name.endsWith(".html") ? [p] : [];
+  });
+}
+const scriptHashes = new Set();
+const styleHashes = new Set();
+let inlineStyleAttrs = 0;
+const hashOf = (body) => `'sha256-${createHash("sha256").update(body, "utf8").digest("base64")}'`;
+for (const file of listHtml(dist)) {
+  const html = readFileSync(file, "utf8");
+  for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
+    if (/\bsrc\s*=/i.test(m[1])) continue;
+    scriptHashes.add(hashOf(m[2]));
+  }
+  for (const m of html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi)) styleHashes.add(hashOf(m[1]));
+  inlineStyleAttrs += (html.match(/\sstyle="/gi) ?? []).length;
+}
+const headersFile = join(dist, "_headers");
+if (existsSync(headersFile)) {
+  const lines = readFileSync(headersFile, "utf8").split("\n");
+  const updated = lines.map((line) => {
+    if (!/^\s*Content-Security-Policy:/i.test(line)) return line;
+    const prefix = line.slice(0, line.indexOf(":") + 1);
+    const directives = line.slice(prefix.length).split(";").map((d) => d.trim()).filter(Boolean);
+    const add = (name, hashes) => {
+      const i = directives.findIndex((d) => d.split(/\s+/)[0] === name);
+      if (i < 0) throw new Error(`prerender: CSP has no ${name} directive`);
+      const existing = directives[i].split(/\s+/).slice(1);
+      const merged = [...new Set([...existing, ...hashes])];
+      directives[i] = [name, ...merged].join(" ");
+    };
+    add("script-src", [...scriptHashes].sort());
+    add("style-src", [...styleHashes].sort());
+    return `${prefix} ${directives.join("; ")}`;
+  });
+  writeFileSync(headersFile, updated.join("\n"));
+  console.log(`prerender: _headers CSP adds ${scriptHashes.size} script and ${styleHashes.size} style hashes`);
+} else {
+  console.warn("prerender: dist/_headers missing, CSP hashes not written");
+}
+if (inlineStyleAttrs > 0) console.warn(`prerender: ${inlineStyleAttrs} inline style="" attributes found; style-src-attr is not covered (would need 'unsafe-hashes')`);

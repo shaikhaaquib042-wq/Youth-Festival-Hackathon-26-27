@@ -15,16 +15,27 @@ const SRC = join(ROOT, "packages/data/source");
 const OUT = join(ROOT, "packages/data/src");
 mkdirSync(OUT, { recursive: true });
 
-const EM = "2014";
 const EN = "–";
+const EM_RE = /\s*—\s*/g;
+const URL_RE = /(?:https?:\/\/|www\.)\S+/gi;
 const fail = (msg) => { throw new Error(`ingest: ${msg}`); };
 const readJson = (name) => JSON.parse(readFileSync(join(SRC, name), "utf8"));
 const writeJson = (name, value) => {
   writeFileSync(join(OUT, name), JSON.stringify(value, null, 2) + "\n", "utf8");
   console.log(`wrote packages/data/src/${name}`);
 };
-// Em dashes are banned in all generated output; the only transform applied to source text.
-const noEm = (s) => s.split(EM).join(" - ");
+// Em dashes (U+2014) are banned in all generated output. They become ", " in human-readable text only;
+// URLs are copied verbatim, even if one contains a dash.
+const noEm = (s) => {
+  const dash = (t) => t.replace(EM_RE, ", ");
+  let out = "";
+  let last = 0;
+  for (const m of s.matchAll(URL_RE)) {
+    out += dash(s.slice(last, m.index)) + m[0];
+    last = m.index + m[0].length;
+  }
+  return out + dash(s.slice(last));
+};
 const deepNoEm = (v) => {
   if (typeof v === "string") return noEm(v);
   if (Array.isArray(v)) return v.map(deepNoEm);
