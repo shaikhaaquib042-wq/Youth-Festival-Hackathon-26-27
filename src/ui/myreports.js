@@ -11,7 +11,8 @@ import { openSignIn } from './signin.js';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const ICON = { flood: '🌊', clog: '🚧', cooling: '💧' };
-let el, btn, map, state = { loading: false, data: null, error: null };
+let el, btn, map, state = { owner: null, loading: false, data: null, error: null };
+let requestNumber = 0;
 
 const realUser = () => { const u = currentUser(); return u && !u.anonymous ? u : null; };
 
@@ -49,7 +50,7 @@ function render() {
         ${canRemove ? `<button class="btn btn-ghost" data-act="remove" data-id="${esc(p.id)}" aria-label="${esc(t('profile.remove'))}">🗑</button>` : ''}</span></li>`;
     };
     body = `<div class="mr-stats">
-        <div><b>${d.helped}</b><small>${esc(t('profile.helped'))}</small></div>
+        <div><b>${esc(d.helped)}</b><small>${esc(t('profile.helped'))}</small></div>
         <div><b>${d.pins.length}</b><small>${esc(t('profile.reports'))}</small></div>
         <div><b>${active.length}</b><small>${esc(t('profile.activeNow'))}</small></div>
       </div>
@@ -65,15 +66,24 @@ function render() {
 }
 
 async function load() {
-  const u = realUser();
-  if (!u) return render();
-  state = { ...state, loading: true, error: null }; render();
-  try { state = { loading: false, data: await fetchMyReports(u.id), error: null }; }
-  catch (e) { state = { loading: false, data: state.data, error: e.message }; }
+  const owner = realUser()?.id ?? null;
+  const request = ++requestNumber;
+  if (state.owner !== owner) state = { owner, loading: false, data: null, error: null };
+  if (!owner) return render();
+  state = { ...state, loading: true, error: null };
+  render();
+  try {
+    const data = await fetchMyReports(owner);
+    if (request !== requestNumber || realUser()?.id !== owner) return;
+    state = { owner, loading: false, data, error: null };
+  } catch (e) {
+    if (request !== requestNumber || realUser()?.id !== owner) return;
+    state = { ...state, loading: false, error: e.message };
+  }
   render();
 }
 
-export function openMyReports() { el.hidden = false; render(); load(); }
+export function openMyReports() { el.hidden = false; load(); }
 
 export function initMyReports(m) {
   map = m;
@@ -85,7 +95,15 @@ export function initMyReports(m) {
   document.getElementById('more-btn')?.before(btn);
   btn.addEventListener('click', openMyReports);
   onLang(() => { btn.setAttribute('aria-label', t('profile.title')); btn.title = t('profile.title'); render(); });
-  onAuth(() => { btn.classList.toggle('on', !!realUser()); if (!el.hidden) load(); });
+  onAuth(() => {
+    const owner = realUser()?.id ?? null;
+    if (state.owner !== owner) {
+      requestNumber++;
+      state = { owner, loading: false, data: null, error: null };
+    }
+    btn.classList.toggle('on', !!owner);
+    if (!el.hidden) load();
+  });
   el.addEventListener('click', async (e) => {
     if (e.target === el) { el.hidden = true; return; }
     const b = e.target.closest('button'); if (!b) return;

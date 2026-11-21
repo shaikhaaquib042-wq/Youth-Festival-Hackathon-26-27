@@ -19,7 +19,16 @@ let fields = { from: '', to: '' };
 let editing = true; // false after a check → compact panel (route summary + verdict) so the map shows the route
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const loadSaved = () => { try { return JSON.parse(localStorage.getItem(SAVED_KEY)) ?? []; } catch { return []; } };
+function loadSaved() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(SAVED_KEY));
+    if (!Array.isArray(saved)) return [];
+    return saved.filter((route) => route && ['name', 'from', 'to']
+      .every((field) => typeof route[field] === 'string')).slice(0, 5);
+  } catch {
+    return [];
+  }
+}
 const storeSaved = (list) => { try { localStorage.setItem(SAVED_KEY, JSON.stringify(list.slice(0, 5))); } catch { /* ignore */ } };
 
 const isMyLocation = (value) => Object.keys(LANGS).some((lang) => value === tIn(lang, 'route.myLoc'));
@@ -216,7 +225,8 @@ function onClick(e) {
   const b = e.target.closest('button'); if (!b) return;
   if (b.dataset.saved != null) {
     const s = [...(DEMO_ROUTES[CONFIG.CITY] ?? []), ...loadSaved()][+b.dataset.saved];
-    return check(s.from, s.to);
+    if (s) return check(s.from, s.to);
+    return;
   }
   const act = b.dataset.act;
   if (act === 'close') return toggle(false);

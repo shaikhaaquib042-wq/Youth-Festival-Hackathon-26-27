@@ -1,16 +1,13 @@
 node_modules/
 dist/
 .DS_Store
-.env
-.env.*
+.env*
 !.env.example
 .wrangler/
 
 # City tiles other than Pune stay local / go to R2 (too big for git + Cloudflare Pages 25 MiB limit)
 public/tiles/*.pmtiles
 !public/tiles/pune-region-*.pmtiles
-.vercel
-.env*
 .vercel
 
 # Google OAuth client secret downloads — never commit

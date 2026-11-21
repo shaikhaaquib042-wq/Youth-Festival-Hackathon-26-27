@@ -254,6 +254,7 @@ export default {
   'report.proof': 'Add photo proof',
   'report.retakePhoto': 'Retake photo',
   'report.proofBadge': 'Proof',
+  'report.cannotVoteOwn': 'You can only vote on reports from other people.',
   'more.city': 'City',
 
   // 🎤 voice (step V/V+) — non-en machine-written, native review pending

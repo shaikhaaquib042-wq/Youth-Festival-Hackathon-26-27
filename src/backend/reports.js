@@ -5,6 +5,7 @@ import { makePin } from '../engine/pin.js';
 import { CONFIG } from '../../config.js';
 
 const LOOKBACK_H = 24; // fetch window; lifecycle/expiry is decided by the engine, not here
+const rpcMissing = (error) => error?.code === 'PGRST202';
 
 /** DB row (+ vote tallies) → Pin */
 export function rowToPin(r, votes = []) {
@@ -69,8 +70,13 @@ export async function submitReport(pinDraft) {
 /** "Still there" / "Cleared" — one vote per user per report (changeable). */
 export async function vote(reportId, value /* 'still' | 'cleared' */) {
   if (!supabase) throw new Error('backend_unavailable');
+  const result = await supabase.rpc('cast_report_vote', { target_report_id: reportId, vote_value: value });
+  if (!result.error) return;
+  if (!rpcMissing(result.error)) throw result.error;
+
+  // Compatibility while the database migration is pending.
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error('not_signed_in');
+  if (!user || user.is_anonymous) throw new Error('not_signed_in');
   const { error } = await supabase.from('report_votes')
     .upsert({ report_id: reportId, user_id: user.id, vote: value }, { onConflict: 'report_id,user_id' });
   if (error) throw error;
@@ -79,11 +85,17 @@ export async function vote(reportId, value /* 'still' | 'cleared' */) {
 /** Live updates: calls onChange() whenever a report or vote is added/changed. Returns unsubscribe. */
 export function watchReports(onChange) {
   if (!supabase) return () => {};
-  const ch = supabase.channel(`reports-${CONFIG.CITY}`)
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'reports', filter: `city=eq.${CONFIG.CITY}` }, onChange)
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'report_votes' }, onChange)
-    .subscribe();
-  return () => supabase.removeChannel(ch);
+  const cityFilter = `city=eq.${CONFIG.CITY}`;
+  // Separate subscriptions so a table missing from the active publication cannot
+  // prevent the report channel from joining during a database rollout.
+  const channels = [
+    { table: 'reports', filter: cityFilter },
+    { table: 'report_vote_activity', filter: cityFilter },
+    { table: 'report_votes' }, // legacy publication, before the migration
+  ].map(({ table, filter }) => supabase.channel(`${table}-${CONFIG.CITY}`)
+    .on('postgres_changes', { event: '*', schema: 'public', table, filter }, onChange)
+    .subscribe());
+  return () => channels.forEach((channel) => supabase.removeChannel(channel));
 }
 
 /**
@@ -91,22 +103,39 @@ export function watchReports(onChange) {
  * confirmed ("still there") or updated ("cleared") them. "Helped" = distinct other people who confirmed.
  */
 export async function fetchMyReports(userId, { limit = 100 } = {}) {
-  if (!supabase || !userId) return { pins: [], helped: 0, confirmations: 0, clears: 0 };
+  if (!supabase || !userId) return myReportsSummary([], [], 0);
+
+  const ownReports = await supabase.rpc('my_reports', { max_rows: limit });
+  if (rpcMissing(ownReports.error)) return fetchMyReportsLegacy(userId, limit);
+  if (ownReports.error) throw ownReports.error;
+  if (!ownReports.data.length) return myReportsSummary([], [], 0);
+  const { data, error } = await supabase.rpc('my_report_votes_received', {
+    report_ids: ownReports.data.map((row) => row.id),
+  });
+  if (error) throw error;
+  return myReportsSummary(ownReports.data, data.votes, data.helped);
+}
+
+async function fetchMyReportsLegacy(userId, limit) {
   const { data: rows, error } = await supabase.from('reports')
     .select('id,city,type,lat,lng,depth,in_underpass,passable_bike,passable_car,cause,amenities,name,photo,created_at')
     .eq('user_id', userId).order('created_at', { ascending: false }).limit(limit);
   if (error) throw error;
-  if (!rows.length) return { pins: [], helped: 0, confirmations: 0, clears: 0 };
+  if (!rows.length) return myReportsSummary([], [], 0);
   const { data: votes, error: vErr } = await supabase.from('report_votes')
     .select('report_id,user_id,vote').in('report_id', rows.map((r) => r.id));
   if (vErr) throw vErr;
   const others = votes.filter((v) => v.user_id !== userId);
-  const pins = rows.map((r) => ({ ...rowToPin(r, others), city: r.city }));
+  const helped = new Set(others.filter((v) => v.vote === 'still').map((v) => v.user_id)).size;
+  return myReportsSummary(rows, others, helped);
+}
+
+function myReportsSummary(rows, votes, helped) {
   return {
-    pins,
-    helped: new Set(others.filter((v) => v.vote === 'still').map((v) => v.user_id)).size,
-    confirmations: others.filter((v) => v.vote === 'still').length,
-    clears: others.filter((v) => v.vote === 'cleared').length,
+    pins: rows.map((r) => ({ ...rowToPin(r, votes), city: r.city })),
+    helped,
+    confirmations: votes.filter((v) => v.vote === 'still').length,
+    clears: votes.filter((v) => v.vote === 'cleared').length,
   };
 }
 

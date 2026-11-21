@@ -13,6 +13,7 @@ import { getFix, requestLocation } from '../location.js';
 import { depthIcon } from './depthIcons.js';
 
 let map, hazard = 'flood', sheet, crosshair, draft = null, sending = null, photoRead = 0;
+const MAX_PHOTO_BYTES = 200_000;
 
 export function toast(msg, ms = 3500) {
   const b = document.getElementById('toast');
@@ -173,7 +174,7 @@ function renderProofTile(d) {
   }
   return `
     <div class="report-proof-preview">
-      <img src="${d.photo}" alt="Proof" class="proof-thumb" />
+      <img src="${esc(d.photo)}" alt="Proof" class="proof-thumb" />
       <div class="proof-meta">
         <span class="proof-badge">📷 ${t('report.proofBadge')} ✓</span>
         <label class="btn-retake">
@@ -223,23 +224,30 @@ function onClick(e) {
 }
 
 async function readPhoto(file) {
-  if (!file) return;
+  // Merged: stale-read guard (bug-hunt) + size cap that shrinks until <= MAX_PHOTO_BYTES (security).
   const target = draft;
+  if (!file || !target) return;
   const read = ++photoRead;
+  let img;
   try {
-    const img = await createImageBitmap(file);
-    if (target !== draft || read !== photoRead) { img.close(); return; }
-    const s = Math.min(1, 900 / Math.max(img.width, img.height));
-    const c = Object.assign(document.createElement('canvas'), {
-      width: Math.round(img.width * s),
-      height: Math.round(img.height * s),
-    });
-    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-    img.close();
-    target.photo = c.toDataURL('image/jpeg', 0.6);
+    img = await createImageBitmap(file);
+    const canvas = document.createElement('canvas');
+    let scale = Math.min(1, 900 / Math.max(img.width, img.height));
+    let photo;
+    do {
+      canvas.width = Math.max(1, Math.round(img.width * scale));
+      canvas.height = Math.max(1, Math.round(img.height * scale));
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      photo = canvas.toDataURL('image/jpeg', 0.6);
+      scale *= 0.75;
+    } while (photo.length > MAX_PHOTO_BYTES);
+    if (draft !== target || read !== photoRead) return;
+    target.photo = photo;
     render();
   } catch {
-    if (target === draft && read === photoRead) toast(t('report.photoError'));
+    if (draft === target && read === photoRead) toast(t('report.photoError'));
+  } finally {
+    img?.close();
   }
 }
 
@@ -327,7 +335,7 @@ export async function onVote(pin, value) {
     refreshLive();
     toast(t('report.thanks'));
   } catch (err) {
-    toast(t('auth.error', { msg: err.message }));
+    toast(err.message === 'cannot_vote_own_report' ? t('report.cannotVoteOwn') : t('auth.error', { msg: err.message }));
   }
 }
 
