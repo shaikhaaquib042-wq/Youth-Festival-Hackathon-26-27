@@ -246,4 +246,6 @@ export default {
   'card.expand': "विवरण दिखाएँ",
   'cooling.directions': "रास्ता दिखाएँ",
   'report.heatUnavailable': "ठंडी जगह जोड़ने की सुविधा अभी चालू नहीं है. कृपया बाद में कोशिश करें.",
+  'shift.checking': "आपकी जगह की गर्मी जाँच रहे हैं…",
+  'shift.retrying': "मौसम की जानकारी नहीं मिली — फिर से कोशिश कर रहे हैं…",
 };

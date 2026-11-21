@@ -47,11 +47,11 @@ async function assess(announce) {
     const wbgt = estimateWBGT({ t: c.t, tw: c.tw, sr: c.sr }, CONFIG.HEAT);
     const a = assessWork({ wbgt: wbgt.sun, workType: shift.workType, newToHeat: shift.newToHeat }, CONFIG.HEAT);
     const changed = shift.level && shift.level !== a.level;
-    Object.assign(shift, { level: a.level, assessment: a, cond: c, wbgt: wbgt.sun, checkedAt: now(), nextCheck: addMin(now(), CONFIG.HEAT.SHIFT_CHECK_MIN) });
+    Object.assign(shift, { failed: false, level: a.level, assessment: a, cond: c, wbgt: wbgt.sun, checkedAt: now(), nextCheck: addMin(now(), CONFIG.HEAT.SHIFT_CHECK_MIN) });
     // Restart the work/rest cycle on a level change.
     if (changed || !shift.phaseEnd) startPhase('work');
     if (announce || changed) speak(a.i18nKey, a.vars);
-  } catch (e) { console.warn('[shift] assess failed', e.message); shift.nextCheck = addMin(now(), 5); }
+  } catch (e) { console.warn('[shift] assess failed', e.message); shift.nextCheck = addMin(now(), 0.5); shift.failed = true; }
   render();
 }
 
@@ -86,11 +86,17 @@ function flash(msg) { const b = document.getElementById('toast'); if (b) { b.tex
 
 async function start(prefs) {
   savePrefs(prefs);
-  await requestLocation({ timeoutMs: 8000 });
+  // Start NOW — never block the tap on a GPS prompt (that looked like "Start does nothing" on phones).
   shift = { ...prefs, startedAt: now(), nextWater: addMin(now(), CONFIG.HEAT.HYDRATION_MIN), nextCheck: now(), phase: 'work', phaseEnd: null };
-  try { wakeLock = await navigator.wakeLock?.request('screen'); } catch { /* not supported / denied */ }
+  render();
+  navigator.wakeLock?.request('screen').then((w) => { wakeLock = w; }).catch(() => { /* not supported / denied */ }); // still inside the tap
   clearInterval(tickTimer); tickTimer = setInterval(tick, 5000);
-  await assess(true);
+  const hadFix = !!getFix();
+  await assess(true); // last known fix, else the city centre (regional weather cell)
+  if (!hadFix) {
+    // GPS in the background; re-check at the real position once it arrives (announces only if the level changes).
+    requestLocation({ timeoutMs: 15000 }).then((fix) => { if (fix && shift) assess(false); }).catch(() => {});
+  }
 }
 
 function stop() {
@@ -124,7 +130,7 @@ function render() {
   el.innerHTML = `<div class="rp-head"><b>☀️ ${esc(t('work.' + shift.workType))}${shift.newToHeat ? ' · ' + esc(t('shift.new')) : ''}</b>
       <button class="btn btn-ghost" data-act="min">▾</button></div>
     <div class="shift-status" style="border-color:${SEV_COLOR[sev]}">
-      <div class="rv-head" style="color:${SEV_COLOR[sev]}">${a ? esc(t('heat.level.' + a.level)) : '…'}${shift.cond?.simulated ? ` <span class="tag-sim">${esc(t('tag.simulated'))}</span>` : ''}</div>
+      <div class="rv-head" style="color:${SEV_COLOR[sev]}">${a ? esc(t('heat.level.' + a.level)) : esc(shift.failed ? t('shift.retrying') : t('shift.checking'))}${shift.cond?.simulated ? ` <span class="tag-sim">${esc(t('tag.simulated'))}</span>` : ''}</div>
       ${a ? `<div class="shift-advice">${esc(t(a.i18nKey, a.vars))}</div>` : ''}
       ${shift.cond ? `<div class="muted">${esc(t('shift.reading', { t: Math.round(shift.cond.t), wbgt: shift.wbgt?.toFixed(1) }))}</div>` : ''}
       ${shift.phaseEnd && a?.rest ? `<div>${esc(shift.phase === 'rest' ? t('shift.onBreak', { time: hhmm(shift.phaseEnd) }) : t('shift.nextBreak', { time: hhmm(shift.phaseEnd) }))}</div>` : ''}

@@ -267,4 +267,6 @@ export default {
   'card.expand': "Show details",
   'cooling.directions': "Directions",
   'report.heatUnavailable': "Adding cooling points is not switched on yet. Please try again later.",
+  'shift.checking': "Checking the heat where you are…",
+  'shift.retrying': "No weather data right now — trying again…",
 };
