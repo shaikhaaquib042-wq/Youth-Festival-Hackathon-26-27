@@ -8,7 +8,7 @@ import { matchPlaces, classifyPost } from '../engine/gazetteer.js';
 import { toast } from './report.js';
 
 const MAX_MS = 12000;
-let btn, overlay, rec = null, stream = null, timer = null, deps;
+let btn, overlay, rec = null, timer = null, request = null, deps;
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -28,7 +28,10 @@ export function initVoice(d) {
   document.getElementById('app')?.append(overlay);
   onLang(() => { btn.setAttribute('aria-label', t('voice.button')); btn.title = t('voice.button'); btn.querySelector('.lbl').textContent = t('voice.button'); });
   btn.addEventListener('click', () => (rec ? stop() : start()));
-  overlay.addEventListener('click', () => rec && stop());
+  overlay.addEventListener('click', (event) => {
+    if (rec) stop();
+    if (event.target.closest('[data-act=cancel]')) request?.abort();
+  });
 }
 
 function show(html) { overlay.innerHTML = html; overlay.hidden = false; }
@@ -37,22 +40,27 @@ function hide() { overlay.hidden = true; }
 async function start() {
   if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === 'undefined') return toast(t('voice.noMic'));
   if (!navigator.onLine) return toast(t('voice.offline'));
+  btn.disabled = true;
+  let stream;
   try {
     stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const capture = new MediaRecorder(stream);
+    const chunks = [];
+    capture.ondataavailable = (e) => e.data.size && chunks.push(e.data);
+    capture.onstop = () => {
+      stream.getTracks().forEach((tr) => tr.stop());
+      rec = null;
+      btn.classList.remove('rec');
+      send(new Blob(chunks, { type: chunks[0]?.type || 'audio/webm' }));
+    };
+    capture.start();
+    rec = capture;
   } catch {
-    return toast(t('voice.noMic'));
-  }
-  const chunks = [];
-  rec = new MediaRecorder(stream);
-  rec.ondataavailable = (e) => e.data.size && chunks.push(e.data);
-  rec.onstop = () => {
     stream?.getTracks().forEach((tr) => tr.stop());
-    stream = null;
-    rec = null;
-    btn.classList.remove('rec');
-    send(new Blob(chunks, { type: chunks[0]?.type || 'audio/webm' }));
-  };
-  rec.start();
+    return toast(t('voice.noMic'));
+  } finally {
+    btn.disabled = false;
+  }
   btn.classList.add('rec');
   show(`<div class="vo-card"><div class="vo-pulse">🎤</div><b>${esc(t('voice.listening'))}</b><small>${esc(t('voice.stop'))}</small></div>`);
   timer = setTimeout(stop, MAX_MS);
@@ -65,7 +73,10 @@ function stop() {
 
 async function send(blob) {
   if (blob.size < 1000) { hide(); return toast(t('voice.notHeard')); }
-  show(`<div class="vo-card"><div class="vo-pulse">⏳</div><b>${esc(t('voice.working'))}</b></div>`);
+  const controller = new AbortController();
+  request = controller;
+  btn.disabled = true;
+  show(`<div class="vo-card"><div class="vo-pulse">⏳</div><b>${esc(t('voice.working'))}</b><button class="btn btn-ghost" data-act="cancel">${esc(t('report.cancel'))}</button></div>`);
   const lang = getLang();
   const q = new URLSearchParams({ lang });
   // Hints for Deepgram: help words + the city's place names (in the speaker's script when the gazetteer has it).
@@ -77,15 +88,18 @@ async function send(blob) {
   [...sosKeyterms(lang), ...places, 'underpass', 'knee deep', 'ankle deep'].forEach((k) => q.append('keyterm', k));
   let text = '';
   try {
-    const r = await fetch(`/api/transcribe?${q}`, { method: 'POST', headers: { 'content-type': blob.type.split(';')[0] }, body: blob });
+    const r = await fetch(`/api/transcribe?${q}`, { method: 'POST', headers: { 'content-type': blob.type.split(';')[0] }, body: blob, signal: controller.signal });
     const d = await r.json().catch(() => ({}));
-    if (!r.ok) { hide(); return toast(d.error === 'not_configured' ? t('voice.unavailable') : t('voice.notHeard')); }
+    if (!r.ok) return toast(d.error === 'not_configured' ? t('voice.unavailable') : t('voice.notHeard'));
     text = (d.transcript ?? '').trim();
   } catch {
+    if (!controller.signal.aborted) toast(t('voice.offline'));
+    return;
+  } finally {
+    request = null;
+    btn.disabled = false;
     hide();
-    return toast(t('voice.offline'));
   }
-  hide();
   handleTranscript(text);
 }
 
