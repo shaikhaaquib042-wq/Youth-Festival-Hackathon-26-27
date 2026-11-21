@@ -1,6 +1,6 @@
 // Status cards UI (PRD §21, §22.1, §22.2, §23).
-// Verdict-first: Flood card & Heat card side-by-side, never merged into one colour.
-// Large card for active hazard, mini chip for inactive side, red breakthrough banner if hidden side is RED.
+// One big answer: big emoji, short sentence in large type (≥ 24 px), big 🔊 button (≥ 56 px).
+// Secondary details collapsed by default. Safe-to-work-again stays visible when orange/red.
 import './cards.css';
 
 const toDate = (at) => new Date(/Z$|[+-]\d{2}:\d{2}$/.test(at) ? at : `${at}+05:30`);
@@ -36,6 +36,7 @@ let activeHazard = 'flood';
 let userMode = 'commuter';
 let workType = 'moderate';
 let newToHeat = false;
+let detailsOpen = false;
 
 function loadStoredPrefs() {
   try {
@@ -69,8 +70,28 @@ function switchHazard(target) {
   render();
 }
 
+const FLOOD_EMOJIS = {
+  green: '✅',
+  yellow: '⚠️',
+  orange: '⚠️',
+  red: '⛔',
+};
+
+const HEAT_EMOJIS = {
+  green: '😊',
+  yellow: '🥵',
+  orange: '🥵',
+  red: '🛑',
+};
+
 function render() {
   if (!container || !currentMap) return;
+
+  // Preserve details toggle state across re-renders
+  const existingDetails = container.querySelector('.card-more-details');
+  if (existingDetails) {
+    detailsOpen = existingDetails.open;
+  }
 
   const pack = cityPack();
   const isMaharashtra = pack?.id === 'pune' || pack?.id === 'mumbai';
@@ -104,6 +125,7 @@ function render() {
     mode: userMode,
     now: currentTime,
   });
+  const advText = adviceList.map((a) => t(a.key, a.vars)).join(' · ');
 
   container.innerHTML = '';
 
@@ -129,51 +151,64 @@ function render() {
   const activeLevel = activeHazard === 'flood' ? floodStatus.level : heatStatus.level;
   activeCard.className = `status-card sev-${activeLevel}`;
 
+  // Main row: Big emoji + Large type headline + Big speak button
+  const mainRow = document.createElement('div');
+  mainRow.className = 'card-main-row';
+
+  const emojiEl = document.createElement('div');
+  emojiEl.className = 'card-emoji';
+
+  const textGroup = document.createElement('div');
+  textGroup.className = 'card-text-block';
+
+  const headlineEl = document.createElement('div');
+  headlineEl.className = 'card-headline';
+
+  const speakBtn = document.createElement('button');
+  speakBtn.type = 'button';
+  speakBtn.className = 'btn-speak-big';
+  speakBtn.setAttribute('aria-label', t('card.readAloud'));
+  speakBtn.title = t('card.readAloud');
+  speakBtn.textContent = '🔊';
+
+  // Collapsed "More details ▾" section
+  const detailsEl = document.createElement('details');
+  detailsEl.className = 'card-more-details';
+  if (detailsOpen) detailsEl.open = true;
+  detailsEl.ontoggle = () => { detailsOpen = detailsEl.open; };
+
+  const summaryEl = document.createElement('summary');
+  summaryEl.className = 'card-more-summary';
+  summaryEl.textContent = `${t('card.moreDetails')} ▾`;
+  detailsEl.appendChild(summaryEl);
+
+  const moreContent = document.createElement('div');
+  moreContent.className = 'card-more-content';
+
   if (activeHazard === 'flood') {
     // ── Flood Card ──────────────────────────────────────────
-    const sevLabel = t('severity.' + floodStatus.level);
-    const actionText = t(floodStatus.actionKey, floodStatus.actionVars);
+    emojiEl.textContent = FLOOD_EMOJIS[floodStatus.level] || '⚠️';
 
-    // Header with mode selector + sound button
-    const header = document.createElement('div');
-    header.className = 'card-header';
-    header.innerHTML = `
-      <div class="card-title-group">
-        <span class="card-title">🌧️ ${esc(t('card.floodTitle'))}</span>
-        <span class="card-badge badge-${floodStatus.level}">${esc(sevLabel)}</span>
-      </div>
-      <div class="card-controls">
-        <select class="select-mode" aria-label="Mode">
-          <option value="commuter"${userMode === 'commuter' ? ' selected' : ''}>${esc(t('mode.commuter'))}</option>
-          <option value="rider"${userMode === 'rider' ? ' selected' : ''}>${esc(t('mode.rider'))}</option>
-          <option value="parent"${userMode === 'parent' ? ' selected' : ''}>${esc(t('mode.parent'))}</option>
-          <option value="pedestrian"${userMode === 'pedestrian' ? ' selected' : ''}>${esc(t('mode.pedestrian'))}</option>
-        </select>
-        <button type="button" class="btn-speak" title="${esc(t('card.readAloud'))}">🔊</button>
-      </div>
-    `;
+    let floodWord = t('card.flood.safe');
+    if (floodStatus.level === 'red') {
+      floodWord = t('card.flood.danger');
+    } else if (floodStatus.level === 'yellow' || floodStatus.level === 'orange') {
+      floodWord = t('card.flood.careful');
+    }
+    headlineEl.textContent = floodWord;
+    textGroup.appendChild(headlineEl);
 
-    header.querySelector('.select-mode').onchange = (e) => {
-      userMode = e.target.value;
-      try { localStorage.setItem('sajag.userMode', userMode); } catch { /* ignore */ }
-      setMode(userMode);
-      window.dispatchEvent(new CustomEvent('sajag:mode', { detail: { mode: userMode } }));
-      render();
+    speakBtn.onclick = () => {
+      if (floodStatus.level === 'red') {
+        speak('red.doNotEnter');
+      } else if (floodStatus.level === 'yellow' || floodStatus.level === 'orange') {
+        speak('severity.yellow');
+      } else {
+        speak('card.flood.safe');
+      }
     };
 
-    header.querySelector('.btn-speak').onclick = () => {
-      speak(floodStatus.actionKey, floodStatus.actionVars);
-    };
-
-    activeCard.appendChild(header);
-
-    // Action line
-    const actionEl = document.createElement('div');
-    actionEl.className = 'card-action-line';
-    actionEl.textContent = actionText;
-    activeCard.appendChild(actionEl);
-
-    // Evidence line
+    // Details: Evidence line
     const evidenceEl = document.createElement('div');
     evidenceEl.className = 'card-evidence-line';
     if (floodStatus.evidence) {
@@ -189,107 +224,96 @@ function render() {
       const precip = cell?.current?.precipitation ?? 0;
       evidenceEl.textContent = `${t('card.noFloodNearby')} (${precip} mm)`;
     }
-    activeCard.appendChild(evidenceEl);
+    moreContent.appendChild(evidenceEl);
 
-    // "Before you leave" advisory strip
+    // Details: Advisory strip
     const advEl = document.createElement('div');
     advEl.className = 'card-advisory-strip';
-    const advText = adviceList.map((a) => t(a.key, a.vars)).join(' · ');
     advEl.innerHTML = `<b>🎒 ${esc(t('advice.title'))}:</b> ${esc(advText)}`;
-    activeCard.appendChild(advEl);
+    moreContent.appendChild(advEl);
 
   } else {
     // ── Heat Card ───────────────────────────────────────────
-    const sevLabel = t('severity.' + heatStatus.level);
-    const actionText = t(heatStatus.actionKey, heatStatus.actionVars);
+    emojiEl.textContent = HEAT_EMOJIS[heatStatus.level] || '🥵';
 
-    // Header with work type selector + new to heat + sound button
-    const header = document.createElement('div');
-    header.className = 'card-header';
-    header.innerHTML = `
-      <div class="card-title-group">
-        <span class="card-title">☀️ ${esc(t('card.heatTitle'))}</span>
-        <span class="card-badge badge-${heatStatus.level}">${esc(sevLabel)}</span>
-      </div>
-      <div class="card-controls">
-        <select class="select-work" aria-label="Work workload">
-          <option value="light"${workType === 'light' ? ' selected' : ''}>${esc(t('work.light'))}</option>
-          <option value="moderate"${workType === 'moderate' ? ' selected' : ''}>${esc(t('work.moderate'))}</option>
-          <option value="heavy"${workType === 'heavy' ? ' selected' : ''}>${esc(t('work.heavy'))}</option>
-        </select>
-        <label class="toggle-newtoheat">
-          <input type="checkbox"${newToHeat ? ' checked' : ''}>
-          <span>${esc(t('heat.newToHeat'))}</span>
-        </label>
-        <button type="button" class="btn-speak" title="${esc(t('card.readAloud'))}">🔊</button>
-      </div>
-    `;
+    headlineEl.textContent = t('heat.level.' + heatStatus.level);
+    textGroup.appendChild(headlineEl);
 
-    header.querySelector('.select-work').onchange = (e) => {
-      workType = e.target.value;
-      try { localStorage.setItem('sajag.workType', workType); } catch { /* ignore */ }
-      render();
-    };
+    // Work / rest sentence
+    const sublineEl = document.createElement('div');
+    sublineEl.className = 'card-subline';
+    sublineEl.textContent = t(heatStatus.actionKey, heatStatus.actionVars);
+    textGroup.appendChild(sublineEl);
 
-    header.querySelector('.toggle-newtoheat input').onchange = (e) => {
-      newToHeat = e.target.checked;
-      try { localStorage.setItem('sajag.newToHeat', newToHeat ? '1' : '0'); } catch { /* ignore */ }
-      render();
-    };
-
-    header.querySelector('.btn-speak').onclick = () => {
-      speak(heatStatus.actionKey, heatStatus.actionVars);
-    };
-
-    activeCard.appendChild(header);
-
-    // Action line
-    const actionEl = document.createElement('div');
-    actionEl.className = 'card-action-line';
-    actionEl.textContent = actionText;
-    activeCard.appendChild(actionEl);
-
-    // Conditions line (temperature + estimated WBGT)
-    const condEl = document.createElement('div');
-    condEl.className = 'card-conditions-line';
-    condEl.textContent = t('heat.conditions', {
-      temp: Math.round(heatStatus.temp),
-      wbgt: heatStatus.wbgt,
-    });
-    activeCard.appendChild(condEl);
-
-    // Safe again time
-    if (heatStatus.safeAgain?.i18nKey) {
+    // Key feature: Safe to work again stays visible when level is orange/red
+    const isHighHeat = heatStatus.level === 'orange' || heatStatus.level === 'red';
+    if (isHighHeat && heatStatus.safeAgain?.i18nKey) {
       const safeEl = document.createElement('div');
       safeEl.className = 'card-safe-again';
       safeEl.textContent = t(heatStatus.safeAgain.i18nKey, safeAgainVars(heatStatus));
-      activeCard.appendChild(safeEl);
+      textGroup.appendChild(safeEl);
     }
 
-    // NDMA Advisory on orange/red
+    speakBtn.onclick = () => {
+      speak(heatStatus.actionKey, heatStatus.actionVars);
+    };
+
+    // Details: Conditions line with WBGT behind small ⓘ toggle
+    const condEl = document.createElement('div');
+    condEl.className = 'card-conditions-line';
+    condEl.innerHTML = `
+      <span>🌡️ <b>${Math.round(heatStatus.temp)}°C</b></span>
+      <button type="button" class="btn-wbgt-info" title="Info" aria-label="Info">ⓘ</button>
+      <div class="wbgt-popup" hidden>
+        ${esc(t('heat.conditions', { temp: Math.round(heatStatus.temp), wbgt: heatStatus.wbgt }))} (${esc(t('card.regionalEst'))})
+      </div>
+    `;
+    const wbgtBtn = condEl.querySelector('.btn-wbgt-info');
+    const wbgtPopup = condEl.querySelector('.wbgt-popup');
+    wbgtBtn.onclick = (e) => {
+      e.stopPropagation();
+      wbgtPopup.hidden = !wbgtPopup.hidden;
+    };
+    moreContent.appendChild(condEl);
+
+    // Details: Safe-again if green/yellow (orange/red is already visible above)
+    if (!isHighHeat && heatStatus.safeAgain?.i18nKey) {
+      const safeEl = document.createElement('div');
+      safeEl.className = 'card-safe-again';
+      safeEl.textContent = t(heatStatus.safeAgain.i18nKey, safeAgainVars(heatStatus));
+      moreContent.appendChild(safeEl);
+    }
+
+    // Details: NDMA Advisory on orange/red
     if (heatStatus.showNdma) {
       const ndmaEl = document.createElement('div');
       ndmaEl.className = 'card-ndma';
       ndmaEl.textContent = t('heat.ndmaAdvisory');
-      activeCard.appendChild(ndmaEl);
+      moreContent.appendChild(ndmaEl);
     }
 
-    // Maharashtra SOP on orange/red
+    // Details: Maharashtra SOP on orange/red
     if (heatStatus.showMhSop) {
       const sopEl = document.createElement('div');
       sopEl.className = 'card-sop';
       sopEl.textContent = t('heat.mhSop');
-      activeCard.appendChild(sopEl);
+      moreContent.appendChild(sopEl);
     }
 
-    // "Before you leave" advisory strip
+    // Details: Advisory strip
     const advEl = document.createElement('div');
     advEl.className = 'card-advisory-strip';
-    const advText = adviceList.map((a) => t(a.key, a.vars)).join(' · ');
     advEl.innerHTML = `<b>🎒 ${esc(t('advice.title'))}:</b> ${esc(advText)}`;
-    activeCard.appendChild(advEl);
+    moreContent.appendChild(advEl);
   }
 
+  mainRow.appendChild(emojiEl);
+  mainRow.appendChild(textGroup);
+  mainRow.appendChild(speakBtn);
+  activeCard.appendChild(mainRow);
+
+  detailsEl.appendChild(moreContent);
+  activeCard.appendChild(detailsEl);
   container.appendChild(activeCard);
 
   // 3. Mini chip for the inactive hazard
@@ -297,10 +321,16 @@ function render() {
   miniChip.className = 'card-mini-chip';
   const inactiveIcon = hiddenHazard === 'heat' ? '☀️' : '🌧️';
   const inactiveName = t(hiddenHazard === 'heat' ? 'hazard.heat' : 'hazard.flood');
-  const inactiveSev = t('severity.' + hiddenStatus.level);
+  let chipStatusWord = t('chip.ok');
+  if (hiddenStatus.level === 'red') {
+    chipStatusWord = t('chip.danger');
+  } else if (hiddenStatus.level === 'yellow' || hiddenStatus.level === 'orange') {
+    chipStatusWord = t('chip.caution');
+  }
+
   miniChip.innerHTML = `
     <span class="mini-dot dot-${hiddenStatus.level}"></span>
-    <span>${inactiveIcon} <b>${esc(inactiveName)}:</b> ${esc(inactiveSev)}</span>
+    <span>${inactiveIcon} <b>${esc(inactiveName)}:</b> ${esc(chipStatusWord)}</span>
     <span style="opacity: 0.6; font-size: 10px;">❯</span>
   `;
   miniChip.onclick = () => switchHazard(hiddenHazard);
@@ -339,6 +369,29 @@ export function initCards(map, { getHazard, onHazardChange } = {}) {
 
   window.addEventListener('sajag:hazard', (e) => {
     handleHazardUpdate(e.detail?.hazard);
+  });
+
+  // Listen to profile / mode events from Setup and More menu
+  window.addEventListener('sajag:mode', (e) => {
+    if (e.detail?.mode) {
+      userMode = e.detail.mode;
+      setMode(userMode);
+      render();
+    }
+  });
+
+  window.addEventListener('sajag:profile', (e) => {
+    if (e.detail) {
+      if (e.detail.userMode) {
+        userMode = e.detail.userMode;
+        setMode(userMode);
+      }
+      if (e.detail.workType) workType = e.detail.workType;
+      if (e.detail.newToHeat !== undefined) {
+        newToHeat = e.detail.newToHeat === '1' || e.detail.newToHeat === true;
+      }
+      render();
+    }
   });
 
   // Watch for direct dataset changes

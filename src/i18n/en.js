@@ -228,4 +228,22 @@ export default {
   'onb.skip': 'Skip',
   'onb.ready': 'Sajag is ready. Stay safe.',
   'onb.recommended': 'Recommended near {city}',
+
+  // UX simplification pass (cards, chip, report)
+  'card.flood.safe': 'Safe',
+  'card.flood.careful': 'Be careful',
+  'card.flood.danger': "Danger — don't go",
+  'card.moreDetails': 'More details',
+  'card.lessDetails': 'Fewer details',
+  'card.regionalEst': 'regional estimate',
+  'chip.ok': 'OK',
+  'chip.caution': 'CAUTION',
+  'chip.danger': 'DANGER',
+  'report.whatYouSee': 'What do you see?',
+  'report.howDeep': 'How deep is the water?',
+  'report.selectAmenities': 'What is available here?',
+  'report.moreOptions': 'More options',
+  'report.proof': 'Add photo proof',
+  'report.retakePhoto': 'Retake photo',
+  'report.proofBadge': 'Proof',
 };

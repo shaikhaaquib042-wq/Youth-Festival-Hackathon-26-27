@@ -31,6 +31,7 @@ async function resolve(val) {
 }
 
 function ensureLayers() {
+  if (!map?.isStyleLoaded()) return;
   if (map.getSource('sj-route')) return;
   map.addSource('sj-route', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
   const before = map.getLayer('sj-hotspots') ? 'sj-hotspots' : undefined;
@@ -41,6 +42,7 @@ function ensureLayers() {
 }
 
 function drawRoutes(r) {
+  if (!map?.isStyleLoaded()) return;
   ensureLayers();
   const feats = [];
   if (r) {
@@ -141,6 +143,7 @@ function toggle(open) {
   panel.hidden = !open;
   window.dispatchEvent(new CustomEvent('sajag:route', { detail: { active: open } })); // pins show flood spots while checking
   if (!open) { active = null; result = null; drawRoutes(null); }
+  window.dispatchEvent(new CustomEvent('sajag:route', { detail: { active: open } }));
   render();
 }
 
