@@ -3,13 +3,13 @@
 **Team Tokenizers** · Naya Bharat 2047 · Code for Bharat (Rotary × Rotaract Youth Festival, Pune)
 **Problem statements:** **7.3** *"Which road is flooded right now?"* (primary) + **7.2** *"Too hot to work, too poor to stop"*
 
-### ▶ Live app: **https://sajag-inky.vercel.app** — works on any phone, installs as an app (PWA)
+### ▶ Live app: **https://sajag-app.vercel.app** — works on any phone, installs as an app (PWA)
 
 | Try this (60 s) | Link |
 |---|---|
-| Live Pune map, today | https://sajag-inky.vercel.app/?setup=0 |
-| Replay of the 25 Sep 2019 Pune flash flood → tap **Is my route safe?** → demo route | https://sajag-inky.vercel.app/?scenario=pune-2019-09-25 |
-| Replay of a 41 °C afternoon → **Start work shift** | https://sajag-inky.vercel.app/?scenario=pune-heat-afternoon |
+| Live Pune map, today | https://sajag-app.vercel.app/?setup=0 |
+| Replay of the 25 Sep 2019 Pune flash flood → tap **Is my route safe?** → demo route | https://sajag-app.vercel.app/?scenario=pune-2019-09-25 |
+| Replay of a 41 °C afternoon → **Start work shift** | https://sajag-app.vercel.app/?scenario=pune-heat-afternoon |
 | Dark mode / Marathi | add `&theme=dark` · ⋯ More → मराठी |
 | Other cities | `?city=mumbai` · `?city=bengaluru` · `?city=hyderabad` |
 

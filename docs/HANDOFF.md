@@ -14,7 +14,7 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 |---|---|
 | Repo (local) | `~/NayaBharat Hackathon/sajag` — local branch **`team/sajag`** tracks **`origin/tokenizers`** (team name: Tokenizers). First push 17:15 IST 21 Nov. Push with `git push` (venue Wi-Fi is slow: if it times out, add `-c http.postBuffer=157286400`). |
 | Remote | github.com/shaikhaaquib042-wq/Youth-Festival-Hackathon-26-27 — **push access granted**; our branch is **`tokenizers`**. Never push `main` or other teams' branches. Devang handles git (one email per team). |
-| **Live app** | **https://sajag-inky.vercel.app** (also sajag-pod5.vercel.app) — Vercel project `sajag`, team `devang_hobby` (id `pod5`), personal account `ingaledevang-3418`. Deployed from the CLI (no Git link — repo access missing). QR codes: `docs/slides/sajag-qr.png` (app), `docs/slides/sajag-qr-flood-demo.png` (`?scenario=pune-2019-09-25`). |
+| **Live app** | **https://sajag-app.vercel.app** (clean domain added 18:25; old sajag-inky.vercel.app + sajag-pod5.vercel.app still work) — Vercel project `sajag`, team `devang_hobby` (id `pod5`), personal account `ingaledevang-3418`. Deployed from the CLI (no Git link — repo access missing). QR codes: `docs/slides/sajag-qr.png` (app), `docs/slides/sajag-qr-flood-demo.png` (`?scenario=pune-2019-09-25`). |
 | Dev server | `npm run dev` → http://localhost:5173 (`?city=pune|mumbai|bengaluru|hyderabad`, `?hazard=flood|heat`) |
 | Routing (OSRM) | Docker container `osrm-pune` on **localhost:5000** (Colima on the M1 Mac; `colima start` after reboot). Data in `~/osrm`, rebuild with `npm run osrm`. Covers 73.30–74.50 E, 18.10–19.00 N. |
 | Map tiles | `public/tiles/pune-region-20261120.pmtiles` (committed). Mumbai / Bengaluru / Hyderabad `.pmtiles` are local only (gitignored, >25 MiB Cloudflare Pages limit → need R2 for public deploy). |
@@ -90,7 +90,7 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 
 1. ~~GitHub collaborator access~~ — done; pushed to `tokenizers` 17:15.
 2. **Google sign-in**: Google Cloud → OAuth client (Web), redirect `https://icknjgvstmvglggqauev.supabase.co/auth/v1/callback` → paste ID/secret in Supabase → Auth → Providers → Google; add judges as test users or publish the consent screen.
-3. **Supabase URL config**: Site URL `https://sajag-inky.vercel.app`; redirect URLs `http://localhost:5173/**`, `https://sajag-inky.vercel.app/**`, `https://sajag-*-pod5.vercel.app/**`.
+3. **Supabase URL config**: Site URL `https://sajag-app.vercel.app`; redirect URLs `http://localhost:5173/**`, `https://sajag-app.vercel.app/**`, `https://sajag-inky.vercel.app/**`, `https://sajag-*-pod5.vercel.app/**`.
 4. **Email codes** (optional): custom SMTP (Gmail app password, smtp.gmail.com:465) + magic-link template showing `{{ .Token }}`.
 5. **Audio clips**: generate from `docs/audio-script.md` (Marathi first).
 6. **R2 / Cloudflare**: no longer needed if we deploy on Vercel (tiles fit there).
