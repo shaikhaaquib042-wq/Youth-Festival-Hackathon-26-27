@@ -323,11 +323,11 @@ export async function deleteDonorData(token: string) {
 export async function getHospitals() {
   return {
     data: [
+      { id: "hosp-deenanath", name: "Deenanath Mangeshkar Hospital Blood Bank", area_label: "Erandwane / Deccan" },
       { id: "hosp-sahyadri-deccan", name: "Sahyadri Super Speciality Hospital", area_label: "Deccan Gymkhana" },
-      { id: "hosp-deenanath", name: "Deenanath Mangeshkar Hospital", area_label: "Erandwane" },
-      { id: "hosp-bharati", name: "Bharati Hospital & Research Centre", area_label: "Sinhagad Road" },
-      { id: "hosp-sassoon", name: "Sassoon General Hospital", area_label: "Sadashiv Peth / Station" },
-      { id: "hosp-jehangir", name: "Jehangir Hospital", area_label: "Sangamvadi" },
+      { id: "hosp-poona", name: "Poona Hospital & Research Centre", area_label: "Sadashiv Peth" },
+      { id: "hosp-jankalyan", name: "Jankalyan Raktapedhi (Blood Bank)", area_label: "Sadashiv Peth / Tilak Road" },
+      { id: "hosp-bharati", name: "Bharati Hospital Blood Bank", area_label: "Dhankawadi / Sinhagad Rd" },
     ],
     error: null,
   };
