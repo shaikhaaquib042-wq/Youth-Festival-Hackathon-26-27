@@ -10,6 +10,8 @@ import { initReport, onVote, setReportHazard } from './ui/report.js';
 import { mountAccountChip } from './ui/signin.js';
 import { initLocation, getFix } from './location.js';
 import { initRoute } from './ui/route.js';
+import { initShift } from './heat/ui/shift.js';
+import { initUnwell } from './heat/ui/unwell.js';
 
 const pack = cityPack();
 initLang(pack);
@@ -42,6 +44,8 @@ window.__fix = getFix;
 addPinLayers(map, { onVote });
 initReport(map);
 initRoute(map);
+initUnwell();
+initShift();
 mountAccountChip(document.getElementById('account-chip'));
 
 // Flood | Heat toggle (PRD §22.1). ?hazard=heat deep link; last choice remembered.
