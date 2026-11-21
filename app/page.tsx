@@ -12,6 +12,7 @@ import { ImpactComparison } from '@/components/analytics/ImpactComparison';
 import { BloodDesertHeatmap } from '@/components/analytics/BloodDesertHeatmap';
 import { LeanMonthForecast } from '@/components/analytics/LeanMonthForecast';
 import { CampusNetwork } from '@/components/analytics/CampusNetwork';
+import { DemoController } from '@/components/demo/DemoController';
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 import seedJson from '@/data/seed.json';
 import { AppDataStore, BloodRequest } from '@/types';
@@ -35,6 +36,7 @@ export default function HomePage() {
   const { data, ui, initialize, setActiveView, createRequest, setActiveRequestId, escalateRequest } =
     useAppStore();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isDemoActive, setIsDemoActive] = useState(false);
 
   // Initialize store with seed data if empty
   useEffect(() => {
@@ -90,7 +92,7 @@ export default function HomePage() {
   const activeRequest = data.requests.find((r) => r.id === ui.activeRequestId) || data.requests[0] || null;
 
   const handleRunDemo = () => {
-    setActiveView('impact');
+    setIsDemoActive(true);
   };
 
   return (
@@ -187,6 +189,9 @@ export default function HomePage() {
           onClose={() => setIsCreateModalOpen(false)}
         />
       )}
+
+      {/* Floating Demo Mode Controller */}
+      {isDemoActive && <DemoController onExit={() => setIsDemoActive(false)} />}
     </div>
   );
 }
