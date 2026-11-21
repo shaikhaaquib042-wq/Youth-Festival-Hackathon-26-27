@@ -1,0 +1,176 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==========================================
+// ENUMS
+// ==========================================
+
+enum SafeZoneCategory {
+  DRINKING_WATER
+  SHADED_REST_AREA
+  COOLING_CENTER
+  COMMUNITY_SHOP
+  MEDICAL_FACILITY
+
+  @@map("safe_zone_category")
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+  DEMO
+
+  @@map("verification_status")
+}
+
+enum AvailabilityStatus {
+  AVAILABLE
+  LIMITED
+  UNAVAILABLE
+  UNKNOWN
+
+  @@map("availability_status")
+}
+
+enum OrganizationType {
+  EMPLOYER
+  CONTRACTOR
+  GOVERNMENT
+  NGO
+  OTHER
+
+  @@map("organization_type")
+}
+
+enum Workload {
+  LIGHT
+  MODERATE
+  HEAVY
+
+  @@map("workload")
+}
+
+// ==========================================
+// MODEL 1: SAFE ZONE
+// ==========================================
+
+model SafeZone {
+  id                 String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name               String             @db.VarChar(150)
+  category           SafeZoneCategory
+
+  latitude           Float
+  longitude          Float
+
+  address            String             @db.Text
+
+  waterAvailable     Boolean            @default(false) @map("water_available")
+  shadeAvailable     Boolean            @default(false) @map("shade_available")
+  seatingAvailable   Boolean            @default(false) @map("seating_available")
+
+  openingHours       String?            @db.Text @map("opening_hours")
+
+  verificationStatus VerificationStatus @default(PENDING) @map("verification_status")
+  availabilityStatus AvailabilityStatus @default(UNKNOWN) @map("availability_status")
+
+  lastVerifiedAt     DateTime?          @db.Timestamptz @map("last_verified_at")
+
+  createdAt          DateTime           @default(now()) @db.Timestamptz @map("created_at")
+  updatedAt          DateTime           @default(now()) @updatedAt @db.Timestamptz @map("updated_at")
+
+  reports            SafeZoneReport[]
+
+  @@index([category])
+  @@index([verificationStatus])
+  @@index([availabilityStatus])
+  @@index([latitude, longitude])
+  @@index([verificationStatus, category, availabilityStatus], map: "safe_zones_discovery_idx")
+  @@map("safe_zones")
+}
+
+// ==========================================
+// MODEL 2: SAFE ZONE REPORT
+// ==========================================
+
+model SafeZoneReport {
+  id                 String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  safeZoneId         String             @db.Uuid @map("safe_zone_id")
+
+  availabilityStatus AvailabilityStatus @map("availability_status")
+  comment            String?            @db.VarChar(500)
+
+  reporterTokenHash  String?            @db.VarChar(255) @map("reporter_token_hash")
+
+  createdAt          DateTime           @default(now()) @db.Timestamptz @map("created_at")
+
+  safeZone           SafeZone           @relation(fields: [safeZoneId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([safeZoneId])
+  @@index([createdAt])
+  @@index([safeZoneId, createdAt], map: "safe_zone_reports_zone_created_idx")
+  @@map("safe_zone_reports")
+}
+
+// ==========================================
+// MODEL 3: ORGANIZATION
+// ==========================================
+
+model Organization {
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  name             String           @db.VarChar(150)
+  organizationType OrganizationType @map("organization_type")
+
+  isDemo           Boolean          @default(false) @map("is_demo")
+
+  createdAt        DateTime         @default(now()) @db.Timestamptz @map("created_at")
+
+  worksites        Worksite[]
+
+  @@index([organizationType])
+  @@index([isDemo])
+  @@map("organizations")
+}
+
+// ==========================================
+// MODEL 4: WORKSITE
+// ==========================================
+
+model Worksite {
+  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  organizationId String       @db.Uuid @map("organization_id")
+
+  name           String       @db.VarChar(150)
+
+  latitude       Float
+  longitude      Float
+
+  workerCount    Int          @map("worker_count")
+
+  workload       Workload
+
+  waterAccess    Boolean      @default(false) @map("water_access")
+  shadeAccess    Boolean      @default(false) @map("shade_access")
+
+  workStart      DateTime     @db.Time @map("work_start")
+  workEnd        DateTime     @db.Time @map("work_end")
+
+  isDemo         Boolean      @default(false) @map("is_demo")
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([organizationId])
+  @@index([latitude, longitude])
+  @@index([isDemo])
+  @@map("worksites")
+}

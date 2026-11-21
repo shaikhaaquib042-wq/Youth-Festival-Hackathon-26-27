@@ -1,0 +1,17 @@
+# Heat methodology and prototype rules
+
+The implementation reference is the [NWS heat-index equation](https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml), including Fahrenheit conversion, Steadman screening (average the simple result with air temperature), Rothfusz regression, low-humidity subtraction and high-humidity addition. General occupational context: [OSHA heat exposure](https://www.osha.gov/heat-exposure). These references do not validate SunShield's occupational thresholds.
+
+The calculator reports the regression only when the screened value is at least 80 F and air temperature is 80-112 F, and suppresses calculated outputs outside 80-137 F. This is a conservative implementation envelope, not a claim that every combination in that rectangle is medically validated. Below the screening threshold and outside the envelope, heatIndexC is null and method is NOT_APPLICABLE. No numeric WBGT is inferred. Heat index assumes conditions that do not capture an individual worksite's solar/radiant load, clothing, health or acclimatization. Sunlight remains a separate occupational factor.
+
+All thresholds in [heat-rules.ts](../backend/src/constants/heat-rules.ts) are UNVALIDATED product policy:
+
+- Evaluate the highest of raw air temperature, supported heat index and provider apparent temperature. Product advisory labels: CAUTION below 32 C, ELEVATED at 32 C, HIGH at 39 C, CRITICAL at 46 C. CAUTION is not permission to work.
+- Raw air temperature of at least 40 C overrides to CRITICAL even if heat index is unavailable. Extreme humid conditions also override to CRITICAL: at least 32 C with at least 85% humidity, or at least 35 C with at least 70% humidity. These are conservative prototype overrides, not clinical thresholds.
+- At raw temperature at least 27 C, escalate one level (maximum CRITICAL) for heavy workload, direct sunlight, or the combination of restricted water and restricted shade. Access and schedule flexibility never subtract a level. Occupation labels are not a surrogate for workload; profiles describe actual working conditions.
+- Current observations and cache fetches must be no older than 60 minutes; future observation/fetch allowance is 5 minutes. A fresh fetch cannot conceal an old observation. Missing/invalid essentials produce UNKNOWN.
+- Forecast fetch age maximum is 3 hours; coverage is bounded to 48 hours ahead and the current local workday. Forecast periods are estimates, not current observations. Invalid, absent and ambiguous coverage remains unavailable.
+
+Prioritize STOP_UNSAFE_ACTIVITY for CRITICAL (priority CRITICAL) and unsupported UNKNOWN (priority HIGH). Existing employer/fixed schedules trigger supervisor coordination. Alternative duties are recommended only when explicitly available. Flexible schedules may receive optional adjustment advice without inventing a safe alternative hour. MONITOR_SYMPTOMS is generic awareness, not detection. No symptom input is accepted, so SEEK_EMERGENCY_HELP is reserved and never triggered from temperature alone. The frontend SOS flow owns symptom first aid and India's 112 action. Hydration advice is only for someone conscious and able to swallow safely; translate and display that assessment limitation with recommendations.
+
+No safe-duration intervals, mandatory split shifts, wage guarantees, medical risk percentages or medical validation claims are produced. This engine requires occupational-health expert review before real-world safety deployment.

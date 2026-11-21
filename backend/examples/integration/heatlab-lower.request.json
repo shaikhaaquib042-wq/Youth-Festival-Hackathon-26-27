@@ -1,0 +1,25 @@
+{
+  "profile": {
+    "occupation": "STREET_VENDOR",
+    "workload": "LIGHT",
+    "environment": "PARTIAL_SHADE",
+    "waterAccess": "AVAILABLE",
+    "shadeAccess": "AVAILABLE",
+    "scheduleFlexibility": "FLEXIBLE",
+    "alternativeDutiesAvailable": false,
+    "workStart": "09:00",
+    "workEnd": "18:00",
+    "language": "mr",
+    "location": {
+      "latitude": 18.5204,
+      "longitude": 73.8567,
+      "city": "Pune",
+      "timezone": "Asia/Kolkata"
+    }
+  },
+  "weatherOverride": {
+    "temperatureC": 35,
+    "humidityPercent": 50,
+    "windSpeedKmh": 5
+  }
+}

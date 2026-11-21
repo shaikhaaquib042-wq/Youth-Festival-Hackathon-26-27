@@ -1,0 +1,52 @@
+{
+  "executedAt": "2026-11-21T17:41:56.569Z",
+  "workingTreeCommit": "992b4845a43848148e2bccdcdc5834efb0607704",
+  "runtime": "v24.13.0",
+  "prisma": "7.10.1",
+  "environment": {
+    "DATABASE_URL": "configured",
+    "DIRECT_URL": "configured",
+    "source": "ignored root .env",
+    "communityWrites": "disabled"
+  },
+  "migrationStatus": "Dedicated read-only Prisma status tool: 1 migration, database schema up to date",
+  "schemaComparison": "Read-only diff; no SQL applied",
+  "counts": {
+    "facilities": 3,
+    "reports": 0,
+    "verificationStatuses": [
+      {
+        "status": "DEMO",
+        "count": 3
+      }
+    ]
+  },
+  "checks": [
+    {
+      "name": "Read-only schema comparison",
+      "exit": 0,
+      "output": "No difference detected.\n\n",
+      "diagnostic": "Loaded Prisma config from prisma7.config.ts.\n\n"
+    },
+    {
+      "name": "Prisma generation",
+      "exit": 0,
+      "output": "\n✔ Generated Prisma Client (7.10.1) to .\\generated\\prisma in 124ms\n\n",
+      "diagnostic": "Loaded Prisma config from prisma7.config.ts.\n\nPrisma schema loaded from schema.prisma.\n"
+    },
+    {
+      "name": "Full infrastructure suite including authorized read-only test",
+      "exit": 0,
+      "output": "\n RUN  v3.2.7 D:/codestorm\n\n ✓ tests/haversine.test.ts (3 tests) 7ms\n ✓ tests/safezone.service.test.ts (6 tests) 50ms\nstdout | tests/safezone.database.integration.test.ts > read-only Supabase SafeZone integration > connects through the Prisma client and reads existing facility/report data\nRead-only Supabase counts {\"facilities\":3,\"reports\":0,\"verificationStatuses\":[{\"status\":\"DEMO\",\"count\":3}]}\n\n ✓ tests/safezone.routes.test.ts (13 tests) 215ms\n ✓ tests/safezone.database.integration.test.ts (1 test) 1299ms\n   ✓ read-only Supabase SafeZone integration > connects through the Prisma client and reads existing facility/report data  940ms\n\n Test Files  4 passed (4)\n      Tests  23 passed (23)\n   Start at  23:11:53\n   Duration  2.41s (transform 404ms, setup 0ms, collect 1.57s, tests 1.57s, environment 1ms, prepare 1.29s)\n\n",
+      "diagnostic": ""
+    }
+  ],
+  "reviewedReadOnlyTestCommit": "1f24d659e5462d6fa03f728fd418e559ddc8d5f2",
+  "reviewedTeammateTestCommit": "7830731",
+  "finalReadOnlySuite": {
+    "executedAt": "2026-11-21T17:56:06.028Z",
+    "exit": 0,
+    "output": "\n RUN  v3.2.7 D:/codestorm\n\n ✓ tests/haversine.test.ts (3 tests) 9ms\n ✓ tests/safezone.service.test.ts (6 tests) 58ms\nstdout | tests/safezone.database.integration.test.ts > read-only Supabase SafeZone integration > connects through the Prisma client and reads existing facility/report data\nRead-only Supabase counts {\"facilities\":3,\"reports\":0,\"verificationStatuses\":[{\"status\":\"DEMO\",\"count\":3}]}\n\n ✓ tests/safezone.routes.test.ts (13 tests) 246ms\nstdout | tests/safezone.database.integration.test.ts > read-only Supabase SafeZone integration > connects through the Prisma client and reads existing facility/report data\nRead-only Safe Zone checks {\"demoFacilities\":3,\"publicDiscoveryExcludesDemo\":true,\"demoInclusiveDiscoveryIncludesEachDemo\":true,\"existingFacilityDetailsLookup\":true}\n\n ✓ tests/safezone.database.integration.test.ts (1 test) 1790ms\n   ✓ read-only Supabase SafeZone integration > connects through the Prisma client and reads existing facility/report data  1225ms\n\n Test Files  4 passed (4)\n      Tests  23 passed (23)\n   Start at  23:26:02\n   Duration  3.17s (transform 543ms, setup 0ms, collect 2.15s, tests 2.10s, environment 2ms, prepare 1.56s)\n\n",
+    "diagnostic": ""
+  }
+}

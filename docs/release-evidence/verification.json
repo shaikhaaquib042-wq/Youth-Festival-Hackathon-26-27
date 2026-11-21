@@ -1,0 +1,81 @@
+{
+  "recordedAt": "2026-11-21T17:53:39.960Z",
+  "verifiedWorkingTreeCommit": "992b4845a43848148e2bccdcdc5834efb0607704",
+  "executableCommit": "832a277000b35381c659d65dc2c4cf20befbfdb9",
+  "runtime": "v24.13.0",
+  "npm": "11.4.1",
+  "prisma": "7.10.1",
+  "environment": {
+    "DATABASE_URL": "configured",
+    "DIRECT_URL": "configured",
+    "intendedIgnoredRootFileLoaded": true,
+    "processEnvironmentPrecedenceVerified": true,
+    "gitIgnored": true,
+    "communityWritesEnabled": false
+  },
+  "passed": {
+    "backend": 85,
+    "infrastructureCombined": 23,
+    "frontend": 46,
+    "chromiumUnique": 39
+  },
+  "infrastructureBreakdown": {
+    "unitAndMocked": 22,
+    "actualReadOnlyDatabase": 1
+  },
+  "skippedDatabaseTests": 0,
+  "focusedProductionPreviewRepeat": {
+    "passed": 6,
+    "scope": "Earlier repeats; not extra unique Chromium cases"
+  },
+  "productionAudits": {
+    "root": 0,
+    "backend": 0,
+    "scope": "Fresh npm audit --omit=dev; no dependency changes during database closure"
+  },
+  "externalServices": {
+    "openMeteo": "ACTUALLY_VERIFIED_HTTP",
+    "cache": "ORIGINAL_FETCH_TIMESTAMP_PRESERVED",
+    "supabase": "ACTUALLY_VERIFIED_READ_ONLY",
+    "migrationStatus": "1 migration; up to date",
+    "schemaComparison": "No difference detected; read-only",
+    "facilityCounts": {
+      "facilities": 3,
+      "reports": 0,
+      "verificationStatuses": [
+        {
+          "status": "DEMO",
+          "count": 3
+        }
+      ]
+    },
+    "discovery": {
+      "demoExcluded": 0,
+      "demoIncluded": 3,
+      "existingDetailsVerified": 3
+    },
+    "communityWrites": "DISABLED_NO_ACTUAL_WRITE",
+    "deployment": "NO_VERIFIED_PUBLIC_URL"
+  },
+  "startup": {
+    "current": "Existing user/manual-started compiled application observed listening and verified through HTTP",
+    "priorAutomatedProductionRestart": "HISTORICALLY_BLOCKED_NOT_RETRIED_OR_RECLASSIFIED",
+    "previousBlockReason": "blocked by policy; no further reason supplied"
+  },
+  "evidence": {
+    "http": "closure-http-smoke.json",
+    "database": "closure-database-verification.json",
+    "browser": "closure-safe-zone-browser.json",
+    "priorVerification": "verification-pre-database.json"
+  },
+  "notes": [
+    "23 root tests include 22 infrastructure and one actual database test; do not add that database test again.",
+    "Previously skipped database test was explicitly enabled/executed; standalone repeat is not another unique test.",
+    "Original 64 backend/six provider/old nine infrastructure are included in totals.",
+    "Older screenshots, HTTP files and verification timestamps are preserved separately.",
+    "All facilities remain DEMO; no verified real resource, actual write, medical validity or public deployment is claimed."
+  ],
+  "reviewedReadOnlyTestCommit": "1f24d659e5462d6fa03f728fd418e559ddc8d5f2",
+  "additionalReviewedTeammateCommit": "78307311eafa9703097322dcb4d3b117ec2285ef",
+  "finalDatabaseSuite": "23 root tests passed after reviewed read-only assertion enhancement; still one unique live database case"
+}

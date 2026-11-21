@@ -1,0 +1,157 @@
+{
+  "executedAt": "2026-11-21T17:44:50.007Z",
+  "workingTreeCommit": "992b4845a43848148e2bccdcdc5834efb0607704",
+  "mocks": false,
+  "actualApiChecks": [
+    {
+      "url": "http://localhost:8000/api/v1/safe-zones?latitude=18.5204&longitude=73.8567",
+      "status": 200,
+      "body": {
+        "distanceMethod": "STRAIGHT_LINE",
+        "facilities": []
+      }
+    },
+    {
+      "url": "http://localhost:8000/api/v1/safe-zones?latitude=18.5204&longitude=73.8567&includeDemo=true&radiusKm=5",
+      "status": 200,
+      "body": {
+        "distanceMethod": "STRAIGHT_LINE",
+        "facilities": [
+          {
+            "id": "a1000000-0000-4000-8000-000000000001",
+            "name": "Demo Water Point 1",
+            "category": "DRINKING_WATER",
+            "latitude": 18.5204,
+            "longitude": 73.8567,
+            "distanceKm": 0,
+            "waterAvailable": true,
+            "shadeAvailable": false,
+            "verificationStatus": "DEMO",
+            "lastVerifiedAt": null
+          },
+          {
+            "id": "a1000000-0000-4000-8000-000000000003",
+            "name": "Demo Cooling Centre",
+            "category": "COOLING_CENTER",
+            "latitude": 18.515,
+            "longitude": 73.86,
+            "distanceKm": 0.6939815366863896,
+            "waterAvailable": true,
+            "shadeAvailable": true,
+            "verificationStatus": "DEMO",
+            "lastVerifiedAt": null
+          },
+          {
+            "id": "a1000000-0000-4000-8000-000000000002",
+            "name": "Demo Shaded Rest Point",
+            "category": "SHADED_REST_AREA",
+            "latitude": 18.524,
+            "longitude": 73.851,
+            "distanceKm": 0.7220941551277397,
+            "waterAvailable": false,
+            "shadeAvailable": true,
+            "verificationStatus": "DEMO",
+            "lastVerifiedAt": null
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://localhost:8000/api/v1/safe-zones?latitude=18.5204&longitude=73.8567&includeDemo=true&radiusKm=5&limit=1",
+      "status": 200,
+      "body": {
+        "distanceMethod": "STRAIGHT_LINE",
+        "facilities": [
+          {
+            "id": "a1000000-0000-4000-8000-000000000001",
+            "name": "Demo Water Point 1",
+            "category": "DRINKING_WATER",
+            "latitude": 18.5204,
+            "longitude": 73.8567,
+            "distanceKm": 0,
+            "waterAvailable": true,
+            "shadeAvailable": false,
+            "verificationStatus": "DEMO",
+            "lastVerifiedAt": null
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://localhost:8000/api/v1/safe-zones?latitude=18.5204&longitude=73.8567&includeDemo=true&category=DRINKING_WATER",
+      "status": 200,
+      "body": {
+        "distanceMethod": "STRAIGHT_LINE",
+        "facilities": [
+          {
+            "id": "a1000000-0000-4000-8000-000000000001",
+            "name": "Demo Water Point 1",
+            "category": "DRINKING_WATER",
+            "latitude": 18.5204,
+            "longitude": 73.8567,
+            "distanceKm": 0,
+            "waterAvailable": true,
+            "shadeAvailable": false,
+            "verificationStatus": "DEMO",
+            "lastVerifiedAt": null
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://localhost:8000/api/v1/safe-zones?latitude=18.5204&longitude=73.8567&includeDemo=true&radiusKm=0.361047",
+      "status": 200,
+      "body": {
+        "distanceMethod": "STRAIGHT_LINE",
+        "facilities": [
+          {
+            "id": "a1000000-0000-4000-8000-000000000001",
+            "name": "Demo Water Point 1",
+            "category": "DRINKING_WATER",
+            "latitude": 18.5204,
+            "longitude": 73.8567,
+            "distanceKm": 0,
+            "waterAvailable": true,
+            "shadeAvailable": false,
+            "verificationStatus": "DEMO",
+            "lastVerifiedAt": null
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://localhost:8000/api/v1/safe-zones/a1000000-0000-4000-8000-000000000001",
+      "status": 200,
+      "body": {
+        "id": "a1000000-0000-4000-8000-000000000001",
+        "name": "Demo Water Point 1",
+        "category": "DRINKING_WATER",
+        "latitude": 18.5204,
+        "longitude": 73.8567,
+        "address": "Synthetic demo location, Pune",
+        "waterAvailable": true,
+        "shadeAvailable": false,
+        "seatingAvailable": false,
+        "openingHours": null,
+        "verificationStatus": "DEMO",
+        "availabilityStatus": "UNKNOWN",
+        "lastVerifiedAt": null,
+        "createdAt": "2026-11-21T12:56:37.627Z",
+        "updatedAt": "2026-11-21T12:56:37.627Z"
+      }
+    }
+  ],
+  "browser": {
+    "defaultDemoExcluded": true,
+    "actualDemoCount": 3,
+    "verificationLabelsPreserved": true,
+    "mapMarkers": 3,
+    "tileImagesLoaded": 8,
+    "categoryFilter": true,
+    "verifiedEmpty": true,
+    "actualExistingDetails": true,
+    "loading": "Real request paused then continued; no response data fixture",
+    "failureUi": "Separate explicitly intercepted 503 fixture; not a real Supabase outage"
+  },
+  "noWrites": true
+}

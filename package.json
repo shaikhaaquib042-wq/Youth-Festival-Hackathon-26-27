@@ -1,0 +1,38 @@
+{
+  "name": "sun-shield-database",
+  "private": true,
+  "type": "module",
+  "overrides": { "effect": "3.22.1" },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "build:infrastructure": "prisma generate && tsc -p tsconfig.build.json",
+    "build": "npm --prefix backend run build",
+    "start": "npm --prefix backend start",
+    "typecheck": "tsc --noEmit",
+    "db:validate": "prisma validate",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "prisma db seed",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.0.0",
+    "@prisma/client": "^7.0.0",
+    "dotenv": "^16.4.7",
+    "express": "^5.3.0",
+    "pg": "^8.13.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.10.2",
+    "@types/supertest": "^7.2.1",
+    "prisma": "^7.0.0",
+    "supertest": "^7.3.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^3.0.5"
+  }
+}

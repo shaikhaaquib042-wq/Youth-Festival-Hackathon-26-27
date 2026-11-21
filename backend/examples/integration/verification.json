@@ -1,0 +1,67 @@
+{
+  "generatedAt": "2026-11-21T13:09:38.623Z",
+  "execution": "Compiled Express application over loopback HTTP; no external weather or database calls",
+  "realWeatherIntegrationVerified": false,
+  "commonSimulatedWeather": {
+    "temperatureC": 35,
+    "humidityPercent": 50,
+    "windSpeedKmh": 5
+  },
+  "checks": [
+    {
+      "check": "health without provider/database",
+      "status": 200
+    },
+    {
+      "check": "heavy HeatLab over HTTP",
+      "status": 200,
+      "dataMode": "SIMULATION",
+      "advisoryLevel": "CRITICAL"
+    },
+    {
+      "check": "lower HeatLab over HTTP",
+      "status": 200,
+      "dataMode": "SIMULATION",
+      "advisoryLevel": "HIGH"
+    },
+    {
+      "check": "/api/v1/heat/assess without provider",
+      "status": 503,
+      "code": "WEATHER_PROVIDER_UNAVAILABLE"
+    },
+    {
+      "check": "/api/v1/protection/plan without provider",
+      "status": 503,
+      "code": "WEATHER_PROVIDER_UNAVAILABLE"
+    },
+    {
+      "check": "invalid scenario validation",
+      "status": 422
+    },
+    {
+      "check": "OpenAPI and Swagger",
+      "status": 200
+    },
+    {
+      "check": "LIVE injected contract fixture: assessment, partial-hour plan, simulation isolation",
+      "status": 200,
+      "realWeatherVerified": false
+    },
+    {
+      "check": "CACHED injected contract fixture: assessment, partial-hour plan, simulation isolation",
+      "status": 200,
+      "realWeatherVerified": false
+    },
+    {
+      "check": "stale cached contract fixture",
+      "status": 200,
+      "advisoryLevel": "UNKNOWN",
+      "realWeatherVerified": false
+    },
+    {
+      "check": "throwing contract fixture: sanitized 503s; HeatLab remains available",
+      "status": 200,
+      "realWeatherVerified": false
+    }
+  ]
+}

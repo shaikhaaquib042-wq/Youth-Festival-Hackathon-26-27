@@ -1,0 +1,53 @@
+{
+  "dataMode": "SIMULATION",
+  "assessment": {
+    "advisoryLevel": "HIGH",
+    "engineVersion": "1.0.0-prototype",
+    "factors": [
+      "PARTIAL_SHADE"
+    ],
+    "recommendations": [
+      {
+        "code": "REDUCE_STRENUOUS_ACTIVITY",
+        "priority": "HIGH"
+      },
+      {
+        "code": "ESCALATE_TO_SUPERVISOR",
+        "priority": "HIGH"
+      },
+      {
+        "code": "MONITOR_SYMPTOMS",
+        "priority": "MEDIUM"
+      },
+      {
+        "code": "MAINTAIN_HYDRATION",
+        "priority": "MEDIUM"
+      }
+    ],
+    "medicalValidation": false,
+    "disclaimerCode": "ESTIMATED_ADVISORY_ONLY",
+    "environmentalIndicators": {
+      "temperatureC": 35,
+      "humidityPercent": 50,
+      "apparentTemperatureC": null,
+      "windSpeedKmh": 5,
+      "heatIndexC": 40.68,
+      "heatIndexMethod": "NWS_ROTHFUSZ",
+      "environmentalAdvisoryLevel": "HIGH"
+    },
+    "limitations": [
+      "PROTOTYPE_OCCUPATIONAL_RULES_UNVALIDATED",
+      "NOT_MEDICALLY_VALIDATED",
+      "NOT_PERMISSION_TO_CONTINUE_WORK",
+      "NO_GUARANTEED_SAFE_DURATION",
+      "HEAT_INDEX_IS_NOT_WBGT",
+      "PERSONAL_HEALTH_CLOTHING_AND_ACCLIMATIZATION_NOT_ASSESSED",
+      "HYDRATION_ONLY_WHEN_CONSCIOUS_AND_ABLE_TO_SWALLOW",
+      "SIMULATED_CONDITIONS"
+    ],
+    "source": "HeatLab",
+    "observedAt": "2026-11-21T13:09:38.845Z",
+    "fetchedAt": "2026-11-21T13:09:38.845Z",
+    "assessedAt": "2026-11-21T13:09:38.845Z"
+  }
+}

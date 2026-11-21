@@ -1,0 +1,21 @@
+{
+  "profile": {
+    "occupation": "CONSTRUCTION",
+    "workload": "HEAVY",
+    "environment": "DIRECT_SUNLIGHT",
+    "waterAccess": "LIMITED",
+    "shadeAccess": "UNAVAILABLE",
+    "scheduleFlexibility": "EMPLOYER_CONTROLLED",
+    "alternativeDutiesAvailable": false,
+    "workStart": "09:00",
+    "workEnd": "18:00",
+    "language": "mr",
+    "location": {
+      "latitude": 18.5204,
+      "longitude": 73.8567,
+      "city": "Pune",
+      "timezone": "Asia/Kolkata"
+    }
+  },
+  "weatherOverride": { "temperatureC": 42, "humidityPercent": 65, "windSpeedKmh": 5 }
+}

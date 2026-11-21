@@ -1,0 +1,39 @@
+{
+  "recordedAt": "2026-11-21T17:28:22.903Z",
+  "executableCommit": "832a277000b35381c659d65dc2c4cf20befbfdb9",
+  "runtime": "Node v24.13.0",
+  "npm": "11.4.1",
+  "passed": {
+    "backend": 85,
+    "infrastructure": 22,
+    "frontend": 46,
+    "chromiumUnique": 39,
+    "focusedProductionPreviewRepeat": 6
+  },
+  "skipped": {
+    "authorizedReadOnlyDatabase": 1
+  },
+  "productionAudits": {
+    "root": 0,
+    "backend": 0,
+    "scope": "npm audit --omit=dev, after Effect 3.22.1 override"
+  },
+  "externalServices": {
+    "openMeteo": "ACTUALLY_VERIFIED_HTTP",
+    "cache": "ACTUAL_LIVE_THEN_CACHED_ORIGINAL_TIMESTAMPS",
+    "supabase": "NOT_CONFIGURED_FOR_DEVELOPER_A",
+    "communityWrites": "DISABLED_NO_ACTUAL_WRITE",
+    "deployment": "NO_VERIFIED_PUBLIC_URL"
+  },
+  "startup": {
+    "compiledAppAndTestHarness": "VERIFIED",
+    "productionModeRootRestart": "BLOCKED_BY_AUTOMATIC_APPROVAL_REVIEW",
+    "reason": "blocked by policy; no further reason supplied"
+  },
+  "notes": [
+    "Totals include original tests; do not add old 64, 6 provider or old 9 infrastructure again.",
+    "One database test is skipped, not passed.",
+    "Preview six are repeats of unique Chromium cases, not six extra unique tests.",
+    "Evidence screenshots are actual earlier local running-app captures, not a public deployment or current server-availability claim."
+  ]
+}
