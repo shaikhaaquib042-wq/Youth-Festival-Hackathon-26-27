@@ -17,6 +17,7 @@ import { initUnwell } from './heat/ui/unwell.js';
 import { initScenario } from './scenario/player.js';
 import { initMore } from './ui/more.js';
 import { initHelp, openHelp } from './ui/help.js';
+import { initMyReports } from './ui/myreports.js';
 import { initPaste } from './ui/paste.js';
 import { initVoice, handleTranscript } from './ui/voice.js';
 import { startOnboarding } from './ui/onboarding.js';
@@ -91,6 +92,7 @@ initScenario();
 // Simple shell (UX pass): More menu, Help sheet, 💧 near-me toggle, first-run setup.
 initMore(map, { openReportCooling: () => openReport() });
 initHelp();
+initMyReports(map); // 👤 My reports: current + previous reports, people helped
 initPaste(map);
 // 🎤 Voice: spoken help → Help sheet; otherwise a pre-filled report (step V / V+). window.__voice('…') runs it on typed text.
 initVoice({ gazetteer, openHelp, openReport, getHazard: () => document.body.dataset.hazard ?? 'flood' });

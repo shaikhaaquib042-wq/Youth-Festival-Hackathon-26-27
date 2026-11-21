@@ -741,3 +741,4 @@ body:has(#scenario-bar:not([hidden])) .report-sheet {
     padding: 0 10px !important;
   }
 }
+html body #action-bar #voice-btn, html body #action-bar #voice-btn .lbl { font-size: 15px !important; font-weight: 600 !important; }
