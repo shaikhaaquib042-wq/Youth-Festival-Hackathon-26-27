@@ -37,7 +37,6 @@ async function resolve(val) {
 }
 
 function ensureLayers() {
-  if (!map?.isStyleLoaded()) return;
   if (map.getSource('sj-route')) return;
   map.addSource('sj-route', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
   const before = map.getLayer('sj-hotspots') ? 'sj-hotspots' : undefined;
@@ -48,8 +47,8 @@ function ensureLayers() {
 }
 
 function drawRoutes(r) {
-  if (!map?.isStyleLoaded()) return;
-  ensureLayers();
+  const source = map?.getSource('sj-route');
+  if (!source) return;
   const feats = [];
   if (r) {
     const blocked = r.verdict === 'avoid';
@@ -58,7 +57,7 @@ function drawRoutes(r) {
     if (blocked && r.chosen) feats.unshift({ type: 'Feature', geometry: { type: 'LineString', coordinates: r.chosen.route.coords },
       properties: { color: SEV_COLOR.green, blocked: false } });
   }
-  map.getSource('sj-route').setData({ type: 'FeatureCollection', features: feats });
+  source.setData({ type: 'FeatureCollection', features: feats });
 }
 
 function reasonText(hit) {
@@ -266,5 +265,9 @@ export function initRoute(m) {
   window.addEventListener('sajag:mode', (e) => setRouteMode(e.detail.mode));
   try { mode = localStorage.getItem('sajag.userMode') || 'commuter'; } catch { /* ignore */ }
   window.addEventListener('sajag:hazard', (e) => { btn.hidden = e.detail.hazard !== 'flood'; if (btn.hidden) toggle(false); });
-  if (map.isStyleLoaded()) ensureLayers(); else map.once('load', ensureLayers);
+  const mountLayers = () => {
+    ensureLayers();
+    drawRoutes(checking ? null : result);
+  };
+  if (map.isStyleLoaded()) mountLayers(); else map.once('load', mountLayers);
 }
