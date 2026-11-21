@@ -10,7 +10,7 @@
 - [x] **Phase 7**: Analytics: Impact (500 vs 5), Blood Desert Heatmap, Lean-Month Forecast, Campus Network + Camp Scheduler
 - [x] **Phase 8**: Demo Mode (Scripted 8-scene walkthrough, timeline scrubber, speed controls, reset)
 - [x] **Phase 9**: Polish: motion, accessibility, responsive, empty/error states, error boundaries
-- [ ] **Phase 10**: Documentation & pitch script: comprehensive README.md, clean build verification
+- [x] **Phase 10**: Documentation & pitch script: comprehensive README.md, clean build verification
 
 ## SPEC §16 Definition of Done Checklist
 - [x] Fresh `npm install` + `npm run dev` work; app opens on the live map
@@ -24,4 +24,4 @@
 - [x] Run Demo completes and is deterministic; pause/resume/next/previous/reset/speeds work
 - [x] Tests pass; typecheck and lint clean; `npm run build` passes; no `any`
 - [x] No non-functional buttons; no critical console errors
-- [ ] README and docs/DECISIONS.md complete
+- [x] README and docs/DECISIONS.md complete
