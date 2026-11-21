@@ -4,7 +4,8 @@
 // Adding optional fields is OK; announce it in the commit message.
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const PIN_TYPES = ['flood', 'clog', 'hotspot'];
+export const PIN_TYPES = ['flood', 'clog', 'hotspot', 'cooling'];
+export const AMENITIES = ['water', 'shade', 'ors', 'clinic', 'toilet', 'cool_room']; // cooling pins only (PRD §21.5)
 export const DEPTHS = ['none', 'ankle', 'knee', 'above_knee'];
 export const CAUSES = ['rain', 'clogged_drain', 'nullah_overflow', 'river_dam', 'unknown'];
 export const SOURCE_KINDS = ['official', 'news', 'citizen', 'social', 'seed'];
@@ -16,7 +17,7 @@ export const TIERS = { OFFICIAL: 1, NEWS: 2, CITIZEN_PHOTO: 3, CITIZEN_TEXT: 4, 
 /**
  * @typedef {Object} Pin
  * @property {string} id
- * @property {'flood'|'clog'|'hotspot'} type
+ * @property {'flood'|'clog'|'hotspot'|'cooling'} type
  * @property {number} lat
  * @property {number} lng
  * @property {'none'|'ankle'|'knee'|'above_knee'} depth
@@ -32,6 +33,7 @@ export const TIERS = { OFFICIAL: 1, NEWS: 2, CITIZEN_PHOTO: 3, CITIZEN_TEXT: 4, 
  * @property {'unverified'|'confirmed'|'stale'|'cleared'} status
  * @property {boolean} simulated          true for anything injected by Scenario mode
  * @property {string} [name]              optional place name (gazetteer / hotspot list)
+ * @property {string[]} [amenities]       cooling pins: subset of AMENITIES
  */
 
 const tierFor = (source, photo) =>
@@ -62,6 +64,7 @@ export function makePin(p) {
     status: p.status ?? (p.source.kind === 'official' ? 'confirmed' : 'unverified'),
     simulated: p.simulated ?? false,
     ...(p.name ? { name: p.name } : {}),
+    ...(p.amenities ? { amenities: p.amenities } : {}),
   };
 }
 
@@ -75,5 +78,6 @@ export function validatePin(pin) {
   if (!SOURCE_KINDS.includes(pin.source?.kind) || !pin.source?.name) errs.push('source');
   if (!STATUSES.includes(pin.status)) errs.push('status');
   if (Number.isNaN(Date.parse(pin.createdAt))) errs.push('createdAt');
+  if (pin.amenities && !pin.amenities.every((a) => AMENITIES.includes(a))) errs.push('amenities');
   return errs;
 }

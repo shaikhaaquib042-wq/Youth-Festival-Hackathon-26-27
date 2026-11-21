@@ -25,7 +25,7 @@ export const CONFIG = {
 
   // Reports & lifecycle (§5, §6, Q7, Q8)
   PHOTO_REQUIRED: false,
-  EXPIRY_MIN: { flood: 120, clog: 360 },
+  EXPIRY_MIN: { flood: 120, clog: 360, cooling: 7 * 24 * 60 },
   CONFIRM_RADIUS_M: 500,
   CONFIRM_WINDOW_MIN: 30,
   CONFIRM_TAPS: 3,
@@ -36,6 +36,18 @@ export const CONFIG = {
   SACHET_ACTIVE_HOURS: 24, // RSS has no expiry field; alerts older than this are history, not banners
   RAINVIEWER_MAXZOOM: 7, // free API cap since 1 Jan 2026
   OPENMETEO_REFRESH_MS: 15 * 60 * 1000,
+
+  // Heat module (PRD §21)
+  HEAT: {
+    MAP_BANDS_C: { amber: 37, red: 40, severe: 45 }, // Layer C cells, IMD-style air temperature
+    SUN_SR_WM2: 600, SUN_WBGT_ADD_C: 2,               // WBGT_sun = WBGT_shade + 2 when shortwave > 600 W/m²
+    UNACCLIMATISED_OFFSET_C: 2.5,
+    SHIFT_CHECK_MIN: 30,
+    HYDRATION_MIN: 20,
+    EMERGENCY_NUMBERS: ['108', '112'],
+    VOICE_LANGS: ['mr-IN', 'hi-IN', 'en-IN'],
+    ALERT_KEYWORDS: ['heat wave', 'heatwave', 'उष्णतेची लाट', 'उष्ण', 'लू', 'heat'],
+  },
 
   // Scenario (§6.6): 1 real second = 1 scenario minute
   SCENARIO_SPEED: 60,

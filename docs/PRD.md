@@ -13,6 +13,7 @@ Consolidates PRD v0.1–v0.4 + FINAL, revised 21 Nov 13:15 after (a) a check aga
 6. Today's scope cuts moved into §15. Q5 answered; Q1/Q7/Q8/Q9 given build defaults — §14.
 7. Build order re-timed for today and split for Orca (orchestrator + worker) — §18.
 8. NEW §19 Brainstorm (ranked) and §20 Build recipes (exact commands for agents).
+9. [R2] Renamed to Mausam Mitra; NEW §21 Heat module (PS 7.2): WBGT estimate, work/rest table, shift mode, heat-illness check, cooling points, voice.
 
 ---
 
@@ -190,7 +191,7 @@ Not a weather app. Not a river/dam dashboard. Not a PMC complaint portal (the wo
 3. Paste a real-format Traffic Police post about a clogged chamber → gazetteer drops an AMBER clog pin (pre-flood signal).
 4. Citizen photo report at the same spot (filed live by a judge on the laptop, < 10 s) → flood pin → second report confirms knee-deep → RED. Saved Sinhagad Road route flips to "AVOID — do not go into this area right now" with source + age; alternate route auto-shown (OSRM, localhost). Tap "Share to WhatsApp".
 5. Scrub time forward → pin goes Stale → Cleared → appears in "Cleared today" and the hotspot memory. (Direction 2 + 4 shown.)
-6. Flip to Heat layer at 41 °C (scenario) → advisory leads with water/ORS/shade + cooling points. "One engine, two hazards."
+6. **Heat (see §21.8, ~60 s):** heat scenario → shift mode as a delivery rider → GREEN→ORANGE with Marathi voice → nearest cooling point → "I feel unwell" → Call 108. "One engine, two hazards, same people."
 7. Close: City Pack slide (Pune live; Mumbai = same SACHET feed + 498 known spots; Bengaluru = 226 mapped spots), Phase 2 slide (Google Maps companion + WhatsApp bot), cost line: "OSM free, OSRM free, tiles on R2 free tier, alerts from NDMA — ₹0 in data licences."
 
 ## 17. Success criteria for the prototype
@@ -313,3 +314,82 @@ https://api.open-meteo.com/v1/forecast?latitude=18.40,18.40,18.52,18.52,18.65,18
 - osrm-india-tools-20261121.md — OSRM in India, Geofabrik zones, India profiles.
 - floodwatch-prd-v0.1 → v0.4 → FINAL → **FINAL-r1 (this file)**.
 All in: workspace/goals/rotary-youth-festival-hackathon-pune-viksit-bharat/files/
+
+---
+
+## 21. HEAT MODULE — PS 7.2 "Too Hot to Work, Too Poor to Stop" [R2 — NEW, 21 Nov 14:00]
+**Official brief (PDF p.22, paraphrased faithfully):** heatwaves are longer and more intense; construction workers, delivery riders, street vendors and farm labourers can't stay indoors in the afternoon because they need the day's wage. Most get no warning tailored to where they are, don't recognise early signs of heat illness, and don't know where the nearest drinking water, shade or cooling point is. **Affected:** outdoor and informal workers, elderly people, and the contractors/employers who manage them. **Challenge:** simple, local, timely warnings and guidance during extreme heat. **Directions named:** (1) hyperlocal heat alerts from public weather data, (2) voice or SMS in regional languages, (3) map of nearby drinking water, shade and cooling points, (4) guidance on recognising heat illness and getting help. **Hackathon-ready note:** free weather APIs; one city; crowdsourced cooling points; demo end to end. **Context:** India recorded nearly **48,000 suspected heatstroke cases and 159 heat deaths in 2024**, its warmest year since 1901; experts say official counts miss deaths outside hospitals (The Week, 27 Jul 2025 — cited in the PDF).
+
+**Why one app, not two:** delivery riders and two-wheeler riders are named in BOTH briefs. The person who rides through 41 °C in May rides through waterlogged underpasses in September. Same question every day — "is it safe where I am / where I'm going, right now, and what do I do?" — same map, same report flow, same alert engine. 7.3 is the primary statement; heat is the second hazard.
+
+### 21.1 Heat stress metric — estimated WBGT, not just temperature
+Air temperature alone misses humidity (a 34 °C humid Mumbai afternoon is more dangerous for heavy work than a 41 °C dry Pune one). Use Open-Meteo `wet_bulb_temperature_2m` (Tw), `temperature_2m` (T), `shortwave_radiation` (SR) — verified available 21 Nov.
+- **WBGT_shade ≈ 0.7·Tw + 0.3·T** (natural-wet-bulb ≈ Tw, globe ≈ air temp in shade).
+- **WBGT_sun ≈ WBGT_shade + 2 °C when SR > 600 W/m²** (rule-of-thumb solar load).
+- Label everywhere as **"estimated heat stress (WBGT)"** — regional grid value, not a sensor reading. Honesty rule §7 applies.
+- Sanity check 21 Nov 13:45 Pune: T 29.9, Tw 16.1 → WBGT ≈ 20 shade / 22 sun → GREEN. Correct for a dry November noon.
+
+### 21.2 Work / rest guidance (the "continuous assessment")
+Simplified from the ACGIH heat-stress TLV table (acclimatised workers, WBGT °C, per hour). **[VERIFY before the pitch — say "based on international occupational heat-stress guidance", never "medically certified".]**
+
+| Work type (examples) | Normal work below | 45 work / 15 rest | 30 / 30 | 15 / 45 | STOP heavy work above |
+|---|---|---|---|---|---|
+| **Light** — street vendor, guard | 31.0 | 31.0 | 32.0 | 32.5 | 32.5 |
+| **Moderate** — delivery rider, walking work | 28.0 | 29.0 | 30.0 | 31.5 | 31.5 |
+| **Heavy** — construction, farm labour, loading | 27.5 (45/15 from here) | 27.5 | 29.0 | 30.5 | 30.5 |
+
+- Workers new to the heat (first week, or back from leave) → subtract `UNACCLIMATISED_OFFSET_C = 2.5` from every threshold.
+- Status colours reuse §9: GREEN normal · YELLOW 45/15 · ORANGE 30/30 · RED 15/45 or STOP.
+- **Water:** one cup (~250 ml) every 15–20 min while working in heat, even if not thirsty (standard occupational guidance). ORS if sweating heavily > 2 h.
+- The table lives in ONE file (`src/heat/workrest.js`) so it can be read out to judges, like `advisory.js`.
+
+### 21.3 Shift mode — continuous in-shift check (hero flow for 7.2)
+1. **Start shift** → pick work type (Light / Moderate / Heavy, icons + Marathi/Hindi labels) → "new to heat?" toggle → GPS position (or a saved work site).
+2. Every `SHIFT_CHECK_MIN = 30` min (and on every Open-Meteo refresh) recompute WBGT for the nearest grid point → big status card: colour, "Work 30 min / rest 30 min in shade", next break time, next water reminder.
+3. **Reminders:** water every `HYDRATION_MIN = 20`; break start/end per the current cycle; status *change* (e.g. YELLOW → ORANGE) always announced.
+4. **Voice** (direction 2): Web Speech API `speechSynthesis`, voice `mr-IN` → `hi-IN` → `en-IN` fallback. Phrases are a **fixed, hand-written table** in Marathi / Hindi / English (`src/heat/phrases.js`) — no runtime machine translation. Plus vibration + on-screen banner.
+5. **Keep running:** Screen Wake Lock API while the shift is on. **Honest limitation:** a web app cannot alert reliably when the phone is locked/backgrounded → real SMS/IVR voice calls (Exotel/Twilio-type, paid) are Phase 2. Say this on the roadmap slide.
+6. **Share to crew / supervisor** (contractors are named in the brief): one tap → `wa.me` message "Heat status Hadapsar site 14:30: ORANGE — work 30 / rest 30, water every 20 min. — Mausam Mitra". Same share code as §19.3.
+7. Scenario clock compresses everything (30-min checks happen every 30 s in Scenario mode).
+
+### 21.4 "I feel unwell" — heat-illness check (direction 4)
+Big button on the shift card and the home screen. Two-step, tap-only, pictograms + Marathi/Hindi/English:
+- **RED FLAGS → HEAT STROKE, EMERGENCY:** confusion or strange behaviour, slurred speech, fainting/collapse, seizure, very hot skin, stopped making sense. → full-screen **"Call 108 now"** (tap-to-dial `tel:108`; also `112`) + first aid while waiting: move to shade, cool fast (pour water on skin + fan, wet cloths/ice on neck, armpits, groin), loosen clothes, **do not give drinks if confused or unconscious**.
+- **WARNING SIGNS → HEAT EXHAUSTION:** heavy sweating, cold clammy skin, dizziness, headache, nausea/vomiting, muscle cramps, weakness, fast pulse. → stop work, shade, loosen clothes, sip water/ORS, wet cloth; **not better in 1 hour or getting worse → call 108**. Shows the nearest cooling point / clinic.
+- **Check a co-worker** mode: same questions phrased for a buddy ("Is he/she confused?").
+- Never diagnoses; always ends with "If in doubt, call 108." Content from standard public heat-illness first-aid guidance (NDMA heatwave guidelines / WHO / CDC) — cite on the slide.
+
+### 21.5 Cooling points (direction 3) — map + crowdsourcing
+- **New Pin type `cooling`** (contract amendment, §18): optional `amenities: ["water","shade","ors","clinic","toilet","cool_room"]`. Tier logic unchanged (seed / citizen / official).
+- **Seed (REAL, fetched once, committed):** OpenStreetMap via Overpass for the Pune pack bounds — `amenity=drinking_water`, `amenity=pharmacy` (sells ORS), `amenity=clinic|hospital|doctors`, `leisure=park` (shade). Attribution: © OpenStreetMap. File: `src/data/pune-cooling.json`.
+- **Crowdsourced:** the same < 10 s report flow with a "Cooling point" choice → tick amenities → photo optional. Examples: a shop giving free water, a temple pandal, a shaded bus stop.
+- **Lifecycle:** long-lived (`EXPIRY_MIN.cooling = 10080`, 7 days); "still here" / "gone" taps reuse `confirmations` / `clearedVotes`.
+- **Nearest-first list** from the worker's position with walking distance (straight-line is fine for v1).
+
+### 21.6 Map & alerts integration
+- **Layer C (heat)** keeps IMD-style °C bands on the map for the public (amber ≥ 37, red ≥ 40, severe ≥ 45) — people understand °C. **Shift mode uses WBGT** for the work/rest decision. Both shown on the card: "40 °C · heat stress HIGH for heavy work".
+- **Official heat alerts:** SACHET items whose text matches heat keywords (`heat wave`, `heatwave`, `उष्णतेची लाट`, `लू`) → Tier 1 banner. Same parser as §12.
+- Home screen leads with the heat card when Layer C is active or a heat alert exists (Pedestrian / Outdoor-worker mode, §3); otherwise flood leads.
+
+### 21.7 Heat scenario (demo)
+`src/scenario/pune-heat-afternoon.json` — a **SIMULATED** dry pre-monsoon afternoon in Pune (e.g. 11:00 → 17:00, T rising to ~41 °C, RH ~20 %, strong sun), replayed on the scenario clock. Optional second file for a humid Mumbai afternoon (`?city=mumbai`, T ~34 °C, RH ~70 %) to show why WBGT beats temperature alone. Everything tagged SIMULATED.
+
+### 21.8 Demo insert (replaces §16 step 6, ~60 s)
+Flip to **Heat scenario** → "Start shift: delivery rider (Moderate)" → card goes GREEN → YELLOW → ORANGE as the afternoon heats up; **voice plays in Marathi** ("काम ३० मिनिटे, सावलीत विश्रांती ३० मिनिटे, दर २० मिनिटांनी पाणी प्या"); water reminder pops; tap "Nearest cooling point" → pharmacy with ORS 400 m; tap **"I feel unwell" → "confused?" yes → "Call 108"** screen. Share-to-crew on WhatsApp. Close line: "One engine, two hazards, same people."
+
+### 21.9 Build plan for heat (orchestrator, starts now — the worker is unchanged)
+| # | Time (IST) | Step | Owner | Done = |
+|---|---|---|---|---|
+| H0 | –14:30 | Amend Pin contract (`cooling`, `amenities`), config tunables, Overpass seed `pune-cooling.json` | Orchestrator | Data + contract committed before the worker reaches step 2 |
+| H1 | –15:30 | `src/heat/`: `wbgt.js`, `workrest.js`, `phrases.js`, `voice.js`, `illness.js` (pure functions + tables, take `now`) | Orchestrator | Unit-checkable in the console |
+| H2 | –16:30 | Shift-mode card + "I feel unwell" flow + crew share (in `src/heat/ui/`) | Orchestrator | Shift runs on live data |
+| H3 | (step 6) | Heat scenario file + wiring into the Scenario player | Orchestrator | §21.8 runs on Play |
+| — | (step 2/4) | Worker renders `cooling` pins with the same pin layer; Layer C cells | Worker | Cooling points visible |
+
+**Cut rule (heat):** if behind at 18:00 → drop the co-worker mode and the Mumbai humid scenario; keep shift card + voice + "I feel unwell" + cooling points. Never cut the "Call 108" path.
+
+### 21.10 Open questions (heat)
+- **HQ1.** Can one submission cover two problem statements? If not, submit under 7.3 and present heat as the second hazard of the same engine. **Ask the organisers.**
+- **HQ2.** Verify the work/rest numbers (§21.2) against the ACGIH/NIOSH source before quoting them on stage.
+- **HQ3.** Is a Marathi (`mr-IN`) voice available on the demo laptop's browser? If not → Hindi voice + Marathi text on screen.
+- **HQ4.** Supervisor/contractor dashboard (all workers on a site) — slide only today?

@@ -1,6 +1,6 @@
 # Mausam Mitra — guide for coding agents
 
-Hackathon build, **submission before 22:00 IST, 21 Nov 2026; code freeze 21:00**. Spec: `docs/PRD.md` (read §5, §6, §9, §10, §18 before coding).
+Hackathon build, **submission before 22:00 IST, 21 Nov 2026; code freeze 21:00**. Spec: `docs/PRD.md` (read §5, §6, §9, §10, §18 before coding; heat = §21).
 Mausam Mitra (मौसम मित्र) = one safety companion for people who cannot stay indoors — commuters, two-wheeler/delivery riders, outdoor workers — in Pune.
 - **Flood module (PS 7.3, primary):** live verified map of waterlogged roads — citizen reports + official alerts + radar/weather → route verdict Safe / Caution / AVOID.
 - **Heat module (PS 7.2):** hyperlocal heat alerts from public weather data, continuous in-shift checks with work/rest advice, heat-illness signs + help, crowdsourced cooling points (water, shade, ORS), voice alerts in Marathi/Hindi.
@@ -23,8 +23,8 @@ Vanilla JS ES modules + Vite 7. MapLibre GL 5 + pmtiles 4 + @protomaps/basemaps 
 | Owner | Paths |
 |---|---|
 | **Worker** | `src/ui/`, `src/map/`, `src/engine/` (except the contract), `src/feeds/openmeteo.js`, `src/feeds/rainviewer.js`, `src/style.css` |
-| **Orchestrator** | `infra/`, `src/scenario/`, `src/feeds/sachet.js`, `functions/`, `config.js`, `citypacks/`, `src/data/`, `index.html`, `src/main.js` |
-| **Shared / frozen** | `src/engine/pin.js` — the Pin contract. Do NOT rename fields or enum values. |
+| **Orchestrator** | `src/heat/` (whole heat module, PRD §21), `infra/`, `src/scenario/`, `src/feeds/sachet.js`, `functions/`, `config.js`, `citypacks/`, `src/data/`, `index.html`, `src/main.js` |
+| **Shared / frozen** | `src/engine/pin.js` — the Pin contract. Do NOT rename fields or enum values. Types: `flood`, `clog`, `hotspot`, `cooling` (cooling pins carry optional `amenities`). |
 
 Need a change in a file you don't own? Leave a `// REQUEST(orchestrator): …` note in your own file, or say so in the commit message. Don't edit theirs.
 `src/main.js` is the wiring point: export functions from your modules (e.g. `initReportUI(map, store)`); the orchestrator wires them in. Small, obvious wiring additions to `main.js` are OK if you say so in the commit.
@@ -43,6 +43,12 @@ Need a change in a file you don't own? Leave a `// REQUEST(orchestrator): …` n
 6. Engine code is identical in Live and Scenario mode — only the input source differs. Engine functions take `now` as a parameter (never call `Date.now()` inside engine logic) so the scenario clock works.
 7. Report flow < 10 s, one hand, no login. Marathi labels on key actions (e.g. "Report / तक्रार करा").
 8. Credits must stay visible: "Protomaps © OpenStreetMap", "Weather data by RainViewer" (when radar on).
+
+## Heat module (PRD §21) — what the worker needs to know
+The orchestrator builds `src/heat/` (WBGT estimate, work/rest table, shift mode, "I feel unwell", voice). The worker only:
+- renders **`cooling` pins** (water / shade / ORS / clinic) with the same pin layer — seed data in `src/data/pune-cooling.json` (OSM), icon per first amenity, popup lists amenities + source + age;
+- adds a **"Cooling point / थंड जागा"** choice to the report form (tick amenities) → `makePin({type:'cooling', amenities, ...})`;
+- Layer C heat cells use `CONFIG.HEAT.MAP_BANDS_C` (°C). Fetch `wet_bulb_temperature_2m` and `shortwave_radiation` in the same Open-Meteo call and expose them per grid point — `src/heat/` reads them.
 
 ## Severity ladder (§9) — implement exactly
 GREEN no reports, no heavy rain · YELLOW rain expected or unverified report nearby · ORANGE confirmed ankle-deep on/near route, or clog pin + heavy rain · RED confirmed knee+, any underpass report, river/nullah/dam alert for corridor, official road-closed post.
