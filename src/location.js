@@ -21,10 +21,16 @@ export function requestLocation({ timeoutMs = 12000 } = {}) {
   if (!('geolocation' in navigator)) { state = 'unavailable'; notify(); return Promise.resolve(null); }
   if (fix && state === 'on') return Promise.resolve(fix);
   return new Promise((resolve) => {
-    let done = false;
-    const finish = (v) => { if (!done) { done = true; off(); resolve(v); } };
-    const off = onFix((f, s) => { if (f) finish(f); else if (s === 'denied' || s === 'unavailable') finish(null); });
-    setTimeout(() => finish(fix), timeoutMs);
+    const finish = (v) => {
+      clearTimeout(timer);
+      subs.delete(listener);
+      resolve(v);
+    };
+    const listener = (f, s) => {
+      if (f || s === 'denied' || s === 'unavailable') finish(f);
+    };
+    const timer = setTimeout(() => finish(fix), timeoutMs);
+    subs.add(listener);
     if (watchId == null) {
       state = 'asking'; notify();
       watchId = navigator.geolocation.watchPosition(
