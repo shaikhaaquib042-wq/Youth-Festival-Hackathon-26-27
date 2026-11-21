@@ -407,7 +407,6 @@ input[type="checkbox"], input[type="radio"] { width: 22px; height: 22px; accent-
   border-radius: var(--r-card);
   border: 1px solid #C9D6EE;
   background: #EEF3FC;
-  border-left: 5px solid var(--chakra-700);
   color: var(--ink-700);
 }
 .notice strong { color: var(--chakra-700); }
