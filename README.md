@@ -66,7 +66,7 @@ If a link cannot be verified, the system marks it "Check before you go" instead 
 
 The first page needs only about forty kilobytes of code. Raasta prerenders about 730 pages and serves from Cloudflare's edge network. A plain HTML form provides the core journey even when JavaScript is unavailable.
 
----
+<!-- ---
 
 ## 3-minute demo
 
@@ -78,7 +78,7 @@ The first page needs only about forty kilobytes of code. Raasta prerenders about
 6. Type: **"Rs 20000 was taken from my account by UPI fraud just now."**
 7. Show that no questions appear and 1930 is presented immediately.
 8. Switch to Marathi, then Urdu, and test the right-to-left layout.
-9. Turn JavaScript off and repeat a journey on an old-phone-sized viewport.
+9. Turn JavaScript off and repeat a journey on an old-phone-sized viewport. -->
 
 ---
 
