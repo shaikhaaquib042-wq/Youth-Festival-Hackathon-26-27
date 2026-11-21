@@ -1,0 +1,569 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`templates > bank_fraud_intimation > matches snapshot with full values 1`] = `
+{
+  "date": "21 November 2026",
+  "enclosures": [
+    "Screenshots of the bank messages or alerts",
+    "Account statement showing the transaction",
+    "Copy of the cyber crime complaint acknowledgement, if available",
+  ],
+  "footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice.",
+  "from": {
+    "address": "12 Lake Road, Kothrud, Pune",
+    "name": "Asha Patil",
+    "phone": "9000000000",
+  },
+  "lang": "en",
+  "paragraphs": [
+    "Sir or Madam,",
+    "I hold an account or card with your bank (last 4 digits: 1234). A transaction of Rs. 8,000 was made on 19 November 2026, transaction ID TXN123. I did not make or allow this transaction.",
+    "I am informing you about it within 3 working days. Please block my card, UPI and net banking access now, to stop any more loss.",
+    "I understand that under the Reserve Bank of India rules on customer protection for unauthorised electronic transactions, a customer has zero liability when the matter is reported within 3 working days and the fault is not the customer's. I request you to treat my liability as zero and to credit the amount back to my account.",
+    "Please give me a written acknowledgement with a complaint number, and tell me in writing what you find.",
+    "Cyber crime complaint or acknowledgement number, if any: ________",
+    "More details: It stopped working in a week.",
+  ],
+  "signatureBlock": [
+    "Yours faithfully,",
+    "",
+    "Signature: ________",
+    "Asha Patil",
+  ],
+  "subject": "Unauthorised transaction of Rs. 8,000 on 19 November 2026",
+  "templateId": "bank_fraud_intimation",
+  "title": "Intimation of Unauthorised Transaction",
+  "to": {
+    "address": "________",
+    "email": undefined,
+    "name": "The Branch Manager, Sample Bank",
+  },
+}
+`;
+
+exports[`templates > demand_notice_wages > matches snapshot with full values 1`] = `
+{
+  "date": "21 November 2026",
+  "enclosures": [
+    "Copy of any appointment letter, ID card or wage slip",
+    "Proof of work done (messages, attendance, photos)",
+    "Bank statement or note of part payments received",
+  ],
+  "footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice.",
+  "from": {
+    "address": "12 Lake Road, Kothrud, Pune",
+    "name": "Asha Patil",
+    "phone": "9000000000",
+  },
+  "lang": "en",
+  "paragraphs": [
+    "Sir or Madam,",
+    "I worked for you as ________ during 1 March to 30 June. My wages of Rs. 45,000 for this period have not been paid to me.",
+    "I request you to pay the full unpaid amount within 7 days of receiving this notice. Please pay by bank transfer or give me a written receipt for cash.",
+    "If I do not receive the payment, I may approach the Labour Office and ask for free legal aid from the District Legal Services Authority.",
+    "I would like to settle this peacefully. You can contact me on the phone number given above.",
+  ],
+  "signatureBlock": [
+    "Yours faithfully,",
+    "",
+    "Signature: ________",
+    "Asha Patil",
+  ],
+  "subject": "Request to pay unpaid wages of Rs. 45,000",
+  "templateId": "demand_notice_wages",
+  "title": "Demand Notice for Unpaid Wages",
+  "to": {
+    "address": "________",
+    "email": undefined,
+    "name": "The Employer, Sample Works",
+  },
+}
+`;
+
+exports[`templates > deposit_notice > matches snapshot with full values 1`] = `
+{
+  "date": "21 November 2026",
+  "enclosures": [
+    "Copy of rent agreement",
+    "Proof of deposit payment (receipt or bank statement)",
+    "Proof that the property was handed back (message, key handover note)",
+  ],
+  "footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice.",
+  "from": {
+    "address": "12 Lake Road, Kothrud, Pune",
+    "name": "Asha Patil",
+    "phone": "9000000000",
+  },
+  "lang": "en",
+  "paragraphs": [
+    "Sir or Madam,",
+    "I was your tenant at Flat 4, Sample Society, Pune. I paid a security deposit of Rs. 60,000. I vacated the property on 30 September 2026.",
+    "The deposit has not been returned to me. I request you to return the full deposit within 15 days of receiving this notice. If you have any deduction, please send me the details and bills in writing.",
+    "If the deposit is not returned, I may approach the Rent Authority or a Civil Court, and ask for free legal aid from the District Legal Services Authority.",
+    "I would like to settle this peacefully. You can contact me on the phone number given above.",
+  ],
+  "signatureBlock": [
+    "Yours faithfully,",
+    "",
+    "Signature: ________",
+    "Asha Patil",
+  ],
+  "subject": "Return of security deposit of Rs. 60,000 for Flat 4, Sample Society, Pune",
+  "templateId": "deposit_notice",
+  "title": "Notice for Return of Security Deposit",
+  "to": {
+    "address": "________",
+    "email": undefined,
+    "name": "Owner or Landlord, Mr Sample Owner",
+  },
+}
+`;
+
+exports[`templates > ejagriti_draft > matches snapshot with full values 1`] = `
+{
+  "date": "21 November 2026",
+  "enclosures": [
+    "Copy of invoice or bill",
+    "Proof of payment",
+    "Warranty card or terms, if any",
+    "Messages, emails or earlier complaints about the problem",
+  ],
+  "footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice.",
+  "from": {
+    "address": "12 Lake Road, Kothrud, Pune",
+    "name": "Asha Patil",
+    "phone": "9000000000",
+  },
+  "lang": "en",
+  "paragraphs": [
+    "## Complainant",
+    "Name: Asha Patil
+Address: 12 Lake Road, Kothrud, Pune
+Phone: 9000000000
+Email: asha@example.org",
+    "## Opposite party",
+    "Name: Sample Traders
+Address: ________",
+    "## Facts of the complaint",
+    "- On 1 October 2026, I bought Sample Phone from Sample Traders.
+- I paid Rs. 12,500. The invoice or bill number is INV-1.
+- It stopped working in a week.",
+    "## Relief asked",
+    "I request the Commission to order the following: A full refund.",
+    "## Documents attached",
+    "See the list of enclosures below.",
+    "## Affidavit (format)",
+    "I, Asha Patil, residing at 12 Lake Road, Kothrud, Pune, state as follows:",
+    "1. I am the complainant in this matter.
+2. The facts stated in the complaint above are true to the best of my knowledge and belief.
+3. The documents I have attached are true copies of the documents I have.",
+    "Signature of the person making the statement: ________
+Place: ________     Date: ________",
+    "Verification: I state that the contents of this affidavit are true to my knowledge and that nothing important has been hidden.",
+    "Note: Sign the affidavit before a notary or an oath commissioner if the Commission asks for it. Please check the e-Jagriti portal for the current rules and fee before you file.",
+  ],
+  "signatureBlock": [
+    "Complainant,",
+    "",
+    "Signature: ________",
+    "Asha Patil",
+  ],
+  "subject": "Complaint against Sample Traders about Sample Phone",
+  "templateId": "ejagriti_draft",
+  "title": "Consumer Complaint (Draft for e-Jagriti)",
+  "to": {
+    "address": "________",
+    "email": undefined,
+    "name": "The President, District Consumer Disputes Redressal Commission",
+  },
+}
+`;
+
+exports[`templates > grievance_text > matches snapshot with full values 1`] = `
+{
+  "date": "21 November 2026",
+  "enclosures": [
+    "Copy of application, receipt or earlier complaint",
+    "Any other papers that support my grievance",
+  ],
+  "footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice.",
+  "from": {
+    "address": "12 Lake Road, Kothrud, Pune",
+    "name": "Asha Patil",
+    "phone": "9000000000",
+  },
+  "lang": "en",
+  "paragraphs": [
+    "Sir or Madam,",
+    "I am writing to raise the following grievance.",
+    "## Details",
+    "- Against: Sample Works
+- Service or issue: Garbage not collected
+- Amount: Rs. 8,000
+- Place: Lane 3, Kothrud",
+    "## What happened",
+    "It stopped working in a week.",
+    "## What I request",
+    "A full refund.",
+    "Please send me the status of my grievance and the name of the officer who is handling it.",
+  ],
+  "signatureBlock": [
+    "Yours faithfully,",
+    "",
+    "Signature: ________",
+    "Asha Patil",
+  ],
+  "subject": "Grievance about Sample Works",
+  "templateId": "grievance_text",
+  "title": "Public Grievance",
+  "to": {
+    "address": "________",
+    "email": undefined,
+    "name": "The Nodal Grievance Officer (CPGRAMS or Aaple Sarkar portal)",
+  },
+}
+`;
+
+exports[`templates > gro_letter > matches snapshot with full values 1`] = `
+{
+  "date": "21 November 2026",
+  "enclosures": [
+    "Copy of invoice or bill",
+    "Copy of payment proof",
+    "Photos, messages or emails about the problem",
+  ],
+  "footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice.",
+  "from": {
+    "address": "12 Lake Road, Kothrud, Pune",
+    "name": "Asha Patil",
+    "phone": "9000000000",
+  },
+  "lang": "en",
+  "paragraphs": [
+    "Sir or Madam,",
+    "I bought Sample Phone from Sample Traders on 1 October 2026. I paid Rs. 12,500. The invoice or bill number is INV-1.",
+    "The problem is as follows: It stopped working in a week.",
+    "I request you to do the following: A full refund.",
+    "Please reply in writing and give me a complaint reference number. I am keeping a copy of this letter and my papers. If this is not solved, I may use the National Consumer Helpline or the Consumer Commission.",
+  ],
+  "signatureBlock": [
+    "Yours faithfully,",
+    "",
+    "Signature: ________",
+    "Asha Patil",
+  ],
+  "subject": "Complaint about Sample Phone (invoice INV-1)",
+  "templateId": "gro_letter",
+  "title": "Complaint Letter",
+  "to": {
+    "address": "________",
+    "email": undefined,
+    "name": "The Grievance Officer, Sample Traders",
+  },
+}
+`;
+
+exports[`templates > legal_aid_application > matches snapshot with full values 1`] = `
+{
+  "date": "21 November 2026",
+  "enclosures": [
+    "Proof of identity",
+    "Proof of income or income declaration",
+    "Papers related to my problem",
+    "Proof of category, if it applies",
+  ],
+  "footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice.",
+  "from": {
+    "address": "12 Lake Road, Kothrud, Pune",
+    "name": "Asha Patil",
+    "phone": "9000000000",
+  },
+  "lang": "en",
+  "paragraphs": [
+    "Sir or Madam,",
+    "I am Asha Patil, living at 12 Lake Road, Kothrud, Pune, district Pune. I request free legal services from your Authority.",
+    "My yearly family income is Rs. 90,000.",
+    "Category that may apply to me (woman, child, SC or ST, disability, other): ________",
+    "My problem is as follows: Unpaid wages.",
+    "The other party is: Sample Works",
+    "I will give any papers or proof that you ask for. Please tell me what I should do next and when I should come to your office.",
+  ],
+  "signatureBlock": [
+    "Yours faithfully,",
+    "",
+    "Signature: ________",
+    "Asha Patil",
+  ],
+  "subject": "Application for free legal services",
+  "templateId": "legal_aid_application",
+  "title": "Application for Free Legal Aid",
+  "to": {
+    "address": "________",
+    "email": undefined,
+    "name": "The Secretary, District Legal Services Authority, Pune",
+  },
+}
+`;
+
+exports[`templates > maharera_conciliation > matches snapshot with full values 1`] = `
+{
+  "date": "21 November 2026",
+  "enclosures": [
+    "Copy of agreement for sale or allotment letter",
+    "Payment receipts",
+    "Letters or messages exchanged with the builder",
+  ],
+  "footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice.",
+  "from": {
+    "address": "12 Lake Road, Kothrud, Pune",
+    "name": "Asha Patil",
+    "phone": "9000000000",
+  },
+  "lang": "en",
+  "paragraphs": [
+    "Sir or Madam,",
+    "I am a buyer in the project Sample Heights by Sample Builders. The MahaRERA registration number is P000000. I have paid Rs. 9,00,000 so far.",
+    "The agreement promised possession by ________.",
+    "The problem is as follows: It stopped working in a week.",
+    "I request the Forum to help us settle this by talking: A full refund.",
+    "I am ready to take part in the conciliation meeting and to share my papers.",
+  ],
+  "signatureBlock": [
+    "Yours faithfully,",
+    "",
+    "Signature: ________",
+    "Asha Patil",
+  ],
+  "subject": "Conciliation request against Sample Builders for project Sample Heights",
+  "templateId": "maharera_conciliation",
+  "title": "Request for Conciliation",
+  "to": {
+    "address": "________",
+    "email": undefined,
+    "name": "The Conciliation Forum, MahaRERA",
+  },
+}
+`;
+
+exports[`templates > nch_text > matches snapshot with full values 1`] = `
+{
+  "date": "21 November 2026",
+  "enclosures": [],
+  "footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice.",
+  "from": {
+    "address": "12 Lake Road, Kothrud, Pune",
+    "name": "Asha Patil",
+    "phone": "9000000000",
+  },
+  "lang": "en",
+  "paragraphs": [
+    "I am Asha Patil. On 1 October 2026 I bought Sample Phone from Sample Traders for Rs. 12,500.",
+    "Problem: It stopped working in a week.",
+    "What I want: A full refund.",
+    "I have the bill and my messages as proof. I request that the company be asked to solve this.",
+  ],
+  "signatureBlock": [
+    "Yours faithfully,",
+    "",
+    "Signature: ________",
+    "Asha Patil",
+  ],
+  "subject": "Complaint about Sample Phone",
+  "templateId": "nch_text",
+  "title": "Text to paste in the National Consumer Helpline form",
+  "to": {
+    "name": "National Consumer Helpline (online complaint form)",
+  },
+}
+`;
+
+exports[`templates > neighbour_letter > matches snapshot with full values 1`] = `
+{
+  "date": "21 November 2026",
+  "enclosures": [],
+  "footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice.",
+  "from": {
+    "address": "12 Lake Road, Kothrud, Pune",
+    "name": "Asha Patil",
+    "phone": "9000000000",
+  },
+  "lang": "en",
+  "paragraphs": [
+    "Dear Mr Neighbour,",
+    "I hope you and your family are well. I am writing because I want us to stay on good terms, and I would like to sort out one matter with you in a friendly way.",
+    "The matter is about ________. It stopped working in a week.",
+    "It would help me if we could do this: A full refund.",
+    "I would be happy to meet you at a time that suits you, with a family elder or a society member if you like. Please tell me a day and time, or call me on the number above.",
+    "Thank you for reading this letter. I am sure we can find a way that is fair to both of us.",
+  ],
+  "signatureBlock": [
+    "With respect,",
+    "",
+    "Signature: ________",
+    "Asha Patil",
+  ],
+  "subject": "A request to talk and find a solution together",
+  "templateId": "neighbour_letter",
+  "title": "Letter to a Neighbour",
+  "to": {
+    "address": "________",
+    "name": "Mr Neighbour (neighbour)",
+  },
+}
+`;
+
+exports[`templates > pmc_ward_letter > matches snapshot with full values 1`] = `
+{
+  "date": "21 November 2026",
+  "enclosures": [
+    "Photos of the problem, with date if possible",
+    "Copy of any earlier complaint",
+  ],
+  "footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice.",
+  "from": {
+    "address": "12 Lake Road, Kothrud, Pune",
+    "name": "Asha Patil",
+    "phone": "9000000000",
+  },
+  "lang": "en",
+  "paragraphs": [
+    "Sir or Madam,",
+    "I live or work near Lane 3, Kothrud in Kothrud. I am writing about this problem: Garbage not collected.",
+    "Other party: Mr Neighbour. Damage or nuisance: ________.",
+    "It stopped working in a week.",
+    "Earlier complaint number, if any: ________",
+    "I request you to do the following: A full refund.",
+    "Please send me a written reply or a complaint number so that I can follow up.",
+  ],
+  "signatureBlock": [
+    "Yours faithfully,",
+    "",
+    "Signature: ________",
+    "Asha Patil",
+  ],
+  "subject": "Request for action: Garbage not collected at Lane 3, Kothrud",
+  "templateId": "pmc_ward_letter",
+  "title": "Letter to the Ward Office",
+  "to": {
+    "address": "________",
+    "email": undefined,
+    "name": "The Ward Officer, Kothrud, Pune Municipal Corporation",
+  },
+}
+`;
+
+exports[`templates > police_complaint > matches snapshot with full values 1`] = `
+{
+  "date": "21 November 2026",
+  "enclosures": [
+    "Copy of my identity proof",
+    "Papers, screenshots or bills about the incident",
+  ],
+  "footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice.",
+  "from": {
+    "address": "12 Lake Road, Kothrud, Pune",
+    "name": "Asha Patil",
+    "phone": "9000000000",
+  },
+  "lang": "en",
+  "paragraphs": [
+    "Sir or Madam,",
+    "I, Asha Patil, living at 12 Lake Road, Kothrud, Pune, want to report the following incident that took place on 18 November 2026.",
+    "Someone took my bag.",
+    "## Details",
+    "- Bank: Sample Bank
+- Transaction ID: TXN123
+- Amount: Rs. 8,000
+- Transaction date: 19 November 2026",
+    "I request you to register my complaint and, if the facts show an offence, to register an FIR. Please give me a copy of the FIR, or a receipt or acknowledgement with a number, so that I can follow up.",
+    "I am ready to give my statement and any more papers you need.",
+  ],
+  "signatureBlock": [
+    "Yours faithfully,",
+    "",
+    "Signature: ________",
+    "Asha Patil",
+  ],
+  "subject": "Request to register my complaint",
+  "templateId": "police_complaint",
+  "title": "Written Complaint to the Police",
+  "to": {
+    "address": "________",
+    "email": undefined,
+    "name": "The Station House Officer, Sample Police Station",
+  },
+}
+`;
+
+exports[`templates > rbi_lender_precomplaint > matches snapshot with full values 1`] = `
+{
+  "date": "21 November 2026",
+  "enclosures": [
+    "Loan or account statement",
+    "Earlier emails, messages or letters about this problem",
+  ],
+  "footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice.",
+  "from": {
+    "address": "12 Lake Road, Kothrud, Pune",
+    "name": "Asha Patil",
+    "phone": "9000000000",
+  },
+  "lang": "en",
+  "paragraphs": [
+    "Sir or Madam,",
+    "I am a customer of Sample Finance. My account or loan number ends with 1234.",
+    "My complaint is as follows: It stopped working in a week.",
+    "I request you to do the following: A full refund.",
+    "Please send me a written reply and a complaint reference number. I am keeping a copy of this letter. If my complaint is not solved, I may take it to the Reserve Bank of India Complaint Management System.",
+  ],
+  "signatureBlock": [
+    "Yours faithfully,",
+    "",
+    "Signature: ________",
+    "Asha Patil",
+  ],
+  "subject": "Complaint about my account with Sample Finance (last 4 digits 1234)",
+  "templateId": "rbi_lender_precomplaint",
+  "title": "Complaint to the Lender",
+  "to": {
+    "address": "________",
+    "email": undefined,
+    "name": "The Grievance Redressal Officer, Sample Finance",
+  },
+}
+`;
+
+exports[`templates > shebox_narrative > matches snapshot with full values 1`] = `
+{
+  "date": "21 November 2026",
+  "enclosures": [],
+  "footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice.",
+  "from": {
+    "address": "12 Lake Road, Kothrud, Pune",
+    "name": "Asha Patil",
+    "phone": "9000000000",
+  },
+  "lang": "en",
+  "paragraphs": [
+    "I am Asha Patil. I work, or worked, at Sample Works.",
+    "Date or period: 18 November 2026. Place: ________.",
+    "Person involved: ________.",
+    "What happened: Someone took my bag.",
+    "People who saw or know about it: ________",
+    "What I want: A full refund.",
+    "I am keeping my messages, notes and any other proof, and can share them if asked.",
+  ],
+  "signatureBlock": [
+    "Yours faithfully,",
+    "",
+    "Signature: ________",
+    "Asha Patil",
+  ],
+  "subject": "Complaint of harassment at the workplace",
+  "templateId": "shebox_narrative",
+  "title": "Narrative for the SHe-Box Complaint Form",
+  "to": {
+    "name": "SHe-Box online complaint form (copy and paste this text)",
+  },
+}
+`;

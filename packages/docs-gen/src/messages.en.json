@@ -1,0 +1,17 @@
+{
+  "doc.download_pdf": "Download PDF",
+  "doc.print_html": "Print or save as PDF",
+  "doc.print_note": "If the button does not work, use your browser menu and choose Print, then Save as PDF.",
+  "doc.preview": "Preview",
+  "doc.blank_hint": "Lines marked ________ are blank on purpose. Fill them by hand before you sign.",
+  "doc.pdf_english_only": "The PDF is in English. For other languages use the print page.",
+  "doc.email_open": "Open in your email app",
+  "doc.email_gmail": "Open in Gmail",
+  "doc.email_outlook": "Open in Outlook",
+  "doc.email_trimmed": "Full letter attached, please attach the downloaded file.",
+  "doc.labels_title": "Postal labels (4 per A4 sheet)",
+  "doc.envelope_title": "DL envelope (220 x 110 mm)",
+  "doc.post_line": "Speed Post / Registered Post A.D.",
+  "doc.posting_reminder": "Keep the proof of posting receipt and note the article number to track on indiapost.gov.in.",
+  "doc.footer": "Prepared with Raasta. This is a draft for you to check, sign and send. It is not legal advice."
+}
