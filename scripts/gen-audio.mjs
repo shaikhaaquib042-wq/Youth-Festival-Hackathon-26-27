@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, unlinkSync } from '
 import { execFileSync } from 'node:child_process';
 import { CLIPS, NUMBER_WORDS } from '../src/i18n/clips.js';
 
-const root = new URL('../', import.meta.url).pathname;
+const root = decodeURIComponent(new URL('../', import.meta.url).pathname);
 const env = Object.fromEntries(
   readFileSync(`${root}.env.local`, 'utf8').split('\n').filter((l) => /^[A-Z_]+=/.test(l)).map((l) => [l.slice(0, l.indexOf('=')), l.slice(l.indexOf('=') + 1).trim()]),
 );
