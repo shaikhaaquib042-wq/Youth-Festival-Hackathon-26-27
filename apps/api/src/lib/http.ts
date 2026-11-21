@@ -39,7 +39,7 @@ export async function readLimited(req: Request, max: number): Promise<string> {
 }
 
 export function bodyLimitFor(pathname: string): number {
-  return pathname === "/api/chat" || pathname === "/r/chat" ? BODY_LIMIT_CHAT : BODY_LIMIT_FORM;
+  return pathname === "/api/chat" || pathname === "/r/chat" || pathname.startsWith("/r/doc/") ? BODY_LIMIT_CHAT : BODY_LIMIT_FORM;
 }
 
 /** Parses the (already size-checked) JSON body with zod. */

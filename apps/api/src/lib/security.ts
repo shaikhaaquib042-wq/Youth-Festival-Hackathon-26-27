@@ -21,7 +21,7 @@ export const CSP = [
 export const securityHeaders: MiddlewareHandler<AppEnv> = async (c, next) => {
   await next();
   const h = c.res.headers;
-  h.set("Content-Security-Policy", CSP);
+  if (!h.has("Content-Security-Policy")) h.set("Content-Security-Policy", CSP);
   h.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
   h.set("X-Content-Type-Options", "nosniff");
   h.set("Referrer-Policy", "strict-origin-when-cross-origin");
@@ -67,6 +67,7 @@ function limiterFor(env: Env, method: string, path: string): RateLimiter | undef
     (path.startsWith("/api/feedback") ||
       path.startsWith("/api/system-request") ||
       path.startsWith("/api/submit/") ||
+      path.startsWith("/r/submit/") ||
       path.startsWith("/r/feedback") ||
       path.startsWith("/r/system-request"))
   )

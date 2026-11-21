@@ -5,6 +5,7 @@ import { HttpError } from "./lib/http";
 import { postGuard, rateLimit, securityHeaders } from "./lib/security";
 import { api } from "./routes/api";
 import { langMiddleware, pages, renderHtml } from "./routes/pages";
+import { tools } from "./routes/tools";
 import { MessagePage } from "./views/Pages";
 
 export const app = new Hono<AppEnv>();
@@ -16,6 +17,7 @@ app.use("*", postGuard);
 
 app.route("/api", api);
 app.route("/r", pages);
+app.route("/r", tools);
 
 const ERROR_KEY: Record<string, string> = {
   rate_limited: "ui.error.limit",

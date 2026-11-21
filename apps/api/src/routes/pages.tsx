@@ -162,7 +162,7 @@ pages.get("/route/:token", async (c) => {
     priorComplaintDate: ago(v.slots.prior_complaint_days_ago),
   });
   const title = t(lang, `dispute.${v.slots.dispute_type}.title`);
-  return renderHtml(c, <ResultPage lang={lang} token={token} result={result} geo={v.geo} timers={timers} title={title} />);
+  return renderHtml(c, <ResultPage lang={lang} token={token} result={result} geo={v.geo} timers={timers} title={title} slots={v.slots} demo={isDemo(c.env)} />);
 });
 
 pages.post("/route/:token/ward", async (c) => {

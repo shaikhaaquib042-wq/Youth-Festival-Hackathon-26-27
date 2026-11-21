@@ -550,3 +550,16 @@ input[type="checkbox"], input[type="radio"] { width: 22px; height: 22px; accent-
   a { color: #000000; text-decoration: underline; }
   .card, .office-card, .alert, .notice { page-break-inside: avoid; }
 }
+
+/* ---------- 20. Action centre (Worker result page) ---------- */
+.mode-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.mode { padding: 14px 0; border-top: 1px solid var(--sage-100); }
+.mode:first-child { border-top: 0; }
+.mode-label { margin: 0 0 6px; }
+.act-h { font-size: 1.1rem; }
+.is-blocked { opacity: 0.6; background: var(--sage-50); }
+.copy-tray textarea, .field textarea[readonly] { width: 100%; background: var(--sage-50); }
+details > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 700; color: var(--leaf-700); }
+@media print {
+  .action-centre, .mode-list { display: none !important; }
+}
