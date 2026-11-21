@@ -140,8 +140,8 @@ body:has(#scenario-bar:not([hidden])) #alert-banner:not([hidden]) ~ #status-card
 #scenario-bar.mini .sb-expand { display: inline-flex; align-items: center; justify-content: center; }
 #scenario-bar.mini .sb-controls { flex-wrap: nowrap; gap: 6px; }
 #scenario-bar.mini .sb-controls input[type=range] { min-width: 60px; }
-/* Phone: scenario bar, alert banner and status cards stack below the top bar — never over it (measured bar height --sb-h) */
-@media (max-width: 759px) {
+/* All widths: scenario bar, alert banner and status cards stack below the top bar — never over it (measured bar height --sb-h) */
+@media (min-width: 0px) {
   #alert-banner { top: calc(var(--topbar-h, 70px) + 8px); }
   #scenario-bar { top: calc(var(--topbar-h, 70px) + 8px); }
   body:has(#scenario-bar:not([hidden])) #alert-banner { top: calc(var(--topbar-h, 70px) + 16px + var(--sb-h, 150px)); }

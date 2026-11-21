@@ -19,14 +19,7 @@
   top: calc(var(--topbar-h, 70px) + 56px);
 }
 
-@media (min-width: 760px) {
-  #status-cards-root {
-    top: 56px;
-  }
-  #alert-banner:not([hidden]) ~ #status-cards-root {
-    top: 108px;
-  }
-}
+/* (desktop uses the same top-bar offset — the 56px override overlapped the 70px top bar) */
 
 #status-cards-root > * {
   pointer-events: auto;
@@ -594,12 +587,7 @@
   align-items: flex-start;
   top: calc(var(--topbar-h, 70px) + 8px);
 }
-@media (min-width: 760px) {
-  #status-cards-root:has(.status-card.collapsed) {
-    top: 56px;
-    left: 0;
-  }
-}
+
 
 .status-card.collapsed {
   align-self: flex-start;
