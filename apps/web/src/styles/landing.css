@@ -96,15 +96,10 @@
 }
 
 /* ---------- First screen: slim topic rail (about 10%) + the chat window filling the rest ---------- */
-.lp-scene { align-items: center; padding: 40px 0 56px; }
+.lp-scene { align-items: flex-start; padding: 32px 0 56px; }
 .lp2 { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; width: 100%; max-width: 1480px; margin: 0 auto; padding: 0 var(--gutter); }
 .lp-rail2 { display: none; }
-.lp-chat { width: 100%; min-width: 0; align-self: start; }
-.chat-body, .chat-form { width: auto; max-width: 820px; }
-.chat-body { margin: 0 auto; }
-.chat-form { margin: 18px auto 8px; width: calc(100% - 44px); }
-.chat-body { gap: 16px; padding: 26px 28px 4px; }
-.chat-form { margin: 18px 22px 8px; }
+.lp-chat { width: 100%; min-width: 0; align-self: stretch; } .chat-body { gap: 18px; padding: 28px 28px 4px; width: 100%; } .chat-body .msg-bot { align-self: stretch; max-width: none; padding: 22px 26px; border-radius: 26px; } .chat-try { width: 100%; } .chat-try > li { flex: 1 1 200px; } .chat-try .try-chip { width: 100%; justify-content: center; text-align: center; } .chat-form { margin: 18px 28px 8px; width: auto; }
 .chat-input { min-height: 76px; }
 .chat-prefer { margin: 4px auto 18px; text-align: center; }
 
@@ -112,7 +107,7 @@
   .lp2 { grid-template-columns: clamp(96px, 10vw, 150px) minmax(0, 1fr); gap: 24px; padding: 0 24px; }
   .lp-rail2 {
     display: flex; flex-direction: column; align-items: stretch; gap: 6px;
-    position: sticky; top: 88px; align-self: start; max-height: calc(100vh - 110px); overflow-y: auto; scrollbar-width: none;
+    align-self: stretch;
     padding: 14px 8px; border-radius: 30px;
     background: rgba(255, 255, 255, 0.66); box-shadow: 0 20px 50px -34px rgba(31, 58, 138, 0.35);
   }
@@ -415,7 +410,6 @@
   .chat-body { padding: 20px 16px 4px; }
   .msg-bot { padding: 18px 18px; }
   .chat-form { width: calc(100% - 20px); margin: 14px auto 10px; }
-  .chat-foot .ask-send { width: 100%; justify-content: center; }
 }
 @media (prefers-reduced-motion: reduce) {
   .illo *, .float-a, .float-b, .float-c { animation: none !important; transition: none !important; }
@@ -438,5 +432,6 @@
 @media (min-width: 1100px) {
   .lp2 { grid-template-columns: clamp(96px, 10vw, 150px) minmax(0, 1fr) minmax(240px, 20%); }
   .lp-common { position: sticky; top: 88px; align-self: start; }
-  .lp-common .lp-tiles { grid-template-columns: minmax(0, 1fr); }
+  .lp-common { align-self: stretch; }
 }
+.chat-foot .ask-send { width: auto; margin-left: auto; flex: none; }
