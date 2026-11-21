@@ -14,7 +14,8 @@ if (!existsSync(join(dist, "index.html")) || !existsSync(ssrEntry)) {
 
 const template = readFileSync(join(dist, "index.html"), "utf8");
 const mod = await import(pathToFileURL(ssrEntry).href);
-const { render, metaFor, CATEGORY_IDS, STATIC_PATHS, LOCALES, LANG_META, SITE_URL, APP_NAME, extraPaths } = mod;
+const { render, prepare, metaFor, CATEGORY_IDS, STATIC_PATHS, LOCALES, LANG_META, SITE_URL, APP_NAME, extraPaths } = mod;
+await prepare();
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
@@ -63,6 +64,8 @@ function headFor(lang, path, meta, notFound) {
   parts.push(`<meta property="og:title" content="${esc(meta.title)}">`);
   parts.push(`<meta property="og:description" content="${esc(meta.description)}">`);
   parts.push(`<meta property="og:locale" content="${LANG_META[lang].tag}">`);
+  parts.push('<link rel="manifest" href="/site.webmanifest">');
+  parts.push('<meta name="theme-color" content="#E56420">');
   parts.push(fontLinks(lang));
   return parts.join("\n    ");
 }
@@ -96,3 +99,13 @@ for (const lang of LOCALES) {
 writePage("404.html", page("en", "/__not-found__", true));
 rmSync(join(root, "dist-ssr"), { recursive: true, force: true });
 console.log(`prerender: wrote ${count + 1} pages (${LOCALES.length} locales)`);
+
+// sitemap.xml: every prerendered route in every locale, with hreflang alternates.
+const sitemapEntries = paths.map((p) => {
+  const alts = LOCALES.map((l) => `    <xhtml:link rel="alternate" hreflang="${LANG_META[l].tag}" href="${esc(SITE_URL + urlPath(l, p))}"/>`);
+  alts.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${esc(SITE_URL + urlPath("en", p))}"/>`);
+  return LOCALES.map((l) => `  <url>\n    <loc>${esc(SITE_URL + urlPath(l, p))}</loc>\n${alts.join("\n")}\n  </url>`).join("\n");
+});
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${sitemapEntries.join("\n")}\n</urlset>\n`;
+writeFileSync(join(dist, "sitemap.xml"), sitemap);
+console.log(`prerender: wrote sitemap.xml with ${paths.length * LOCALES.length} URLs`);

@@ -1,10 +1,12 @@
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { Link, Outlet, useLocation } from "react-router";
 import { Languages, MapPin, Menu, PhoneCall } from "lucide-react";
 import { APP_NAME, DISCLAIMER_EN, LOCALES } from "@raasta/config";
 import { LANG_META } from "@raasta/i18n";
 import { useLang, useT, localePath } from "../lib/lang";
 import { metaFor } from "../lib/meta";
+import { schemaFor } from "../lib/schema";
+import { JsonLd } from "./JsonLd";
 import { runPageTransition } from "../lib/motion";
 import { Logo } from "./Logo";
 
@@ -159,6 +161,7 @@ function useDocumentMeta() {
 
 export function Shell() {
   const tt = useT();
+  const lang = useLang();
   const { pathname } = useLocation();
   const first = useRef(true);
   const mainRef = useRef<HTMLElement>(null);
@@ -184,8 +187,13 @@ export function Shell() {
         <path ref={sweepRef} d="M0 8 C 18 0, 34 12, 52 5 S 86 2, 100 6" pathLength="1" vectorEffect="non-scaling-stroke" />
       </svg>
       <main id="main" ref={mainRef} tabIndex={-1}>
-        <Outlet />
+        <Suspense fallback={null}>
+          <Outlet />
+        </Suspense>
       </main>
+      {schemaFor(lang, pathname).map((data, i) => (
+        <JsonLd key={i} data={data} />
+      ))}
       <SiteFooter />
     </>
   );

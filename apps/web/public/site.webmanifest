@@ -1,0 +1,12 @@
+{
+  "name": "Raasta",
+  "short_name": "Raasta",
+  "description": "Find the right door for your problem.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF5EB",
+  "theme_color": "#E56420",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

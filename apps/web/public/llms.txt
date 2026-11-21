@@ -1,0 +1,20 @@
+# Raasta
+
+> Raasta helps people in India find the right authority for an everyday dispute. It gives procedural guidance based on public government rules. It is not legal advice.
+
+Raasta is a free project with no accounts. It covers consumer refunds, unpaid wages, security deposits, civic failures, police complaints, cyber fraud, government services and free legal aid. Pune has the most complete office list. Other states have standard guidance.
+
+## Main pages
+
+- [Home](https://raasta.safalmutha.in/): describe a problem and see the right door.
+- [Get help by topic](https://raasta.safalmutha.in/help): all categories of disputes.
+- [Emergency help for UPI and cyber fraud](https://raasta.safalmutha.in/emergency): urgent steps.
+- [Offices](https://raasta.safalmutha.in/offices): offices that handle complaints in Pune, with contact details.
+- [Check free legal aid](https://raasta.safalmutha.in/legal-aid): a short eligibility check under Section 12 of the Legal Services Authorities Act, 1987.
+- [State pages](https://raasta.safalmutha.in/state/mh): complaint portals, legal services authority and legal aid income limit for each state and union territory.
+- [About](https://raasta.safalmutha.in/about): who built Raasta and how it works.
+- [Data and sources](https://raasta.safalmutha.in/about/data): where information comes from and its licences.
+- [Privacy](https://raasta.safalmutha.in/privacy), [Terms of use](https://raasta.safalmutha.in/terms), [Disclaimer](https://raasta.safalmutha.in/disclaimer).
+- [Feedback](https://raasta.safalmutha.in/feedback): send feedback or ask for a complaint system in your area.
+
+Sitemap: https://raasta.safalmutha.in/sitemap.xml
