@@ -1,6 +1,7 @@
 import { officesPune, type Platform } from "@raasta/data";
 import { t, type Locale } from "@raasta/i18n";
-import type { IntakeSlots } from "@raasta/rules/types";
+import type { GeoContext, IntakeSlots } from "@raasta/rules/types";
+import { StepList, howtoSteps } from "./route/howto";
 import { draftText, safeHttps, telHref } from "../lib/draft";
 import { Layout } from "./Layout";
 
@@ -43,9 +44,12 @@ export interface GuideProps {
   token?: string;
   slots?: IntakeSlots;
   title?: string;
+  geo?: GeoContext;
+  letter?: string;
 }
 
-export function GuidePage({ lang, platform: p, token, slots, title }: GuideProps) {
+export function GuidePage({ lang, platform: p, token, slots, title, geo, letter }: GuideProps) {
+  const plain = howtoSteps("platform", p.id, { lang, token, geo, letter });
   const pre = strs(p.mandatory_pre_steps);
   const steps = strs(p.step_by_step_guide);
   const docs = strs(p.documents_required);
@@ -96,8 +100,17 @@ export function GuidePage({ lang, platform: p, token, slots, title }: GuideProps
           ) : null}
         </section>
 
+        {plain.length ? (
+          <section className="card howto-card stack" aria-labelledby="plain">
+            <h2 id="plain">{t(lang, "ui.howto.show")}</h2>
+            <StepList steps={plain} />
+          </section>
+        ) : null}
+
         <section className="stack" aria-labelledby="steps">
-          <h2 id="steps">{t(lang, "ui.guide.steps")}</h2>
+          {plain.length ? null : <h2 id="steps">{t(lang, "ui.guide.steps")}</h2>}
+          <details className="doc-more" open={!plain.length}>
+          {plain.length ? <summary id="steps">{t(lang, "ui.howto.official")}</summary> : <summary>{t(lang, "ui.guide.steps")}</summary>}
           <ol className="stepper">
             {pre.map((s, i) => (
               <li key={`p${i}`}>
@@ -123,7 +136,8 @@ export function GuidePage({ lang, platform: p, token, slots, title }: GuideProps
               </li>
             ))}
           </ol>
-          {!steps.length ? <p>{t(lang, "ui.guide.no_steps")}</p> : null}
+          </details>
+          {!steps.length && !plain.length ? <p>{t(lang, "ui.guide.no_steps")}</p> : null}
         </section>
 
         {wrong.length || up.length ? (

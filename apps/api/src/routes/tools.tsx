@@ -1,5 +1,5 @@
 import { Hono, type Context } from "hono";
-import { legalAid, officeById, platformById, stateByCode } from "@raasta/data";
+import { disputeById, legalAid, officeById, platformById, stateByCode } from "@raasta/data";
 import { buildDoc, getTemplate, renderEnvelopeDL, renderLabels, renderPdf, renderPrintHtml } from "@raasta/docs-gen";
 import { isLocale, t, type Locale } from "@raasta/i18n";
 import { legalAidCheck, redact, route, verifyToken } from "@raasta/rules";
@@ -11,7 +11,7 @@ import { forwardGeocode } from "../geo/forward";
 import { findOffices } from "../geo/offices";
 import { resolveGeo, stateCodeFrom } from "../geo/resolver";
 import { prefillVars } from "../lib/draft";
-import { HttpError, parseForm, parseFormAll } from "../lib/http";
+import { HttpError, parseCookies, parseForm, parseFormAll } from "../lib/http";
 import { storeDigitSubmission } from "../lib/store";
 import { GuidePage } from "../views/Guide";
 import { ChatPage, MessagePage, type ChatTurn } from "../views/Pages";
@@ -69,7 +69,8 @@ tools.get("/guide/:platformId", async (c) => {
   if (!p) throw new HttpError(404, "not_found");
   const td = await tokenData(c, c.req.query("t"));
   const title = td ? t(c.get("lang"), `dispute.${td.slots.dispute_type}.title`) : undefined;
-  return renderHtml(c, <GuidePage lang={c.get("lang")} platform={p} token={td ? c.req.query("t") : undefined} slots={td?.slots} title={title} />);
+  const letter = td ? disputeById(td.slots.dispute_type)?.doc_templates[0] : undefined;
+  return renderHtml(c, <GuidePage lang={c.get("lang")} platform={p} token={td ? c.req.query("t") : undefined} slots={td?.slots} title={title} geo={td?.geo} letter={letter} />);
 });
 
 // ---------- /r/doc/:template ----------
@@ -246,12 +247,16 @@ tools.get("/offices", async (c) => {
   const city = q.city?.trim().slice(0, 60) || undefined;
   const type = q.type && /^[a-z_]{3,30}$/.test(q.type) ? q.type : undefined;
   const landmark = q.landmark?.trim().slice(0, 120) || undefined;
-  const searched = !!(state || city || type || landmark);
+  const lat = Number(q.lat), lng = Number(q.lng);
+  const gps = Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180 && q.lat !== undefined && q.lng !== undefined ? ([lat, lng] as [number, number]) : undefined;
+  const searched = !!(state || city || type || landmark || gps);
+  // Nothing typed yet: start from the saved place so people do not have to fill it again.
+  const saved = (parseCookies(c.req.header("cookie") ?? "").raasta_loc ?? "").split("|");
   let result;
   let geocodeFailed = false;
   if (searched) {
-    let pt: [number, number] | undefined;
-    if (landmark) {
+    let pt: [number, number] | undefined = gps;
+    if (landmark && !gps) {
       const g = await forwardGeocode(c.env, landmark);
       if (g) pt = [g.lat, g.lng];
       else geocodeFailed = true;
@@ -261,7 +266,8 @@ tools.get("/offices", async (c) => {
     result = await findOffices(c.env, { type, state_code: stateCode, city, lat: pt?.[0], lng: pt?.[1] });
   }
   const st = state ? stateByCode(state) : undefined;
-  return renderHtml(c, <OfficesPage lang={lang} q={{ state, city, type, landmark }} result={result} stateName={st ? { name: st.name, slsa: st.slsa } : undefined} geocodeFailed={geocodeFailed} />);
+  const shown = searched ? { state, city, type, landmark } : { state: stateCodeFrom(saved[0]), city: saved[1]?.trim() || undefined, type, landmark };
+  return renderHtml(c, <OfficesPage lang={lang} q={shown} result={result} stateName={st ? { name: st.name, slsa: st.slsa } : undefined} geocodeFailed={geocodeFailed} />);
 });
 
 // ---------- /r/legal-aid ----------

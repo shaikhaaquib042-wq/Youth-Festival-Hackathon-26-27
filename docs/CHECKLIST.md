@@ -12,13 +12,19 @@ Status as of 2026-11-21. Legend: **pass**, **fixed** (found and fixed in the fin
 | Small local AI shrugging ("other") falls back to the keyword table | fixed |
 | One command local run that never contacts the hosted API (`npm run local`) | fixed |
 | Works without JavaScript (plain forms post to `/r/*`) | pass |
+| Plain-language step-by-step guide with highlighted links for every door that cannot take a direct API filing, in every state (36 states x 19 problems tested) | fixed |
+| Guide links only from the registry (test fails on any URL key or phone number not in `packages/data`) | pass |
+| Minimal questions: guided flows ask only what changes the route (73 to 53 questions), city skipped when known, one-tap GPS for place and nearby offices | fixed |
+| Letter form shows required and prefilled fields first; optional extras folded | fixed |
 
 ## Quality
 | Item | Status |
 |---|---|
-| 263 unit tests, 3 TypeScript projects clean | pass |
+| 271 unit tests, 3 TypeScript projects clean | pass |
+| Guides and guided questions translated into 11 languages (4,191 + 1,353 lines, each kept only if numbers and placeholders survive) | fixed |
+| Dynamic pages follow the language of the static page the visitor came from | fixed |
 | Ollama intake sweep (10 cases, 3 languages, local qwen3.5:4b) | pass 10/10 after fixes |
-| Playwright journeys at 375/768/1280, no-JS, axe, static pages (`qa/agy`), against the local stack | pass 168/168 |
+| Playwright journeys at 375/768/1280, no-JS, axe, static pages (`qa/agy`), against the local stack | pass: full run 160/168; the 8 failures were tests written for the old longer flows, updated, and the 3 affected specs rerun 38/38 (axe with reduced motion 21/21) |
 | No horizontal scroll at 320 px (home, help, privacy, offices, legal aid, emergency, ur, flow) | pass |
 | Privacy table at 320 px | fixed (scroll wrapper) |
 | Header chips: accessible name contains the visible text (WCAG 2.5.3) | fixed |

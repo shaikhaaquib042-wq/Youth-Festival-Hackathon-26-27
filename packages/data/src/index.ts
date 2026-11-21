@@ -47,3 +47,26 @@ export function officeById(id: string): Office | undefined {
 export function stateByCode(code: string): StateInfo | undefined {
   return stateMap.get(code);
 }
+
+// ---------- Plain-language step-by-step guides (howto.json) ----------
+import howtoRaw from "./howto.json";
+
+const howtoStepSchema = z.object({
+  t: z.string().min(3),
+  link: z.string().optional(),
+  label: z.string().optional(),
+  states: z.array(z.string()).optional(),
+  not_states: z.array(z.string()).optional(),
+  cities: z.array(z.string()).optional(),
+});
+export type HowToStep = z.infer<typeof howtoStepSchema>;
+const howtoSchema = z.object({
+  first: z.record(z.string(), z.array(howtoStepSchema)),
+  platform: z.record(z.string(), z.array(howtoStepSchema)),
+});
+export const howto = howtoSchema.parse(howtoRaw);
+
+/** Steps for a first-step key (e.g. "step.deposit_notice_15d") or a platform id, in registry order. */
+export function howtoFor(scope: "first" | "platform", id: string): HowToStep[] {
+  return howto[scope][id] ?? [];
+}

@@ -73,7 +73,7 @@ If it says a port is in use, an older `wrangler dev` or `vite` is still running.
 ```powershell
 npm test
 ```
-263 unit tests (data, rules, documents, API).
+271 unit tests (data, rules, documents, API, step-by-step guides in every state).
 
 ```powershell
 npm run typecheck
@@ -91,6 +91,10 @@ Sends 10 real-sounding problems (English, Hindi, Marathi) to the local Worker an
 cd qa/agy; npx playwright test
 ```
 Browser journeys, no-JS journeys, accessibility and static pages against `http://localhost:4173` (set `BASE_URL` to test another address).
+
+### Editing the step-by-step guides
+
+Guides are in `packages/data/src/howto.json`: `first` (keyed by the first-step id) and `platform` (keyed by platform id). Links are references (`url:<key>`, `tel:<number>`, `wa:<platform>`, `metro:portal`, `state:slsa`, `app:letter`, `app:offices:police` ...), and `npm test` fails if one does not exist in the registry. To translate new lines: regenerate `qa/i18n/howto-en.json`, translate into `qa/i18n/howto-<lang>.json`, then run `node scripts/merge-i18n.mjs howto` (it keeps a translation only if placeholders and phone numbers survive).
 
 ## 5. Deploy (hosted, domain to domain)
 

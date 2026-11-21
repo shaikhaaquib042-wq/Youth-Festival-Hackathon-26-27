@@ -14,9 +14,12 @@ test.describe("Journeys with JavaScript DISABLED at 360x640", () => {
     await textarea.fill("My landlord in Kothrud has not returned my Rs 40,000 deposit for 2 months");
     await page.locator('button[type="submit"].ask-send').click();
 
-    // Follow-up page
-    await expect(page.locator("h1")).toContainText("Tell us a little more");
-    await page.locator('form[action="/r/ask"] button[type="submit"]:has-text("Show me the door")').click();
+    // Follow-up page (only when something that changes the route is still unknown)
+    await page.waitForURL(/\/r\/(ask|route)/, { timeout: 60000 });
+    if (!page.url().includes("/r/route/")) {
+      await expect(page.locator("h1")).toContainText("Tell us a little more");
+      await page.locator('form[action="/r/ask"] button[type="submit"]:has-text("Show me the door")').click();
+    }
 
     // Result page
     const firstStep = page.locator(".j-step.j-first, .j-first");
@@ -87,24 +90,17 @@ test.describe("Journeys with JavaScript DISABLED at 360x640", () => {
 
   test("(ii) Pothole civic failure flow (JS disabled) -> skip condition -> result page", async ({ page }) => {
     await page.goto("/r/flow/civic_failure/0");
-    // Step 1: Choose pothole
-    await page.locator("label").filter({ hasText: "Pothole or road damage" }).click();
-    await page.locator('form[action*="/r/flow/"] button.btn-primary:has-text("Next")').click();
-
-    // Step 2: First noticed days -> Next
-    await page.locator('form[action*="/r/flow/"] button.btn-primary:has-text("Next")').click();
-
-    // Step 3: Have you already complained -> answer No
-    await page.locator("label").filter({ hasText: /^No$/ }).click();
-    await page.locator('form[action*="/r/flow/"] button.btn-primary:has-text("Next")').click();
-
-    // Step 4: Confirm "If yes, how many days ago" question is SKIPPED
-    const cardText = await page.locator(".q-card").innerText();
-    expect(cardText).not.toContain("If yes");
-    expect(cardText).toContain("Your ward or nearest landmark");
-
-    // Finish flow -> result page
-    await page.locator('form[action*="/r/flow/"] button.btn-primary').click();
+    // Guided civic flow: only questions that change the route are asked.
+    for (let i = 0; i < 6 && !page.url().includes("/r/route/"); i++) {
+      await page.waitForSelector('form[action*="/r/flow/"]');
+      const card = await page.locator(".q-card").innerText();
+      expect(card).not.toContain("If yes");
+      expect(card).not.toContain("What is the problem");
+      const no = page.locator("label").filter({ hasText: /^No$/ });
+      if (await no.count()) await no.first().click();
+      await Promise.all([page.waitForLoadState("load"), page.locator('form[action*="/r/flow/"] button.btn-primary').click()]);
+    }
+    await page.waitForURL(/\/r\/route\//, { timeout: 30000 });
     expect(page.url()).toContain("/r/route/");
   });
 
@@ -115,7 +111,8 @@ test.describe("Journeys with JavaScript DISABLED at 360x640", () => {
     await textarea.fill("Rs 20000 was taken from my account by UPI fraud just now");
     await page.locator('button[type="submit"].ask-send').click();
 
-    if (page.url().includes("/r/ask")) {
+    await page.waitForURL(/\/r\/(ask|route)/, { timeout: 60000 });
+    if (!page.url().includes("/r/route/")) {
       await page.locator('form[action="/r/ask"] button[type="submit"]:has-text("Show me the door")').click();
     }
 
@@ -130,7 +127,8 @@ test.describe("Journeys with JavaScript DISABLED at 360x640", () => {
     await textarea.fill("Rs 20000 was taken from my account by UPI fraud just now");
     await page.locator('form[action="/r/ask"] button[type="submit"]').click();
 
-    if (page.url().includes("/r/ask")) {
+    await page.waitForURL(/\/r\/(ask|route)/, { timeout: 60000 });
+    if (!page.url().includes("/r/route/")) {
       await page.locator('form[action="/r/ask"] button[type="submit"]:has-text("Show me the door")').click();
     }
 

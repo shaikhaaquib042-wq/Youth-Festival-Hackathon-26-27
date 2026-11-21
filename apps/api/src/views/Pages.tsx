@@ -6,12 +6,18 @@ import { Layout } from "./Layout";
 type Question = Dispute["questions"][number];
 
 /** Unit shown beside a number box, worked out from the question wording. */
-function unitFor(q: Question): { pre?: string; post?: string } {
+function unitFor(lang: Locale, q: Question): { pre?: string; post?: string } {
   const l = q.label_en.toLowerCase();
   if (q.slot === "amount_inr" || /amount|inr|rs\b|rupee|salary|deposit|income/.test(l)) return { pre: "₹" };
-  if (/days?\b/.test(l)) return { post: "days" };
-  if (/months?\b/.test(l)) return { post: "months" };
+  if (/days?\b/.test(l)) return { post: tr(lang, "ui.unit.days", "days") };
+  if (/months?\b/.test(l)) return { post: tr(lang, "ui.unit.months", "months") };
   return {};
+}
+
+/** Translation with an English fallback taken from the data file. */
+function tr(lang: Locale, key: string, en: string): string {
+  const s = t(lang, key);
+  return s === key ? en : s;
 }
 
 function Option({ name, value, label, checked, hint }: { name: string; value: string; label: string; checked: boolean; hint?: string }) {
@@ -31,14 +37,17 @@ function Option({ name, value, label, checked, hint }: { name: string; value: st
  * One guided question as a form control. `big` renders it as the page question (legend styled as the heading).
  * Yes/no and short option lists become tappable cards; everything works without JavaScript.
  */
-export function QuestionField({ lang, q, value, big }: { lang: Locale; q: Question; value?: string; big?: boolean }) {
+export function QuestionField({ lang, q, value, big, dispute }: { lang: Locale; q: Question; value?: string; big?: boolean; dispute?: string }) {
   const name = answerField(q.id);
+  const key = `q.${dispute ?? "any"}.${q.id}`;
+  const label = dispute ? tr(lang, key, q.label_en) : q.label_en;
+  const opt = (o: { value: string; label_en: string }) => (dispute ? tr(lang, `${key}.${o.value}`, o.label_en) : o.label_en);
   const id = `q-${q.id}`;
   const labelCls = big ? "q-title" : "q-label";
   if (q.type === "boolean") {
     return (
       <fieldset className="q">
-        <legend className={labelCls}>{q.label_en}</legend>
+        <legend className={labelCls}>{label}</legend>
         <div className="opts opts-3">
           <Option name={name} value="yes" label={t(lang, "ui.flow.yes")} checked={value === "yes"} />
           <Option name={name} value="no" label={t(lang, "ui.flow.no")} checked={value === "no"} />
@@ -50,10 +59,10 @@ export function QuestionField({ lang, q, value, big }: { lang: Locale; q: Questi
   if (q.type === "select" && (q.options?.length ?? 0) <= 8) {
     return (
       <fieldset className="q">
-        <legend className={labelCls}>{q.label_en}</legend>
+        <legend className={labelCls}>{label}</legend>
         <div className="opts">
           {(q.options ?? []).map((o) => (
-            <Option key={o.value} name={name} value={o.value} label={o.label_en} checked={value === o.value} />
+            <Option key={o.value} name={name} value={o.value} label={opt(o)} checked={value === o.value} />
           ))}
           <Option name={name} value="" label={t(lang, "ui.flow.notsure")} checked={!value} />
         </div>
@@ -64,13 +73,13 @@ export function QuestionField({ lang, q, value, big }: { lang: Locale; q: Questi
     return (
       <div className="q field">
         <label className={labelCls} for={id}>
-          {q.label_en}
+          {label}
         </label>
         <select id={id} name={name}>
           <option value="">{t(lang, "ui.flow.notsure")}</option>
           {(q.options ?? []).map((o) => (
             <option key={o.value} value={o.value} selected={value === o.value}>
-              {o.label_en}
+              {opt(o)}
             </option>
           ))}
         </select>
@@ -78,11 +87,11 @@ export function QuestionField({ lang, q, value, big }: { lang: Locale; q: Questi
     );
   }
   const type = q.type === "number" ? "number" : q.type === "date" ? "date" : "text";
-  const unit = q.type === "number" ? unitFor(q) : {};
+  const unit = q.type === "number" ? unitFor(lang, q) : {};
   return (
     <div className="q field">
       <label className={labelCls} for={id}>
-        {q.label_en}
+        {label}
       </label>
       <div className={`q-input${unit.pre ? " has-pre" : ""}${unit.post ? " has-post" : ""}`}>
         {unit.pre ? (
@@ -143,7 +152,7 @@ export function AskPage({ lang, error }: { lang: Locale; error?: boolean }) {
   );
 }
 
-export function FollowUpPage({ lang, questions, state }: { lang: Locale; questions: Question[]; state: string }) {
+export function FollowUpPage({ lang, questions, state, dispute }: { lang: Locale; questions: Question[]; state: string; dispute?: string }) {
   return (
     <Layout lang={lang} title={`${t(lang, "ui.ask.h1")} | Raasta`} path="/r/ask" noindex>
       <div className="q-stage">
@@ -154,7 +163,7 @@ export function FollowUpPage({ lang, questions, state }: { lang: Locale; questio
             <input type="hidden" name="st" value={state} />
             <div className="q-list">
               {questions.map((q) => (
-                <QuestionField key={q.id} lang={lang} q={q} />
+                <QuestionField key={q.id} lang={lang} q={q} dispute={dispute} />
               ))}
             </div>
             <div className="q-actions">
@@ -176,28 +185,44 @@ export interface FlowStepProps {
   /** 1-based index of the question on screen. */
   step: number;
   answers: Record<string, string>;
+  /** position among the questions that will actually be asked, and their count */
+  n?: number;
+  total?: number;
+  last?: boolean;
 }
 
-export function FlowStepPage({ lang, dispute, step, answers }: FlowStepProps) {
-  const total = dispute.questions.length;
+export function FlowStepPage({ lang, dispute, step, answers, n, total: totalIn, last: lastIn }: FlowStepProps) {
+  const total = totalIn ?? dispute.questions.length;
   const q = dispute.questions[step - 1] as Question;
-  const last = step === total;
+  const last = lastIn ?? step === total;
+  const pos = n ?? step;
+  const askPlace = q.slot === "city" || q.slot === "district";
   const title = t(lang, `dispute.${dispute.id}.title`);
   return (
     <Layout lang={lang} title={`${title} | Raasta`} path={`/r/flow/${dispute.id}/${step}`} noindex>
       <div className="q-stage">
         <div className="q-card">
-          <Progress step={step} total={total} label={`${title}, ${t(lang, "ui.flow.step", { n: step, total })}`} />
+          <Progress step={pos} total={total} label={`${title}, ${t(lang, "ui.flow.step", { n: pos, total })}`} />
           <form method="post" action={`/r/flow/${dispute.id}/${step}`}>
             {dispute.questions
               .filter((o) => o.id !== q.id && answers[o.id] !== undefined && answers[o.id] !== "")
               .map((o) => (
                 <input key={o.id} type="hidden" name={answerField(o.id)} value={answers[o.id]} />
               ))}
-            <QuestionField lang={lang} q={q} value={answers[q.id]} big />
+            <div data-loc-city={askPlace ? "" : undefined}>
+              <QuestionField lang={lang} q={q} value={answers[q.id]} big dispute={dispute.id} />
+            </div>
+            {askPlace ? (
+              <p>
+                <button type="button" className="btn btn-secondary" data-locate hidden data-msg-busy={t(lang, "ui.location.busy")} data-msg-denied={t(lang, "ui.location.denied")} data-msg-fail={t(lang, "ui.location.fail")}>
+                  {t(lang, "ui.place.gps")}
+                </button>
+                <span className="text-meta" data-locate-status aria-live="polite"></span>
+              </p>
+            ) : null}
             <p className="q-skip">{t(lang, "ui.flow.optional")}</p>
             <div className="q-actions">
-              {step > 1 ? (
+              {pos > 1 ? (
                 <button type="submit" name="_nav" value="back" formnovalidate className="btn btn-ghost">
                   {t(lang, "ui.flow.back")}
                 </button>

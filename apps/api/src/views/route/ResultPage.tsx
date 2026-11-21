@@ -1,4 +1,4 @@
-import { legalAid, officesPune, platformById } from "@raasta/data";
+import { disputeById, legalAid, officesPune, platformById, states } from "@raasta/data";
 import { DISCLAIMER_EN } from "@raasta/config";
 import { t, type Locale } from "@raasta/i18n";
 import type { LiveTimer } from "@raasta/rules";
@@ -7,6 +7,7 @@ import { dateIN } from "../../lib/draft";
 import { Layout } from "../Layout";
 import { msg } from "../text";
 import { Door, type ActionCtx } from "./action";
+import { HowTo } from "./howto";
 import { LegalAid as LegalAidCard, Sources, Warnings } from "./parts";
 
 export interface ResultPageProps {
@@ -43,6 +44,48 @@ function WardPicker({ lang, token, geo }: { lang: Locale; token: string; geo: Ge
         {t(lang, "ui.route.ward_save")}
       </button>
     </form>
+  );
+}
+
+/** Where we think you are, with a one-tap GPS fix. No-JS fallback: pick the state and type the city. */
+function PlaceCard({ lang, token, geo }: { lang: Locale; token: string; geo: GeoContext }) {
+  const st = geo.state_code ? states.find((x) => x.code === geo.state_code) : undefined;
+  const place = [geo.city, st?.name].filter(Boolean).join(", ");
+  return (
+    <section className="side-card place-card" aria-labelledby="place-h">
+      <h2 id="place-h">{t(lang, "ui.place.h")}</h2>
+      <p className="place-now">{place || t(lang, "ui.place.unknown")}</p>
+      <form className="stack" method="post" action={`/r/route/${token}/place`}>
+        <input type="hidden" name="state" value="" />
+        <input type="hidden" name="city" value="" />
+        <button type="button" className="btn btn-secondary" data-locate hidden data-msg-busy={t(lang, "ui.location.busy")} data-msg-denied={t(lang, "ui.location.denied")} data-msg-fail={t(lang, "ui.location.fail")}>
+          {t(lang, "ui.place.gps")}
+        </button>
+        <p className="text-meta" data-locate-status aria-live="polite"></p>
+      </form>
+      <details className="doc-more">
+        <summary>{t(lang, "ui.place.change")}</summary>
+        <form className="stack" method="post" action={`/r/route/${token}/place`}>
+          <label className="field">
+            <span>{t(lang, "ui.aid.state_label")}</span>
+            <select name="state">
+              {states.map((x) => (
+                <option key={x.code} value={x.code} selected={x.code === geo.state_code}>
+                  {x.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="field">
+            <span>{t(lang, "ui.off.city")}</span>
+            <input name="city" value={geo.city ?? ""} maxlength={60} autocomplete="address-level2" />
+          </label>
+          <button type="submit" className="btn btn-ghost">
+            {t(lang, "ui.place.save")}
+          </button>
+        </form>
+      </details>
+    </section>
   );
 }
 
@@ -210,9 +253,10 @@ function AidForm({ lang, token }: { lang: Locale; token: string }) {
 
 export function ResultPage({ lang, token, result, geo, timers, title, slots, demo }: ResultPageProps) {
   const s: IntakeSlots = slots ?? { dispute_type: result.dispute_type, summary: title, missing_fields: [] };
-  const ctx: ActionCtx = { lang, token, slots: s, title, demo: demo ?? true };
   const step = result.first_peaceful_step;
   const tpl = step.doc_template;
+  const letter = tpl ?? disputeById(result.dispute_type)?.doc_templates[0];
+  const ctx: ActionCtx = { lang, token, slots: s, title, demo: demo ?? true, geo, letter };
   const q = encodeURIComponent(token);
   const emergency = result.urgency === "emergency";
   return (
@@ -232,6 +276,7 @@ export function ResultPage({ lang, token, result, geo, timers, title, slots, dem
             <div className="j-body">
               <p className="j-kicker">{emergency ? t(lang, "ui.res.first_safety") : t(lang, "ui.res.step1")}</p>
               <p className="j-lead">{msg(lang, step.key)}</p>
+              <HowTo ctx={{ lang, token, geo, letter }} scope="first" id={step.key} open />
               <div className="j-row">
                 {step.free ? <span className="text-free">{t(lang, "ui.res.free_tag")}</span> : null}
                 {tpl ? (
@@ -277,6 +322,7 @@ export function ResultPage({ lang, token, result, geo, timers, title, slots, dem
               <small>{t(lang, "ui.chat.s2")}</small>
             </span>
           </a>
+          <PlaceCard lang={lang} token={token} geo={geo} />
           <Checklist lang={lang} items={result.documents} />
           <Timers lang={lang} timers={timers} />
           <section className="side-card" aria-labelledby="aid-h">

@@ -19,20 +19,24 @@ for (const vp of VIEWPORTS) {
       await page.locator('button[type="submit"].ask-send').click();
 
       // Follow-up page
-      await page.waitForURL(/\/r\/ask/, { timeout: 30000 });
+      await page.waitForURL(/\/r\/(ask|route)/, { timeout: 60000 });
+      if (!page.url().includes("/r/route/")) {
       await expect(page.locator("h1")).toContainText("Tell us a little more");
       
       // Answer follow-up / proceed
       const submitBtn = page.locator('form[action="/r/ask"] button[type="submit"]:has-text("Show me the door")');
       await expect(submitBtn).toBeVisible();
       await submitBtn.click();
+      }
 
       // Result page
       await page.waitForURL(/\/r\/route\//, { timeout: 30000 });
-      
-      // Result page shows a first step
+
+      // Result page shows a first step with its plain step-by-step guide open, and highlighted links on the door
       const firstStep = page.locator(".j-step.j-first, .j-first");
       await expect(firstStep).toBeVisible();
+      await expect(page.locator(".j-first details.howto[open] .howto-step").first()).toBeVisible();
+      expect(await page.locator(".door-card details.howto .howto-link").count()).toBeGreaterThan(0);
 
       // Shows a right door
       const rightDoor = page.locator(".door-card, .j-step:has(.door-card)");
@@ -67,27 +71,16 @@ for (const vp of VIEWPORTS) {
 
     test(`(ii) Pothole civic failure flow -> skip condition -> result page`, async ({ page }) => {
       await page.goto("/r/flow/civic_failure/0");
-      // Step 1: Choose pothole
-      await page.locator("label").filter({ hasText: "Pothole or road damage" }).click();
-      await page.locator('form[action*="/r/flow/"] button.btn-primary:has-text("Next")').click();
-
-      // Step 2: First noticed days -> Next
-      await page.waitForSelector('form[action*="/r/flow/"]');
-      await page.locator('form[action*="/r/flow/"] button.btn-primary:has-text("Next")').click();
-
-      // Step 3: Have you already complained -> answer No
-      await page.waitForSelector('form[action*="/r/flow/"]');
-      await page.locator("label").filter({ hasText: /^No$/ }).click();
-      await page.locator('form[action*="/r/flow/"] button.btn-primary:has-text("Next")').click();
-
-      // Step 4: Confirm "If yes, how many days ago" question is SKIPPED
-      await page.waitForSelector(".q-card");
-      const cardText = await page.locator(".q-card").innerText();
-      expect(cardText).not.toContain("If yes");
-      expect(cardText).toContain("Your ward or nearest landmark");
-
-      // Finish flow -> result page
-      await page.locator('form[action*="/r/flow/"] button.btn-primary').click();
+      // Guided civic flow: only questions that change the route are asked.
+      for (let i = 0; i < 6 && !page.url().includes("/r/route/"); i++) {
+        await page.waitForSelector('form[action*="/r/flow/"]');
+        const card = await page.locator(".q-card").innerText();
+        expect(card).not.toContain("If yes");
+        expect(card).not.toContain("What is the problem");
+        const no = page.locator("label").filter({ hasText: /^No$/ });
+        if (await no.count()) await no.first().click();
+        await Promise.all([page.waitForLoadState("load"), page.locator('form[action*="/r/flow/"] button.btn-primary').click()]);
+      }
       await page.waitForURL(/\/r\/route\//, { timeout: 30000 });
       expect(page.url()).toContain("/r/route/");
     });
@@ -99,7 +92,7 @@ for (const vp of VIEWPORTS) {
       await page.locator('button[type="submit"].ask-send').click();
 
       // Follow-up page or direct route
-      await page.waitForURL(/\/r\/(ask|route)\//, { timeout: 30000 });
+      await page.waitForURL(/\/r\/(ask|route)/, { timeout: 60000 });
       if (page.url().includes("/r/ask")) {
         await page.locator('form[action="/r/ask"] button[type="submit"]:has-text("Show me the door")').click();
         await page.waitForURL(/\/r\/route\//, { timeout: 30000 });

@@ -322,9 +322,9 @@ describe("/r pages (no JavaScript)", () => {
     const s2 = await call(post("/r/flow/security_deposit/1", { a_deposit_amount: "20000" }, { form: true }), env);
     const h2 = await s2.text();
     expect(h2).toContain('type="hidden" name="a_deposit_amount" value="20000"');
-    expect(h2).toContain("Question 2 of 4");
+    expect(h2).toContain("Question 2 of 3");
     const back = await call(post("/r/flow/security_deposit/2", { a_deposit_amount: "20000", _nav: "back" }, { form: true }), env);
-    expect(await back.text()).toContain("Question 1 of 4");
+    expect(await back.text()).toContain("Question 1 of 3");
     const last = await call(post("/r/flow/security_deposit/4", { a_deposit_amount: "20000", a_agreement_registered: "yes", a_written_complaint_sent: "no" }, { form: true }), env);
     expect(last.status).toBe(303);
     expect(last.headers.get("location")).toMatch(/^\/r\/route\//);
@@ -366,5 +366,19 @@ describe("/r pages (no JavaScript)", () => {
     expect(ward.status).toBe(303);
     const bad = await call(post(`${loc}/ward`, { ward_id: "nope" }, { form: true }), env);
     expect(bad.status).toBe(422);
+  });
+});
+
+describe("language carries over from the static page", () => {
+  it("a form posted from /mr/ answers in Marathi and remembers it", async () => {
+    const req = new Request(`${BASE}/r/flow/lost_mobile/0`, { headers: { referer: `${ORIGIN}/mr/help/` } });
+    const res = await call(req);
+    const html = await res.text();
+    expect(html).toContain('lang="mr"');
+    expect(setCookies(res)).toContain("raasta_lang=mr");
+  });
+  it("a page from another site does not change the language", async () => {
+    const res = await call(new Request(`${BASE}/r/flow/lost_mobile/0`, { headers: { referer: "https://evil.example/mr/" } }));
+    expect(await res.text()).toContain('lang="en"');
   });
 });

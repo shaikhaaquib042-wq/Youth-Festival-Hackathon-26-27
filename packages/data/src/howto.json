@@ -1,0 +1,340 @@
+{
+  "$comment": "Plain-language, step-by-step guides shown when a door cannot take a direct (API) submission. Text is Class 8 English. Links are references, never raw URLs: url:<key> (this platform's urls), url:<platform_id>.<key>, tel:<number>, wa:<platform_id>, metro:portal|tel|wa, state:slsa|portal, app:letter|label|legal-aid|emergency|chat|offices[:type]|doc:<template>. A test checks that every url key exists in platforms.json and every phone number appears in the registry. Optional per step: states, not_states, cities.",
+  "first": {
+    "step.call_1930_now": [
+      { "t": "Call 1930 now. It is free and open day and night.", "link": "tel:1930", "label": "Call 1930" },
+      { "t": "Tell them your bank name, the amount, the time, and the UPI or transaction number from your SMS." },
+      { "t": "In the same hour, call your bank. Use only the number printed on your card or inside the bank's app. Ask them to block your card or UPI." },
+      { "t": "Write down the complaint numbers that 1930 and your bank give you." },
+      { "t": "Then report it online on the cybercrime portal. Choose 'Report Cyber Crime'.", "link": "url:ncrp_cybercrime.home", "label": "Open cybercrime.gov.in" },
+      { "t": "Give your bank a written letter too. We fill most of it for you.", "link": "app:doc:bank_fraud_intimation", "label": "Make the bank letter" },
+      { "t": "Never share an OTP, PIN or password with anyone who calls you, even if they say they are from the bank or the police." }
+    ],
+    "step.police_violence_safety": [
+      { "t": "Go to a safe place first: a friend, family member or neighbour you trust." },
+      { "t": "If you are in danger now, call 112. It is free and works from any phone.", "link": "tel:112", "label": "Call 112" },
+      { "t": "Women can also call the Women Helpline.", "link": "tel:1091", "label": "Call 1091" },
+      { "t": "When you are ready, go to any police station. They must write down your complaint even if it happened in another area (this is called a Zero FIR).", "link": "app:offices:police", "label": "Find a police station near you" },
+      { "t": "You do not need to bring any papers. Ask for a free copy of the FIR." },
+      { "t": "You can get a free lawyer. Call the legal aid helpline.", "link": "tel:15100", "label": "Call 15100" }
+    ],
+    "step.police_civil_or_criminal": [
+      { "t": "Ask yourself: did someone cheat, steal, threaten or hurt you? That is a crime, and the police handle it." },
+      { "t": "Is it only about money or property, like a loan, rent or a deal that went wrong? That is a civil matter. The police usually do not take these." },
+      { "t": "For a crime, go to the police station of the area where it happened.", "link": "app:offices:police", "label": "Find a police station near you" },
+      { "t": "Tell them what happened, when and where. Ask them to register an FIR and give you a free copy." },
+      { "t": "If they refuse, note the officer's name and the date. Then send your complaint in writing to the Superintendent of Police or the Police Commissioner of your city." },
+      { "t": "For a money matter, talk to a free legal adviser first.", "link": "tel:14454", "label": "Call Tele-Law 14454" }
+    ],
+    "step.lost_mobile_block_and_report": [
+      { "t": "Call your mobile company and ask them to block your SIM. Ask for a new SIM with the same number." },
+      { "t": "Find your phone's IMEI number. It is printed on the phone box and on the bill." },
+      { "t": "Report the lost phone online with the Maharashtra Police form.", "link": "url:mahapolice_pune_police.mobile_missing_form", "label": "Open the lost phone form", "states": ["MH"] },
+      { "t": "In Pune city you can also use the Lost and Found page.", "link": "url:mahapolice_pune_police.pune_lost_and_found", "label": "Pune Lost and Found", "states": ["MH"], "cities": ["Pune"] },
+      { "t": "Go to the nearest police station and give a short written report with the IMEI number.", "link": "app:offices:police", "label": "Find a police station near you", "not_states": ["MH"] },
+      { "t": "Keep a copy of the police report. You need it to block the phone and to claim insurance." },
+      { "t": "From another phone, change the passwords of your email, bank and UPI apps." }
+    ],
+    "step.deposit_notice_15d": [
+      { "t": "Gather your papers: rent agreement, deposit receipt or bank entry, and photos of the house when you left." },
+      { "t": "Make the notice here. We fill most of it for you.", "link": "app:letter", "label": "Make the notice" },
+      { "t": "Print it, sign it, and keep one copy for yourself." },
+      { "t": "Send it by Registered Post or Speed Post from any post office. Keep the receipt.", "link": "app:label", "label": "Print the address label" },
+      { "t": "Also send a photo of the signed notice by WhatsApp or email, so there is a dated record." },
+      { "t": "Wait 15 days. If nothing happens, follow the next door below." }
+    ],
+    "step.wages_demand_notice_7d": [
+      { "t": "Gather your papers: appointment letter or ID card, payslips, bank statement and attendance records, if you have them." },
+      { "t": "Make the demand notice here. We fill most of it for you.", "link": "app:letter", "label": "Make the notice" },
+      { "t": "Print it, sign it, and keep one copy." },
+      { "t": "Give it to your employer by hand and ask for a signed receipt, or send it by Registered Post.", "link": "app:label", "label": "Print the address label" },
+      { "t": "Wait 7 days. If you are not paid, follow the next door below." }
+    ],
+    "step.consumer_gro_letter": [
+      { "t": "Find the company's customer care email or 'Grievance Officer' on its website, app or bill." },
+      { "t": "Make the complaint letter here.", "link": "app:letter", "label": "Make the letter" },
+      { "t": "Send it by email. Keep the ticket number they send back." },
+      { "t": "You can also complain free to the National Consumer Helpline.", "link": "tel:1915", "label": "Call 1915" },
+      { "t": "Give them about 15 days. If nothing is fixed, follow the next door below." }
+    ],
+    "step.consumer_file_ejagriti": [
+      { "t": "Keep ready: the bill, your complaint letter, and the company's reply (or proof that they did not reply)." },
+      { "t": "Open e-Jagriti and sign up with your mobile number.", "link": "url:e_jagriti.home", "label": "Open e-Jagriti" },
+      { "t": "Choose 'File New Case', then 'Consumer Complaint'." },
+      { "t": "Fill in what you paid, the date, and the company name. Upload your papers." },
+      { "t": "Check everything before you submit. You cannot change it afterwards." },
+      { "t": "Save the reference number. Hearing dates are shown online." },
+      { "t": "Need help with the forms? A free lawyer can help.", "link": "tel:15100", "label": "Call 15100" }
+    ],
+    "step.mrp_ask_refund_and_photo": [
+      { "t": "Take a clear photo of the price tag (MRP) and your bill." },
+      { "t": "Ask the shop politely to return the extra money. If they refuse, give them a letter.", "link": "app:letter", "label": "Make the letter" },
+      { "t": "Complain free to the National Consumer Helpline.", "link": "tel:1915", "label": "Call 1915" },
+      { "t": "Or send the complaint on WhatsApp.", "link": "wa:nch_ingram", "label": "WhatsApp the helpline" },
+      { "t": "Note the docket number you get." }
+    ],
+    "step.civic_report_and_note_ticket": [
+      { "t": "Take a clear photo of the problem with a shop or landmark in the picture." },
+      { "t": "Note the exact place: road name, area and a nearby landmark." },
+      { "t": "Report it to your city's complaint service. The right door below shows you how." },
+      { "t": "For garbage or public toilet problems, you can also use the Swachhata app.", "link": "url:swachhata_mohua.play_store", "label": "Get the Swachhata app" },
+      { "t": "Write down the complaint number. If it is closed without repair, complain again with the same number." }
+    ],
+    "step.neighbour_letter_then_mediation": [
+      { "t": "Take dated photos of the damage, like cracks, leaks or debris." },
+      { "t": "If it is safe, talk to your neighbour calmly. Then give a polite letter.", "link": "app:letter", "label": "Make the letter" },
+      { "t": "Ask your city's ward office to check if the building work has permission.", "link": "app:offices:ward_office", "label": "Find your ward office" },
+      { "t": "For free mediation, call the legal services helpline.", "link": "tel:15100", "label": "Call 15100" },
+      { "t": "Keep copies of every letter and reply." }
+    ],
+    "step.cyber_harassment_save_evidence": [
+      { "t": "Take screenshots of the messages, the profile and the link. Note the date and time." },
+      { "t": "Do not reply, and do not delete anything." },
+      { "t": "Report and block the account inside the app. Every big app has a 'Report' option." },
+      { "t": "Report it on the cybercrime portal. It has a special section for crimes against women and children.", "link": "url:ncrp_cybercrime.home", "label": "Open cybercrime.gov.in" },
+      { "t": "If you feel unsafe, call 112.", "link": "tel:112", "label": "Call 112" },
+      { "t": "Tell someone you trust. You do not have to face this alone." }
+    ],
+    "step.banking_lender_complaint": [
+      { "t": "Write to your bank or lender's customer care or grievance officer. Say what went wrong and what you want.", "link": "app:letter", "label": "Make the letter" },
+      { "t": "Keep the complaint number and the date." },
+      { "t": "Wait for their reply. They get 30 days." },
+      { "t": "No reply in 30 days, or not happy with it? Complain free to the RBI Ombudsman.", "link": "url:rbi_cms.home", "label": "Open RBI CMS" },
+      { "t": "RBI helpline, in 10 languages.", "link": "tel:14448", "label": "Call 14448" }
+    ],
+    "step.banking_wait_30_days": [
+      { "t": "Keep your complaint number and the date you wrote to the lender." },
+      { "t": "When 30 days have passed, or they say no, complain free to the RBI Ombudsman.", "link": "url:rbi_cms.home", "label": "Open RBI CMS" },
+      { "t": "RBI helpline, in 10 languages.", "link": "tel:14448", "label": "Call 14448" }
+    ],
+    "step.broker_complaint_first": [
+      { "t": "Write to your broker or company's investor complaint email. Keep the ticket number.", "link": "app:letter", "label": "Make the letter" },
+      { "t": "If they do not solve it, complain free on SEBI SCORES. Keep your PAN ready.", "link": "url:sebi_scores.home", "label": "Open SEBI SCORES" },
+      { "t": "SEBI helpline.", "link": "tel:1800-22-7575", "label": "Call 1800-22-7575" }
+    ],
+    "step.builder_check_maharera": [
+      { "t": "Open the MahaRERA site and search for your project's name.", "link": "url:maharera.home_and_project_search", "label": "Search on MahaRERA" },
+      { "t": "Note the registration number it shows." },
+      { "t": "Keep your sale agreement, payment receipts and letters ready." },
+      { "t": "Write to the builder first, asking for possession or a refund.", "link": "app:letter", "label": "Make the letter" },
+      { "t": "Then follow the right door below." }
+    ],
+    "step.builder_check_rera_registration": [
+      { "t": "Every state has a RERA office. Your sale agreement should show the project's RERA number." },
+      { "t": "Keep your sale agreement, payment receipts and letters ready." },
+      { "t": "Write to the builder first, asking for possession or a refund.", "link": "app:letter", "label": "Make the letter" },
+      { "t": "Book a free call with a Tele-Law lawyer to find your state's RERA office.", "link": "tel:14454", "label": "Call 14454" }
+    ],
+    "step.govt_apply_then_grievance": [
+      { "t": "Find your application number and the date you applied. It is on the receipt or SMS." },
+      { "t": "If the office is late, file a free grievance on Aaple Sarkar.", "link": "url:aaple_sarkar_maharashtra.home", "label": "Open Aaple Sarkar", "states": ["MH"] },
+      { "t": "If the office is late, file a free grievance on CPGRAMS. Choose your state or the department.", "link": "url:cpgrams.home", "label": "Open CPGRAMS", "not_states": ["MH"] },
+      { "t": "Write one clear problem and what you want done. Attach the receipt." },
+      { "t": "Save the grievance number and check the status after a few days." }
+    ],
+    "step.govt_excluded_get_advice": [
+      { "t": "Write your problem in a few lines: what happened, when, and who is involved." },
+      { "t": "Talk to a free lawyer on Tele-Law.", "link": "tel:14454", "label": "Call 14454" },
+      { "t": "Or call the legal aid helpline.", "link": "tel:15100", "label": "Call 15100" }
+    ],
+    "step.insurance_write_to_gro": [
+      { "t": "Find your insurance company's Grievance Officer email in the IRDAI list.", "link": "url:irdai_bima_bharosa_ombudsman.irdai_gro_directory", "label": "Open the IRDAI list" },
+      { "t": "Write to them with your policy number and claim number.", "link": "app:letter", "label": "Make the letter" },
+      { "t": "Keep the acknowledgement. Wait about 15 days for a reply." },
+      { "t": "Still stuck? Call IRDAI.", "link": "tel:155255", "label": "Call 155255" },
+      { "t": "After 30 days, you can go to the Insurance Ombudsman for free.", "link": "url:irdai_bima_bharosa_ombudsman.insurance_ombudsman_online_complaint", "label": "Open the Ombudsman form" }
+    ],
+    "step.legal_aid_screener": [
+      { "t": "Tick the boxes that apply to you to see if you can get a free lawyer.", "link": "app:legal-aid", "label": "Check for a free lawyer" },
+      { "t": "Call the legal aid helpline to apply.", "link": "tel:15100", "label": "Call 15100" },
+      { "t": "Or visit the legal aid desk of your state or district.", "link": "state:slsa", "label": "Your state's legal aid office" },
+      { "t": "Carry an ID card and a short note about your problem." }
+    ],
+    "step.other_get_free_advice": [
+      { "t": "Write your problem in a few lines: what happened, when, and who is involved." },
+      { "t": "Book a free call with a lawyer on Tele-Law.", "link": "url:tele_law_nyaya_bandhu.citizen_signup", "label": "Sign up on Tele-Law" },
+      { "t": "Or simply call.", "link": "tel:14454", "label": "Call 14454" },
+      { "t": "No internet? Visit a Common Service Centre (CSC) near you. They book the call for you." }
+    ],
+    "step.pf_keep_uan_ready": [
+      { "t": "Find your UAN. It is printed on your salary slip." },
+      { "t": "Open EPFiGMS and choose 'Register Grievance'.", "link": "url:epfigms.register_grievance", "label": "Open EPFiGMS" },
+      { "t": "Choose PF Member or Pensioner, enter your UAN, and type the OTP." },
+      { "t": "Describe the problem and upload any letter or slip." },
+      { "t": "Save the registration number you get by SMS.", "link": "tel:14470", "label": "Help: call 14470" }
+    ],
+    "step.posh_internal_committee": [
+      { "t": "Write down what happened, with dates, places and any witnesses." },
+      { "t": "Give a written complaint to your workplace's Internal Committee (IC). HR can tell you who is on it." },
+      { "t": "If there is no committee, or it does not act, use SHe-Box. It sends your complaint to the right committee.", "link": "url:she_box.home", "label": "Open SHe-Box" },
+      { "t": "If you were touched, threatened or are in danger, call 112 or go to the police.", "link": "tel:112", "label": "Call 112" },
+      { "t": "Free legal help.", "link": "tel:15100", "label": "Call 15100" }
+    ]
+  },
+  "platform": {
+    "cpgrams": [
+      { "t": "Open the CPGRAMS sign-up page. Register with your name, mobile number and email.", "link": "url:registration", "label": "Register on CPGRAMS" },
+      { "t": "Sign in with the OTP sent to your phone.", "link": "url:login", "label": "Sign in" },
+      { "t": "Click 'Lodge Public Grievance'. Pick the department, or your state." },
+      { "t": "Write one clear problem and what you want done. Attach your receipt or letter." },
+      { "t": "Submit and save the registration number." },
+      { "t": "Check progress any time with that number.", "link": "url:track_status", "label": "Track your grievance" },
+      { "t": "No internet? Visit a Common Service Centre, or call the helpline.", "link": "tel:011-23401464", "label": "Call 011-23401464" }
+    ],
+    "nch_ingram": [
+      { "t": "Easiest way: call the National Consumer Helpline. Open 8 am to 8 pm, every day.", "link": "tel:1915", "label": "Call 1915" },
+      { "t": "Or send your complaint on WhatsApp.", "link": "wa:nch_ingram", "label": "WhatsApp 8800001915" },
+      { "t": "Or register on the website.", "link": "url:home", "label": "Open consumerhelpline.gov.in" },
+      { "t": "Choose the company and what went wrong. Enter the amount and the date." },
+      { "t": "Upload the bill if you have it.", "link": "url:upload_documents", "label": "Upload documents" },
+      { "t": "Save the docket number. The company is asked to reply, and you can follow up with this number." }
+    ],
+    "e_jagriti": [
+      { "t": "Keep ready: the bill, your complaint letter, and the company's reply (or proof that they did not reply)." },
+      { "t": "Open e-Jagriti and sign up with your mobile number and OTP.", "link": "url:home", "label": "Open e-Jagriti" },
+      { "t": "Choose 'File New Case', then 'Consumer Complaint'." },
+      { "t": "Fill in what you paid, the date, and the company's name and address." },
+      { "t": "Upload your papers. Check everything: you cannot change it after you submit." },
+      { "t": "Save the reference number. Hearing dates are shown online.", "link": "url:case_status_public", "label": "Check case status" },
+      { "t": "Want help with the forms? A free lawyer can file it for you.", "link": "tel:15100", "label": "Call 15100" }
+    ],
+    "ncrp_cybercrime": [
+      { "t": "If money was taken, call 1930 first. Every minute counts.", "link": "tel:1930", "label": "Call 1930" },
+      { "t": "Open the cybercrime portal and click 'File a Complaint'.", "link": "url:home", "label": "Open cybercrime.gov.in" },
+      { "t": "Choose 'Report Cyber Crime'. Sign in with your state, name and mobile OTP." },
+      { "t": "Write what happened in order, with dates and times. Add the money details (UTR numbers) if any." },
+      { "t": "Upload screenshots and bank statements. Give each file a clear name." },
+      { "t": "Submit and save the acknowledgement number. Use it to check your complaint later." }
+    ],
+    "rbi_cms": [
+      { "t": "First complain to your bank or lender, and wait 30 days or until they say no." },
+      { "t": "Open RBI CMS and click 'File a Complaint'.", "link": "url:home", "label": "Open RBI CMS" },
+      { "t": "Choose your bank or lender from the list." },
+      { "t": "Verify your mobile number with the OTP. It becomes your login." },
+      { "t": "Write what happened and what you want. Upload your papers (up to 10 MB in total)." },
+      { "t": "Save the complaint number (CRN) sent by SMS.", "link": "tel:14448", "label": "Help: call 14448" }
+    ],
+    "sebi_scores": [
+      { "t": "Keep your PAN ready." },
+      { "t": "Register on SEBI SCORES with your mobile OTP and email.", "link": "url:home", "label": "Open SEBI SCORES" },
+      { "t": "Click 'Register Complaint' and pick the broker or company." },
+      { "t": "Write the facts and what you want. Upload your papers." },
+      { "t": "Save the complaint number. The company must reply within 21 days." },
+      { "t": "Not happy with the reply? Ask for a review on the same site.", "link": "tel:1800-22-7575", "label": "Help: call 1800-22-7575" }
+    ],
+    "irdai_bima_bharosa_ombudsman": [
+      { "t": "Write to your insurance company's Grievance Officer first. Find the email in the IRDAI list.", "link": "url:irdai_gro_directory", "label": "Open the IRDAI list" },
+      { "t": "Wait about 15 days. Keep the acknowledgement." },
+      { "t": "No answer? Call IRDAI.", "link": "tel:155255", "label": "Call 155255" },
+      { "t": "After 30 days from your first complaint, file free with the Insurance Ombudsman (for claims up to Rs 50 lakh).", "link": "url:insurance_ombudsman_online_complaint", "label": "Open the Ombudsman form" },
+      { "t": "Upload your policy, claim papers and letters. Keep file names short." },
+      { "t": "The Ombudsman first tries to settle it. If that fails, it gives a decision the insurer must follow." }
+    ],
+    "maharera": [
+      { "t": "Search your project and note its MahaRERA number.", "link": "url:home_and_project_search", "label": "Search on MahaRERA" },
+      { "t": "Register as a Citizen on the complaint portal with email and mobile OTP.", "link": "url:online_complaint_portal", "label": "Open the complaint portal" },
+      { "t": "Choose Conciliation (Rs 1,000 plus GST, a faster friendly settlement) or a full complaint." },
+      { "t": "Pick your division, enter the project number, and upload your agreement, receipts and letters." },
+      { "t": "Pay the fee online (Rs 5,000 for a complaint) and save the complaint number." },
+      { "t": "The official guide shows every screen.", "link": "url:user_manual_pdf", "label": "Open the guide (PDF)" }
+    ],
+    "samadhan_labour": [
+      { "t": "Send your employer a written demand notice first.", "link": "app:letter", "label": "Make the notice" },
+      { "t": "Open SAMADHAN and register as a Worker with your mobile OTP.", "link": "url:home", "label": "Open SAMADHAN" },
+      { "t": "Click 'Raise Dispute' and choose the problem, for example unpaid wages." },
+      { "t": "Enter the employer's name and address. Upload your notice, appointment letter and payslips." },
+      { "t": "Submit and save the Case ID. The Labour Commissioner's office will call both sides to a meeting." },
+      { "t": "Help line.", "link": "tel:011-23354722", "label": "Call 011-23354722" }
+    ],
+    "mahakamgar_labour": [
+      { "t": "Send your employer a written demand notice first.", "link": "app:letter", "label": "Make the notice" },
+      { "t": "Register or log in on Mahakamgar and file a complaint.", "link": "url:login_and_complaint", "label": "Open Mahakamgar" },
+      { "t": "Or visit your area's labour office. The contact page lists them.", "link": "url:maharashtra_contacts", "label": "Labour office contacts" },
+      { "t": "Go to the meeting the labour officer sets up. Bring your papers." },
+      { "t": "If the employer still refuses, the officer can send the case to the Labour Court." },
+      { "t": "Head office helpline.", "link": "tel:022-26572922", "label": "Call 022-26572922" }
+    ],
+    "she_box": [
+      { "t": "Open SHe-Box and click 'Register your Complaint'.", "link": "url:home", "label": "Open SHe-Box" },
+      { "t": "Read and accept the declaration." },
+      { "t": "Fill in four short parts: about you, your workplace, the person, and what happened." },
+      { "t": "Write what happened (up to 500 words). Attach one file up to 2 MB if you have proof." },
+      { "t": "Submit. It goes straight to the right committee, and you can track it on the site." }
+    ],
+    "epfigms": [
+      { "t": "Find your UAN (on your salary slip) or your PPO number if you get a pension." },
+      { "t": "Open EPFiGMS and choose 'Register Grievance'.", "link": "url:register_grievance", "label": "Open EPFiGMS" },
+      { "t": "Choose PF Member or Pensioner, enter your UAN or PPO number, and type the OTP." },
+      { "t": "Pick the problem, describe it, and upload any letter or slip." },
+      { "t": "Save the registration number sent by SMS.", "link": "tel:14470", "label": "Help: call 14470" }
+    ],
+    "aaple_sarkar_maharashtra": [
+      { "t": "Register with your mobile and email OTP.", "link": "url:citizen_registration", "label": "Register on Aaple Sarkar" },
+      { "t": "Log in and click 'File a Grievance'.", "link": "url:citizen_login", "label": "Log in" },
+      { "t": "Choose 'District Level' for local or city problems, or 'Mantralaya Level' for a state department." },
+      { "t": "Pick your district and department. Describe the problem and upload a photo or receipt." },
+      { "t": "Save the token number you get by SMS." },
+      { "t": "Not solved in 21 working days? Mark it 'Dissatisfied' to send it higher.", "link": "url:track_grievance", "label": "Track your grievance" },
+      { "t": "Toll-free help.", "link": "tel:1800-120-8040", "label": "Call 1800-120-8040" }
+    ],
+    "mahapolice_pune_police": [
+      { "t": "In danger now? Call 112.", "link": "tel:112", "label": "Call 112" },
+      { "t": "Lost phone or documents: fill the online form with your mobile OTP.", "link": "url:mobile_missing_form", "label": "Open the lost phone form" },
+      { "t": "In Pune city you can also use the Lost and Found page.", "link": "url:pune_lost_and_found", "label": "Pune Lost and Found", "cities": ["Pune"] },
+      { "t": "For other complaints, register on the Maharashtra Police citizen portal.", "link": "url:mahapolice_citizen_portal", "label": "Open the citizen portal" },
+      { "t": "For an FIR, go to the police station of the area where it happened.", "link": "app:offices:police", "label": "Find a police station near you" },
+      { "t": "Pune City Police also take messages on WhatsApp.", "link": "wa:mahapolice_pune_police", "label": "WhatsApp Pune Police", "cities": ["Pune"] }
+    ],
+    "pmc_care_pune": [
+      { "t": "Take a clear photo of the problem with a landmark in it." },
+      { "t": "Send it on WhatsApp to PMC CARE.", "link": "wa:pmc_care_pune", "label": "WhatsApp PMC CARE" },
+      { "t": "Or file it online.", "link": "url:complaint_portal", "label": "Open the PMC complaint site" },
+      { "t": "Or call toll-free.", "link": "tel:1800-103-0222", "label": "Call 1800-103-0222" },
+      { "t": "Pick the category, mark the place, attach the photo, and save the ticket number." },
+      { "t": "Closed without repair? Reopen it with the same ticket number, or go to your ward office.", "link": "app:offices:ward_office", "label": "Find your ward office" }
+    ],
+    "pcmc_grievance": [
+      { "t": "Send a WhatsApp or SMS with your full name, address and the complaint.", "link": "wa:pcmc_grievance", "label": "WhatsApp PCMC" },
+      { "t": "Or register on the PCMC grievance site.", "link": "url:complaint_portal", "label": "Open the PCMC site" },
+      { "t": "Save the complaint number, and check its status on the same site." }
+    ],
+    "swachhata_mohua": [
+      { "t": "Install the Swachhata app (also on the iPhone App Store).", "link": "url:play_store", "label": "Get the app" },
+      { "t": "Take a photo of the problem." },
+      { "t": "Pick one of the categories and type the nearest landmark." },
+      { "t": "Submit. It goes to the local sanitary inspector." },
+      { "t": "When it says 'Resolved', check the photo. Reopen it if the work was not done.", "link": "tel:1969", "label": "Help: call 1969" }
+    ],
+    "major_metro_municipal_portals": [
+      { "t": "Take a clear photo of the problem with a landmark in it." },
+      { "t": "Open your city corporation's complaint service.", "link": "metro:portal", "label": "Open the {city} complaint site" },
+      { "t": "Or send it on WhatsApp.", "link": "metro:wa", "label": "WhatsApp {city} corporation" },
+      { "t": "Or call the helpline.", "link": "metro:tel", "label": "Call {phone}" },
+      { "t": "Save the complaint number. If it is closed without repair, complain again with the same number." }
+    ],
+    "tele_law_nyaya_bandhu": [
+      { "t": "Sign up free on Tele-Law with your name and mobile OTP.", "link": "url:citizen_signup", "label": "Sign up on Tele-Law" },
+      { "t": "Or simply call.", "link": "tel:14454", "label": "Call 14454" },
+      { "t": "Write your problem in a few lines and pick three times that suit you." },
+      { "t": "A lawyer calls you by phone or video for about 20 minutes. It is free." },
+      { "t": "Ask what to do next, and write it down. You can ask for another lawyer if you are not happy." },
+      { "t": "No phone or internet? Visit a Common Service Centre (CSC). They book the call for you." }
+    ],
+    "nalsa_mslsa_dlsa": [
+      { "t": "Check if you can get a free lawyer. It takes one minute.", "link": "app:legal-aid", "label": "Check for a free lawyer" },
+      { "t": "Call the free legal aid helpline.", "link": "tel:15100", "label": "Call 15100" },
+      { "t": "Apply online, by post, or at the legal aid desk in your district court.", "link": "url:nalsa_legal_aid", "label": "Apply on NALSA" },
+      { "t": "Find your state's legal services office.", "link": "state:slsa", "label": "Your state's legal aid office" },
+      { "t": "In Pune, the District Legal Services Authority is at the district court in Shivajinagar.", "link": "url:pune_dlsa", "label": "Open DLSA Pune", "cities": ["Pune"] },
+      { "t": "A decision and a lawyer usually come within 7 days." },
+      { "t": "For problems with public services like electricity, water or transport, you can go to the Permanent Lok Adalat before any court case.", "link": "url:permanent_lok_adalat", "label": "About Lok Adalat" }
+    ],
+    "maharashtra_rent_small_causes_pune": [
+      { "t": "Gather your rent agreement, deposit proof, last bills and photos of the house when you left." },
+      { "t": "Send a 15-day notice to the landlord first.", "link": "app:letter", "label": "Make the notice" },
+      { "t": "Try free mediation through legal aid before going to court.", "link": "tel:15100", "label": "Call 15100" },
+      { "t": "Still not paid? A recovery case is filed at the Small Causes Court, Shivajinagar, Pune. A free legal aid lawyer can file it for you.", "link": "url:pune_district_court", "label": "Pune court contacts" },
+      { "t": "Court registry office.", "link": "tel:020-25534799", "label": "Call 020-25534799" }
+    ]
+  }
+}

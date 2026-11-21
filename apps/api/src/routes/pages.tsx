@@ -7,10 +7,10 @@ import { runIntake } from "../ai/intake";
 import { isDemo, searchComplaint } from "../digit/adapter";
 import type { AppEnv } from "../env";
 import { WARD_OFFICE_IDS, resolveGeo, stateCodeFrom } from "../geo/resolver";
-import { answerField, applyAnswers, emptySlots, nextApplicable, prevApplicable } from "../lib/flow";
+import { answerField, applyAnswers, emptySlots, firstApplicable, flowProgress, nextApplicable, prevApplicable, type Known } from "../lib/flow";
 import { HttpError, clientIp, cookieHeader, parseCookies, parseForm, safeNext } from "../lib/http";
 import { feedbackSchema, systemRequestSchema } from "../lib/schemas";
-import { verifyTurnstile } from "../lib/security";
+import { allowedOrigins, verifyTurnstile } from "../lib/security";
 import { findSubmitted, storeFeedback, storeSystemRequest } from "../lib/store";
 import { AskPage, FlowStepPage, FollowUpPage, MessagePage } from "../views/Pages";
 import { ResultPage } from "../views/route/ResultPage";
@@ -40,11 +40,23 @@ export async function langMiddleware(c: Context<AppEnv>, next: () => Promise<voi
   const q = new URL(c.req.url).searchParams.get("lang");
   const cookies = parseCookies(c.req.header("cookie"));
   let lang: Locale = "en";
+  // Static pages live under /mr/, /hi/ ...; a form or link from one of them carries its language in the Referer.
+  let fromPage: Locale | undefined;
+  try {
+    const ref = new URL(c.req.header("referer") ?? "");
+    const seg = ref.pathname.split("/")[1];
+    const ours = ref.origin === new URL(c.req.url).origin || ref.host === c.req.header("host") || allowedOrigins(c.env).includes(ref.origin);
+    if (ours) fromPage = isLocale(seg) ? (seg as Locale) : ref.pathname.startsWith("/r/") ? undefined : "en";
+  } catch {
+    /* no referer */
+  }
   if (isLocale(q)) lang = q;
+  else if (fromPage) lang = fromPage;
   else if (isLocale(cookies[LANG_COOKIE])) lang = cookies[LANG_COOKIE] as Locale;
   c.set("lang", lang);
   await next();
-  if (isLocale(q)) c.res.headers.append("Set-Cookie", cookieHeader(LANG_COOKIE, q, isHttps(c)));
+  const remember = isLocale(q) ? q : fromPage && fromPage !== cookies[LANG_COOKIE] ? fromPage : undefined;
+  if (remember) c.res.headers.append("Set-Cookie", cookieHeader(LANG_COOKIE, remember, isHttps(c)));
 }
 
 function locCookie(c: Context<AppEnv>): { state_code?: string; city?: string } {
@@ -97,7 +109,7 @@ pages.post("/ask", async (c) => {
   const questions = (dispute?.questions ?? []).filter((q) => slots.missing_fields.includes(q.id)).slice(0, 3);
   if (!questions.length) return redirectToRoute(c, slots, geo);
   const state = await signToken(slots, geo, secret(c), Date.now());
-  return renderHtml(c, <FollowUpPage lang={lang} questions={questions} state={state} />);
+  return renderHtml(c, <FollowUpPage lang={lang} questions={questions} state={state} dispute={slots.dispute_type} />);
 });
 
 // ---------- /r/flow/:dispute/:step ----------
@@ -109,29 +121,43 @@ function flowParams(c: Context<AppEnv>) {
   return { dispute, step };
 }
 
-pages.get("/flow/:dispute/:step", (c) => {
-  const { dispute, step } = flowParams(c);
-  return renderHtml(c, <FlowStepPage lang={c.get("lang")} dispute={dispute} step={step} answers={{}} />);
-});
+/** What we already know, so the flow does not ask it again: the saved place, else the network location. */
+function knownFor(c: Context<AppEnv>): Known {
+  return { city: locCookie(c).city ?? cfOf(c.req.raw).city };
+}
 
-pages.post("/flow/:dispute/:step", async (c) => {
-  const lang = c.get("lang");
-  const { dispute, step } = flowParams(c);
-  const form = parseForm(c);
-  const answers = answersFrom(form, dispute);
-  // Steps are 1-based in URLs; helpers are 0-based. Questions whose condition is not met are skipped both ways.
-  if (form._nav === "back" && step > 1) {
-    const prev = prevApplicable(dispute, step - 1, answers) + 1;
-    return renderHtml(c, <FlowStepPage lang={lang} dispute={dispute} step={prev} answers={answers} />);
-  }
-  const next = nextApplicable(dispute, step - 1, answers);
-  if (next >= 0) {
-    return renderHtml(c, <FlowStepPage lang={lang} dispute={dispute} step={next + 1} answers={answers} />);
-  }
+function finishFlow(c: Context<AppEnv>, dispute: NonNullable<ReturnType<typeof disputeById>>, answers: Record<string, string>) {
   const loc = locCookie(c);
   const base: IntakeSlots = { ...emptySlots(dispute.id), summary: dispute.title_en, ...loc };
   const slots = applyAnswers(base, dispute, answers);
   return redirectToRoute(c, slots, geoFor(c, slots));
+}
+
+function stepPage(c: Context<AppEnv>, dispute: NonNullable<ReturnType<typeof disputeById>>, i: number, answers: Record<string, string>, known: Known) {
+  const p = flowProgress(dispute, i, answers, known);
+  return renderHtml(c, <FlowStepPage lang={c.get("lang")} dispute={dispute} step={i + 1} answers={answers} n={p.n} total={p.total} last={p.last} />);
+}
+
+pages.get("/flow/:dispute/:step", (c) => {
+  const { dispute, step } = flowParams(c);
+  const known = knownFor(c);
+  // Start at the first question that changes the route; if none is needed, go straight to the result.
+  const from = Math.max(step - 1, firstApplicable(dispute, {}, known));
+  const at = from < 0 ? -1 : nextApplicable(dispute, from - 1, {}, known);
+  if (at < 0) return finishFlow(c, dispute, {});
+  return stepPage(c, dispute, at, {}, known);
+});
+
+pages.post("/flow/:dispute/:step", async (c) => {
+  const { dispute, step } = flowParams(c);
+  const form = parseForm(c);
+  const answers = answersFrom(form, dispute);
+  const known = knownFor(c);
+  // Steps are 1-based in URLs; helpers are 0-based. Questions whose condition is not met are skipped both ways.
+  if (form._nav === "back" && step > 1) return stepPage(c, dispute, prevApplicable(dispute, step - 1, answers, known), answers, known);
+  const next = nextApplicable(dispute, step - 1, answers, known);
+  if (next >= 0) return stepPage(c, dispute, next, answers, known);
+  return finishFlow(c, dispute, answers);
 });
 
 // ---------- /r/location ----------
@@ -178,6 +204,20 @@ pages.post("/route/:token/ward", async (c) => {
   if (ward) geo.pmc_ward_id = ward;
   else delete geo.pmc_ward_id;
   return redirectToRoute(c, v.slots, geo);
+});
+
+// Change the place on a result (GPS button or state + city), re-route, remember it for next time.
+pages.post("/route/:token/place", async (c) => {
+  const v = await verifyToken(c.req.param("token"), secret(c), Date.now());
+  if (!v.ok) throw new HttpError(400, "invalid_input");
+  const form = parseForm(c);
+  const code = stateCodeFrom(form.state?.trim());
+  const city = (form.city ?? "").replace(/[\u0000-\u001f|]/g, "").trim().slice(0, 60) || undefined;
+  if (!code && !city) return c.redirect(`/r/route/${c.req.param("token")}`, 303);
+  const slots: IntakeSlots = { ...v.slots, state_code: code ?? v.slots.state_code, city };
+  const res = await redirectToRoute(c, slots, geoFor(c, slots));
+  res.headers.append("Set-Cookie", cookieHeader(LOC_COOKIE, `${code ?? ""}|${city ?? ""}`, isHttps(c), 60 * 60 * 24 * 30));
+  return res;
 });
 
 // ---------- /r/feedback, /r/system-request ----------

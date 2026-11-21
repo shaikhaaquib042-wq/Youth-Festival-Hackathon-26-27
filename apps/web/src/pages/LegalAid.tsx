@@ -41,7 +41,7 @@ export function LegalAid() {
               <div className="la-row">
                 <div className="field">
                   <label htmlFor="la-state">{tt("ui.legalaid.state_label")}</label>
-                  <select id="la-state" name="state" required defaultValue="">
+                  <select id="la-state" name="state" required defaultValue="" data-loc-state="">
                     <option value="" disabled>
                       {tt("ui.legalaid.state_pick")}
                     </option>

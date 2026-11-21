@@ -21,6 +21,10 @@ const STATIC_PAGES = [
 ];
 
 test.describe("axe-core accessibility audits", () => {
+  // Measure settled colours: scroll-reveal fades would otherwise be caught mid-animation.
+  test.beforeEach(async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+  });
   for (const pagePath of STATIC_PAGES) {
     test(`axe audit on static page: ${pagePath}`, async ({ page }) => {
       await page.goto(pagePath, { waitUntil: "load" });
@@ -147,16 +151,18 @@ test.describe("axe-core accessibility audits", () => {
   test("axe audit on result page: /r/route/:token", async ({ page }) => {
     // Generate valid result page via civic failure flow
     await page.goto("/r/flow/civic_failure/0", { waitUntil: "load" });
-    await page.locator("label").filter({ hasText: "Pothole or road damage" }).click();
-    await page.locator('form[action*="/r/flow/"] button.btn-primary:has-text("Next")').click();
-    await page.waitForSelector('form[action*="/r/flow/"]');
-    await page.locator('form[action*="/r/flow/"] button.btn-primary:has-text("Next")').click();
-    await page.waitForSelector('form[action*="/r/flow/"]');
-    await page.locator("label").filter({ hasText: /^No$/ }).click();
-    await page.locator('form[action*="/r/flow/"] button.btn-primary:has-text("Next")').click();
-    await page.waitForSelector('form[action*="/r/flow/"]');
-    await page.locator('form[action*="/r/flow/"] button.btn-primary').click();
+    // Guided civic flow: only questions that change the route are asked.
+    for (let i = 0; i < 6 && !page.url().includes("/r/route/"); i++) {
+      await page.waitForSelector('form[action*="/r/flow/"]');
+      const card = await page.locator(".q-card").innerText();
+      expect(card).not.toContain("If yes");
+      expect(card).not.toContain("What is the problem");
+      const no = page.locator("label").filter({ hasText: /^No$/ });
+      if (await no.count()) await no.first().click();
+      await Promise.all([page.waitForLoadState("load"), page.locator('form[action*="/r/flow/"] button.btn-primary').click()]);
+    }
     await page.waitForURL(/\/r\/route\//, { timeout: 30000 });
+    expect(page.url()).toContain("/r/route/");
     await page.waitForTimeout(300);
 
     const results = await new AxeBuilder({ page }).analyze();

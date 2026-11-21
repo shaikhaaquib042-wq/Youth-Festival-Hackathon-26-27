@@ -1,9 +1,10 @@
 import { officeById, platformById } from "@raasta/data";
 import { buildGmail, buildMailto, buildOutlook } from "@raasta/docs-gen";
 import { t, type Locale } from "@raasta/i18n";
-import type { ForumOption, IntakeSlots, SubmissionMode } from "@raasta/rules/types";
+import type { ForumOption, GeoContext, IntakeSlots, SubmissionMode } from "@raasta/rules/types";
 import { draftText, fillTemplate, safeHttps, telHref, templateValues } from "../../lib/draft";
 import { msg } from "../text";
+import { HowTo } from "./howto";
 
 export interface ActionCtx {
   lang: Locale;
@@ -11,6 +12,9 @@ export interface ActionCtx {
   slots: IntakeSlots;
   title: string;
   demo: boolean;
+  geo?: GeoContext;
+  /** letter template for "Make the letter" steps */
+  letter?: string;
 }
 
 function Copy({ lang }: { lang: Locale }) {
@@ -246,6 +250,7 @@ export function Door({ ctx, option, heading, level, idx, compact }: { ctx: Actio
     return typeof home === "string" ? safeHttps(home) : undefined;
   })();
   const H = level === 2 ? "h2" : "h3";
+  const directApi = option.submission[0]?.kind === "api";
   const blocked = !!option.blocked_reason_key;
   const modes = option.submission.filter((m) => !blocked || m.kind === "guide");
   // Best two ways up front; the rest folded so the page is not a wall of buttons.
@@ -279,6 +284,17 @@ export function Door({ ctx, option, heading, level, idx, compact }: { ctx: Actio
           <strong>{t(lang, "ui.act.blocked")}.</strong> {msg(lang, option.blocked_reason_key as string)}
         </p>
       ) : null}
+      {!blocked ? (
+        <HowTo
+          ctx={{ lang, token: ctx.token, geo: ctx.geo, letter: ctx.letter }}
+          scope="platform"
+          id={option.platform_id}
+          open={level === 2 && !directApi}
+          summary={directApi ? t(lang, "ui.howto.yourself") : undefined}
+          tip={option.submission.some((m) => m.kind === "autofill_helper") ? t(lang, "ui.howto.tip_tray") : undefined}
+        />
+      ) : null}
+      <p className="mode-head">{t(lang, "ui.howto.ways")}</p>
       <ol className="mode-list" role="list">
         {top.map(renderMode)}
       </ol>

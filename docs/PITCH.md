@@ -16,12 +16,17 @@ Raasta, "the way" in Hindi and Marathi. One sentence in, one clear route out:
 ## Demo script (3 minutes)
 
 1. Landing: the street of doors. Type "my landlord is not returning my deposit of 30000". Two questions, then the result: the right door glows and opens.
-2. Prepare the letter: the office is prefilled, download the PDF, print a postal label.
-3. Ask a follow-up in the assistant: "what if they do not reply?"
-4. Type "Rs 20000 was taken by UPI fraud just now": no questions, "Act now, Call 1930" at the top.
-5. Switch to Marathi, then Urdu (right to left). Same journey.
-6. Open the legal aid check: tick a box, see eligibility for a free lawyer.
-7. Turn JavaScript off: the same journey still works on a plain HTML form.
+2. "Show me how, step by step": numbered plain steps with big highlighted buttons (open the portal, call, WhatsApp, make the letter). Tap "Use my current location" and the doors and offices follow your state.
+3. Prepare the letter: the office is prefilled, download the PDF, print a postal label.
+4. Ask a follow-up in the assistant: "what if they do not reply?"
+5. Type "Rs 20000 was taken by UPI fraud just now": no questions, "Act now, Call 1930" at the top.
+6. Switch to Marathi, then Urdu (right to left). Same journey.
+7. Open the legal aid check: tick a box, see eligibility for a free lawyer.
+8. Turn JavaScript off: the same journey still works on a plain HTML form.
+
+## Step-by-step guides
+
+Where a door has no filing API (almost every government portal), Raasta shows a plain guide instead: one action per step, Class 8 English (translated into 11 languages), and each step's link as a highlighted button. Guides live in `packages/data/src/howto.json` as references to registry keys, never raw URLs, so a test proves every link and phone number comes from the verified registry. Steps adapt to the state and city: the Maharashtra lost-phone form only in Maharashtra, the right corporation portal in each metro, the state legal services office everywhere.
 
 ## Architecture
 

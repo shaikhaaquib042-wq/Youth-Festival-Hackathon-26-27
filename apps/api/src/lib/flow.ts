@@ -13,13 +13,23 @@ const ARRAY_SLOT_BY_QUESTION: Record<string, "nalsa_status_flags" | "exclusion_f
 
 export const answerField = (id: string) => `a_${id}`;
 
+/** Facts already known before the flow starts (saved place or the network location). */
+export type Known = { city?: string };
+
+/** Only questions whose answer changes the route are asked; the rest are asked later, in the letter form, if needed. */
+export function routesOn(q: Q): boolean {
+  return !!q.slot || q.type === "date" || q.id in ARRAY_SLOT_BY_QUESTION;
+}
+
 /**
  * Whether question i (0-based) applies given earlier answers.
  * Explicit `show_if: { q, equals }` wins; otherwise an "If yes, ..." question depends on the yes/no question right before it.
  */
-export function isApplicable(dispute: Dispute, i: number, answers: Record<string, string>): boolean {
+export function isApplicable(dispute: Dispute, i: number, answers: Record<string, string>, known: Known = {}): boolean {
   const q = dispute.questions[i] as Q & { show_if?: { q: string; equals: string } };
   if (!q) return false;
+  if (!routesOn(q)) return false;
+  if (q.slot === "city" && known.city) return false;
   if (q.show_if) return (answers[q.show_if.q] ?? "").trim().toLowerCase() === q.show_if.equals.toLowerCase();
   const prev = dispute.questions[i - 1];
   if (/^if yes\b/i.test(q.label_en) && prev?.type === "boolean") return toBool(answers[prev.id] ?? "") === true;
@@ -27,15 +37,26 @@ export function isApplicable(dispute: Dispute, i: number, answers: Record<string
 }
 
 /** Next applicable question index after i (0-based), or -1 when the flow is done. */
-export function nextApplicable(dispute: Dispute, i: number, answers: Record<string, string>): number {
-  for (let j = i + 1; j < dispute.questions.length; j++) if (isApplicable(dispute, j, answers)) return j;
+export function nextApplicable(dispute: Dispute, i: number, answers: Record<string, string>, known: Known = {}): number {
+  for (let j = i + 1; j < dispute.questions.length; j++) if (isApplicable(dispute, j, answers, known)) return j;
   return -1;
 }
 
 /** Previous applicable question index before i (0-based), or 0. */
-export function prevApplicable(dispute: Dispute, i: number, answers: Record<string, string>): number {
-  for (let j = i - 1; j >= 0; j--) if (isApplicable(dispute, j, answers)) return j;
-  return 0;
+export function prevApplicable(dispute: Dispute, i: number, answers: Record<string, string>, known: Known = {}): number {
+  for (let j = i - 1; j >= 0; j--) if (isApplicable(dispute, j, answers, known)) return j;
+  return firstApplicable(dispute, answers, known);
+}
+
+/** First question worth asking (0-based), or -1 when nothing needs asking. */
+export function firstApplicable(dispute: Dispute, answers: Record<string, string>, known: Known = {}): number {
+  return nextApplicable(dispute, -1, answers, known);
+}
+
+/** Position and total of the questions that will be asked, for the progress dots. */
+export function flowProgress(dispute: Dispute, i: number, answers: Record<string, string>, known: Known = {}): { n: number; total: number; last: boolean } {
+  const plan = dispute.questions.map((_, j) => j).filter((j) => j === i || isApplicable(dispute, j, answers, known));
+  return { n: plan.indexOf(i) + 1, total: plan.length, last: nextApplicable(dispute, i, answers, known) < 0 };
 }
 
 function daysSince(dateStr: string, now: number): number | undefined {

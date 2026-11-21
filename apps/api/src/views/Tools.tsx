@@ -56,7 +56,10 @@ export function DocFormPage({ lang, tpl, values, token, office, dispute, hasAmou
   const shown = tpl.variables.filter(fits);
   // Money fields: shown directly for money disputes or when we already know an amount; otherwise behind a damage question.
   const moneyAsk = !hasAmount && !!dispute && !MONEY_DISPUTES.has(dispute);
-  const main = shown.filter((v) => !PERSONAL.has(v.id) && !(moneyAsk && MONEY.has(v.id)));
+  const core = shown.filter((v) => !PERSONAL.has(v.id) && !(moneyAsk && MONEY.has(v.id)));
+  // Ask as little as possible: required or already-filled fields up front, the rest folded as optional extras.
+  const main = core.filter((v) => v.required || values[v.id]);
+  const extra = core.filter((v) => !v.required && !values[v.id]);
   const money = moneyAsk ? shown.filter((v) => MONEY.has(v.id)) : [];
   const personal = shown.filter((v) => PERSONAL.has(v.id));
   return (
@@ -73,6 +76,16 @@ export function DocFormPage({ lang, tpl, values, token, office, dispute, hasAmou
                 <VarField key={v.id} lang={lang} v={v} value={values[v.id]} />
               ))}
             </div>
+            {extra.length ? (
+              <details className="doc-more">
+                <summary>{t(lang, "ui.doc.more_optional", { n: extra.length })}</summary>
+                <div className="doc-grid">
+                  {extra.map((v) => (
+                    <VarField key={v.id} lang={lang} v={v} value={values[v.id]} />
+                  ))}
+                </div>
+              </details>
+            ) : null}
             {money.length ? (
               <details className="doc-more">
                 <summary>{t(lang, "ui.doc.damage_q")}</summary>
@@ -326,9 +339,18 @@ export function OfficesPage({
       <div className="container stack tool-page">
         <h1>{t(lang, "ui.off.h1")}</h1>
         <form className="card stack" method="get" action="/r/offices">
+          <input type="hidden" name="lat" value="" />
+          <input type="hidden" name="lng" value="" />
+          {q.type ? <input type="hidden" name="type" value={q.type} /> : null}
+          <button type="button" className="btn btn-primary" data-locate hidden data-msg-busy={t(lang, "ui.location.busy")} data-msg-denied={t(lang, "ui.location.denied")} data-msg-fail={t(lang, "ui.location.fail")}>
+            {t(lang, "ui.off.near_me")}
+          </button>
+          <p className="text-meta" data-locate-status aria-live="polite"></p>
+        </form>
+        <form className="card stack" method="get" action="/r/offices">
           <label className="field">
             <span>{t(lang, "ui.aid.state_label")}</span>
-            <select name="state">
+            <select name="state" data-loc-state>
               <option value="">{t(lang, "ui.off.any")}</option>
               {states.map((s) => (
                 <option key={s.code} value={s.code} selected={q.state === s.code}>

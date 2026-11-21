@@ -213,3 +213,33 @@ main { background: linear-gradient(180deg, #FFFBF5 0, var(--ground) 420px); }
 .tool-page form .field { margin-bottom: 14px; }
 .tool-page form .field > span, .tool-page form .field > label { display: block; font-family: var(--font-display); font-weight: 700; color: var(--ink); margin-bottom: 6px; }
 .tool-page .cluster > .btn { margin-bottom: 10px; }
+
+/* ---------- Step-by-step guides (howto) ---------- */
+.howto { margin: 16px 0 6px; border-radius: 26px; background: var(--saffron-50); box-shadow: inset 0 0 0 2px var(--saffron-100); }
+.howto > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 10px 18px; font-family: var(--font-display); font-weight: 700; font-size: 1.08rem; color: var(--ink); }
+.howto > summary::-webkit-details-marker { display: none; }
+.howto-ico { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: var(--saffron-700); color: #FFFFFF; transition: transform var(--dur-base) var(--ease-out); }
+.howto[open] .howto-ico { transform: rotate(-8deg) scale(1.06); }
+.howto-title { flex: 1 1 auto; }
+.howto-count { flex: none; padding: 2px 12px; border-radius: var(--r-pill); background: var(--paper); color: var(--ink-600); font-family: var(--font-body); font-size: 0.86rem; font-weight: 700; }
+.howto-list { list-style: none; margin: 0; padding: 4px 14px 16px; display: grid; gap: 10px; counter-reset: none; }
+.howto-step { position: relative; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: start; padding: 12px 14px; border-radius: 20px; background: var(--paper); box-shadow: var(--shadow-small); }
+.howto-n { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: var(--saffron-100); color: var(--ink); font-family: var(--font-display); font-weight: 800; font-size: 1.02rem; }
+.howto-body p { margin: 4px 0 0; font-size: 1.02rem; line-height: 1.5; color: var(--ink); }
+.howto-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; min-height: 44px; padding: 8px 16px; border-radius: var(--r-pill); font-family: var(--font-display); font-weight: 700; font-size: 1rem; line-height: 1.2; text-decoration: none; overflow-wrap: anywhere; transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out); }
+.howto-link svg { flex: none; }
+.howto-link:hover { transform: translateY(-2px); box-shadow: var(--shadow-small); }
+.howto-link:focus-visible { outline: 3px solid var(--leaf-600); outline-offset: 3px; }
+.howto-link.is-web { background: var(--saffron-100); color: var(--ink); box-shadow: inset 0 0 0 2px var(--saffron-500); }
+.howto-link.is-web svg { color: var(--saffron-700); }
+.howto-link.is-call, .howto-link.is-wa { background: var(--leaf-700); color: #FFFFFF; }
+.howto-link.is-app { background: var(--paper); color: var(--ink); box-shadow: inset 0 0 0 2px var(--leaf-600); }
+.howto-link.is-app svg { color: var(--leaf-700); }
+.howto-tip { margin: 0; padding: 0 20px 16px; color: var(--ink-600); font-size: 0.95rem; }
+.howto-card .howto-list { padding: 4px 0 0; }
+.howto-card { background: var(--saffron-50); }
+.mode-head { margin: 18px 0 8px; font-family: var(--font-display); font-weight: 700; color: var(--ink-700); }
+.place-card .place-now { margin: 4px 0 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .howto-ico, .howto-link { transition: none; } .howto-link:hover { transform: none; } }
+@media print { .howto { box-shadow: none; } .howto-link { color: var(--ink) !important; background: none !important; box-shadow: none !important; padding: 0; } .howto-link.is-web::after, .howto-link.is-wa::after { content: " (" attr(href) ")"; font-weight: 400; font-size: 0.85rem; } }
+@media (max-width: 420px) { .howto-step { grid-template-columns: 28px minmax(0, 1fr); padding: 10px 12px; gap: 10px; } .howto-n { width: 28px; height: 28px; font-size: 0.92rem; } .howto-list { padding: 4px 8px 12px; } }
