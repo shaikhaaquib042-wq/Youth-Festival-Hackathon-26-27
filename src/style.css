@@ -173,6 +173,23 @@ a.btn.call { display: block; text-align: left; margin: 2px 0; }
 
 /* More menu */
 .more-sheet { max-height: 85dvh; overflow: auto; }
+
+.paste-sheet { max-height: 85dvh; overflow-y: auto; background: var(--surface); color: var(--ink); }
+.paste-sheet textarea {
+  width: 100%; min-height: 8rem; resize: vertical; padding: 10px;
+  border: 1px solid var(--line); border-radius: 12px;
+  background: var(--surface-2); color: var(--ink); font: inherit;
+}
+.paste-sheet [role="status"]:empty { display: none; }
+.paste-preview { display: grid; gap: 10px; }
+.paste-preview[hidden] { display: none; }
+.paste-places { display: grid; gap: 4px; }
+.paste-place {
+  display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 8px;
+  border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2);
+}
+.paste-place input { width: 20px; height: 20px; flex: none; }
+.paste-place small { display: block; color: var(--muted); }
 .more-sec { display: grid; gap: 6px; padding: 6px 0; border-bottom: 1px solid #eef0f3; }
 .more-h { font-weight: 700; }
 .more-row { text-align: left; border: 0; border-bottom: 1px solid #eef0f3; background: none; padding: 14px 4px; font: 600 17px/1.2 inherit; font-family: inherit; cursor: pointer; }

@@ -8,6 +8,7 @@ import { currentUser, signOut, onAuth } from '../backend/auth.js';
 import { backendReady } from '../backend/client.js';
 import { openSignIn } from './signin.js';
 import { openHelp } from './help.js';
+import { openPaste } from './paste.js';
 import { startOnboarding } from './onboarding.js';
 import * as weather from '../map/weather.js';
 
@@ -31,6 +32,7 @@ function render() {
     <div class="more-sec"><div class="more-h">🌓 ${esc(t('more.theme'))}</div>
       <div class="rs-row">${['auto', 'light', 'dark'].map((m) => `<button class="chip ${themePref() === m ? 'on' : ''}" data-theme-pick="${m}">${esc(t('theme.' + m))}</button>`).join('')}</div></div>
     <button class="more-row" data-act="help">☎️ ${esc(t('more.helplines'))}</button>
+    <button class="more-row" data-act="paste">📋 ${esc(t('paste.menu'))}</button>
     ${heat ? `<button class="more-row" data-act="cooling">➕💧 ${esc(t('more.addCooling'))}</button>` : `<button class="more-row" data-act="radar">📡 ${esc(t('more.radar'))}: ${radarOn ? '✅' : '—'}</button>`}
     ${backendReady() ? `<button class="more-row" data-act="account">👤 ${esc(u ? `${t('auth.signOut')} (${u.email ?? u.name ?? ''})` : t('auth.signIn'))}</button>` : ''}
     <button class="more-row" data-act="setup">🔁 ${esc(t('more.setupAgain'))}</button>
@@ -55,6 +57,7 @@ export function initMore(m, { openReportCooling } = {}) {
     open = act === 'radar'; // every other row closes the menu
     if (act === 'close') return render();
     if (act === 'help') { render(); return openHelp(); }
+    if (act === 'paste') { render(); return openPaste(); }
     if (act === 'radar') { weather.setRadarVisible?.(map, !(weather.isRadarVisible?.() ?? false)); open = true; return render(); }
     if (act === 'account') { render(); return currentUser() && !currentUser().anonymous ? signOut() : openSignIn(); }
     if (act === 'setup') { render(); return startOnboarding({ force: true }); }

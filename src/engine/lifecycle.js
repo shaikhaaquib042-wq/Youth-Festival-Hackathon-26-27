@@ -14,9 +14,11 @@ export function deriveStatus(pin, all, now, cfg) {
   if (pin.clearedVotes >= cfg.CLEAR_TAPS && pin.clearedVotes > pin.confirmations) return 'cleared';
   const expiry = cfg.EXPIRY_MIN[pin.type] ?? 120;
   if (ageMin(pin, now) > expiry) return 'stale';
+  // Pasted text has no independently verifiable source or timestamp.
+  if (pin.source?.kind === 'media') return 'unverified';
   if (pin.tier === 1 || pin.tier === 2) return 'confirmed';
   if (pin.confirmations >= cfg.CONFIRM_TAPS) return 'confirmed';
-  const corroborated = all.some((o) => o.id !== pin.id && o.type === pin.type && o.status !== 'cleared' && o.type !== 'hotspot'
+  const corroborated = all.some((o) => o.id !== pin.id && o.type === pin.type && o.status !== 'cleared' && o.type !== 'hotspot' && o.source?.kind !== 'media'
     && Math.abs(Date.parse(o.createdAt) - Date.parse(pin.createdAt)) <= cfg.CONFIRM_WINDOW_MIN * 60000
     && distM(o, pin) <= cfg.CONFIRM_RADIUS_M);
   return corroborated ? 'confirmed' : 'unverified';
