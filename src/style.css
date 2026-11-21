@@ -368,3 +368,21 @@ a { color: inherit; }
 .card-more-summary { border-top-color: var(--line) !important; }
 .maplibregl-map .maplibregl-ctrl-top-right { bottom: calc(var(--bar-h) + 84px) !important; }
 @media (min-width: 760px) { .maplibregl-map .maplibregl-ctrl-top-right { top: 76px !important; bottom: auto !important; } }
+
+/* 👤 My reports (profile) */
+#profile-btn { width: 52px; height: 52px; min-height: 52px; border-radius: 50%; border: 0; background: var(--surface); color: var(--ink); box-shadow: var(--shadow); font-size: 22px; cursor: pointer; margin-left: auto; }
+#profile-btn.on { box-shadow: 0 0 0 2px var(--ok), var(--shadow); }
+#topbar { gap: 8px; }
+.mr-sheet h3 { font-size: 15px; margin: 16px 0 6px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.mr-who { margin: -4px 0 8px; }
+.mr-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.mr-stats > div { background: var(--surface-2); border-radius: 14px; padding: 12px 8px; text-align: center; display: flex; flex-direction: column; gap: 2px; }
+.mr-stats b { font-size: 28px; line-height: 1.1; }
+.mr-stats > div:first-child { background: var(--ok-bg); color: var(--ok-ink); }
+.mr-thanks { background: var(--ok-bg); color: var(--ok-ink); border-radius: 12px; padding: 10px 12px; margin: 10px 0 0; }
+.mr-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.mr-item { display: flex; align-items: center; gap: 10px; background: var(--surface-2); border-radius: 12px; padding: 8px 10px; }
+.mr-ico { font-size: 22px; }
+.mr-main { flex: 1; min-width: 0; }
+.mr-acts { display: flex; gap: 4px; }
+.mr-acts .btn { min-width: 44px; min-height: 44px; }

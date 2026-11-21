@@ -85,3 +85,34 @@ export function watchReports(onChange) {
     .subscribe();
   return () => supabase.removeChannel(ch);
 }
+
+/**
+ * Profile: the signed-in user's own reports (all cities, newest first) + how many OTHER people
+ * confirmed ("still there") or updated ("cleared") them. "Helped" = distinct other people who confirmed.
+ */
+export async function fetchMyReports(userId, { limit = 100 } = {}) {
+  if (!supabase || !userId) return { pins: [], helped: 0, confirmations: 0, clears: 0 };
+  const { data: rows, error } = await supabase.from('reports')
+    .select('id,city,type,lat,lng,depth,in_underpass,passable_bike,passable_car,cause,amenities,name,photo,created_at')
+    .eq('user_id', userId).order('created_at', { ascending: false }).limit(limit);
+  if (error) throw error;
+  if (!rows.length) return { pins: [], helped: 0, confirmations: 0, clears: 0 };
+  const { data: votes, error: vErr } = await supabase.from('report_votes')
+    .select('report_id,user_id,vote').in('report_id', rows.map((r) => r.id));
+  if (vErr) throw vErr;
+  const others = votes.filter((v) => v.user_id !== userId);
+  const pins = rows.map((r) => ({ ...rowToPin(r, others), city: r.city }));
+  return {
+    pins,
+    helped: new Set(others.filter((v) => v.vote === 'still').map((v) => v.user_id)).size,
+    confirmations: others.filter((v) => v.vote === 'still').length,
+    clears: others.filter((v) => v.vote === 'cleared').length,
+  };
+}
+
+/** Delete one of your own reports (RLS: owner only). */
+export async function deleteMyReport(id) {
+  if (!supabase) throw new Error('backend_unavailable');
+  const { error } = await supabase.from('reports').delete().eq('id', id);
+  if (error) throw error;
+}
