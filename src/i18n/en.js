@@ -100,6 +100,7 @@ export default {
   'pin.knownSpot': 'Near a known flood spot — likely',
   'report.placeHint': 'Move the map so the 📍 is on the spot',
   'report.photo': 'Photo (optional)',
+  'report.photoError': 'Could not open that photo. Choose another photo or send without it.',
   'report.submit': 'Send report',
   'report.cancel': 'Cancel',
   'report.sending': 'Sending…',

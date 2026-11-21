@@ -12,7 +12,7 @@ import { openSignIn, takeIntent } from './signin.js';
 import { getFix, requestLocation } from '../location.js';
 import { depthIcon } from './depthIcons.js';
 
-let map, hazard = 'flood', sheet, crosshair, draft = null, sending = null;
+let map, hazard = 'flood', sheet, crosshair, draft = null, sending = null, photoRead = 0;
 
 export function toast(msg, ms = 3500) {
   const b = document.getElementById('toast');
@@ -224,15 +224,23 @@ function onClick(e) {
 
 async function readPhoto(file) {
   if (!file) return;
-  const img = await createImageBitmap(file);
-  const s = Math.min(1, 900 / Math.max(img.width, img.height));
-  const c = Object.assign(document.createElement('canvas'), {
-    width: Math.round(img.width * s),
-    height: Math.round(img.height * s),
-  });
-  c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-  draft.photo = c.toDataURL('image/jpeg', 0.6); // ~60–150 KB, under the DB's 400 KB cap
-  render();
+  const target = draft;
+  const read = ++photoRead;
+  try {
+    const img = await createImageBitmap(file);
+    if (target !== draft || read !== photoRead) { img.close(); return; }
+    const s = Math.min(1, 900 / Math.max(img.width, img.height));
+    const c = Object.assign(document.createElement('canvas'), {
+      width: Math.round(img.width * s),
+      height: Math.round(img.height * s),
+    });
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    img.close();
+    target.photo = c.toDataURL('image/jpeg', 0.6);
+    render();
+  } catch {
+    if (target === draft && read === photoRead) toast(t('report.photoError'));
+  }
 }
 
 /** @param {{prefill?: {type?, depth?, inUnderpass?, place?: {name,lat,lng}, transcript?: string}}} [opts] — from voice */
