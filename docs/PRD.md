@@ -1,4 +1,6 @@
 # FloodWatch — FINAL PRD (r1, build-ready)
+> **Product renamed to Mausam Mitra (मौसम मित्र) on 21 Nov 2026** — scope now covers 7.3 (road flooding, primary) + 7.2 (outdoor-worker heat), one app. "FloodWatch" below = the flood module. Branch: `team/mausam-mitra`.
+
 **Problem statement 7.3, Environment domain, Naya Bharat 2047 / Code for Bharat — Rotary Youth Festival Hackathon, Pune, 21 Nov 2026. Submission: before 22:00 today.**
 Consolidates PRD v0.1–v0.4 + FINAL, revised 21 Nov 13:15 after (a) a check against the official problem-statement PDF and (b) a build-feasibility research pass. Decisions by Devang are marked [DEVANG]. Defaults proposed by the research assistant and accepted implicitly are [DEFAULT]. New in r1 is marked [R1]. Recommendations awaiting Devang's yes/no are marked [REC]. Section 14 lists questions that are STILL OPEN — do not silently assume answers while building.
 

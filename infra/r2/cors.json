@@ -1,4 +1,4 @@
-[{ "AllowedOrigins": ["http://localhost:5173", "https://floodwatch.pages.dev"],
+[{ "AllowedOrigins": ["http://localhost:5173", "https://mausam-mitra.pages.dev"],
    "AllowedMethods": ["GET", "HEAD"],
    "AllowedHeaders": ["range", "if-match"],
    "ExposeHeaders": ["etag"],
