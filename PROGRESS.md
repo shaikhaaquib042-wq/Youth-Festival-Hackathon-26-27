@@ -3,7 +3,7 @@
 ## Phases
 - [x] **Phase 1**: Foundation: scaffold, tokens, fonts, types, config, seed generator, repository interface, PROGRESS.md
 - [x] **Phase 2**: Matching engine + tests (SPEC §6, pure parts of §7)
-- [ ] **Phase 3**: State: Zustand slices, JSON repository + API routes, clock, event reducer, response simulation
+- [x] **Phase 3**: State: Zustand slices, JSON repository + API routes, clock, event reducer, response simulation
 - [ ] **Phase 4**: Live Map (deck.gl + MapLibre GL, 3D tilt, columns, arcs, pulse, fallbacks)
 - [ ] **Phase 5**: Request + donor flows (Create request 3-step, verify, phone mock, accept, decline, reveal)
 - [ ] **Phase 6**: Privacy (Masking, audit log, retention/purge, Privacy Center)
