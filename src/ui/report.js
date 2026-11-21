@@ -5,7 +5,7 @@ import { t, onLang } from '../i18n/index.js';
 import { CONFIG } from '../../config.js';
 import { makePin } from '../engine/pin.js';
 import { distM } from '../engine/geo.js';
-import { currentUser, onAuth } from '../backend/auth.js';
+import { currentUser, onAuth, ensureAnonUser } from '../backend/auth.js';
 import { submitReport, vote } from '../backend/reports.js';
 import { addLocalPin, refreshLive } from '../store.js';
 import { openSignIn, takeIntent } from './signin.js';
@@ -237,7 +237,9 @@ async function readPhoto(file) {
 
 /** @param {{prefill?: {type?, depth?, inUnderpass?, place?: {name,lat,lng}, transcript?: string}}} [opts] — from voice */
 export async function openReport(opts = {}) {
-  if (!currentUser()) return openSignIn(() => openReport(opts));
+  // Heat side (cooling points) needs no login screen: silent anonymous session. Rain side keeps the sign-in gate.
+  if (!currentUser() && hazard === 'heat' && !(await ensureAnonUser())) return toast(t('report.heatUnavailable'));
+  if (!currentUser() || (hazard === 'flood' && currentUser().anonymous)) return openSignIn(() => openReport(opts)); // flood reports need a real login
   ensureSheet();
   const fix = getFix() ?? (await requestLocation({ timeoutMs: 8000 })); // asks permission the first time
   const pre = hazard === 'flood' ? opts.prefill ?? {} : {};
@@ -298,7 +300,7 @@ async function submit() {
 
 /** Vote handler for pin popups (login-gated). */
 export async function onVote(pin, value) {
-  if (!currentUser()) return openSignIn(() => onVote(pin, value));
+  if (!currentUser() || currentUser().anonymous) return openSignIn(() => onVote(pin, value));
   try {
     await vote(pin.id, value);
     refreshLive();

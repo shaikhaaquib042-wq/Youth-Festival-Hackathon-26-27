@@ -244,4 +244,6 @@ export default {
   'help.continueReport': "ತುರ್ತು ಅಲ್ಲ — ನನ್ನ ವರದಿ ಮುಂದುವರಿಸಿ",
   'card.collapse': "ವಿವರ ಮರೆಮಾಡಿ",
   'card.expand': "ವಿವರ ತೋರಿಸಿ",
+  'cooling.directions': "ದಾರಿ ತೋರಿಸಿ",
+  'report.heatUnavailable': "ತಂಪು ಸ್ಥಳ ಸೇರಿಸುವ ಸೌಲಭ್ಯ ಇನ್ನೂ ಆನ್ ಆಗಿಲ್ಲ. ದಯವಿಟ್ಟು ನಂತರ ಪ್ರಯತ್ನಿಸಿ.",
 };

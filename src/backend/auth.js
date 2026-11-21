@@ -14,7 +14,7 @@ function emit() { listeners.forEach((fn) => fn(currentUser())); }
 /** @returns {{id:string, email:string|null, name:string|null}|null} */
 export function currentUser() {
   const u = session?.user;
-  return u ? { id: u.id, email: u.email ?? null, name: u.user_metadata?.full_name ?? u.user_metadata?.name ?? null } : null;
+  return u ? { id: u.id, email: u.email ?? null, name: u.user_metadata?.full_name ?? u.user_metadata?.name ?? null, anonymous: !!u.is_anonymous } : null;
 }
 
 /** Subscribe to sign-in/out. Calls fn immediately. Returns unsubscribe. */
@@ -39,6 +39,21 @@ export async function verifyEmailCode(email, token) {
   if (!supabase) throw new Error('backend_unavailable');
   const { error } = await supabase.auth.verifyOtp({ email, token: token.trim(), type: 'email' });
   if (error) throw error;
+}
+
+/**
+ * Heat side (cooling points): no login screen. Creates a silent anonymous Supabase session
+ * (needs Auth → "Allow anonymous sign-ins" ON in the Supabase dashboard). The session gets the
+ * normal `authenticated` role, so RLS + the 5-per-30-min DB rate limit still apply per device.
+ * Returns the user, or null if anonymous sign-in is disabled / offline.
+ */
+export async function ensureAnonUser() {
+  if (currentUser()) return currentUser();
+  if (!supabase) return null;
+  const { data, error } = await supabase.auth.signInAnonymously();
+  if (error) { console.warn('anonymous sign-in failed:', error.message); return null; }
+  session = data.session; emit();
+  return currentUser();
 }
 
 export async function signOut() { await supabase?.auth.signOut(); }

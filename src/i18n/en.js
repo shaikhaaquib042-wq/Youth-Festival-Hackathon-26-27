@@ -265,4 +265,6 @@ export default {
   'help.continueReport': "Not an emergency — continue my report",
   'card.collapse': "Hide details",
   'card.expand': "Show details",
+  'cooling.directions': "Directions",
+  'report.heatUnavailable': "Adding cooling points is not switched on yet. Please try again later.",
 };

@@ -80,11 +80,12 @@ onAuth((u) => {
 /** Small account chip for the top bar. */
 export function mountAccountChip(el) {
   const draw = (u) => {
+    if (u?.anonymous) u = null; // silent heat-side session ≠ signed in
     el.hidden = !backendReady();
     el.textContent = u ? (u.name?.split(' ')[0] ?? u.email ?? '✓') : t('auth.signIn');
     el.title = u ? `${t('auth.signedInAs', { who: u.email ?? u.name })} — ${t('auth.signOut')}` : '';
   };
   onAuth(draw);
   window.addEventListener('langchange', () => draw(currentUser()));
-  el.addEventListener('click', () => (currentUser() ? signOut() : openSignIn()));
+  el.addEventListener('click', () => (currentUser() && !currentUser().anonymous ? signOut() : openSignIn()));
 }

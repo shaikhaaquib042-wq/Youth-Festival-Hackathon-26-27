@@ -244,4 +244,6 @@ export default {
   'help.continueReport': "आपात स्थिति नहीं — मेरी रिपोर्ट जारी रखें",
   'card.collapse': "विवरण छिपाएँ",
   'card.expand': "विवरण दिखाएँ",
+  'cooling.directions': "रास्ता दिखाएँ",
+  'report.heatUnavailable': "ठंडी जगह जोड़ने की सुविधा अभी चालू नहीं है. कृपया बाद में कोशिश करें.",
 };

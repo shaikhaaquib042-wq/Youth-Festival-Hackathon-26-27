@@ -16,7 +16,7 @@ let el, map, open = false;
 function render() {
   if (!open) { el.hidden = true; return; }
   el.hidden = false;
-  const u = currentUser();
+  const u = currentUser()?.anonymous ? null : currentUser(); // silent heat-side session ≠ signed in
   const radarOn = weather.isRadarVisible?.() ?? false;
   const heat = document.body.dataset.hazard === 'heat';
   el.innerHTML = `<div class="sheet more-sheet" role="dialog" aria-modal="true">
@@ -52,9 +52,9 @@ export function initMore(m, { openReportCooling } = {}) {
     if (act === 'close') return render();
     if (act === 'help') { render(); return openHelp(); }
     if (act === 'radar') { weather.setRadarVisible?.(map, !(weather.isRadarVisible?.() ?? false)); open = true; return render(); }
-    if (act === 'account') { render(); return currentUser() ? signOut() : openSignIn(); }
+    if (act === 'account') { render(); return currentUser() && !currentUser().anonymous ? signOut() : openSignIn(); }
     if (act === 'setup') { render(); return startOnboarding({ force: true }); }
-    if (act === 'cooling') { render(); return openReportCooling?.(); }
+    if (act === 'cooling') { render(); window.dispatchEvent(new CustomEvent('sajag:set-hazard', { detail: { hazard: 'heat' } })); return openReportCooling?.(); }
     if (act === 'demo') { render(); return document.getElementById('mode-chip').click(); }
     render();
   });

@@ -401,7 +401,11 @@ function popup(p, actions) {
     lines.push(`<small>${esc(t('pin.source', { name: p.source.name }))}</small>`);
   }
 
-  if (p.source?.url) {
+  if (p.type === 'cooling') {
+    // The useful action for a cooling point is getting there. OSM link = where the data comes from.
+    lines.push(`<a class="btn btn-primary popup-directions" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}&travelmode=walking" target="_blank" rel="noopener">🧭 ${esc(t('cooling.directions'))}</a>`);
+    if (p.source?.url) lines.push(`<small><a href="${esc(p.source.url)}" target="_blank" rel="noopener">OpenStreetMap ↗</a></small>`);
+  } else if (p.source?.url) {
     lines.push(`<small><a href="${esc(p.source.url)}" target="_blank" rel="noopener">↗</a></small>`);
   }
   if (p.photo) {

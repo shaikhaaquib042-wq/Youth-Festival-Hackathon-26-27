@@ -244,4 +244,6 @@ export default {
   'help.continueReport': "आणीबाणी नाही — माझी तक्रार पुढे भरा",
   'card.collapse': "तपशील लपवा",
   'card.expand': "तपशील दाखवा",
+  'cooling.directions': "रस्ता दाखवा",
+  'report.heatUnavailable': "थंड जागा जोडण्याची सुविधा अजून सुरू नाही. कृपया नंतर प्रयत्न करा.",
 };

@@ -27,6 +27,9 @@ const SEEDS = {
 const { hotspots, cooling, gazetteer } = SEEDS[CONFIG.CITY] ?? SEEDS.pune;
 
 const OSM = { kind: 'seed', name: 'OpenStreetMap', url: 'https://www.openstreetmap.org/copyright' };
+// Link each cooling point to its own OSM object (osm-n123 → node/123), not the licence page.
+const OSM_TYPE = { n: 'node', w: 'way', r: 'relation' };
+const osmSource = (id) => { const m = /^osm-([nwr])(\d+)$/.exec(id ?? ''); return m ? { ...OSM, url: `https://www.openstreetmap.org/${OSM_TYPE[m[1]]}/${m[2]}` } : OSM; };
 const SEED_TIME = '2026-11-01T00:00:00+05:30';
 
 const seed = [
@@ -34,7 +37,7 @@ const seed = [
   ...hotspots.filter((h) => !h.archived).map((h) => makePin({ id: h.id, type: 'hotspot', lat: h.lat, lng: h.lng, name: h.name, inUnderpass: h.inUnderpass,
     tier: TIERS.SEED, source: h.source, createdAt: h.lastReported ? `${h.lastReported}T00:00:00+05:30` : SEED_TIME, status: 'unverified' })),
   ...cooling.map((c) => makePin({ id: c.id, type: 'cooling', lat: c.lat, lng: c.lng, name: c.name, amenities: c.amenities,
-    tier: TIERS.SEED, source: OSM, createdAt: SEED_TIME, status: 'confirmed' })),
+    tier: TIERS.SEED, source: osmSource(c.id), createdAt: SEED_TIME, status: 'confirmed' })),
 ];
 
 let live = [];      // from Supabase

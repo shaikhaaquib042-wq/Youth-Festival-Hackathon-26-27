@@ -233,3 +233,4 @@ a.btn.call { display: block; text-align: left; margin: 2px 0; }
 /* Phone: MapLibre's own CSS loads after ours and resets top:0 — be more specific so controls clear the top bar. */
 .maplibregl-map .maplibregl-ctrl-top-right { top: auto; bottom: 190px; }
 @media (min-width: 760px) { .maplibregl-map .maplibregl-ctrl-top-right { top: 76px; bottom: auto; } }
+.popup-directions { display: block; text-align: center; margin: 6px 0 2px; padding: 10px 12px; text-decoration: none; font-weight: 700; }

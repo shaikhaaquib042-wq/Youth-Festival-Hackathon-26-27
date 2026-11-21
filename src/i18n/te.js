@@ -244,4 +244,6 @@ export default {
   'help.continueReport': "అత్యవసరం కాదు — నా రిపోర్ట్ కొనసాగించండి",
   'card.collapse': "వివరాలు దాచండి",
   'card.expand': "వివరాలు చూపండి",
+  'cooling.directions': "దారి చూపించు",
+  'report.heatUnavailable': "చల్లని ప్రదేశం జోడించే సదుపాయం ఇంకా ఆన్ కాలేదు. దయచేసి తర్వాత ప్రయత్నించండి.",
 };
