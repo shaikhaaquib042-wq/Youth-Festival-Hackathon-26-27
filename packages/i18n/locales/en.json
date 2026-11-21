@@ -250,6 +250,7 @@
   "ui.dir.say_text_with": "I want to submit a complaint about: {topic}. Please tell me which desk to go to, and give me a stamped and dated receipt.",
   "ui.dir.site": "Official site",
   "ui.dir.unavailable": "We could not work out the route right now. Use one of the map links.",
+  "ui.dir.use_gps": "Start from where I am now",
   "ui.dir.where": "Address and timings",
   "ui.disclaimer": "Raasta gives procedural guidance based on public government rules. It is not legal advice.",
   "ui.disclaimer.h1": "Disclaimer",

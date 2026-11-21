@@ -42,6 +42,14 @@
       function (pos) {
         var lat = Math.round(pos.coords.latitude * 1000) / 1000;
         var lng = Math.round(pos.coords.longitude * 1000) / 1000;
+        // Directions forms take the rounded start point directly (no reverse geocode needed).
+        var from = form.querySelector("[name=from]");
+        if (from) {
+          from.value = lat + "," + lng;
+          btn.disabled = false;
+          form.submit();
+          return;
+        }
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "/api/geo/reverse?lat=" + lat + "&lng=" + lng);
         xhr.onload = function () {

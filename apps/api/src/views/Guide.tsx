@@ -61,7 +61,7 @@ export function GuidePage({ lang, platform: p, token, slots, title }: GuideProps
   const offices = officesForPlatform(p.id);
   return (
     <Layout lang={lang} title={`${p.name} | Raasta`} path={`/r/guide/${p.id}`} query={token ? `t=${encodeURIComponent(token)}` : undefined} noindex>
-      <div className="container stack">
+      <div className="container stack tool-page">
         <h1>{p.name}</h1>
         <p>{p.managing_body}</p>
         <section className="card card-warm stack" aria-labelledby="ov">

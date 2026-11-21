@@ -121,7 +121,7 @@ export function DocFormPage({ lang, tpl, values, token, office, dispute, hasAmou
 export function LabelPage({ lang, token, office, toName, toAddress }: { lang: Locale; token?: string; office?: string; toName?: string; toAddress?: string }) {
   return (
     <Layout lang={lang} title={`${t(lang, "ui.label.h1")} | Raasta`} path="/r/label" query={token ? `t=${encodeURIComponent(token)}` : undefined} noindex>
-      <div className="container stack">
+      <div className="container stack tool-page">
         <h1>{t(lang, "ui.label.h1")}</h1>
         <section className="card stack">
           <p>{t(lang, "ui.label.guidance")}</p>
@@ -219,7 +219,7 @@ export function DirectionsPage({ lang, dest, token, disputeTitle, docs, from, ro
   const toParam = encodeURIComponent(dest.id);
   return (
     <Layout lang={lang} title={`${t(lang, "ui.dir.h1", { name: dest.name })} | Raasta`} path="/r/directions" query={`to=${toParam}`} noindex>
-      <div className="container stack">
+      <div className="container stack tool-page">
         <h1>{t(lang, "ui.dir.h1", { name: dest.name })}</h1>
         <section className="card stack office-card" aria-labelledby="where">
           <h2 id="where">{t(lang, "ui.dir.where")}</h2>
@@ -250,6 +250,11 @@ export function DirectionsPage({ lang, dest, token, disputeTitle, docs, from, ro
               <input type="hidden" name="to" value={dest.id} />
               {token ? <input type="hidden" name="t" value={token} /> : null}
               {dest.id.includes(",") ? <input type="hidden" name="name" value={dest.name} /> : null}
+              <input type="hidden" name="from" value="" />
+              <button type="button" className="sh-locate" data-locate="" data-msg-busy={t(lang, "ui.location.busy")} data-msg-denied={t(lang, "ui.location.denied")} data-msg-fail={t(lang, "ui.location.fail")}>
+                {t(lang, "ui.dir.use_gps")}
+              </button>
+              <span data-locate-status="" role="status"></span>
               <label className="field">
                 <span>{t(lang, "ui.dir.landmark")}</span>
                 <input name="landmark" maxlength={120} />
@@ -318,7 +323,7 @@ export function OfficesPage({
 }) {
   return (
     <Layout lang={lang} title={`${t(lang, "ui.off.h1")} | Raasta`} path="/r/offices" noindex>
-      <div className="container stack">
+      <div className="container stack tool-page">
         <h1>{t(lang, "ui.off.h1")}</h1>
         <form className="card stack" method="get" action="/r/offices">
           <label className="field">
@@ -416,7 +421,7 @@ export function LegalAidResultPage({ lang, aid, token }: { lang: Locale; aid: Ro
   const c = aid.contact;
   return (
     <Layout lang={lang} title={`${t(lang, "ui.route.legal_aid")} | Raasta`} path="/r/legal-aid" noindex>
-      <div className="container stack">
+      <div className="container stack tool-page">
         <h1>{t(lang, "ui.route.legal_aid")}</h1>
         <section className="card card-warm stack" aria-labelledby="res">
           <h2 id="res">{t(lang, `ui.aid.${aid.eligible}`)}</h2>

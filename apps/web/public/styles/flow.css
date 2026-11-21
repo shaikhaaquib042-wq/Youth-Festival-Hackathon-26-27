@@ -195,3 +195,21 @@
 .official-list { list-style: none; margin: 6px 0 0; padding: 0; }
 .official-list li { padding: 8px 0; border-top: 1px dashed var(--sage-100); }
 .official-list a { font-weight: 700; }
+
+/* ---------- Tool pages: guide, labels, directions, offices lookup, legal-aid result ---------- */
+main { background: linear-gradient(180deg, #FFFBF5 0, var(--ground) 420px); }
+.tool-page { max-width: 980px; padding-top: 36px; padding-bottom: 72px; }
+.tool-page > h1 { font-size: 2rem; margin-bottom: 4px; }
+@media (min-width: 768px) { .tool-page > h1 { font-size: 2.5rem; } }
+.tool-page > p:first-of-type { color: var(--ink-600); font-size: 1.08rem; }
+.tool-page > section.card, .tool-page > form.card, .tool-page > .card { padding: 24px; border: 0; border-radius: 30px; box-shadow: var(--shadow-soft); }
+.tool-page > section.card h2 { font-size: 1.3rem; }
+.tool-page .card-warm { background: var(--saffron-50); box-shadow: none; }
+.tool-page .office-card { overflow-wrap: anywhere; }
+.tool-page ul.stack, .tool-page ol.stack { padding-left: 0; list-style: none; }
+.tool-page .stepper > li { padding-bottom: 26px; }
+.tool-page .stepper h3, .tool-page .stepper strong { font-family: var(--font-display); color: var(--ink); }
+.tool-page .btn { width: auto; }
+.tool-page form .field { margin-bottom: 14px; }
+.tool-page form .field > span, .tool-page form .field > label { display: block; font-family: var(--font-display); font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.tool-page .cluster > .btn { margin-bottom: 10px; }
