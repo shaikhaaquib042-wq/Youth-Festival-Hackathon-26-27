@@ -1,1 +1,343 @@
-[]
+[
+ {
+  "name": "Shahir Amar Shaikh Chowk",
+  "aliases": [
+   "amar shaikh chowk",
+   "shahir amar shaikh"
+  ],
+  "lat": 18.5262,
+  "lng": 73.878,
+  "approx": true,
+  "hotspotId": "tp-01"
+ },
+ {
+  "name": "Fatimanagar",
+  "aliases": [
+   "fatima nagar",
+   "fatimanagar chowk"
+  ],
+  "lat": 18.50451,
+  "lng": 73.90213,
+  "approx": false,
+  "hotspotId": "tp-02"
+ },
+ {
+  "name": "Bhairobanala Chowk",
+  "aliases": [
+   "bhairoba nala",
+   "bhairobanala",
+   "bhairoba nullah"
+  ],
+  "lat": 18.52594,
+  "lng": 73.90114,
+  "approx": false,
+  "hotspotId": "tp-03"
+ },
+ {
+  "name": "Radha Hotel Chowk, Baner",
+  "aliases": [
+   "radha chowk",
+   "radha hotel chowk"
+  ],
+  "lat": 18.56958,
+  "lng": 73.76509,
+  "approx": false,
+  "hotspotId": "tp-04"
+ },
+ {
+  "name": "North Main Road, Mundhwa",
+  "aliases": [
+   "north main road",
+   "koregaon park north main road"
+  ],
+  "lat": 18.5393,
+  "lng": 73.89815,
+  "approx": false,
+  "hotspotId": "tp-05"
+ },
+ {
+  "name": "Tadigutta Chowk",
+  "aliases": [
+   "tadigutta"
+  ],
+  "lat": 18.5365,
+  "lng": 73.912,
+  "approx": true,
+  "hotspotId": "tp-06"
+ },
+ {
+  "name": "Seven Loves Chowk",
+  "aliases": [
+   "seven loves",
+   "7 loves chowk"
+  ],
+  "lat": 18.50146,
+  "lng": 73.86962,
+  "approx": false,
+  "hotspotId": "tp-07"
+ },
+ {
+  "name": "Below Ruby Hall Metro Station",
+  "aliases": [
+   "ruby hall",
+   "ruby hall metro",
+   "ruby hall clinic"
+  ],
+  "lat": 18.53347,
+  "lng": 73.87697,
+  "approx": false,
+  "hotspotId": "tp-08"
+ },
+ {
+  "name": "Gunjan Talkies",
+  "aliases": [
+   "gunjan chowk",
+   "gunjan theatre"
+  ],
+  "lat": 18.54657,
+  "lng": 73.88826,
+  "approx": false,
+  "hotspotId": "tp-09"
+ },
+ {
+  "name": "Rajaram Bridge",
+  "aliases": [
+   "rajaram pul",
+   "राजाराम पूल"
+  ],
+  "lat": 18.48893,
+  "lng": 73.82672,
+  "approx": false,
+  "hotspotId": "tp-10"
+ },
+ {
+  "name": "Sinhagad Road",
+  "aliases": [
+   "sinhgad road",
+   "sinhagad rd",
+   "सिंहगड रस्ता"
+  ],
+  "lat": 18.49102,
+  "lng": 73.8332,
+  "approx": false
+ },
+ {
+  "name": "Vitthalwadi",
+  "aliases": [
+   "vitthalwadi jagat naka"
+  ],
+  "lat": 18.49102,
+  "lng": 73.8332,
+  "approx": false
+ },
+ {
+  "name": "Ekta Nagar",
+  "aliases": [
+   "ekta nagari",
+   "एकता नगर"
+  ],
+  "lat": 18.47,
+  "lng": 73.8105,
+  "approx": true
+ },
+ {
+  "name": "Warje",
+  "aliases": [
+   "warje malwadi",
+   "वारजे"
+  ],
+  "lat": 18.48204,
+  "lng": 73.80017,
+  "approx": false
+ },
+ {
+  "name": "Dandekar Bridge",
+  "aliases": [
+   "dandekar pul"
+  ],
+  "lat": 18.50239,
+  "lng": 73.84547,
+  "approx": false
+ },
+ {
+  "name": "Sahakar Nagar",
+  "aliases": [
+   "sahakarnagar",
+   "ambil odha",
+   "आंबील ओढा"
+  ],
+  "lat": 18.49008,
+  "lng": 73.84753,
+  "approx": false
+ },
+ {
+  "name": "Katraj",
+  "aliases": [
+   "katraj chowk",
+   "कात्रज"
+  ],
+  "lat": 18.45368,
+  "lng": 73.85632,
+  "approx": false
+ },
+ {
+  "name": "Swargate",
+  "aliases": [
+   "swargate chowk",
+   "स्वारगेट"
+  ],
+  "lat": 18.50049,
+  "lng": 73.8529,
+  "approx": false
+ },
+ {
+  "name": "Deccan Gymkhana",
+  "aliases": [
+   "deccan"
+  ],
+  "lat": 18.51589,
+  "lng": 73.84116,
+  "approx": false
+ },
+ {
+  "name": "Shivajinagar",
+  "aliases": [
+   "shivaji nagar",
+   "शिवाजीनगर"
+  ],
+  "lat": 18.53259,
+  "lng": 73.85131,
+  "approx": false
+ },
+ {
+  "name": "Kothrud",
+  "aliases": [
+   "कोथरूड"
+  ],
+  "lat": 18.50726,
+  "lng": 73.80567,
+  "approx": false
+ },
+ {
+  "name": "Hadapsar",
+  "aliases": [
+   "हडपसर"
+  ],
+  "lat": 18.52697,
+  "lng": 73.92783,
+  "approx": false
+ },
+ {
+  "name": "Yerawada",
+  "aliases": [
+   "yerwada",
+   "येरवडा"
+  ],
+  "lat": 18.56563,
+  "lng": 73.88658,
+  "approx": false
+ },
+ {
+  "name": "Baner",
+  "aliases": [
+   "बाणेर"
+  ],
+  "lat": 18.55899,
+  "lng": 73.78452,
+  "approx": false
+ },
+ {
+  "name": "Aundh",
+  "aliases": [
+   "औंध"
+  ],
+  "lat": 18.56188,
+  "lng": 73.8102,
+  "approx": false
+ },
+ {
+  "name": "Wakad",
+  "aliases": [],
+  "lat": 18.60225,
+  "lng": 73.76445,
+  "approx": false
+ },
+ {
+  "name": "Kondhwa",
+  "aliases": [],
+  "lat": 18.47799,
+  "lng": 73.89406,
+  "approx": false
+ },
+ {
+  "name": "Bibvewadi",
+  "aliases": [],
+  "lat": 18.47817,
+  "lng": 73.8621,
+  "approx": false
+ },
+ {
+  "name": "Dhayari",
+  "aliases": [
+   "dhayri"
+  ],
+  "lat": 18.4374,
+  "lng": 73.81904,
+  "approx": false
+ },
+ {
+  "name": "Nanded City",
+  "aliases": [],
+  "lat": 18.45718,
+  "lng": 73.80287,
+  "approx": false
+ },
+ {
+  "name": "Pune Railway Station",
+  "aliases": [
+   "pune station"
+  ],
+  "lat": 18.52976,
+  "lng": 73.87241,
+  "approx": false
+ },
+ {
+  "name": "Sangamwadi",
+  "aliases": [],
+  "lat": 18.53782,
+  "lng": 73.86323,
+  "approx": false
+ },
+ {
+  "name": "Koregaon Park",
+  "aliases": [
+   "kp"
+  ],
+  "lat": 18.53662,
+  "lng": 73.89327,
+  "approx": false
+ },
+ {
+  "name": "Viman Nagar",
+  "aliases": [],
+  "lat": 18.57039,
+  "lng": 73.91333,
+  "approx": false
+ },
+ {
+  "name": "Kharadi",
+  "aliases": [],
+  "lat": 18.55128,
+  "lng": 73.94166,
+  "approx": false
+ },
+ {
+  "name": "Bund Garden",
+  "aliases": [
+   "bund garden road"
+  ],
+  "lat": 18.54059,
+  "lng": 73.88344,
+  "approx": false
+ }
+]

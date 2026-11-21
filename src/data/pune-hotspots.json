@@ -1,1 +1,173 @@
-[]
+[
+ {
+  "id": "tp-01",
+  "name": "Shahir Amar Shaikh Chowk",
+  "aliases": [
+   "amar shaikh chowk",
+   "shahir amar shaikh"
+  ],
+  "lat": 18.5262,
+  "lng": 73.878,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "seed",
+   "name": "Pune Traffic Police list (Punekar News, 3 Jul 2026)",
+   "url": "https://www.punekarnews.in/?p=238846"
+  }
+ },
+ {
+  "id": "tp-02",
+  "name": "Fatimanagar",
+  "aliases": [
+   "fatima nagar",
+   "fatimanagar chowk"
+  ],
+  "lat": 18.50451,
+  "lng": 73.90213,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "seed",
+   "name": "Pune Traffic Police list (Punekar News, 3 Jul 2026)",
+   "url": "https://www.punekarnews.in/?p=238846"
+  }
+ },
+ {
+  "id": "tp-03",
+  "name": "Bhairobanala Chowk",
+  "aliases": [
+   "bhairoba nala",
+   "bhairobanala",
+   "bhairoba nullah"
+  ],
+  "lat": 18.52594,
+  "lng": 73.90114,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "seed",
+   "name": "Pune Traffic Police list (Punekar News, 3 Jul 2026)",
+   "url": "https://www.punekarnews.in/?p=238846"
+  }
+ },
+ {
+  "id": "tp-04",
+  "name": "Radha Hotel Chowk, Baner",
+  "aliases": [
+   "radha chowk",
+   "radha hotel chowk"
+  ],
+  "lat": 18.56958,
+  "lng": 73.76509,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "seed",
+   "name": "Pune Traffic Police list (Punekar News, 3 Jul 2026)",
+   "url": "https://www.punekarnews.in/?p=238846"
+  }
+ },
+ {
+  "id": "tp-05",
+  "name": "North Main Road, Mundhwa",
+  "aliases": [
+   "north main road",
+   "koregaon park north main road"
+  ],
+  "lat": 18.5393,
+  "lng": 73.89815,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "seed",
+   "name": "Pune Traffic Police list (Punekar News, 3 Jul 2026)",
+   "url": "https://www.punekarnews.in/?p=238846"
+  }
+ },
+ {
+  "id": "tp-06",
+  "name": "Tadigutta Chowk",
+  "aliases": [
+   "tadigutta"
+  ],
+  "lat": 18.5365,
+  "lng": 73.912,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "seed",
+   "name": "Pune Traffic Police list (Punekar News, 3 Jul 2026)",
+   "url": "https://www.punekarnews.in/?p=238846"
+  }
+ },
+ {
+  "id": "tp-07",
+  "name": "Seven Loves Chowk",
+  "aliases": [
+   "seven loves",
+   "7 loves chowk"
+  ],
+  "lat": 18.50146,
+  "lng": 73.86962,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "seed",
+   "name": "Pune Traffic Police list (Punekar News, 3 Jul 2026)",
+   "url": "https://www.punekarnews.in/?p=238846"
+  }
+ },
+ {
+  "id": "tp-08",
+  "name": "Below Ruby Hall Metro Station",
+  "aliases": [
+   "ruby hall",
+   "ruby hall metro",
+   "ruby hall clinic"
+  ],
+  "lat": 18.53347,
+  "lng": 73.87697,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "seed",
+   "name": "Pune Traffic Police list (Punekar News, 3 Jul 2026)",
+   "url": "https://www.punekarnews.in/?p=238846"
+  }
+ },
+ {
+  "id": "tp-09",
+  "name": "Gunjan Talkies",
+  "aliases": [
+   "gunjan chowk",
+   "gunjan theatre"
+  ],
+  "lat": 18.54657,
+  "lng": 73.88826,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "seed",
+   "name": "Pune Traffic Police list (Punekar News, 3 Jul 2026)",
+   "url": "https://www.punekarnews.in/?p=238846"
+  }
+ },
+ {
+  "id": "tp-10",
+  "name": "Rajaram Bridge",
+  "aliases": [
+   "rajaram pul",
+   "राजाराम पूल"
+  ],
+  "lat": 18.48893,
+  "lng": 73.82672,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "seed",
+   "name": "Pune Traffic Police list (Punekar News, 3 Jul 2026)",
+   "url": "https://www.punekarnews.in/?p=238846"
+  }
+ }
+]
