@@ -199,4 +199,19 @@ export default {
   'card.noFloodNearby': 'No waterlogged roads reported within 1 km',
   'card.tapToSwitch': 'Tap to view',
   'card.readAloud': 'Listen to advisory',
+
+  // UX simplification pass (cards, chip, report)
+  'card.flood.safe': 'Safe',
+  'card.flood.careful': 'Be careful',
+  'card.flood.danger': "Danger — don't go",
+  'card.moreDetails': 'More details',
+  'card.lessDetails': 'Fewer details',
+  'card.regionalEst': 'regional estimate',
+  'chip.ok': 'OK',
+  'chip.caution': 'CAUTION',
+  'chip.danger': 'DANGER',
+  'report.whatYouSee': 'What do you see?',
+  'report.howDeep': 'How deep is the water?',
+  'report.selectAmenities': 'What is available here?',
+  'report.moreOptions': 'More options',
 };
