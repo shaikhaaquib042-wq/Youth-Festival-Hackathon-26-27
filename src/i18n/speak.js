@@ -4,7 +4,8 @@
 // Fallbacks: no Marathi voice (e.g. macOS) → read the Marathi text with a Hindi voice (same Devanagari script);
 // no voice for the language at all → English voice speaks the English text. Screen text is always shown regardless.
 import { LANGS, getLang, tIn } from './index.js';
-import { cityPack } from '../../config.js';
+import { CONFIG, cityPack } from '../../config.js';
+import { findClip } from './clips.js';
 
 const SCRIPT_FALLBACK = { mr: 'hi' }; // voice language that can read this script
 
@@ -38,10 +39,25 @@ export function voiceSupport() {
  * @param {object} vars template vars, e.g. {work: 30, rest: 30}
  */
 export function speak(key, vars, { pack = cityPack(), interrupt = true } = {}) {
-  if (!globalThis.speechSynthesis) return null;
-  loadVoices();
   const lang = voiceLang(pack);
   const text = tIn(lang, key, vars);
+
+  // 1) Recorded clip, if we have one for this message + language.
+  const clip = findClip(key, vars);
+  if (clip && CONFIG.HEAT.AUDIO_CLIP_LANGS.includes(lang)) {
+    if (interrupt) { globalThis.speechSynthesis?.cancel(); speak.audio?.pause(); }
+    speak.audio = new Audio(`/audio/${lang}/${clip.id}.mp3`);
+    speak.audio.play().catch(() => speakTTS(key, vars, lang, text, interrupt));
+    navigator.vibrate?.([200, 100, 200]);
+    return { lang, voice: `clip:${clip.id}`, text };
+  }
+  // 2) Device text-to-speech.
+  return speakTTS(key, vars, lang, text, interrupt);
+}
+
+function speakTTS(key, vars, lang, text, interrupt) {
+  if (!globalThis.speechSynthesis) return null;
+  loadVoices();
   let voice = voiceFor(lang) ?? (SCRIPT_FALLBACK[lang] && voiceFor(SCRIPT_FALLBACK[lang]));
   let spokenText = text;
   if (!voice) { voice = voiceFor('en'); spokenText = tIn('en', key, vars); }

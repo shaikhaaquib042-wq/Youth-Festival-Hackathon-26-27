@@ -46,6 +46,7 @@ export const CONFIG = {
     HYDRATION_MIN: 20,
     EMERGENCY_NUMBERS: ['108', '112'],
     VOICE_LANGS: ['mr-IN', 'hi-IN', 'en-IN'],
+    AUDIO_CLIP_LANGS: [], // add 'mr', 'hi', 'kn', 'te' once public/audio/<lang>/*.mp3 exist (docs/audio-script.md)
     ALERT_KEYWORDS: ['heat wave', 'heatwave', 'उष्णतेची लाट', 'उष्ण', 'लू', 'heat'],
   },
 

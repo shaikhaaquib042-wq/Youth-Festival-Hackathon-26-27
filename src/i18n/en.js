@@ -74,4 +74,6 @@ export default {
   'advice.raincoat': 'Carry a raincoat',
   'advice.gumboots': 'Wear gumboots, carry spare socks',
   'advice.normalDay': 'Normal day today',
+  'voice.routeAvoid': 'Water on your route. Take the safer route shown in the app.',
+  'voice.officialAlert': 'Official weather alert for your area. Please check the app.',
 };
