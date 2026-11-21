@@ -239,7 +239,7 @@ async function readPhoto(file) {
 export async function openReport(opts = {}) {
   // Heat side (cooling points) needs no login screen: silent anonymous session. Rain side keeps the sign-in gate.
   if (!currentUser() && hazard === 'heat' && !(await ensureAnonUser())) return toast(t('report.heatUnavailable'));
-  if (!currentUser() || (hazard === 'flood' && currentUser().anonymous)) return openSignIn(() => openReport(opts)); // flood reports need a real login
+  if (!currentUser() || (hazard === 'flood' && currentUser().anonymous)) return openSignIn(() => openReport(opts), { kind: 'report', hazard, opts }); // flood reports need a real login
   ensureSheet();
   const fix = getFix() ?? (await requestLocation({ timeoutMs: 8000 })); // asks permission the first time
   const pre = hazard === 'flood' ? opts.prefill ?? {} : {};
@@ -300,7 +300,7 @@ async function submit() {
 
 /** Vote handler for pin popups (login-gated). */
 export async function onVote(pin, value) {
-  if (!currentUser() || currentUser().anonymous) return openSignIn(() => onVote(pin, value));
+  if (!currentUser() || currentUser().anonymous) return openSignIn(() => onVote(pin, value), { kind: 'vote', id: pin.id, value });
   try {
     await vote(pin.id, value);
     refreshLive();
@@ -330,13 +330,21 @@ export function initReport(m) {
     });
     fab.addEventListener('click', () => (sheet && !sheet.hidden ? closeReport() : openReport()));
   }
-  if (takeIntent()) {
-    // resume the report after the Google redirect, once the session has loaded
+  const intent = takeIntent();
+  if (intent) {
+    // Resume the original action once the session has loaded after Google redirects back.
     let off = null;
     off = onAuth((u) => {
-      if (u) {
-        openReport();
-        queueMicrotask(() => off?.());
+      if (!u || u.anonymous) return;
+      queueMicrotask(() => off?.());
+      if (intent.kind === 'report') {
+        if (intent.hazard && intent.hazard !== hazard) {
+          window.dispatchEvent(new CustomEvent('sajag:set-hazard', { detail: { hazard: intent.hazard } }));
+        }
+        openReport(intent.opts);
+      }
+      if (intent.kind === 'vote' && ['still', 'cleared'].includes(intent.value)) {
+        onVote({ id: intent.id }, intent.value);
       }
     });
   }
