@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs && node scripts/guard-dist.mjs",
+    "build": "node ../../scripts/asset-version.mjs && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs && node scripts/guard-dist.mjs",
     "preview": "vite preview --port 4173",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },

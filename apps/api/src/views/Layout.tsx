@@ -1,5 +1,5 @@
 import type { Child } from "hono/jsx";
-import { APP_NAME, DISCLAIMER_EN, LOCALES } from "@raasta/config";
+import { APP_NAME, DISCLAIMER_EN, LOCALES, ASSET_V, LOGO_ARCH_WIDTH, LOGO_COLORS, LOGO_PATHS, LOGO_VIEWBOX } from "@raasta/config";
 import { LANG_META, t, type Locale } from "@raasta/i18n";
 import { states } from "@raasta/data";
 
@@ -38,10 +38,11 @@ const CROSS = "M12 2v4 M12 18v4 M2 12h4 M18 12h4 M12 17a5 5 0 1 0 0-10 5 5 0 0 0
 
 function Logo() {
   return (
-    <svg width="36" height="36" viewBox="0 0 40 40" aria-hidden="true" focusable="false" class="sh-logo-mark">
-      <rect width="40" height="40" rx="12" fill="#2D7341" />
-      <path d="M12 32V15a8 8 0 0 1 16 0v17z" fill="#FFF8EE" />
-      <circle cx="24" cy="24" r="1.7" fill="#E56420" />
+    <svg width="36" height="36" viewBox={LOGO_VIEWBOX} aria-hidden="true" focusable="false" class="sh-logo-mark">
+      <path d={LOGO_PATHS.inner} fill={LOGO_COLORS.inner} />
+      <path d={LOGO_PATHS.road} fill={LOGO_COLORS.road} />
+      <circle cx={LOGO_PATHS.sun.cx} cy={LOGO_PATHS.sun.cy} r={LOGO_PATHS.sun.r} fill={LOGO_COLORS.sun} />
+      <path d={LOGO_PATHS.arch} fill="none" stroke={LOGO_COLORS.arch} stroke-width={LOGO_ARCH_WIDTH} stroke-linecap="round" />
     </svg>
   );
 }
@@ -131,9 +132,9 @@ export function Layout({ lang, title, description, path, query, noindex, saveDat
             <link rel="stylesheet" href={fontHref(lang)} />
           </>
         )}
-        <link rel="stylesheet" href="/styles/raasta.css" />
-        <link rel="stylesheet" href="/styles/flow.css" />
-        <script src="/js/locate.js" defer></script>
+        <link rel="stylesheet" href={`/styles/raasta.css?v=${ASSET_V}`} />
+        <link rel="stylesheet" href={`/styles/flow.css?v=${ASSET_V}`} />
+        <script src={`/js/locate.js?v=${ASSET_V}`} defer></script>
       </head>
       <body>
         <a className="skip-link" href="#main">

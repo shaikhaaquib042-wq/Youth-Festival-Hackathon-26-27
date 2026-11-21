@@ -17,14 +17,16 @@
   --saffron-500: #FF8C42;
   --saffron-100: #FFE6CC;
   --saffron-50: #FFF5EB;
+  --sky-50: #EEF7FC;
+  --sky-100: #D8EBF5;
 
   --leaf-700: #2D7341;
   --leaf-600: #3D8854;
   --leaf-200: #A2E0B4;
 
-  --sage-50: #F4F8F2;
-  --sage-100: #E6EFE2;
-  --sage-200: #D3E3CB;
+  --sage-50: #EEF6FB;
+  --sage-100: #E0EDF5;
+  --sage-200: #CFE2EE;
   --sage-400: #8FB57F;
 
   --chakra-700: #1F3A8A;
@@ -32,7 +34,7 @@
 
   --paper: #FFFFFF;
   --ground: #F4FAFD;
-  --line: #E6EFE2;
+  --line: #E0EDF5;
 
   --r-field: 14px;
   --r-small: 16px;
@@ -214,8 +216,8 @@ a:hover { color: var(--ink); }
 }
 @media (min-width: 768px) { .card { padding: 32px; border-radius: var(--r-card-lg); } }
 .card-warm {
-  background: var(--saffron-50);
-  border: 1px solid var(--saffron-100);
+  background: var(--sky-50);
+  border: 1px solid var(--sky-100);
   border-radius: var(--r-card);
   padding: 24px;
 }
@@ -230,7 +232,7 @@ a:hover { color: var(--ink); }
   width: 320px;
   height: 320px;
   border-radius: 46% 54% 58% 42% / 52% 40% 60% 48%;
-  background: var(--saffron-50);
+  background: var(--sky-50);
   opacity: 0.9;
   pointer-events: none;
 }
@@ -249,7 +251,7 @@ a:hover { color: var(--ink); }
 }
 .wave-bottom {
   margin-top: -1px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 48' preserveAspectRatio='none'%3E%3Cpath d='M0 0V24Q180 48 360 24T720 24T1080 24T1440 24V0Z' fill='%23F4F8F2'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 48' preserveAspectRatio='none'%3E%3Cpath d='M0 0V24Q180 48 360 24T720 24T1080 24T1440 24V0Z' fill='%23EEF6FB'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
 }
 .wave-top.on-sage, .wave-bottom.on-sage { background-color: transparent; }
 

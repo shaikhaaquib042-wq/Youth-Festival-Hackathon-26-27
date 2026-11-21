@@ -30,7 +30,7 @@ for (const lang of LANGS) {
     if (typeof v !== "string" || !v.trim()) { bad.push(`${k}: missing`); continue; }
     if (holes(v) !== holes(en)) { bad.push(`${k}: placeholders`); continue; }
     if (nums(v).replace(/-/g, "") !== nums(en).replace(/-/g, "")) { bad.push(`${k}: numbers`); continue; }
-    if (v.includes("—")) { bad.push(`${k}: em dash`); continue; }
+    if (v.includes("\u2014")) { bad.push(`${k}: em dash`); continue; }
     dict[k] = v.trim();
     kept++;
   }

@@ -42,8 +42,28 @@ describe("howto guides", () => {
             check(scope, id, s.link);
             expect(s.label, `${id}: link without label`).toBeTruthy();
           }
-          expect(s.t).not.toMatch(/—/);
+          expect(s.t).not.toMatch(/\u2014/);
         }
       }
+  });
+});
+
+import { readFileSync } from "node:fs";
+import { LOGO_COLORS, LOGO_PATHS } from "@raasta/config";
+describe("one logo everywhere", () => {
+  it("favicon.svg draws the shared mark", () => {
+    const fav = readFileSync(new URL("../../../apps/web/public/favicon.svg", import.meta.url), "utf8");
+    for (const d of [LOGO_PATHS.inner, LOGO_PATHS.road, LOGO_PATHS.arch]) expect(fav).toContain(d);
+    for (const c of Object.values(LOGO_COLORS)) expect(fav).toContain(c);
+  });
+});
+
+import { execFileSync } from "node:child_process";
+describe("asset version", () => {
+  it("is up to date with the shared CSS and JS (run node scripts/asset-version.mjs)", () => {
+    const before = readFileSync(new URL("../../config/src/asset-version.ts", import.meta.url), "utf8");
+    execFileSync(process.execPath, [new URL("../../../scripts/asset-version.mjs", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")]);
+    const after = readFileSync(new URL("../../config/src/asset-version.ts", import.meta.url), "utf8");
+    expect(after).toBe(before);
   });
 });

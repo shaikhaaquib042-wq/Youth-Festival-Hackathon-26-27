@@ -6,6 +6,7 @@ import { useLang, useT, rUrl } from "../lib/lang";
 import { CATEGORIES, COMPLAINT_TILES, EXAMPLE_KEYS } from "../lib/content";
 import { CATEGORY_ICON, TILE_ICON } from "../components/icons";
 import { DoorIllo, PeaceIllo, SendIllo, TellIllo } from "../components/Illustrations";
+import { Logo } from "../components/Logo";
 import "../styles/landing.css";
 
 const TONES = ["tone-cyan", "tone-blue", "tone-mint", "tone-peach"];
@@ -93,10 +94,7 @@ export function Landing() {
           <section className="lp-chat" id="ask" aria-labelledby="h1">
             <header className="chat-top">
               <span className="chat-avatar" aria-hidden="true">
-                <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
-                  <path d="M9 27 V15 Q9 7 16 7 Q23 7 23 15 V27 Z" fill="#FFFFFF" />
-                  <circle cx="19.5" cy="18.5" r="1.6" fill="#E56420" />
-                </svg>
+                <Logo size={46} className="chat-logo" />
               </span>
               <span className="chat-who">
                 <strong>{APP_NAME}</strong>

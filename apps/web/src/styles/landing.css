@@ -55,7 +55,7 @@
 }
 @supports (backdrop-filter: blur(8px)) { .lp-chat { background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(14px) saturate(1.2); } }
 .chat-top { display: flex; align-items: center; gap: 14px; padding: 18px 24px; border-bottom: 1px solid rgba(197, 224, 238, 0.7); }
-.chat-avatar { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 16px; background: var(--leaf-700); box-shadow: 0 8px 18px -10px rgba(45, 115, 65, 0.7); }
+.chat-avatar { flex: none; display: inline-flex; width: 46px; height: 46px; filter: drop-shadow(0 8px 12px rgba(45, 115, 65, 0.28)); }
 .chat-who { display: flex; flex-direction: column; line-height: 1.25; }
 .chat-who strong { font-family: var(--font-display); font-size: 1.15rem; color: var(--ink); }
 .chat-who small { font-size: 0.9rem; color: var(--ink-600); }

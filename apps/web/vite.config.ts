@@ -5,6 +5,13 @@ import legacy from "@vitejs/plugin-legacy";
 import { fileURLToPath } from "node:url";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
+import { ASSET_V } from "../../packages/config/src/asset-version";
+
+// Shared unhashed assets get ?v=<content hash> so browsers never show a stale copy after a deploy.
+const assetVersion = {
+  name: "raasta-asset-version",
+  transformIndexHtml: (html: string) => html.replace(/(\/styles\/raasta\.css|\/js\/locate\.js)"/g, `$1?v=${ASSET_V}"`),
+};
 
 const LOCAL_WORKER = "http://127.0.0.1:8787";
 const LOCAL_API = { "/api": LOCAL_WORKER, "/r": LOCAL_WORKER };
@@ -38,7 +45,7 @@ const devFonts = {
 };
 
 export default defineConfig(({ isSsrBuild, command }) => ({
-  plugins: [react(), tailwindcss(), devFonts, pagesLikePreview, ...(isSsrBuild ? [] : [legacy({ targets: TARGETS })])],
+  plugins: [react(), tailwindcss(), devFonts, pagesLikePreview, assetVersion, ...(isSsrBuild ? [] : [legacy({ targets: TARGETS })])],
   // Local only: /api and /r go to the local Worker (scripts/local.mjs starts it). Never to the hosted site.
   server: { port: 5173, proxy: LOCAL_API },
   preview: { port: 4173, proxy: LOCAL_API },

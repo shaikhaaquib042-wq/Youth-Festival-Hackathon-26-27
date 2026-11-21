@@ -1,10 +1,13 @@
-export function Logo({ size = 36 }: { size?: number }) {
+import { LOGO_ARCH_WIDTH, LOGO_COLORS as C, LOGO_PATHS as P, LOGO_VIEWBOX } from "@raasta/config";
+
+/** The Raasta mark (shared definition in packages/config/src/logo.ts). */
+export function Logo({ size = 36, className = "sh-logo-mark" }: { size?: number; className?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 40 40" aria-hidden="true" focusable="false" className="sh-logo-mark">
-      <rect width="40" height="40" rx="12" fill="#2D7341" />
-      <path d="M12 32V15a8 8 0 0 1 16 0v17z" fill="#FFF8EE" />
-      <circle cx="24" cy="24" r="1.7" fill="#E56420" />
-      <path d="M4 36c7-4 12 0 18-2" fill="none" stroke="#FFB27A" strokeWidth="2.4" strokeLinecap="round" strokeDasharray="0.1 5" />
+    <svg width={size} height={size} viewBox={LOGO_VIEWBOX} aria-hidden="true" focusable="false" className={className}>
+      <path d={P.inner} fill={C.inner} />
+      <path d={P.road} fill={C.road} />
+      <circle cx={P.sun.cx} cy={P.sun.cy} r={P.sun.r} fill={C.sun} />
+      <path d={P.arch} fill="none" stroke={C.arch} strokeWidth={LOGO_ARCH_WIDTH} strokeLinecap="round" />
     </svg>
   );
 }
