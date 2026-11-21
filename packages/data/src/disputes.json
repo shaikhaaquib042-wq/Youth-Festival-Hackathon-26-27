@@ -1,0 +1,1487 @@
+[
+  {
+    "depth": "full",
+    "id": "consumer_refund",
+    "category": "money_shopping",
+    "icon": "package-x",
+    "title_en": "Faulty product or refund refused",
+    "short_en": "You bought something defective, or the seller will not refund it.",
+    "questions": [
+      {
+        "id": "purchase_amount",
+        "label_en": "How much did you pay (INR)?",
+        "type": "number",
+        "slot": "amount_inr"
+      },
+      {
+        "id": "purchase_date",
+        "label_en": "When did you buy it?",
+        "type": "date"
+      },
+      {
+        "id": "written_complaint_sent",
+        "label_en": "Have you already complained to the seller in writing?",
+        "type": "boolean",
+        "slot": "prior_written_complaint_sent"
+      },
+      {
+        "id": "seller_type",
+        "label_en": "What kind of seller was it?",
+        "type": "select",
+        "slot": "opposite_party_type",
+        "options": [
+          {
+            "value": "company",
+            "label_en": "Company or brand"
+          },
+          {
+            "value": "shop",
+            "label_en": "Shop"
+          },
+          {
+            "value": "unknown",
+            "label_en": "Not sure"
+          }
+        ]
+      },
+      {
+        "id": "defect",
+        "label_en": "What is wrong with the product or service?",
+        "type": "text"
+      }
+    ],
+    "documents": [
+      {
+        "key": "tax_invoice",
+        "label_en": "Tax invoice or receipt",
+        "required": true
+      },
+      {
+        "key": "warranty_card",
+        "label_en": "Warranty card",
+        "required": false
+      },
+      {
+        "key": "service_reports",
+        "label_en": "Service centre visit reports",
+        "required": false
+      },
+      {
+        "key": "defect_photos",
+        "label_en": "Photos or videos of the defect",
+        "required": true
+      },
+      {
+        "key": "seller_communication",
+        "label_en": "Written complaint and seller replies",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "customer_name",
+      "seller_name",
+      "product_name",
+      "purchase_cost",
+      "invoice_number",
+      "purchase_date"
+    ],
+    "default_platform_ids": [
+      "nch_ingram",
+      "e_jagriti",
+      "cpgrams"
+    ],
+    "doc_templates": [
+      "gro_letter",
+      "nch_text",
+      "ejagriti_draft"
+    ]
+  },
+  {
+    "depth": "full",
+    "id": "mrp_overcharge",
+    "category": "money_shopping",
+    "icon": "receipt",
+    "title_en": "Shop charged above MRP",
+    "short_en": "A shop charged you more than the printed maximum retail price.",
+    "questions": [
+      {
+        "id": "overcharged_amount",
+        "label_en": "How much extra were you charged (INR)?",
+        "type": "number",
+        "slot": "amount_inr"
+      },
+      {
+        "id": "bill_available",
+        "label_en": "Do you have the bill?",
+        "type": "boolean"
+      },
+      {
+        "id": "shop_type",
+        "label_en": "What kind of seller was it?",
+        "type": "select",
+        "slot": "opposite_party_type",
+        "options": [
+          {
+            "value": "shop",
+            "label_en": "Shop"
+          },
+          {
+            "value": "company",
+            "label_en": "Company or brand"
+          },
+          {
+            "value": "unknown",
+            "label_en": "Not sure"
+          }
+        ]
+      },
+      {
+        "id": "purchase_date",
+        "label_en": "When did you buy it?",
+        "type": "date"
+      }
+    ],
+    "documents": [
+      {
+        "key": "bill",
+        "label_en": "Bill or receipt showing the price charged",
+        "required": true
+      },
+      {
+        "key": "mrp_photo",
+        "label_en": "Photo of the packaging showing the MRP",
+        "required": true
+      },
+      {
+        "key": "shop_details",
+        "label_en": "Shop name and address",
+        "required": true
+      },
+      {
+        "key": "prior_complaint",
+        "label_en": "Written complaint to the shop, if any",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "consumer_name",
+      "shop_name",
+      "product_name",
+      "mrp",
+      "charged_price",
+      "bill_number"
+    ],
+    "default_platform_ids": [
+      "nch_ingram",
+      "e_jagriti"
+    ],
+    "doc_templates": [
+      "nch_text",
+      "grievance_text",
+      "ejagriti_draft"
+    ]
+  },
+  {
+    "depth": "full",
+    "id": "unpaid_wages",
+    "category": "work",
+    "icon": "banknote",
+    "title_en": "Unpaid wages or salary",
+    "short_en": "Your employer has not paid your salary or final settlement.",
+    "questions": [
+      {
+        "id": "unpaid_amount",
+        "label_en": "Total unpaid amount (INR)",
+        "type": "number",
+        "slot": "amount_inr"
+      },
+      {
+        "id": "work_period",
+        "label_en": "Period you worked (for example, Jan to Mar 2026)",
+        "type": "text"
+      },
+      {
+        "id": "employer_name",
+        "label_en": "Employer or firm name",
+        "type": "text"
+      },
+      {
+        "id": "employer_sphere",
+        "label_en": "Who is your employer?",
+        "type": "select",
+        "slot": "employer_sphere",
+        "options": [
+          {
+            "value": "central",
+            "label_en": "Central government or central PSU"
+          },
+          {
+            "value": "state",
+            "label_en": "State government, private company or shop"
+          },
+          {
+            "value": "unknown",
+            "label_en": "Not sure"
+          }
+        ]
+      },
+      {
+        "id": "demand_sent",
+        "label_en": "Have you sent a written demand notice to the employer?",
+        "type": "boolean",
+        "slot": "prior_written_complaint_sent"
+      }
+    ],
+    "documents": [
+      {
+        "key": "appointment_letter",
+        "label_en": "Appointment letter, ID card or work order",
+        "required": true
+      },
+      {
+        "key": "bank_statement",
+        "label_en": "Bank statement showing the missing salary",
+        "required": true
+      },
+      {
+        "key": "attendance",
+        "label_en": "Attendance log or shift records",
+        "required": false
+      },
+      {
+        "key": "demand_notice",
+        "label_en": "Written demand notice sent to the employer",
+        "required": true
+      }
+    ],
+    "template_variables": [
+      "worker_name",
+      "employer_name",
+      "unpaid_amount",
+      "work_period"
+    ],
+    "default_platform_ids": [
+      "mahakamgar_labour",
+      "samadhan_labour",
+      "nalsa_mslsa_dlsa"
+    ],
+    "doc_templates": [
+      "demand_notice_wages",
+      "legal_aid_application"
+    ]
+  },
+  {
+    "depth": "full",
+    "id": "security_deposit",
+    "category": "home",
+    "icon": "key-round",
+    "title_en": "Landlord not returning security deposit",
+    "short_en": "You moved out and the landlord is keeping your deposit.",
+    "questions": [
+      {
+        "id": "deposit_amount",
+        "label_en": "Total security deposit (INR)",
+        "type": "number",
+        "slot": "amount_inr"
+      },
+      {
+        "id": "vacate_date",
+        "label_en": "Date you vacated the property",
+        "type": "date"
+      },
+      {
+        "id": "agreement_registered",
+        "label_en": "Is the leave and licence agreement registered?",
+        "type": "boolean"
+      },
+      {
+        "id": "written_complaint_sent",
+        "label_en": "Have you already asked the landlord in writing?",
+        "type": "boolean",
+        "slot": "prior_written_complaint_sent"
+      }
+    ],
+    "documents": [
+      {
+        "key": "agreement",
+        "label_en": "Registered leave and licence agreement",
+        "required": true
+      },
+      {
+        "key": "deposit_transfer",
+        "label_en": "Bank transfer proof of the security deposit",
+        "required": true
+      },
+      {
+        "key": "vacate_notice",
+        "label_en": "Notice of vacating or key handover acknowledgement",
+        "required": true
+      },
+      {
+        "key": "communication_log",
+        "label_en": "WhatsApp or written communication log",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "tenant_name",
+      "owner_name",
+      "property_address",
+      "deposit_amount",
+      "vacate_date"
+    ],
+    "default_platform_ids": [
+      "maharashtra_rent_small_causes_pune",
+      "tele_law_nyaya_bandhu",
+      "nalsa_mslsa_dlsa"
+    ],
+    "doc_templates": [
+      "deposit_notice",
+      "legal_aid_application"
+    ]
+  },
+  {
+    "depth": "full",
+    "id": "neighbour_construction",
+    "category": "home",
+    "icon": "hammer",
+    "title_en": "Neighbour's construction or drainage damages property",
+    "short_en": "A neighbour's work is causing seepage, cracks or drainage damage to your property.",
+    "questions": [
+      {
+        "id": "damage_type",
+        "label_en": "What kind of damage is it?",
+        "type": "select",
+        "options": [
+          {
+            "value": "seepage",
+            "label_en": "Seepage"
+          },
+          {
+            "value": "structural",
+            "label_en": "Structural cracks"
+          },
+          {
+            "value": "drainage",
+            "label_en": "Drainage blockage or flow"
+          },
+          {
+            "value": "other",
+            "label_en": "Other"
+          }
+        ]
+      },
+      {
+        "id": "ward_location",
+        "label_en": "Your PMC ward or area",
+        "type": "text",
+        "slot": "city"
+      },
+      {
+        "id": "written_request_sent",
+        "label_en": "Have you already asked your neighbour in writing to stop?",
+        "type": "boolean",
+        "slot": "prior_written_complaint_sent"
+      },
+      {
+        "id": "ownership",
+        "label_en": "Are you the owner or a tenant?",
+        "type": "select",
+        "options": [
+          {
+            "value": "owner",
+            "label_en": "Owner"
+          },
+          {
+            "value": "tenant",
+            "label_en": "Tenant"
+          }
+        ]
+      }
+    ],
+    "documents": [
+      {
+        "key": "geo_photos",
+        "label_en": "Geo-tagged photographs of the damage",
+        "required": true
+      },
+      {
+        "key": "ownership_proof",
+        "label_en": "Property ownership or tenancy proof",
+        "required": true
+      },
+      {
+        "key": "prior_requests",
+        "label_en": "Earlier written requests to the neighbour",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "complainant_name",
+      "neighbor_name",
+      "address",
+      "damage_type",
+      "ward_name"
+    ],
+    "default_platform_ids": [
+      "pmc_care_pune",
+      "pcmc_grievance",
+      "nalsa_mslsa_dlsa"
+    ],
+    "doc_templates": [
+      "neighbour_letter",
+      "pmc_ward_letter",
+      "legal_aid_application"
+    ]
+  },
+  {
+    "depth": "full",
+    "id": "civic_failure",
+    "category": "civic",
+    "icon": "construction",
+    "title_en": "Civic problem not fixed",
+    "short_en": "A pothole, drain, garbage, water or streetlight problem is not being fixed.",
+    "questions": [
+      {
+        "id": "issue_type",
+        "label_en": "What is the problem?",
+        "type": "select",
+        "options": [
+          {
+            "value": "pothole",
+            "label_en": "Pothole or road damage"
+          },
+          {
+            "value": "drainage",
+            "label_en": "Drainage"
+          },
+          {
+            "value": "garbage",
+            "label_en": "Garbage"
+          },
+          {
+            "value": "water",
+            "label_en": "Water supply"
+          },
+          {
+            "value": "streetlight",
+            "label_en": "Streetlight"
+          },
+          {
+            "value": "other",
+            "label_en": "Other"
+          }
+        ]
+      },
+      {
+        "id": "first_noticed_days",
+        "label_en": "How many days ago did you first notice it?",
+        "type": "number",
+        "slot": "days_since_incident"
+      },
+      {
+        "id": "complaint_made",
+        "label_en": "Have you already complained to the civic body?",
+        "type": "boolean",
+        "slot": "prior_written_complaint_sent"
+      },
+      {
+        "id": "complaint_days_ago",
+        "label_en": "If yes, how many days ago?",
+        "type": "number",
+        "slot": "prior_complaint_days_ago"
+      },
+      {
+        "id": "location_area",
+        "label_en": "Your ward or nearest landmark",
+        "type": "text",
+        "slot": "city"
+      }
+    ],
+    "documents": [
+      {
+        "key": "problem_photo",
+        "label_en": "Geo-tagged photo of the problem",
+        "required": true
+      },
+      {
+        "key": "complaint_reference",
+        "label_en": "Complaint reference number, if any",
+        "required": false
+      },
+      {
+        "key": "earlier_complaint",
+        "label_en": "Date and copy of an earlier complaint, if any",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "complainant_name",
+      "address",
+      "issue_type",
+      "ward_name",
+      "complaint_reference"
+    ],
+    "default_platform_ids": [
+      "pmc_care_pune",
+      "pcmc_grievance",
+      "swachhata_mohua",
+      "aaple_sarkar_maharashtra"
+    ],
+    "doc_templates": [
+      "grievance_text",
+      "pmc_ward_letter"
+    ]
+  },
+  {
+    "depth": "full",
+    "id": "cyber_fraud",
+    "category": "cyber",
+    "icon": "shield-alert",
+    "title_en": "UPI, card or online banking fraud",
+    "short_en": "Money was taken from your account or card without your permission, or you were tricked into paying.",
+    "questions": [
+      {
+        "id": "money_lost",
+        "label_en": "How much money was lost (INR)?",
+        "type": "number",
+        "slot": "amount_inr"
+      },
+      {
+        "id": "days_since_fraud",
+        "label_en": "How many days ago did it happen?",
+        "type": "number",
+        "slot": "days_since_incident"
+      },
+      {
+        "id": "fraud_channel",
+        "label_en": "How was the money taken?",
+        "type": "select",
+        "options": [
+          {
+            "value": "upi",
+            "label_en": "UPI"
+          },
+          {
+            "value": "card",
+            "label_en": "Card"
+          },
+          {
+            "value": "net_banking",
+            "label_en": "Net banking"
+          },
+          {
+            "value": "other",
+            "label_en": "Other"
+          }
+        ]
+      },
+      {
+        "id": "bank_called",
+        "label_en": "Have you already called 1930 or told your bank?",
+        "type": "boolean",
+        "slot": "prior_written_complaint_sent"
+      },
+      {
+        "id": "bank_name",
+        "label_en": "Bank or app name",
+        "type": "text"
+      }
+    ],
+    "documents": [
+      {
+        "key": "statement",
+        "label_en": "Bank statement showing the transaction",
+        "required": true
+      },
+      {
+        "key": "transaction_ids",
+        "label_en": "Transaction IDs or UTR numbers",
+        "required": true
+      },
+      {
+        "key": "screenshots",
+        "label_en": "Screenshots of messages, calls or payment screens",
+        "required": true
+      },
+      {
+        "key": "helpline_ack",
+        "label_en": "1930 complaint number, if any",
+        "required": false
+      },
+      {
+        "key": "id_proof",
+        "label_en": "ID proof",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "victim_name",
+      "bank_name",
+      "transaction_id",
+      "amount",
+      "transaction_date"
+    ],
+    "default_platform_ids": [
+      "ncrp_cybercrime",
+      "mahapolice_pune_police"
+    ],
+    "doc_templates": [
+      "bank_fraud_intimation",
+      "police_complaint"
+    ]
+  },
+  {
+    "depth": "full",
+    "id": "banking_nbfc",
+    "category": "money_shopping",
+    "icon": "landmark",
+    "title_en": "Bank or NBFC harassment or wrong credit entry",
+    "short_en": "A bank or lender is harassing you, or has put a wrong entry on your credit record.",
+    "questions": [
+      {
+        "id": "lender_type",
+        "label_en": "What kind of lender is it?",
+        "type": "select",
+        "slot": "opposite_party_type",
+        "options": [
+          {
+            "value": "bank",
+            "label_en": "Bank"
+          },
+          {
+            "value": "company",
+            "label_en": "NBFC or finance company"
+          },
+          {
+            "value": "unknown",
+            "label_en": "Not sure"
+          }
+        ]
+      },
+      {
+        "id": "issue_type",
+        "label_en": "What is the problem?",
+        "type": "select",
+        "options": [
+          {
+            "value": "harassment",
+            "label_en": "Harassment or recovery calls"
+          },
+          {
+            "value": "wrong_credit_entry",
+            "label_en": "Wrong credit report entry"
+          },
+          {
+            "value": "wrong_charge",
+            "label_en": "Wrong charge or fee"
+          },
+          {
+            "value": "other",
+            "label_en": "Other"
+          }
+        ]
+      },
+      {
+        "id": "amount_disputed",
+        "label_en": "Amount involved (INR)",
+        "type": "number",
+        "slot": "amount_inr"
+      },
+      {
+        "id": "lender_contacted",
+        "label_en": "Have you already complained to the lender in writing?",
+        "type": "boolean",
+        "slot": "prior_written_complaint_sent"
+      },
+      {
+        "id": "lender_contact_days_ago",
+        "label_en": "If yes, how many days ago?",
+        "type": "number",
+        "slot": "prior_complaint_days_ago"
+      }
+    ],
+    "documents": [
+      {
+        "key": "account_details",
+        "label_en": "Loan or account number and statement of the issue",
+        "required": true
+      },
+      {
+        "key": "lender_letter",
+        "label_en": "Letter sent to the lender and any reply",
+        "required": true
+      },
+      {
+        "key": "credit_report",
+        "label_en": "Copy of the credit report showing the wrong entry",
+        "required": false
+      },
+      {
+        "key": "call_records",
+        "label_en": "Call records or messages, if harassment",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "borrower_name",
+      "lender_name",
+      "account_last4",
+      "issue_summary"
+    ],
+    "default_platform_ids": [
+      "rbi_cms"
+    ],
+    "doc_templates": [
+      "rbi_lender_precomplaint"
+    ]
+  },
+  {
+    "depth": "full",
+    "id": "builder_delay",
+    "category": "home",
+    "icon": "building-2",
+    "title_en": "Builder delay or possession without occupancy certificate",
+    "short_en": "Your flat is late, or handed over without the required occupancy papers.",
+    "questions": [
+      {
+        "id": "project_name",
+        "label_en": "Project name",
+        "type": "text"
+      },
+      {
+        "id": "rera_number",
+        "label_en": "MahaRERA registration number, if you know it",
+        "type": "text"
+      },
+      {
+        "id": "amount_paid",
+        "label_en": "Total amount paid to the builder (INR)",
+        "type": "number",
+        "slot": "amount_inr"
+      },
+      {
+        "id": "promised_date",
+        "label_en": "Promised possession date",
+        "type": "date"
+      },
+      {
+        "id": "written_complaint_sent",
+        "label_en": "Have you already complained to the builder in writing?",
+        "type": "boolean",
+        "slot": "prior_written_complaint_sent"
+      }
+    ],
+    "documents": [
+      {
+        "key": "agreement",
+        "label_en": "Agreement for sale",
+        "required": true
+      },
+      {
+        "key": "payment_receipts",
+        "label_en": "Payment receipts",
+        "required": true
+      },
+      {
+        "key": "possession_letter",
+        "label_en": "Possession letter or promised date in writing",
+        "required": false
+      },
+      {
+        "key": "rera_page",
+        "label_en": "MahaRERA project page or registration certificate",
+        "required": false
+      },
+      {
+        "key": "builder_letter",
+        "label_en": "Written complaint to the builder and any reply",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "buyer_name",
+      "builder_name",
+      "project_name",
+      "rera_number",
+      "amount_paid"
+    ],
+    "default_platform_ids": [
+      "maharera",
+      "tele_law_nyaya_bandhu"
+    ],
+    "doc_templates": [
+      "maharera_conciliation"
+    ]
+  },
+  {
+    "depth": "full",
+    "id": "govt_service",
+    "category": "govt",
+    "icon": "building",
+    "title_en": "Delayed government service, certificate or pension",
+    "short_en": "A government office has not delivered a service or decided your application.",
+    "questions": [
+      {
+        "id": "service_name",
+        "label_en": "Which service or certificate?",
+        "type": "text"
+      },
+      {
+        "id": "applied_days_ago",
+        "label_en": "How many days ago did you apply?",
+        "type": "number",
+        "slot": "days_since_incident"
+      },
+      {
+        "id": "complaint_made",
+        "label_en": "Have you already reminded the office in writing?",
+        "type": "boolean",
+        "slot": "prior_written_complaint_sent"
+      },
+      {
+        "id": "exclusion",
+        "label_en": "Is this about an RTI request, a court case or a family matter?",
+        "type": "select",
+        "options": [
+          {
+            "value": "none",
+            "label_en": "No"
+          },
+          {
+            "value": "rti",
+            "label_en": "Yes, RTI"
+          },
+          {
+            "value": "sub_judice",
+            "label_en": "Yes, court case"
+          },
+          {
+            "value": "personal_family",
+            "label_en": "Yes, family matter"
+          }
+        ]
+      }
+    ],
+    "documents": [
+      {
+        "key": "acknowledgement",
+        "label_en": "Application receipt or acknowledgement number",
+        "required": true
+      },
+      {
+        "key": "submitted_docs",
+        "label_en": "Copies of the documents you submitted",
+        "required": true
+      },
+      {
+        "key": "reminder",
+        "label_en": "Earlier reminder or complaint, if any",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "applicant_name",
+      "department_name",
+      "application_number",
+      "service_name",
+      "applied_on"
+    ],
+    "default_platform_ids": [
+      "aaple_sarkar_maharashtra",
+      "cpgrams"
+    ],
+    "doc_templates": [
+      "grievance_text"
+    ]
+  },
+  {
+    "depth": "standard",
+    "id": "insurance_claim",
+    "category": "money_shopping",
+    "icon": "shield-check",
+    "title_en": "Insurance claim rejected or delayed",
+    "short_en": "An insurer rejected, delayed or underpaid your claim.",
+    "questions": [
+      {
+        "id": "claim_amount",
+        "label_en": "Claim amount (INR)",
+        "type": "number",
+        "slot": "amount_inr"
+      },
+      {
+        "id": "claim_date",
+        "label_en": "Date you made the claim",
+        "type": "date"
+      },
+      {
+        "id": "written_complaint_sent",
+        "label_en": "Have you already complained to the insurer in writing?",
+        "type": "boolean",
+        "slot": "prior_written_complaint_sent"
+      }
+    ],
+    "documents": [
+      {
+        "key": "policy",
+        "label_en": "Policy document",
+        "required": true
+      },
+      {
+        "key": "claim_ack",
+        "label_en": "Claim form and acknowledgement",
+        "required": true
+      },
+      {
+        "key": "rejection_letter",
+        "label_en": "Rejection letter, or proof of no reply",
+        "required": true
+      },
+      {
+        "key": "medical_papers",
+        "label_en": "Medical or other supporting papers",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "policy_holder_name",
+      "insurer_name",
+      "policy_number",
+      "claim_number",
+      "claim_amount"
+    ],
+    "default_platform_ids": [
+      "irdai_bima_bharosa_ombudsman",
+      "nch_ingram"
+    ],
+    "doc_templates": [
+      "grievance_text"
+    ]
+  },
+  {
+    "depth": "standard",
+    "id": "investment_broker",
+    "category": "money_shopping",
+    "icon": "trending-up",
+    "title_en": "Broker or investment platform problem",
+    "short_en": "A broker or investment firm is not resolving a complaint about your money or account.",
+    "questions": [
+      {
+        "id": "amount_involved",
+        "label_en": "Amount involved (INR)",
+        "type": "number",
+        "slot": "amount_inr"
+      },
+      {
+        "id": "days_since_issue",
+        "label_en": "How many days ago did the problem start?",
+        "type": "number",
+        "slot": "days_since_incident"
+      },
+      {
+        "id": "written_complaint_sent",
+        "label_en": "Have you already complained to the firm in writing?",
+        "type": "boolean",
+        "slot": "prior_written_complaint_sent"
+      }
+    ],
+    "documents": [
+      {
+        "key": "account_statements",
+        "label_en": "Account statements and contract notes",
+        "required": true
+      },
+      {
+        "key": "complaint_emails",
+        "label_en": "Complaint emails and replies",
+        "required": true
+      },
+      {
+        "key": "client_id",
+        "label_en": "Client ID or KYC details",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "investor_name",
+      "broker_name",
+      "client_id",
+      "amount_involved"
+    ],
+    "default_platform_ids": [
+      "sebi_scores"
+    ],
+    "doc_templates": [
+      "grievance_text"
+    ]
+  },
+  {
+    "depth": "standard",
+    "id": "workplace_harassment",
+    "category": "work",
+    "icon": "user-x",
+    "title_en": "Harassment at work",
+    "short_en": "You are facing sexual or other harassment at your workplace.",
+    "questions": [
+      {
+        "id": "employer_sphere",
+        "label_en": "Who is your employer?",
+        "type": "select",
+        "slot": "employer_sphere",
+        "options": [
+          {
+            "value": "central",
+            "label_en": "Central government or central PSU"
+          },
+          {
+            "value": "state",
+            "label_en": "State government, private company or shop"
+          },
+          {
+            "value": "unknown",
+            "label_en": "Not sure"
+          }
+        ]
+      },
+      {
+        "id": "days_since_incident",
+        "label_en": "How many days ago did the latest incident happen?",
+        "type": "number",
+        "slot": "days_since_incident"
+      },
+      {
+        "id": "in_danger",
+        "label_en": "Are you in immediate danger right now?",
+        "type": "boolean",
+        "slot": "is_emergency"
+      },
+      {
+        "id": "internal_complaint",
+        "label_en": "Have you complained to your employer or an internal committee?",
+        "type": "boolean",
+        "slot": "prior_written_complaint_sent"
+      }
+    ],
+    "documents": [
+      {
+        "key": "incident_account",
+        "label_en": "Written account of the incidents with dates",
+        "required": true
+      },
+      {
+        "key": "messages",
+        "label_en": "Messages or emails as evidence",
+        "required": false
+      },
+      {
+        "key": "internal_copy",
+        "label_en": "Copy of your internal complaint, if any",
+        "required": false
+      },
+      {
+        "key": "id_proof",
+        "label_en": "ID proof",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "complainant_name",
+      "employer_name",
+      "incident_summary"
+    ],
+    "default_platform_ids": [
+      "she_box",
+      "nalsa_mslsa_dlsa"
+    ],
+    "doc_templates": [
+      "shebox_narrative",
+      "legal_aid_application"
+    ]
+  },
+  {
+    "depth": "standard",
+    "id": "pension_pf",
+    "category": "work",
+    "icon": "piggy-bank",
+    "title_en": "Pension or provident fund claim pending",
+    "short_en": "A PF or pension claim is stuck or was wrongly rejected.",
+    "questions": [
+      {
+        "id": "claim_amount",
+        "label_en": "Amount you are claiming (INR)",
+        "type": "number",
+        "slot": "amount_inr"
+      },
+      {
+        "id": "days_since_applied",
+        "label_en": "How many days ago did you apply?",
+        "type": "number",
+        "slot": "days_since_incident"
+      },
+      {
+        "id": "written_complaint_sent",
+        "label_en": "Have you already reminded the office in writing?",
+        "type": "boolean",
+        "slot": "prior_written_complaint_sent"
+      }
+    ],
+    "documents": [
+      {
+        "key": "uan_details",
+        "label_en": "UAN and PF account details",
+        "required": true
+      },
+      {
+        "key": "claim_ack",
+        "label_en": "Claim form and acknowledgement",
+        "required": true
+      },
+      {
+        "key": "service_history",
+        "label_en": "Employer certificate or service history",
+        "required": false
+      },
+      {
+        "key": "rejection_letter",
+        "label_en": "Rejection letter, if any",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "member_name",
+      "uan_number",
+      "employer_name",
+      "claim_type"
+    ],
+    "default_platform_ids": [
+      "epfigms",
+      "cpgrams"
+    ],
+    "doc_templates": [
+      "grievance_text"
+    ]
+  },
+  {
+    "depth": "standard",
+    "id": "police_complaint",
+    "category": "police",
+    "icon": "siren",
+    "title_en": "File a police complaint",
+    "short_en": "You want to report a crime or incident to the police.",
+    "questions": [
+      {
+        "id": "city",
+        "label_en": "City or area where it happened",
+        "type": "text",
+        "slot": "city"
+      },
+      {
+        "id": "days_since_incident",
+        "label_en": "How many days ago did it happen?",
+        "type": "number",
+        "slot": "days_since_incident"
+      },
+      {
+        "id": "in_danger",
+        "label_en": "Is this an emergency right now?",
+        "type": "boolean",
+        "slot": "is_emergency"
+      }
+    ],
+    "documents": [
+      {
+        "key": "id_proof",
+        "label_en": "ID proof",
+        "required": true
+      },
+      {
+        "key": "incident_description",
+        "label_en": "Written description of the incident",
+        "required": true
+      },
+      {
+        "key": "evidence",
+        "label_en": "Photos, videos or documents as evidence",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "complainant_name",
+      "police_station",
+      "incident_date",
+      "incident_summary"
+    ],
+    "default_platform_ids": [
+      "mahapolice_pune_police"
+    ],
+    "doc_templates": [
+      "police_complaint"
+    ]
+  },
+  {
+    "depth": "standard",
+    "id": "lost_mobile",
+    "category": "police",
+    "icon": "smartphone",
+    "title_en": "Lost or stolen mobile phone",
+    "short_en": "Your phone is lost or stolen and you need a police record.",
+    "questions": [
+      {
+        "id": "imei_known",
+        "label_en": "Do you know the IMEI numbers?",
+        "type": "boolean"
+      },
+      {
+        "id": "days_since_lost",
+        "label_en": "How many days ago did you lose it?",
+        "type": "number",
+        "slot": "days_since_incident"
+      }
+    ],
+    "documents": [
+      {
+        "key": "imei",
+        "label_en": "IMEI numbers from the box or the bill",
+        "required": false
+      },
+      {
+        "key": "purchase_bill",
+        "label_en": "Purchase bill",
+        "required": false
+      },
+      {
+        "key": "id_proof",
+        "label_en": "ID proof",
+        "required": true
+      }
+    ],
+    "template_variables": [
+      "owner_name",
+      "phone_model",
+      "imei_numbers",
+      "location_lost"
+    ],
+    "default_platform_ids": [
+      "mahapolice_pune_police",
+      "ncrp_cybercrime"
+    ],
+    "doc_templates": [
+      "police_complaint"
+    ]
+  },
+  {
+    "depth": "standard",
+    "id": "cyber_harassment",
+    "category": "cyber",
+    "icon": "shield-alert",
+    "title_en": "Online harassment or abuse",
+    "short_en": "Someone is harassing, threatening or impersonating you online.",
+    "questions": [
+      {
+        "id": "threatened_now",
+        "label_en": "Are you being threatened right now?",
+        "type": "boolean",
+        "slot": "is_emergency"
+      },
+      {
+        "id": "days_since_incident",
+        "label_en": "How many days ago did it start?",
+        "type": "number",
+        "slot": "days_since_incident"
+      },
+      {
+        "id": "platform_used",
+        "label_en": "Which app or website was used?",
+        "type": "text"
+      }
+    ],
+    "documents": [
+      {
+        "key": "screenshots",
+        "label_en": "Screenshots with dates and links",
+        "required": true
+      },
+      {
+        "key": "account_details",
+        "label_en": "Account names or profile links of the accused",
+        "required": true
+      },
+      {
+        "key": "messages",
+        "label_en": "Messages received",
+        "required": true
+      },
+      {
+        "key": "id_proof",
+        "label_en": "ID proof",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "victim_name",
+      "accused_handle",
+      "platform_used",
+      "incident_summary"
+    ],
+    "default_platform_ids": [
+      "ncrp_cybercrime",
+      "she_box",
+      "mahapolice_pune_police"
+    ],
+    "doc_templates": [
+      "police_complaint",
+      "shebox_narrative"
+    ]
+  },
+  {
+    "depth": "standard",
+    "id": "free_legal_aid",
+    "category": "legal_aid",
+    "icon": "scale",
+    "title_en": "Free legal aid",
+    "short_en": "You may qualify for a free lawyer or free advice from a legal aid authority.",
+    "questions": [
+      {
+        "id": "annual_income",
+        "label_en": "Annual family income (INR)",
+        "type": "number",
+        "slot": "annual_income_inr"
+      },
+      {
+        "id": "status_flag",
+        "label_en": "Do any of these apply to you?",
+        "type": "select",
+        "options": [
+          {
+            "value": "woman",
+            "label_en": "Woman"
+          },
+          {
+            "value": "child",
+            "label_en": "Child under 18"
+          },
+          {
+            "value": "sc_st",
+            "label_en": "Scheduled Caste or Tribe"
+          },
+          {
+            "value": "industrial_workman",
+            "label_en": "Industrial workman"
+          },
+          {
+            "value": "disability",
+            "label_en": "Disability or mental illness"
+          },
+          {
+            "value": "custody",
+            "label_en": "In custody"
+          },
+          {
+            "value": "trafficking",
+            "label_en": "Victim of trafficking"
+          },
+          {
+            "value": "disaster",
+            "label_en": "Victim of disaster"
+          },
+          {
+            "value": "none",
+            "label_en": "None of these"
+          }
+        ]
+      },
+      {
+        "id": "district",
+        "label_en": "Your district",
+        "type": "text",
+        "slot": "district"
+      }
+    ],
+    "documents": [
+      {
+        "key": "income_affidavit",
+        "label_en": "Income certificate or income affidavit",
+        "required": false
+      },
+      {
+        "key": "id_proof",
+        "label_en": "ID proof",
+        "required": true
+      },
+      {
+        "key": "status_proof",
+        "label_en": "Proof of status, such as a caste or disability certificate",
+        "required": false
+      },
+      {
+        "key": "case_papers",
+        "label_en": "Case papers, if any",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "applicant_name",
+      "district",
+      "annual_income",
+      "status_flag"
+    ],
+    "default_platform_ids": [
+      "nalsa_mslsa_dlsa",
+      "tele_law_nyaya_bandhu"
+    ],
+    "doc_templates": [
+      "legal_aid_application"
+    ]
+  },
+  {
+    "depth": "standard",
+    "id": "other",
+    "category": "govt",
+    "icon": "help-circle",
+    "title_en": "Something else",
+    "short_en": "Your problem does not fit a listed category. Raasta will suggest general routes.",
+    "questions": [
+      {
+        "id": "summary",
+        "label_en": "Describe the problem in a few words",
+        "type": "text",
+        "slot": "summary"
+      },
+      {
+        "id": "city",
+        "label_en": "City or area",
+        "type": "text",
+        "slot": "city"
+      },
+      {
+        "id": "amount",
+        "label_en": "Amount involved, if any (INR)",
+        "type": "number",
+        "slot": "amount_inr"
+      }
+    ],
+    "documents": [
+      {
+        "key": "id_proof",
+        "label_en": "ID proof",
+        "required": false
+      },
+      {
+        "key": "written_records",
+        "label_en": "Any written records of the problem",
+        "required": false
+      }
+    ],
+    "template_variables": [
+      "complainant_name",
+      "summary"
+    ],
+    "default_platform_ids": [
+      "cpgrams",
+      "tele_law_nyaya_bandhu"
+    ],
+    "doc_templates": [
+      "grievance_text"
+    ]
+  }
+]

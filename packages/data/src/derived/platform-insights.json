@@ -1,0 +1,525 @@
+{
+  "source": "qwen3.5:4b-draft",
+  "generated_at": "2026-11-21T07:40:25.275Z",
+  "items": [
+    {
+      "platform_id": "cpgrams",
+      "plain_summary_en": "This app lets citizens in India report problems with central government services like taxes, education, or health. You register once, describe your issue clearly, and track its progress online to get help from officials.",
+      "who_should_use": "Any Indian citizen facing issues with central government departments.",
+      "intent_keywords": {
+        "en": [
+          "report problem",
+          "government service",
+          "track complaint"
+        ],
+        "hi": [
+          "shikayat karein",
+          "sarkari seva",
+          "status dekhein"
+        ],
+        "mr": [
+          "prashn puchun",
+          "govt madhye samasya",
+          "kriya prapt karun"
+        ]
+      },
+      "dispute_types": [
+        "consumer_refund",
+        "civic_failure",
+        "cyber_fraud",
+        "banking_nbfc",
+        "insurance_claim",
+        "pension_pf",
+        "govt_service"
+      ],
+      "first_peaceful_step_hint": "Try contacting the specific government department directly through their official website or local office first."
+    },
+    {
+      "platform_id": "nch_ingram",
+      "plain_summary_en": "This app helps people in India solve problems with shops, banks, telecom firms, and builders. It lets you share your story so experts can talk to the company before court.",
+      "who_should_use": "Anyone who had a problem buying goods or services across India.",
+      "intent_keywords": {
+        "en": [
+          "refund",
+          "overcharge",
+          "delay"
+        ],
+        "hi": [
+          "wapas",
+          "sasta",
+          "donoos"
+        ],
+        "mr": [
+          "peshkash",
+          "bhar",
+          "mohale"
+        ]
+      },
+      "dispute_types": [
+        "consumer_refund",
+        "mrp_overcharge",
+        "builder_delay",
+        "insurance_claim",
+        "banking_nbfc"
+      ],
+      "first_peaceful_step_hint": "Talk to the shop owner or company directly first and ask for a refund or fix."
+    },
+    {
+      "platform_id": "e_jagriti",
+      "plain_summary_en": "This portal lets Indian citizens file formal complaints about defective products, poor services, unfair charges, or builder delays. It replaces e-Daakhil for legal consumer cases across India.",
+      "who_should_use": "Individual buyers who want to seek refunds, replacements, or compensation from sellers or service providers.",
+      "intent_keywords": {
+        "en": [
+          "refund",
+          "defective product",
+          "overcharge"
+        ],
+        "hi": [
+          "vapas milana",
+          "kharab cheez",
+          "zayada paise"
+        ],
+        "mr": [
+          "pesh karna",
+          "ghatna",
+          "punarnamun"
+        ]
+      },
+      "dispute_types": [
+        "consumer_refund",
+        "mrp_overcharge",
+        "builder_delay"
+      ],
+      "first_peaceful_step_hint": "Talk to the seller or service provider first to discuss your issue and try to reach a quick agreement."
+    },
+    {
+      "platform_id": "ncrp_cybercrime",
+      "plain_summary_en": "This portal helps citizens report online scams, hacking, and cyberbullying across India. It guides users to call their bank first if money is lost, then file a detailed complaint with proof on the website.",
+      "who_should_use": "People who have been scammed online or are being harassed through digital devices.",
+      "intent_keywords": {
+        "en": [
+          "online scam",
+          "hacked account",
+          "cyber bullying"
+        ],
+        "hi": [
+          "online fraud",
+          "hack ho gaya",
+          "digital dushmani"
+        ],
+        "mr": [
+          "online fraud",
+          "account hack",
+          "cyber violence"
+        ]
+      },
+      "dispute_types": [
+        "cyber_fraud",
+        "cyber_harassment"
+      ],
+      "first_peaceful_step_hint": "Call your bank immediately to block your account and report the transaction if money has been lost."
+    },
+    {
+      "platform_id": "sebi_scores",
+      "plain_summary_en": "This platform helps people report issues with stock brokers, mutual funds, or companies regarding unpaid money or wrong trades. It is for investors in India who want to get their money back or fix errors made by financial experts.",
+      "who_should_use": "Investors and clients dealing with stock brokers, mutual fund houses, or investment advisors.",
+      "intent_keywords": {
+        "en": [
+          "unpaid dividend",
+          "wrong trade",
+          "payout delay"
+        ],
+        "hi": [
+          "paisa na milega",
+          "galat deal",
+          "paas karne mein der"
+        ],
+        "mr": [
+          "paye nahi hile",
+          "ghalat transaksan",
+          "payout ki der"
+        ]
+      },
+      "dispute_types": [
+        "investment_broker"
+      ],
+      "first_peaceful_step_hint": "Talk to the company or broker directly first and ask them to fix the issue."
+    },
+    {
+      "platform_id": "irdai_bima_bharosa_ombudsman",
+      "plain_summary_en": "This platform helps people who are unhappy with insurance companies. You can use it if your health, life, or car insurance claim was rejected, delayed, or had hidden charges taken out unfairly. It also handles complaints about brokers or agents selling bad policies.",
+      "who_should_use": "People in India whose insurance claims were denied, delayed, or handled wrongly by an insurer, broker, or agent.",
+      "intent_keywords": {
+        "en": [
+          "insurance claim",
+          "policy rejection",
+          "hidden charges"
+        ],
+        "hi": [
+          "bima kaarj",
+          "policer nahi hua",
+          "chhupa kharcha"
+        ],
+        "mr": [
+          "bima kharid",
+          "polisi na ho",
+          "chhapa kharcha"
+        ]
+      },
+      "dispute_types": [
+        "insurance_claim",
+        "cyber_fraud",
+        "other"
+      ],
+      "first_peaceful_step_hint": "Write a formal complaint to your insurance company's grievance officer and wait for their response before filing here."
+    },
+    {
+      "platform_id": "maharera",
+      "plain_summary_en": "This platform helps homebuyers in Maharashtra report builder delays, property defects, or false ads. You can file complaints about possession delays, structural issues, or missing certificates to get refunds or repairs.",
+      "who_should_use": "Homebuyers who have signed agreements with registered builders but face delays or quality problems.",
+      "intent_keywords": {
+        "en": [
+          "builder delay",
+          "property defect",
+          "refund request"
+        ],
+        "hi": [
+          "griha dhara",
+          "karyakshma khatam",
+          "peshish prapt"
+        ],
+        "mr": [
+          "bhavna vadh",
+          "sambhavna kharap",
+          "praptan peshish"
+        ]
+      },
+      "dispute_types": [
+        "builder_delay",
+        "consumer_refund",
+        "civic_failure"
+      ],
+      "first_peaceful_step_hint": "Check if your project is registered with MahaRERA and verify its registration number before filing a complaint."
+    },
+    {
+      "platform_id": "samadhan_labour",
+      "plain_summary_en": "This portal helps workers in India report unpaid wages, illegal firing, or missing bonuses. It connects you with central government officials to solve industrial disputes through fair hearings.",
+      "who_should_use": "Workers who face unpaid salaries, wrongful job loss, or denied benefits from large companies.",
+      "intent_keywords": {
+        "en": [
+          "unpaid wages",
+          "illegal firing",
+          "missing bonus"
+        ],
+        "hi": [
+          "kaam ka paise na mile",
+          "galat nikal diya",
+          "bonus nahi mila"
+        ],
+        "mr": [
+          "peshish na mile",
+          "galti se khatam kiya",
+          "bonus nahi milav"
+        ]
+      },
+      "dispute_types": [
+        "unpaid_wages"
+      ],
+      "first_peaceful_step_hint": "Talk to your company HR or send a formal demand notice before filing this complaint."
+    },
+    {
+      "platform_id": "she_box",
+      "plain_summary_en": "This platform helps workers report sexual harassment at their workplace in India. It is for cases involving unwanted touches, remarks, or threats under the POSH Act. The system sends your complaint to an official committee for investigation and gives you a tracking number.",
+      "who_should_use": "Workers who face sexual harassment at their job",
+      "intent_keywords": {
+        "en": [
+          "sexual harassment",
+          "workplace abuse",
+          "POSH complaint"
+        ],
+        "hi": [
+          "यौन उत्पीड़न",
+          "कार्यस्थल पर उत्पीड़न"
+        ],
+        "mr": [
+          "लैंगिक छळ",
+          "कामाच्या ठिकाणी छळ"
+        ]
+      },
+      "dispute_types": [
+        "workplace_harassment"
+      ],
+      "first_peaceful_step_hint": "Talk to your immediate supervisor or HR officer first to report the incident internally before using this platform."
+    },
+    {
+      "platform_id": "epfigms",
+      "plain_summary_en": "This system helps people in India fix problems with their pension fund money. It lets you report delays in getting your savings, wrong details on records, or issues with monthly pension payments from your employer.",
+      "who_should_use": "Employees who want to solve issues related to their provident fund or pension.",
+      "intent_keywords": {
+        "en": [
+          "pension delay",
+          "PF issue",
+          "salary deduction"
+        ],
+        "hi": [
+          "penzion ki deri",
+          "pf samasya",
+          "salari kamana"
+        ],
+        "mr": [
+          "pension ka chukit",
+          "pf prashn",
+          "kamaan khatam"
+        ]
+      },
+      "dispute_types": [
+        "pension_pf"
+      ],
+      "first_peaceful_step_hint": "Talk to your employer or check the official EPFO website for updates before filing a complaint."
+    },
+    {
+      "platform_id": "aaple_sarkar_maharashtra",
+      "plain_summary_en": "This portal lets Maharashtra citizens file complaints about district offices, local civic issues, or state departments. You must register first, then choose your area and department before describing the problem clearly.",
+      "who_should_use": "People living in Maharashtra who need help with local government or civic problems.",
+      "intent_keywords": {
+        "en": [
+          "complaint",
+          "district office",
+          "civic issue"
+        ],
+        "hi": [
+          "shikayat",
+          "kshetra karyalaya",
+          "nagar swarajya"
+        ],
+        "mr": [
+          "prashna",
+          "zila prashasana",
+          "sambhavar"
+        ]
+      },
+      "dispute_types": [
+        "civic_failure",
+        "govt_service",
+        "other"
+      ],
+      "first_peaceful_step_hint": "Try contacting your local district office or municipal body directly to resolve the issue first."
+    },
+    {
+      "platform_id": "pmc_care_pune",
+      "plain_summary_en": "Use this app to report road potholes, garbage issues, water leaks, and faulty lights in Pune. You must take a photo of the problem near a landmark before filing your complaint online or via WhatsApp.",
+      "who_should_use": "Residents living within the Pune Municipal Corporation limits who need help with local civic services.",
+      "intent_keywords": {
+        "en": [
+          "potholes",
+          "garbage",
+          "water leak"
+        ],
+        "hi": [
+          "raaste ki chhadi",
+          "kacha paani",
+          "jhaad"
+        ],
+        "mr": [
+          "pataal",
+          "kacha pani",
+          "dhega"
+        ]
+      },
+      "dispute_types": [
+        "civic_failure",
+        "neighbour_construction"
+      ],
+      "first_peaceful_step_hint": "Take a clear photo of the problem showing a nearby landmark before filing your complaint."
+    },
+    {
+      "platform_id": "pcmc_grievance",
+      "plain_summary_en": "Use this app to report water, roads, garbage, or streetlight issues in Pimpri-Chinchwad. Register online or send a WhatsApp message with your name and address to start tracking your civic complaint.",
+      "who_should_use": "Residents of Pimpri-Chinchwad who need help with local municipal services.",
+      "intent_keywords": {
+        "en": [
+          "poor roads",
+          "no water",
+          "garbage pile"
+        ],
+        "hi": [
+          "सड़क खराब",
+          "पानी नहीं आ रहा"
+        ],
+        "mr": [
+          "रस्ता खराब",
+          "कचरा",
+          "पाणी नाही"
+        ]
+      },
+      "dispute_types": [
+        "civic_failure"
+      ],
+      "first_peaceful_step_hint": "Try reporting the issue directly to your local ward officer or neighborhood committee before using this portal."
+    },
+    {
+      "platform_id": "swachhata_mohua",
+      "plain_summary_en": "This app helps citizens in over 4,000 Indian cities report urban sanitation issues like garbage piles, dustbins, street sweeping, public toilet blockages, or dead animals. It offers strict time limits for fixing these problems and sends photo updates on progress.",
+      "who_should_use": "Residents living in towns who need help with local waste management or public toilet cleanliness.",
+      "intent_keywords": {
+        "en": [
+          "garbage pile",
+          "dirty street",
+          "toilet blocked"
+        ],
+        "hi": [
+          "kacha paani",
+          "gandha lag raha hai",
+          "kharaab toli "
+        ],
+        "mr": [
+          "mariya",
+          "patachit",
+          "sachak garbi "
+        ]
+      },
+      "dispute_types": [
+        "civic_failure"
+      ],
+      "first_peaceful_step_hint": "Talk to your local ward officer or municipal worker about the sanitation problem before using this app."
+    },
+    {
+      "platform_id": "major_metro_municipal_portals",
+      "plain_summary_en": "This app helps people in big Indian cities like Mumbai and Delhi report problems with their local city offices. You can share issues about broken roads, garbage, or bad services to get help from your city government.",
+      "who_should_use": "Residents of major Indian metro cities facing issues with their local municipal corporation.",
+      "intent_keywords": {
+        "en": [
+          "city problem",
+          "broken road",
+          "garbage issue"
+        ],
+        "hi": [
+          "nagarik samasya",
+          "kacha paani",
+          "safai kaam"
+        ],
+        "mr": [
+          "shahar karan",
+          "mariyaan",
+          "pavitra"
+        ]
+      },
+      "dispute_types": [
+        "civic_failure"
+      ],
+      "first_peaceful_step_hint": "Try contacting your local municipal office directly or visiting their physical office before using this app."
+    },
+    {
+      "platform_id": "tele_law_nyaya_bandhu",
+      "plain_summary_en": "This free service gives legal advice to all citizens across India. You can talk to a lawyer via video or phone for about twenty minutes to understand your rights before starting any court case.",
+      "who_should_use": "Anyone facing legal problems like unpaid wages, property issues, or family disputes needs this help.",
+      "intent_keywords": {
+        "en": [
+          "legal advice",
+          "free lawyer",
+          "rights help"
+        ],
+        "hi": [
+          "kanooni madad",
+          "mukhya mantri",
+          "sadhak ki madad"
+        ],
+        "mr": [
+          "kanoon sarthak",
+          "mandan",
+          "vishay par vichar"
+        ]
+      },
+      "dispute_types": [
+        "unpaid_wages",
+        "police_complaint",
+        "civic_failure",
+        "other"
+      ],
+      "first_peaceful_step_hint": "Talk to a local community service center or visit your nearest government office to get basic guidance before using this app."
+    },
+    {
+      "platform_id": "nalsa_mslsa_dlsa",
+      "plain_summary_en": "This platform gives free legal help, lawyer representation, and court fees for poor citizens across India. It also offers Lok Adalats to settle disputes quickly without expensive lawyers.",
+      "who_should_use": "People who are poor or belong to specific groups can use this service.",
+      "intent_keywords": {
+        "en": [
+          "free lawyer",
+          "legal aid",
+          "court fees"
+        ],
+        "hi": [
+          "मुफ़्त वकील",
+          "कानूनी मदद",
+          "कोर्ट शुल्क"
+        ],
+        "mr": [
+          "मोफत वकील",
+          "कायदेशीर मदत",
+          "कोर्ट फी"
+        ]
+      },
+      "dispute_types": [
+        "free_legal_aid"
+      ],
+      "first_peaceful_step_hint": "Check if you qualify for free legal help based on your income or social status before applying."
+    },
+    {
+      "platform_id": "maharashtra_rent_small_causes_pune",
+      "plain_summary_en": "This platform helps tenants in Pune get their security deposits back or end unfair landlord rules. It guides you to send a formal notice first, then use free legal help before filing a court case if needed.",
+      "who_should_use": "Tenants in Pune who need their money back from landlords or want to leave an apartment legally.",
+      "intent_keywords": {
+        "en": [
+          "security deposit",
+          "landlord rules",
+          "move out notice"
+        ],
+        "hi": [
+          "kheti ka paise",
+          "ghar chhodna",
+          "malik se baat"
+        ],
+        "mr": [
+          "sukh depozit",
+          "ghar wahi",
+          "malika ni nishas"
+        ]
+      },
+      "dispute_types": [
+        "security_deposit",
+        "civic_failure"
+      ],
+      "first_peaceful_step_hint": "Send a written demand notice to your landlord asking for the deposit or ending the lease."
+    },
+    {
+      "platform_id": "digit_upyog_pgr_api",
+      "plain_summary_en": "This open-source tool helps citizens in India report problems to local governments. It works with apps used by many states like Punjab and Kerala to track issues online.",
+      "who_should_use": "People living in cities or towns who want to complain about city services or buildings.",
+      "intent_keywords": {
+        "en": [
+          "report problem",
+          "city issue",
+          "track complaint"
+        ],
+        "hi": [
+          "shikayat karein",
+          "nagar samasya",
+          "pata lagayein"
+        ],
+        "mr": [
+          "probleem rapar",
+          "nagar sankat",
+          "prastav karun"
+        ]
+      },
+      "dispute_types": [
+        "civic_failure",
+        "builder_delay",
+        "security_deposit",
+        "consumer_refund",
+        "govt_service"
+      ],
+      "first_peaceful_step_hint": "Talk to your local municipal office or neighborhood committee first."
+    }
+  ]
+}

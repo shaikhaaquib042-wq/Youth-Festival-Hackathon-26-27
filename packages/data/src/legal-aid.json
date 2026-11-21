@@ -1,0 +1,227 @@
+{
+  "section12_flags": [
+    {
+      "flag": "woman",
+      "label_en": "A woman"
+    },
+    {
+      "flag": "child",
+      "label_en": "A child (under 18)"
+    },
+    {
+      "flag": "sc_st",
+      "label_en": "Member of a Scheduled Caste or Scheduled Tribe"
+    },
+    {
+      "flag": "industrial_workman",
+      "label_en": "Industrial workman"
+    },
+    {
+      "flag": "disability",
+      "label_en": "Person with disability or mental illness"
+    },
+    {
+      "flag": "custody",
+      "label_en": "Person in custody (protective, juvenile or psychiatric home)"
+    },
+    {
+      "flag": "trafficking",
+      "label_en": "Victim of human trafficking or begar"
+    },
+    {
+      "flag": "disaster",
+      "label_en": "Victim of mass disaster, ethnic violence, caste atrocity, flood, drought, earthquake or industrial disaster"
+    }
+  ],
+  "states": [
+    {
+      "state_code": "AP",
+      "name": "Andhra Pradesh",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "AS",
+      "name": "Assam",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "GA",
+      "name": "Goa",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "HR",
+      "name": "Haryana",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "HP",
+      "name": "Himachal Pradesh",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "JK",
+      "name": "Jammu & Kashmir",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "JH",
+      "name": "Jharkhand",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "KA",
+      "name": "Karnataka",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "KL",
+      "name": "Kerala",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "MH",
+      "name": "Maharashtra",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "MN",
+      "name": "Manipur",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "ML",
+      "name": "Meghalaya",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "OD",
+      "name": "Odisha",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "PB",
+      "name": "Punjab",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "RJ",
+      "name": "Rajasthan",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "SK",
+      "name": "Sikkim",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "TN",
+      "name": "Tamil Nadu",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "TG",
+      "name": "Telangana",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "UP",
+      "name": "Uttar Pradesh",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "UK",
+      "name": "Uttarakhand",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "AN",
+      "name": "Andaman & Nicobar Islands",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "CH",
+      "name": "Chandigarh UT",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "DL",
+      "name": "Delhi",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "LD",
+      "name": "Lakshadweep",
+      "income_ceiling_inr": 300000
+    },
+    {
+      "state_code": "MP",
+      "name": "Madhya Pradesh",
+      "income_ceiling_inr": 200000
+    },
+    {
+      "state_code": "BR",
+      "name": "Bihar",
+      "income_ceiling_inr": 150000
+    },
+    {
+      "state_code": "CG",
+      "name": "Chhattisgarh",
+      "income_ceiling_inr": 150000
+    },
+    {
+      "state_code": "TR",
+      "name": "Tripura",
+      "income_ceiling_inr": 150000
+    },
+    {
+      "state_code": "AR",
+      "name": "Arunachal Pradesh",
+      "income_ceiling_inr": 100000
+    },
+    {
+      "state_code": "GJ",
+      "name": "Gujarat",
+      "income_ceiling_inr": 100000
+    },
+    {
+      "state_code": "NL",
+      "name": "Nagaland",
+      "income_ceiling_inr": 100000
+    },
+    {
+      "state_code": "WB",
+      "name": "West Bengal",
+      "income_ceiling_inr": 100000
+    },
+    {
+      "state_code": "DD",
+      "name": "Daman & Diu",
+      "income_ceiling_inr": 100000,
+      "ceiling_note": "Handbook 4.2 lists Dadra & Nagar Haveli UT and Daman & Diu separately with different ceilings."
+    },
+    {
+      "state_code": "LA",
+      "name": "Ladakh",
+      "income_ceiling_inr": 100000
+    },
+    {
+      "state_code": "PY",
+      "name": "Puducherry",
+      "income_ceiling_inr": 100000
+    },
+    {
+      "state_code": "MZ",
+      "name": "Mizoram",
+      "income_ceiling_inr": 25000
+    },
+    {
+      "state_code": "DN",
+      "name": "Dadra & Nagar Haveli UT",
+      "income_ceiling_inr": 15000,
+      "ceiling_note": "Handbook 4.2 lists Dadra & Nagar Haveli UT and Daman & Diu separately with different ceilings."
+    }
+  ],
+  "tele_law_note_en": "Tele-Law pre-litigation legal advice is free for all citizens regardless of income or status.",
+  "helpline": "15100"
+}

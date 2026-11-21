@@ -1,0 +1,554 @@
+[
+  {
+    "code": "AN",
+    "name": "Andaman and Nicobar Islands",
+    "languages": [
+      "en",
+      "hi"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Andaman and Nicobar Islands State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "AP",
+    "name": "Andhra Pradesh",
+    "languages": [
+      "en",
+      "te"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Andhra Pradesh State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "AR",
+    "name": "Arunachal Pradesh",
+    "languages": [
+      "en",
+      "hi"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Arunachal Pradesh State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 100000
+  },
+  {
+    "code": "AS",
+    "name": "Assam",
+    "languages": [
+      "en"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Assam State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "BR",
+    "name": "Bihar",
+    "languages": [
+      "en",
+      "hi"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Bihar State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 150000
+  },
+  {
+    "code": "CH",
+    "name": "Chandigarh",
+    "languages": [
+      "en",
+      "hi",
+      "pa"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Chandigarh State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "CG",
+    "name": "Chhattisgarh",
+    "languages": [
+      "en",
+      "hi"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Chhattisgarh State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 150000
+  },
+  {
+    "code": "DN",
+    "name": "Dadra and Nagar Haveli and Daman and Diu",
+    "languages": [
+      "en",
+      "gu",
+      "mr"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Dadra and Nagar Haveli and Daman and Diu State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": null
+  },
+  {
+    "code": "DL",
+    "name": "Delhi",
+    "languages": [
+      "en",
+      "hi",
+      "pa",
+      "ur"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Delhi State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "GA",
+    "name": "Goa",
+    "languages": [
+      "en",
+      "mr"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Goa State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "GJ",
+    "name": "Gujarat",
+    "languages": [
+      "en",
+      "gu",
+      "hi"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Gujarat State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 100000
+  },
+  {
+    "code": "HR",
+    "name": "Haryana",
+    "languages": [
+      "en",
+      "hi",
+      "pa"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Haryana State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "HP",
+    "name": "Himachal Pradesh",
+    "languages": [
+      "en",
+      "hi"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Himachal Pradesh State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "JK",
+    "name": "Jammu and Kashmir",
+    "languages": [
+      "en",
+      "ur",
+      "hi"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Jammu and Kashmir State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "JH",
+    "name": "Jharkhand",
+    "languages": [
+      "en",
+      "hi"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Jharkhand State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "KA",
+    "name": "Karnataka",
+    "languages": [
+      "en",
+      "kn"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Karnataka State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "KL",
+    "name": "Kerala",
+    "languages": [
+      "en",
+      "ml"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Kerala State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "LA",
+    "name": "Ladakh",
+    "languages": [
+      "en",
+      "hi",
+      "ur"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Ladakh State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 100000
+  },
+  {
+    "code": "LD",
+    "name": "Lakshadweep",
+    "languages": [
+      "en",
+      "ml"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Lakshadweep State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "MP",
+    "name": "Madhya Pradesh",
+    "languages": [
+      "en",
+      "hi"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Madhya Pradesh State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 200000
+  },
+  {
+    "code": "MH",
+    "name": "Maharashtra",
+    "languages": [
+      "en",
+      "mr",
+      "hi"
+    ],
+    "coverage": "deep",
+    "slsa": {
+      "name": "Maharashtra State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000,
+    "grievance_portal": {
+      "name": "Aaple Sarkar (Maharashtra)",
+      "url": "https://grievances.maharashtra.gov.in/en",
+      "verified": false
+    }
+  },
+  {
+    "code": "MN",
+    "name": "Manipur",
+    "languages": [
+      "en"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Manipur State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "ML",
+    "name": "Meghalaya",
+    "languages": [
+      "en"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Meghalaya State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "MZ",
+    "name": "Mizoram",
+    "languages": [
+      "en"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Mizoram State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 25000
+  },
+  {
+    "code": "NL",
+    "name": "Nagaland",
+    "languages": [
+      "en"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Nagaland State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 100000
+  },
+  {
+    "code": "OD",
+    "name": "Odisha",
+    "languages": [
+      "en",
+      "or"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Odisha State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "PY",
+    "name": "Puducherry",
+    "languages": [
+      "en",
+      "ta"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Puducherry State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 100000
+  },
+  {
+    "code": "PB",
+    "name": "Punjab",
+    "languages": [
+      "en",
+      "pa",
+      "hi"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Punjab State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "RJ",
+    "name": "Rajasthan",
+    "languages": [
+      "en",
+      "hi"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Rajasthan State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "SK",
+    "name": "Sikkim",
+    "languages": [
+      "en",
+      "hi"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Sikkim State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "TN",
+    "name": "Tamil Nadu",
+    "languages": [
+      "en",
+      "ta"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Tamil Nadu State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "TG",
+    "name": "Telangana",
+    "languages": [
+      "en",
+      "te",
+      "ur"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Telangana State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "TR",
+    "name": "Tripura",
+    "languages": [
+      "en",
+      "bn"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Tripura State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 150000
+  },
+  {
+    "code": "UP",
+    "name": "Uttar Pradesh",
+    "languages": [
+      "en",
+      "hi",
+      "ur"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Uttar Pradesh State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "UK",
+    "name": "Uttarakhand",
+    "languages": [
+      "en",
+      "hi"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "Uttarakhand State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 300000
+  },
+  {
+    "code": "WB",
+    "name": "West Bengal",
+    "languages": [
+      "en",
+      "bn"
+    ],
+    "coverage": "standard",
+    "slsa": {
+      "name": "West Bengal State Legal Services Authority",
+      "url": "https://nalsa.gov.in/directory/",
+      "verified": false
+    },
+    "legal_aid_ceiling_inr": 100000
+  }
+]

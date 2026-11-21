@@ -1,0 +1,126 @@
+[
+  {
+    "key": "bank_fraud_freeze_3d",
+    "label_en": "Report unauthorised bank or UPI fraud and freeze funds",
+    "days": 3,
+    "from": "incident",
+    "dispute_types": [
+      "cyber_fraud",
+      "banking_nbfc"
+    ],
+    "note_en": "Handbook 5.2: immediate, within 3 working days. Call 1930 and notify the bank."
+  },
+  {
+    "key": "electronic_fir_signature_3d",
+    "label_en": "Sign the electronic FIR in person",
+    "days": 3,
+    "from": "now",
+    "dispute_types": [
+      "cyber_fraud",
+      "cyber_harassment",
+      "police_complaint"
+    ],
+    "note_en": "An electronic FIR must be signed in person within 3 days to be taken on record."
+  },
+  {
+    "key": "nalsa_decision_7d",
+    "label_en": "Expected NALSA legal aid decision",
+    "days": 7,
+    "from": "now",
+    "dispute_types": [
+      "free_legal_aid",
+      "unpaid_wages",
+      "security_deposit",
+      "neighbour_construction",
+      "workplace_harassment"
+    ],
+    "note_en": "NALSA Reg. 7(2) expected window for Panel Advocate appointment."
+  },
+  {
+    "key": "maharera_conciliation_consent_7d",
+    "label_en": "Developer consent to MahaRERA conciliation",
+    "days": 7,
+    "from": "now",
+    "dispute_types": [
+      "builder_delay"
+    ],
+    "note_en": "Developer must consent within 7 days to enter conciliation."
+  },
+  {
+    "key": "demand_notice_7d",
+    "label_en": "Written demand notice response window",
+    "days": 7,
+    "from": "now",
+    "dispute_types": [
+      "unpaid_wages"
+    ],
+    "note_en": "Handbook 5.2 gives 7 to 15 days; send the demand notice and keep a dated copy."
+  },
+  {
+    "key": "deposit_notice_15d",
+    "label_en": "Deposit demand notice response window",
+    "days": 15,
+    "from": "now",
+    "dispute_types": [
+      "security_deposit"
+    ],
+    "note_en": "Handbook 6.1 uses a 15-day notice for deposit refunds."
+  },
+  {
+    "key": "grievance_sla_21d",
+    "label_en": "Grievance portal SLA (CPGRAMS, SEBI SCORES, Aaple Sarkar)",
+    "days": 21,
+    "from": "prior_complaint",
+    "dispute_types": [
+      "govt_service",
+      "pension_pf",
+      "civic_failure",
+      "investment_broker"
+    ],
+    "note_en": "Aaple Sarkar uses 21 working days. Mark the date to plan escalation or appeal."
+  },
+  {
+    "key": "rbi_cms_prestep_30d",
+    "label_en": "RBI CMS mandatory pre-step: lender must reply first",
+    "days": 30,
+    "from": "prior_complaint",
+    "dispute_types": [
+      "banking_nbfc"
+    ],
+    "note_en": "Filing earlier than 30 days can be rejected as non-maintainable."
+  },
+  {
+    "key": "sebi_rbi_limitation_1y",
+    "label_en": "SEBI SCORES or RBI CMS filing limit",
+    "days": 365,
+    "from": "incident",
+    "dispute_types": [
+      "banking_nbfc",
+      "investment_broker"
+    ],
+    "note_en": "Hard filing cutoff from the cause of action or the lender reply."
+  },
+  {
+    "key": "consumer_limitation_2y",
+    "label_en": "Consumer Commission limitation period",
+    "days": 730,
+    "from": "incident",
+    "dispute_types": [
+      "consumer_refund",
+      "mrp_overcharge"
+    ],
+    "note_en": "CPA 2019 Sec. 69. The National Consumer Helpline (1915) does not pause this 2-year clock."
+  },
+  {
+    "key": "civil_it_limitation_3y",
+    "label_en": "Civil recovery and IT Act limitation period",
+    "days": 1095,
+    "from": "incident",
+    "dispute_types": [
+      "unpaid_wages",
+      "cyber_fraud",
+      "cyber_harassment"
+    ],
+    "note_en": "Cutoff for civil recovery suits and cyber prosecution under the Limitation Act and IT Act."
+  }
+]

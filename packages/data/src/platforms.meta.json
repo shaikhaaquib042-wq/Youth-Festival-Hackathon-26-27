@@ -1,0 +1,18 @@
+{
+  "filename": "india_grievance_platforms.json",
+  "schema_version": "1.0.0",
+  "last_verified": "2026-11-21",
+  "primary_focus": "India (All Tiers) with Pune / Maharashtra hyperlocal anchor",
+  "disclaimer": "This dataset provides structured civic and procedural guidance based on public government rules; it does not constitute legal advice. Verify live portal fee schedules, file limits, and URLs before submission.",
+  "automation_summary": {
+    "public_citizen_write_apis_available": false,
+    "open_source_dpi_api_available": true,
+    "supported_prefill_channels": [
+      "WhatsApp deep-link (?text=) for official municipal & consumer WhatsApp bots",
+      "Email deep-link (mailto:?subject=&body=) for ward officers, Grievance Officers, and legal aid",
+      "Phone dialer intent (tel:) for emergency and statutory helplines",
+      "X/Twitter web intent for public municipal nudges",
+      "DIGIT / UPYOG open-source REST API (POST /pgr-services/v2/request/_create) for compatible ULBs or local sandbox demos"
+    ]
+  }
+}
