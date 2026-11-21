@@ -73,7 +73,22 @@ function Street({ lang, alts }: { lang: Locale; alts: number }) {
   );
 }
 
-function Emergency({ lang, token }: { lang: Locale; token: string }) {
+function Emergency({ lang, token, safety }: { lang: Locale; token: string; safety?: boolean }) {
+  if (safety) {
+    return (
+      <section className="alert stack" aria-labelledby="emerg">
+        <h2 id="emerg" className="alert-title">
+          {t(lang, "ui.res.safety_h")}
+        </h2>
+        <p>{t(lang, "ui.res.safety_lead")}</p>
+        <div className="cluster">
+          <a className="btn btn-primary" href="tel:112">
+            {t(lang, "ui.emergency.call_112")}
+          </a>
+        </div>
+      </section>
+    );
+  }
   return (
     <section className="alert stack" aria-labelledby="emerg">
       <h2 id="emerg" className="alert-title">
@@ -184,7 +199,7 @@ export function ResultPage({ lang, token, result, geo, timers, title, slots, dem
   return (
     <Layout lang={lang} title={`${title} | Raasta`} path={`/r/route/${token}`} noindex>
       <div className="container stack">
-        {result.urgency === "emergency" ? <Emergency lang={lang} token={token} /> : null}
+        {result.urgency === "emergency" ? <Emergency lang={lang} token={token} safety={result.dispute_type !== "cyber_fraud"} /> : null}
         <h1>{title}</h1>
         <Street lang={lang} alts={result.alternatives.length} />
         <section className="card card-warm stack" aria-labelledby="first-step">

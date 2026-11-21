@@ -35,6 +35,7 @@ export interface IntakeSlots {
   employer_sphere?: "central" | "state" | "unknown";
   is_emergency?: boolean;
   cheating_indicated?: boolean; // deposit cases: lets police be offered
+  violence_indicated?: boolean; // physical or sexual violence: safety first, police route, no money questions
   nalsa_status_flags?: NalsaFlag[];
   annual_income_inr?: number;
   exclusion_flags?: ("rti" | "sub_judice" | "personal_family")[]; // govt_service filter

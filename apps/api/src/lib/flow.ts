@@ -13,6 +13,31 @@ const ARRAY_SLOT_BY_QUESTION: Record<string, "nalsa_status_flags" | "exclusion_f
 
 export const answerField = (id: string) => `a_${id}`;
 
+/**
+ * Whether question i (0-based) applies given earlier answers.
+ * Explicit `show_if: { q, equals }` wins; otherwise an "If yes, ..." question depends on the yes/no question right before it.
+ */
+export function isApplicable(dispute: Dispute, i: number, answers: Record<string, string>): boolean {
+  const q = dispute.questions[i] as Q & { show_if?: { q: string; equals: string } };
+  if (!q) return false;
+  if (q.show_if) return (answers[q.show_if.q] ?? "").trim().toLowerCase() === q.show_if.equals.toLowerCase();
+  const prev = dispute.questions[i - 1];
+  if (/^if yes\b/i.test(q.label_en) && prev?.type === "boolean") return toBool(answers[prev.id] ?? "") === true;
+  return true;
+}
+
+/** Next applicable question index after i (0-based), or -1 when the flow is done. */
+export function nextApplicable(dispute: Dispute, i: number, answers: Record<string, string>): number {
+  for (let j = i + 1; j < dispute.questions.length; j++) if (isApplicable(dispute, j, answers)) return j;
+  return -1;
+}
+
+/** Previous applicable question index before i (0-based), or 0. */
+export function prevApplicable(dispute: Dispute, i: number, answers: Record<string, string>): number {
+  for (let j = i - 1; j >= 0; j--) if (isApplicable(dispute, j, answers)) return j;
+  return 0;
+}
+
 function daysSince(dateStr: string, now: number): number | undefined {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return undefined;
   const t = Date.parse(`${dateStr}T00:00:00Z`);
@@ -30,9 +55,9 @@ function toBool(v: string): boolean | undefined {
 /** Applies guided or follow-up answers (keyed by question id) onto slots. Unknown or invalid answers are ignored. */
 export function applyAnswers(base: IntakeSlots, dispute: Dispute, answers: Record<string, string>, now = Date.now()): IntakeSlots {
   const out: Record<string, unknown> = { ...base };
-  for (const q of dispute.questions) {
+  for (const [i, q] of dispute.questions.entries()) {
     const raw = (answers[q.id] ?? "").trim();
-    if (!raw) continue;
+    if (!raw || !isApplicable(dispute, i, answers)) continue;
     assign(out, q, raw, now);
   }
   out.missing_fields = [];

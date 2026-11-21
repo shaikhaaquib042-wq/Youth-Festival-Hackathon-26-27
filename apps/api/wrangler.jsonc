@@ -7,9 +7,9 @@
   "workers_dev": true,
   "observability": { "enabled": true },
   // Replace the TODO ids after creating the resources (wrangler kv namespace create / d1 create).
-  "kv_namespaces": [{ "binding": "CACHE", "id": "TODO_KV_ID" }],
+  "kv_namespaces": [{ "binding": "CACHE", "id": "7ca18a9f77bc40b08ba2790909cefb2a" }],
   "d1_databases": [
-    { "binding": "DB", "database_name": "raasta-db", "database_id": "TODO_D1_ID", "migrations_dir": "migrations" }
+    { "binding": "DB", "database_name": "raasta-db", "database_id": "45666e7c-0369-4fa5-b19b-60a9eb0a5f1d", "migrations_dir": "migrations" }
   ],
   "ratelimits": [
     { "name": "CHAT_LIMITER", "namespace_id": "1001", "simple": { "limit": 20, "period": 60 } },

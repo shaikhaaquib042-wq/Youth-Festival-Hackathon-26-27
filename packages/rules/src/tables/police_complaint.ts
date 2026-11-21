@@ -7,6 +7,19 @@ export const policeComplaint: DisputeTable = {
   privacy: true,
   rows: [
     {
+      id: "violence",
+      when: (c) => c.slots.violence_indicated === true,
+      out: (c) => ({
+        urgency: "emergency",
+        step: { key: "step.police_violence_safety", doc_template: "police_complaint", free: true },
+        primary: c.isMH
+          ? { pid: "mahapolice_pune_police", why: "why.police_violence", sla: "electronic_fir_rule", sub: [phone("mahapolice_pune_police", "112")] }
+          : teleLawForum("why.police_violence_other_state"),
+        alternatives: [teleLawForum()],
+        warnings: ["warn.privacy_mode", "warn.zero_fir", "warn.free_legal_aid_survivor"],
+      }),
+    },
+    {
       id: "maharashtra",
       when: (c) => c.isMH,
       out: (c) => ({

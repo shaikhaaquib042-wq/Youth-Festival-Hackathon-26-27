@@ -2,8 +2,9 @@ import type { DisputeType, IntakeSlots } from "@raasta/rules/types";
 
 // Fallback classifier (English, Hindi, Marathi) used when no AI provider works. Order matters: first strong match wins.
 const RULES: { type: DisputeType; words: string[] }[] = [
+  { type: "police_complaint", words: ["sexual assault", "rape", "raped", "molest", "assaulted", "domestic violence", "beaten", "beat me", "attacked", "acid", "kidnap", "बलात्कार", "यौन उत्पीड़न", "मारपीट", "घरेलू हिंसा", "लैंगिक अत्याचार", "बलात्कार", "मारहाण", "कौटुंबिक हिंसाचार"] },
+  { type: "cyber_harassment", words: ["bully", "bullied", "bullying", "troll", "harass online", "online harass", "harassing me online", "abusive messages", "fake profile", "fake account", "morphed", "nude", "sextortion", "blackmail", "stalk", "threaten online", "cyberbully", "ब्लैकमेल", "ट्रोल", "धमकी", "सायबर छळ", "ऑनलाइन परेशान"] },
   { type: "cyber_fraud", words: ["upi", "otp", "scam", "fraud", "phishing", "cyber", "1930", "online fraud", "धोखाधड़ी", "ठगी", "फसवणूक", "ऑनलाइन"] },
-  { type: "cyber_harassment", words: ["blackmail", "morphed", "stalk", "threaten online", "ब्लैकमेल", "धमकी", "सायबर"] },
   { type: "lost_mobile", words: ["lost phone", "lost my phone", "lost mobile", "stolen phone", "stolen mobile", "phone stolen", "imei", "मोबाइल खो", "फोन खो", "मोबाईल हरवला", "फोन चोरी"] },
   { type: "security_deposit", words: ["deposit", "landlord", "rent", "tenant", "जमा राशि", "किराया", "मकान मालिक", "डिपॉझिट", "घरमालक", "भाडे"] },
   { type: "unpaid_wages", words: ["salary", "wages", "not paid", "unpaid", "employer", "पगार", "वेतन", "तनख्वाह", "मजदूरी", "नियोक्ता", "मालक"] },
@@ -57,5 +58,9 @@ export function keywordSlots(redacted: string): Omit<IntakeSlots, "missing_field
   const days = extractDays(redacted);
   if (days !== undefined) slots.days_since_incident = days;
   if (/\bemergency\b|\bright now\b|\bin danger\b|आपातकाल|तुरंत/i.test(redacted)) slots.is_emergency = true;
+  if (/sexual assault|\brape|molest|assault|domestic violence|beaten|beat me|attacked|\bacid\b|kidnap|बलात्कार|मारपीट|घरेलू हिंसा|मारहाण|हिंसाचार|अत्याचार/i.test(redacted)) {
+    slots.violence_indicated = true;
+    slots.is_emergency = true;
+  }
   return slots;
 }

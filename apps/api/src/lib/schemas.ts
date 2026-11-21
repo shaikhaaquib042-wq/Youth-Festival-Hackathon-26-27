@@ -27,6 +27,7 @@ export const intakeSlotsSchema = z
     employer_sphere: z.enum(["central", "state", "unknown"]).optional(),
     is_emergency: z.boolean().optional(),
     cheating_indicated: z.boolean().optional(),
+    violence_indicated: z.boolean().optional(),
     nalsa_status_flags: z.array(nalsa).max(8).optional(),
     annual_income_inr: z.number().nonnegative().max(1e12).optional(),
     exclusion_flags: z.array(z.enum(["rti", "sub_judice", "personal_family"])).max(3).optional(),

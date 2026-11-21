@@ -7,7 +7,7 @@ import { runIntake } from "../ai/intake";
 import { isDemo, searchComplaint } from "../digit/adapter";
 import type { AppEnv } from "../env";
 import { WARD_OFFICE_IDS, resolveGeo, stateCodeFrom } from "../geo/resolver";
-import { answerField, applyAnswers, emptySlots } from "../lib/flow";
+import { answerField, applyAnswers, emptySlots, nextApplicable, prevApplicable } from "../lib/flow";
 import { HttpError, clientIp, cookieHeader, parseCookies, parseForm, safeNext } from "../lib/http";
 import { feedbackSchema, systemRequestSchema } from "../lib/schemas";
 import { verifyTurnstile } from "../lib/security";
@@ -119,11 +119,14 @@ pages.post("/flow/:dispute/:step", async (c) => {
   const { dispute, step } = flowParams(c);
   const form = parseForm(c);
   const answers = answersFrom(form, dispute);
+  // Steps are 1-based in URLs; helpers are 0-based. Questions whose condition is not met are skipped both ways.
   if (form._nav === "back" && step > 1) {
-    return renderHtml(c, <FlowStepPage lang={lang} dispute={dispute} step={step - 1} answers={answers} />);
+    const prev = prevApplicable(dispute, step - 1, answers) + 1;
+    return renderHtml(c, <FlowStepPage lang={lang} dispute={dispute} step={prev} answers={answers} />);
   }
-  if (step < dispute.questions.length) {
-    return renderHtml(c, <FlowStepPage lang={lang} dispute={dispute} step={step + 1} answers={answers} />);
+  const next = nextApplicable(dispute, step - 1, answers);
+  if (next >= 0) {
+    return renderHtml(c, <FlowStepPage lang={lang} dispute={dispute} step={next + 1} answers={answers} />);
   }
   const loc = locCookie(c);
   const base: IntakeSlots = { ...emptySlots(dispute.id), summary: dispute.title_en, ...loc };
