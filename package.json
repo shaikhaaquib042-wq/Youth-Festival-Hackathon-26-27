@@ -2,8 +2,13 @@
   "name": "raasta",
   "private": true,
   "type": "module",
-  "workspaces": ["apps/*", "packages/*"],
-  "engines": { "node": ">=20" },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "npm run dev -w @raasta/web",
     "dev:api": "npm run dev -w @raasta/api",
@@ -17,5 +22,8 @@
     "vitest": "^3.2.0",
     "zod": "^3.24.0",
     "@types/node": "^22.10.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
   }
 }
