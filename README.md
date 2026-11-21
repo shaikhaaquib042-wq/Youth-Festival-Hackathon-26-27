@@ -8,7 +8,11 @@
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v3.4-38B2AC.svg)](https://tailwindcss.com/)
 [![Vitest](https://img.shields.io/badge/Vitest-34%20Passed-green.svg)](https://vitest.dev/)
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
-![Main running dashboard ](downloads/main dasboard.jpg)
+<img width="1600" height="847" alt="main dashboard" src="https://github.com/user-attachments/assets/0c4ef0ed-58f8-43f3-9245-ca2df69971bc" />
+<img width="1600" height="856" alt="WhatsApp Image 2026-11-22 at 00 05 00" src="https://github.com/user-attachments/assets/746e1da2-9b99-4c83-a3b0-24dc6afc1420" />
+<img width="1600" height="847" alt="WhatsApp Image 2026-11-22 at 00 05 00 (4)" src="https://github.com/user-attachments/assets/ca1d9454-9057-4093-befb-0805e96215d2" />
+<img width="1600" height="851" alt="WhatsApp Image 2026-11-22 at 00 05 00 (5)" src="https://github.com/user-attachments/assets/f56acbab-89c6-4c00-b3b4-a5f37126504e" />
+
 ---
 
 ## 1. Executive Summary & Core Thesis
