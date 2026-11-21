@@ -4,6 +4,7 @@ import { LANGS, t, tIn, onLang } from '../i18n/index.js';
 import { CONFIG } from '../../config.js';
 import { planRoute } from '../engine/route.js';
 import { getPins, subscribe, now, gazetteer } from '../store.js';
+import { getGrid, onGrid } from '../feeds/openmeteo.js';
 import { getFix, requestLocation } from '../location.js';
 import { SEV_COLOR } from '../map/pins.js';
 import { toast } from './report.js';
@@ -22,6 +23,7 @@ const storeSaved = (list) => { try { localStorage.setItem(SAVED_KEY, JSON.string
 
 const isMyLocation = (value) => Object.keys(LANGS).some((lang) => value === tIn(lang, 'route.myLoc'));
 const fieldLabel = (value) => isMyLocation(value) ? t('route.myLoc') : value;
+const hasSimulatedWeather = () => !!getGrid()[0]?.simulated;
 
 /** Resolve a field value → {lat,lng,label}: "My location", a gazetteer name, or "lat,lng". */
 async function resolve(val) {
@@ -71,7 +73,8 @@ function reasonText(hit) {
 
 function shareText(r) {
   const head = r.verdict === 'avoid' ? (r.noSafe ? t('route.noSafe') : t('verdict.avoid')) : t('verdict.' + r.verdict);
-  return `${t('app.name')} · ${active.from.label} → ${active.to.label}: ${head}. ${reasonText(r.decidingHit)}\n${t('disclaimer')}\n${location.origin}`;
+  const sim = hasSimulatedWeather() ? ` · ${t('tag.simulated')}` : '';
+  return `${t('app.name')}${sim} · ${fieldLabel(active.from.label)} → ${fieldLabel(active.to.label)}: ${head}. ${reasonText(r.decidingHit)}\n${t('disclaimer')}\n${location.origin}`;
 }
 
 function render() {
@@ -85,7 +88,7 @@ function render() {
     const head = r.verdict === 'avoid' ? `⛔ ${t('verdict.avoid')}` : r.verdict === 'caution' ? `⚠️ ${t('verdict.caution')}` : `✅ ${t('verdict.safe')}`;
     const km = (x) => (x.route.distanceM / 1000).toFixed(1), min = (x) => Math.round(x.route.durationS / 60);
     res = `<div class="route-verdict" style="border-color:${color}">
-      <div class="rv-head" style="color:${color}">${esc(head)}</div>
+      <div class="rv-head" style="color:${color}">${esc(head)}${hasSimulatedWeather() ? ` <span class="tag-sim">${esc(t('tag.simulated'))}</span>` : ''}</div>
       ${r.verdict === 'avoid' ? `<div>${esc(t('red.doNotEnter'))}</div>` : ''}
       ${r.decidingHit ? `<div class="rv-reason">${esc(reasonText(r.decidingHit))}</div>` : `<div class="rv-reason">${esc(t('route.clear'))}</div>`}
       ${r.verdict === 'avoid' ? `<div class="rv-alt">${esc(r.noSafe ? t('route.noSafe') : t('route.altShown', { km: km(r.chosen), min: min(r.chosen) }))}</div>` : `<div class="muted">${km(r.primary)} km · ${min(r.primary)} min</div>`}
@@ -262,6 +265,12 @@ export function initRoute(m) {
   onLang(() => { btn.innerHTML = `<span class="ico">🛣</span><span>${esc(t('bar.route'))}</span>`; render(); });
   // Live: when reports change (new report, confirmation, expiry, scenario tick) re-plan the active route.
   subscribe(recheck);
+  let simulated = hasSimulatedWeather();
+  onGrid(() => {
+    const next = hasSimulatedWeather();
+    if (next !== simulated && !editing) render();
+    simulated = next;
+  });
   window.addEventListener('sajag:mode', (e) => setRouteMode(e.detail.mode));
   try { mode = localStorage.getItem('sajag.userMode') || 'commuter'; } catch { /* ignore */ }
   window.addEventListener('sajag:hazard', (e) => { btn.hidden = e.detail.hazard !== 'flood'; if (btn.hidden) toggle(false); });

@@ -135,12 +135,16 @@ function render() {
     now: currentTime,
   });
   const advText = adviceList.map((a) => t(a.key, a.vars)).join(' · ');
+  const simBadge = `<span class="tag-sim">${esc(t('tag.simulated'))}</span>`;
+  const floodSimulated = !!(cell?.simulated || floodStatus.decidingPin?.simulated);
+  const heatSimulated = !!cell?.simulated;
 
   container.innerHTML = '';
 
   // 1. Red Breakthrough Banner (if hidden side is RED)
   const hiddenHazard = activeHazard === 'flood' ? 'heat' : 'flood';
   const hiddenStatus = activeHazard === 'flood' ? heatStatus : floodStatus;
+  const hiddenSimulated = activeHazard === 'flood' ? heatSimulated : floodSimulated;
 
   if (hiddenStatus.level === 'red') {
     const banner = document.createElement('div');
@@ -148,7 +152,7 @@ function render() {
     const hiddenTitle = t(hiddenHazard === 'heat' ? 'hazard.heat' : 'hazard.flood');
     const hiddenAction = t(hiddenStatus.actionKey, hiddenStatus.actionVars);
     banner.innerHTML = `
-      <span>⚠️ <b>${esc(hiddenTitle)} RED:</b> ${esc(hiddenAction)}</span>
+      <span>⚠️ <b>${esc(hiddenTitle)} · ${esc(t('chip.danger'))}</b> ${esc(hiddenAction)} ${hiddenSimulated ? simBadge : ''}</span>
       <button type="button" class="btn-switch">${esc(t('card.tapToSwitch'))} ❯</button>
     `;
     banner.onclick = () => switchHazard(hiddenHazard);
@@ -321,6 +325,10 @@ function render() {
     moreContent.appendChild(advEl);
   }
 
+  if (activeHazard === 'flood' ? floodSimulated : heatSimulated) {
+    textGroup.insertAdjacentHTML('beforeend', simBadge);
+  }
+
   // Auto-expand when this side's level gets worse than what the user last saw.
   const prev = lastLevel[activeHazard];
   lastLevel[activeHazard] = activeLevel;
@@ -373,6 +381,7 @@ function render() {
   miniChip.innerHTML = `
     <span class="mini-dot dot-${hiddenStatus.level}"></span>
     <span>${inactiveIcon} <b>${esc(inactiveName)}:</b> ${esc(chipStatusWord)}</span>
+    ${hiddenSimulated ? simBadge : ''}
     <span style="opacity: 0.6; font-size: 10px;">❯</span>
   `;
   miniChip.onclick = () => switchHazard(hiddenHazard);
