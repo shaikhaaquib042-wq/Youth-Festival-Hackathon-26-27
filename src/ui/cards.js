@@ -400,7 +400,8 @@ function render() {
     <span style="opacity: 0.6; font-size: 10px;">❯</span>
   `;
   miniChip.onclick = () => switchHazard(hiddenHazard);
-  container.appendChild(miniChip);
+  // During a replay the other hazard's chip is just background weather — hide it so the demo stays on one hazard.
+  if (!hiddenSimulated) container.appendChild(miniChip);
 }
 
 /**

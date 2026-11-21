@@ -130,6 +130,26 @@ a.btn.btn-danger { color: #fff; }
 /* Scenario bar open → push the status cards and alert banner below it */
 body:has(#scenario-bar:not([hidden])) #status-cards-root { top: 174px; }
 body:has(#scenario-bar:not([hidden])) #alert-banner:not([hidden]) ~ #status-cards-root { top: 226px; }
+#scenario-bar.started .sb-sub { display: none; }
+/* Minimised replay bar (▴): one slim row — play, slider, clock, ▾ — so the map stays visible during the demo */
+.sb-title { flex-wrap: nowrap; }
+.sb-min, .sb-expand { min-width: 40px; min-height: 40px; padding: 4px 10px; font-size: 18px; }
+#scenario-bar .sb-expand { display: none; }
+#scenario-bar.mini { padding: 4px 8px; gap: 0; }
+#scenario-bar.mini .sb-title, #scenario-bar.mini .sb-sub, #scenario-bar.mini [data-act=reset], #scenario-bar.mini [data-f=speed], #scenario-bar.mini .sb-live { display: none; }
+#scenario-bar.mini .sb-expand { display: inline-flex; align-items: center; justify-content: center; }
+#scenario-bar.mini .sb-controls { flex-wrap: nowrap; gap: 6px; }
+#scenario-bar.mini .sb-controls input[type=range] { min-width: 60px; }
+/* Phone: scenario bar, alert banner and status cards stack below the top bar — never over it (measured bar height --sb-h) */
+@media (max-width: 759px) {
+  #alert-banner { top: calc(var(--topbar-h, 70px) + 8px); }
+  #scenario-bar { top: calc(var(--topbar-h, 70px) + 8px); }
+  body:has(#scenario-bar:not([hidden])) #alert-banner { top: calc(var(--topbar-h, 70px) + 16px + var(--sb-h, 150px)); }
+  body:has(#scenario-bar:not([hidden])) #status-cards-root { top: calc(var(--topbar-h, 70px) + 16px + var(--sb-h, 150px)); }
+  body:has(#scenario-bar:not([hidden])) #alert-banner:not([hidden]) ~ #status-cards-root { top: calc(var(--topbar-h, 70px) + 84px + var(--sb-h, 150px)); }
+  body #alert-banner:not([hidden]) ~ #status-cards-root { top: calc(var(--topbar-h, 70px) + 72px); }
+  body:has(#scenario-bar:not([hidden])) #alert-banner:not([hidden]) ~ #status-cards-root { top: calc(var(--topbar-h, 70px) + 84px + var(--sb-h, 150px)); }
+}
 
 /* ══ UX PASS: one answer, three big buttons, voice first ═══════════════════ */
 html { font-size: 18px; }

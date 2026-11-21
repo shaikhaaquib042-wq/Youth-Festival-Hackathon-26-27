@@ -55,8 +55,9 @@ async function start() {
     };
     capture.start();
     rec = capture;
-  } catch {
+  } catch (err) {
     stream?.getTracks().forEach((tr) => tr.stop());
+    if (err?.name === 'NotAllowedError' || err?.name === 'SecurityError') return toast(t('voice.micBlocked'), 7000);
     return toast(t('voice.noMic'));
   } finally {
     btn.disabled = false;

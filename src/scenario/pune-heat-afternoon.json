@@ -8,7 +8,7 @@
   "durationMin": 360,
   "speed": 120,
   "events": [
-    { "t": 0,   "kind": "alert", "source": "IMD Mumbai", "category": "Met",
+    { "t": 0,   "kind": "alert", "source": "IMD Pune", "category": "Met",
       "title": "पुणे जिल्ह्यात उष्णतेची लाट येण्याची शक्यता. दुपारी १२ ते ४ उन्हात जाणे टाळा. / Heat wave conditions likely over Pune district; avoid going out 12–4 pm." },
     { "t": 0,   "kind": "heat", "t2m": 36.0, "tw": 20.0, "sr": 850 },
     { "t": 60,  "kind": "heat", "t2m": 38.5, "tw": 22.0, "sr": 900 },

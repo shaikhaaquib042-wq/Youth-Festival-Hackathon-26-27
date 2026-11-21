@@ -9,7 +9,7 @@
   "speed": 60,
   "events": [
     { "t": 0,   "kind": "rain", "cells": { "south": 6,  "central": 2,  "north": 0 } },
-    { "t": 10,  "kind": "alert", "source": "IMD Mumbai", "category": "Met",
+    { "t": 10,  "kind": "alert", "source": "IMD Pune", "category": "Met",
       "title": "पुढील ३ तासांत पुणे जिल्ह्यात मुसळधार ते अतिमुसळधार पावसाची शक्यता. नागरिकांनी सतर्क रहावे. / Heavy to very heavy rainfall likely over Pune district in the next 3 hours." },
     { "t": 20,  "kind": "rain", "cells": { "south": 45, "central": 18, "north": 4 } },
     { "t": 25,  "kind": "post", "source": "Pune City Traffic Police (sample post)",

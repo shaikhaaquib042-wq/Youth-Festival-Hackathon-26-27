@@ -109,6 +109,8 @@ function updateLive() {
   const clock = bar.querySelector('.sb-clock'); if (clock) clock.textContent = `${hhmm(offset)} · T+${Math.floor(offset)}′`;
   const sl = bar.querySelector('[data-f=scrub]'); if (sl && !dragging) sl.value = String(Math.floor(offset));
   const pb = bar.querySelector('[data-act=play]'); if (pb) pb.textContent = playing ? '⏸' : '▶';
+  bar.classList.toggle('started', playing || offset >= 1); // intro text hides once the replay is in use
+  document.documentElement.style.setProperty('--sb-h', `${bar.offsetHeight}px`); // cards/banner sit below the bar (mobile)
 }
 
 function tick() {
@@ -155,14 +157,15 @@ function renderBar() {
       <p class="muted">${esc(t('scenario.note'))}</p>`;
     return;
   }
-  bar.innerHTML = `<div class="sb-row"><span class="tag-sim">${esc(t('tag.simulated'))}</span> <b>${esc(sc.title)}</b></div>
+  bar.innerHTML = `<div class="sb-row sb-title"><span><span class="tag-sim">${esc(t('tag.simulated'))}</span> <b>${esc(sc.title)}</b></span><button class="btn btn-ghost sb-min" data-act="min" aria-label="${esc(t('scenario.minimize'))}" title="${esc(t('scenario.minimize'))}">▴</button></div>
     <div class="sb-row sb-controls">
       <button class="btn" data-act="play">${playing ? '⏸' : '▶'}</button>
       <button class="btn" data-act="reset">⟲</button>
       <select data-f="speed" aria-label="${esc(t('scenario.speed'))}">${[30, 60, 120, 300].map((v) => `<option value="${v}" ${v === speed ? 'selected' : ''}>${v}×</option>`).join('')}</select>
       <input type="range" min="0" max="${sc.durationMin}" step="1" value="${Math.floor(offset)}" data-f="scrub" aria-label="time">
       <span class="sb-clock">${esc(hhmm(offset))} · T+${Math.floor(offset)}′</span>
-      <button class="btn btn-ghost" data-act="live">${esc(t('scenario.back'))}</button>
+      <button class="btn btn-ghost sb-live" data-act="live">${esc(t('scenario.back'))}</button>
+      <button class="btn btn-ghost sb-expand" data-act="min" aria-label="${esc(t('scenario.expand'))}" title="${esc(t('scenario.expand'))}">▾</button>
     </div>
     <p class="muted sb-sub">${esc(sc.subtitle)}</p>`;
 }
@@ -179,6 +182,7 @@ export function initScenario() {
     if (b.dataset.load) return loadScenario(b.dataset.load);
     const act = b.dataset.act;
     if (act === 'close') { bar.hidden = true; return; }
+    if (act === 'min') { bar.classList.toggle('mini'); updateLive(); return; }
     if (act === 'play') { if (offset >= sc.durationMin) offset = 0; playing = !playing; lastReal = performance.now(); updateLive(); }
     if (act === 'reset') { offset = 0; playing = false; tick(); }
     if (act === 'live') exitScenario();
