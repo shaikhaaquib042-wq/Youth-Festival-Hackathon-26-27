@@ -1,6 +1,6 @@
 // First-run setup: 3 taps — language → who are you → location. Big buttons, pictures, own-script language names.
 // Shown once (sajag.onboarded). ?setup=1 shows it again, ?setup=0 skips it. Skipped for ?scenario= links (judge demo).
-import { t, setLang, LANGS, pickerLangs, getLang } from '../i18n/index.js';
+import { t, setLang, LANGS, pickerLangs } from '../i18n/index.js';
 import { speak } from '../i18n/speak.js';
 import { cityPack, CITY_PACKS } from '../../config.js';
 import { distM } from '../engine/geo.js';
@@ -28,21 +28,22 @@ async function detectLanguage() {
     if (p?.state !== 'granted') return;
     const fix = getFix() ?? await requestLocation({ timeoutMs: 6000 });
     const city = cityForFix(fix);
-    if (city?.languages?.default) { rec = { lang: city.languages.default, city }; if (step === 0 && el?.isConnected) render(); }
+    if (city?.languages?.default) { rec = { lang: city.languages.default, city }; updateRecommendation(); }
   } catch { /* permissions API unavailable */ }
 }
 
-/** Language order on the first screen: recommended first, then that city's languages, then the rest. */
-function langOrder() {
-  const base = rec ? [rec.lang, ...(rec.city.languages.ui ?? []), ...pickerLangs(cityPack())] : pickerLangs(cityPack());
-  return [...new Set([...base, ...Object.keys(LANGS)])];
+function updateRecommendation() {
+  const label = el?.querySelector('.rec-tag');
+  if (label && rec) label.textContent = `📍 ${LANGS[rec.lang].name} · ${t('onb.recommended', { city: rec.city.name })}`;
 }
 
 function render() {
   if (step === 0) {
     el.innerHTML = `<div class="onb"><div class="onb-logo">सजग · Sajag</div>
       <h1>${esc(t('onb.pickLang'))}</h1>
-      <div class="onb-grid">${langOrder().map((l) => `<button class="tile ${rec?.lang === l ? 'rec' : ''}" data-lang="${l}"><span class="big">${esc(LANGS[l].name)}</span>${rec?.lang === l ? `<span class="rec-tag">📍 ${esc(t('onb.recommended', { city: rec.city.name }))}</span>` : ''}</button>`).join('')}</div></div>`;
+      <div class="onb-grid">${pickerLangs(cityPack()).map((l) => `<button class="tile" data-lang="${l}"><span class="big">${esc(LANGS[l].name)}</span></button>`).join('')}</div>
+      <span class="rec-tag" aria-live="polite"></span></div>`;
+    updateRecommendation();
   } else if (step === 1) {
     el.innerHTML = `<div class="onb"><h1>${esc(t('more.who'))}</h1>
       <div class="onb-grid">${WHO.map((w) => `<button class="tile ${currentWho() === w.id ? 'on' : ''}" data-who="${w.id}"><span class="ico">${w.icon}</span><span>${esc(t(w.key))}</span></button>`).join('')}</div>
@@ -54,9 +55,10 @@ function render() {
   }
 }
 
-function finish() {
+function finish(overlay) {
+  if (!overlay.isConnected) return;
   try { localStorage.setItem('sajag.onboarded', '1'); } catch { /* ignore */ }
-  el.remove();
+  overlay.remove();
   speak('onb.ready');
 }
 
@@ -69,13 +71,14 @@ export function startOnboarding({ force = false } = {}) {
   el = document.createElement('div');
   el.id = 'onboarding';
   document.body.append(el);
-  el.addEventListener('click', async (e) => {
+  const overlay = el;
+  overlay.addEventListener('click', async (e) => {
     const b = e.target.closest('button'); if (!b) return;
     if (b.dataset.lang) { setLang(b.dataset.lang); step = 1; return render(); }
     if (b.dataset.who) { applyWho(b.dataset.who, { switchHazard: true }); step = 2; return render(); }
     if (b.dataset.act === 'back') { step = Math.max(0, step - 1); return render(); }
-    if (b.dataset.act === 'allow') { await requestLocation({ timeoutMs: 10000 }); return finish(); }
-    if (b.dataset.act === 'skip') return finish();
+    if (b.dataset.act === 'allow') { b.disabled = true; await requestLocation({ timeoutMs: 10000 }); return finish(overlay); }
+    if (b.dataset.act === 'skip') return finish(overlay);
   });
   render();
   detectLanguage();
