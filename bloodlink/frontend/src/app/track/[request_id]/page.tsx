@@ -51,8 +51,7 @@ export default function TrackRequestIdPage() {
   if (loading) {
     return (
       <div className="py-24 text-center space-y-2">
-        <div className="text-3xl animate-bounce">📡</div>
-        <p className="text-xs text-[var(--mu)] font-medium">Connecting to live matching board...</p>
+        <p className="text-xs text-[var(--mu)] font-medium">Loading requisition live tracking board...</p>
       </div>
     );
   }
@@ -70,53 +69,51 @@ export default function TrackRequestIdPage() {
   return (
     <div className="space-y-6 pb-12">
       <AppHeader
-        title={`Live Tracking: ${data?.hospital_name || "Requisition"}`}
-        subtitle={`ID: ${requestId} • 15s edge poll`}
+        title={`Live Status Board: ${data?.hospital_name || "Requisition"}`}
+        subtitle={`Request ID: ${requestId} • 15s HTTP polling`}
         bloodGroup={data?.blood_group}
-        badge="📡 Live Sync"
-        badgeType="ok"
-        backHref="/"
-        backLabel="Home"
+        badge={
+          isPending
+            ? "Pending Hospital Sign-Off"
+            : isActive
+            ? "Verified Active"
+            : isFulfilled
+            ? "Fulfilled"
+            : "Expired"
+        }
+        badgeType={isActive || isFulfilled ? "ok" : "default"}
       />
 
-      {/* 2-Column Desktop Layout */}
+      {/* 2-Column Desktop Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column (7 cols): Coordination State & Waves */}
+        {/* Left Column (7 cols): Status & Waves */}
         <div className="lg:col-span-7 space-y-5">
-          {/* Status Banner */}
-          <div className="card space-y-2 p-5 sm:p-6 bg-[var(--sf)] border-l-4 border-l-[#C62828]">
+          {/* Verification Badge */}
+          <div className="card space-y-2 p-5 bg-[var(--sf)] border-l-4 border-l-[#C62828]">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-bold text-[var(--mu)] uppercase tracking-wider">
-                Requisition State
+                Verification Status
               </span>
               <UrgencyBadge urgency={data?.urgency || "CRITICAL"} />
             </div>
 
-            <div className="flex items-center justify-between pt-1">
-              <span className="font-mono font-bold text-base sm:text-lg text-[var(--ink)]">
-                {isPending && "⏳ Awaiting Duty Doctor Sign-Off"}
-                {isActive && `🟢 Wave ${data?.current_wave || 1} Active • Donors Alerted`}
-                {isFulfilled && "✓ Requisition Fulfilled"}
-                {isExpired && "⏰ 12-Hour Window Expired"}
-              </span>
+            <div className="font-mono font-bold text-base text-[var(--ink)]">
+              {isPending && "Pending Hospital Sign-Off"}
+              {isActive && "Verified Active"}
+              {isFulfilled && "Fulfilled"}
+              {isExpired && "Expired"}
             </div>
-
-            {isPending && (
-              <p className="text-xs text-[var(--mu)] pt-1 leading-relaxed">
-                Hospital requisition slip is awaiting review by the duty doctor. Once verified, PostGIS will instantly dispatch Wave 1 to 10–15 nearest eligible donors.
-              </p>
-            )}
           </div>
 
-          {/* Active Waves Breakdown */}
+          {/* Active Wave Counter (PRD Section 3) */}
           {isActive && (
-            <div className="card space-y-4 p-5 sm:p-6 bg-[var(--sf)]">
+            <div className="card space-y-4 p-5 bg-[var(--sf)]">
               <div className="flex items-center justify-between border-b border-[var(--ln)] pb-3">
                 <h2 className="text-xs font-bold text-[var(--ink)] uppercase tracking-wider">
-                  Wave Matching Status
+                  Active Wave Counter
                 </h2>
                 <span className="text-xs text-[var(--mu)] font-mono">
-                  Radius: ~{data?.current_radius_meters / 1000 || 3} km
+                  Current Wave: {data?.current_wave || 1}
                 </span>
               </div>
 
@@ -128,12 +125,11 @@ export default function TrackRequestIdPage() {
                     return (
                       <div
                         key={k}
-                        className="p-3.5 bg-[var(--bg)] rounded-2xl border border-[var(--ln)] flex items-center justify-between text-xs"
+                        className="p-3 bg-[var(--bg)] rounded-xl border border-[var(--ln)] flex items-center justify-between text-xs"
                       >
                         <div>
-                          <div className="font-bold text-[var(--ink)]">Wave {waveNum} (Capped Notification Wave)</div>
-                          <div className="text-[var(--mu)] mt-0.5">
-                            <strong>{w.total}</strong> donors pinged within {w.radius_km || 3} km
+                          <div className="font-bold text-[var(--ink)]">
+                            Wave {waveNum}: {w.total} donors alerted within {w.radius_km || 3} km
                           </div>
                         </div>
                         <span className="tg ok font-semibold">
@@ -145,16 +141,15 @@ export default function TrackRequestIdPage() {
                 </div>
               ) : (
                 <div className="text-xs text-[var(--mu)] bg-[var(--bg)] p-4 rounded-xl text-center">
-                  Calculating nearest donor coordinates...
+                  Wave 1: Alerting nearby donors within 3 km.
                 </div>
               )}
 
-              {/* In-Transit Donors with Ticking Countdowns */}
+              {/* Accepted Donor Count & Arrival Countdown (PRD Section 3) */}
               {activeArrivals.length > 0 && (
                 <div className="space-y-2.5 pt-3 border-t border-[var(--ln)]">
-                  <div className="text-xs font-bold text-[var(--ok)] flex items-center gap-1.5">
-                    <span>⏱️</span>
-                    <span>Donors Currently En Route ({activeArrivals.length}):</span>
+                  <div className="text-xs font-bold text-[var(--ok)]">
+                    Accepted Donor Count &amp; Arrival Countdown ({activeArrivals.length}):
                   </div>
                   {activeArrivals.map((arr: any, i: number) => (
                     <div
@@ -162,10 +157,10 @@ export default function TrackRequestIdPage() {
                       className="p-3 bg-[var(--okt)]/30 border border-[var(--ln)] rounded-xl flex items-center justify-between text-xs"
                     >
                       <div>
-                        <div className="font-semibold text-[var(--ink)]">Donor #{i + 1} Committed</div>
-                        <div className="text-[var(--mu)] font-mono">{arr.distance_km} km from hospital</div>
+                        <div className="font-semibold text-[var(--ink)]">Accepted Donor #{i + 1}</div>
+                        <div className="text-[var(--mu)] font-mono">{arr.distance_km} km away</div>
                       </div>
-                      <CountdownTimer deadline={arr.arrival_deadline} label="45-Min Arrival Window" size="md" />
+                      <CountdownTimer deadline={arr.arrival_deadline} label="Arrival Countdown" size="md" />
                     </div>
                   ))}
                 </div>
@@ -173,16 +168,13 @@ export default function TrackRequestIdPage() {
             </div>
           )}
 
-          {/* Parallel e-RaktKosh Lookup Prompt (PRD Section 5.1) */}
+          {/* e-RaktKosh Parallel Stock-Check Link (PRD Section 3) */}
           <div className="card bg-[var(--tint)] border-[var(--ln)] space-y-2.5 p-5">
-            <div className="flex items-center gap-2">
-              <span className="text-lg" aria-hidden="true">🏛️</span>
-              <h3 className="text-xs font-bold text-[var(--rt)] uppercase tracking-wider">
-                e-RaktKosh Parallel Inventory Lookup
-              </h3>
-            </div>
+            <h3 className="text-xs font-bold text-[var(--rt)] uppercase tracking-wider">
+              e-RaktKosh Parallel Stock-Check Link
+            </h3>
             <p className="text-xs text-[var(--mu)] leading-relaxed">
-              For emergency cases or rare blood groups, check live government and private blood bank stock levels across Pune simultaneously:
+              Check live inventory across Pune blood centres in parallel during critical needs:
             </p>
             <a
               href={data?.eraktkosh_url || "https://www.eraktkosh.in"}
@@ -190,44 +182,17 @@ export default function TrackRequestIdPage() {
               rel="noreferrer"
               className="btn2 w-full min-h-[44px] text-xs font-semibold text-center flex items-center justify-center bg-[var(--sf)] hover:bg-[var(--bg)]"
             >
-              Search Pune Blood Banks on e-RaktKosh ↗
+              Check Live Inventory on e-RaktKosh
             </a>
           </div>
         </div>
 
-        {/* Right Column (5 cols): Hospital Details & Progress Sidebar */}
-        <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
-          {/* Requisition Units Progress */}
-          <div className="card space-y-4 p-5 sm:p-6 bg-[var(--sf)]">
-            <div className="flex items-center justify-between border-b border-[var(--ln)] pb-3">
-              <span className="text-[11px] font-bold text-[var(--mu)] uppercase tracking-wider">
-                Fulfillment Progress
-              </span>
-              <span className="font-mono font-bold text-sm text-[var(--ok)]">
-                {data?.units_accepted} of {data?.units_needed} Units
-              </span>
-            </div>
-
-            <div className="bar" role="progressbar" aria-valuenow={percentComplete} aria-valuemin={0} aria-valuemax={100}>
-              <i style={{ width: `${percentComplete}%` }} />
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 text-center text-xs">
-              <div className="bg-[var(--bg)] p-2.5 rounded-xl border border-[var(--ln)]">
-                <span className="text-[10px] text-[var(--mu)] uppercase block">Blood Group</span>
-                <span className="font-mono font-extrabold text-xl text-[var(--rt)]">{data?.blood_group}</span>
-              </div>
-              <div className="bg-[var(--bg)] p-2.5 rounded-xl border border-[var(--ln)]">
-                <span className="text-[10px] text-[var(--mu)] uppercase block">Component</span>
-                <span className="font-bold text-xs text-[var(--ink)] block mt-1 truncate">{data?.component}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Hospital Blood Bank Desk */}
-          <div className="card space-y-3 p-5 sm:p-6 bg-[var(--sf)]">
+        {/* Right Column (5 cols): Hospital blood bank desk contact & Summary */}
+        <div className="lg:col-span-5 space-y-5 lg:sticky lg:top-24">
+          {/* Hospital Blood Bank Desk Contact (PRD Section 3) */}
+          <div className="card space-y-3 p-5 bg-[var(--sf)]">
             <h3 className="text-xs font-bold text-[var(--ink)] uppercase tracking-wider">
-              Receiving Hospital
+              Hospital Blood Bank Desk Contact
             </h3>
             <div>
               <h4 className="font-bold text-sm text-[var(--ink)]">{data?.hospital_name}</h4>
@@ -239,33 +204,54 @@ export default function TrackRequestIdPage() {
             {data?.bloodbank_phone && (
               <a
                 href={`tel:${data.bloodbank_phone}`}
-                className="btn2 w-full min-h-[42px] text-xs font-semibold flex items-center justify-center gap-1.5 text-[var(--ok)] hover:bg-[var(--bg)]"
+                className="btn2 w-full min-h-[44px] text-xs font-semibold flex items-center justify-center text-[var(--ok)] hover:bg-[var(--bg)]"
               >
-                <span>📞</span> Call Blood Bank Desk ({data.bloodbank_phone})
+                Call Desk: {data.bloodbank_phone}
               </a>
             )}
           </div>
 
-          {/* Share Tracking Link */}
-          <div className="card space-y-2.5 p-5 bg-[var(--sf)]">
-            <div className="text-xs font-bold text-[var(--ink)] uppercase tracking-wider">
-              Share Tracking Link
+          {/* Units Progress */}
+          <div className="card space-y-3 p-5 bg-[var(--sf)]">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-bold text-[var(--ink)] uppercase tracking-wider">Units Fulfillment</span>
+              <span className="font-mono font-bold text-[var(--ok)]">
+                {data?.units_accepted} of {data?.units_needed} Units Accepted
+              </span>
             </div>
-            <p className="text-[11px] text-[var(--mu)]">
-              Send this live link to patient family or hospital coordinators:
-            </p>
+
+            <div className="bar" role="progressbar" aria-valuenow={percentComplete} aria-valuemin={0} aria-valuemax={100}>
+              <i style={{ width: `${percentComplete}%` }} />
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 text-center text-xs pt-1">
+              <div className="bg-[var(--bg)] p-2 rounded-lg border border-[var(--ln)]">
+                <span className="text-[10px] text-[var(--mu)] uppercase block">Blood Group</span>
+                <span className="font-mono font-extrabold text-lg text-[var(--rt)]">{data?.blood_group}</span>
+              </div>
+              <div className="bg-[var(--bg)] p-2 rounded-lg border border-[var(--ln)]">
+                <span className="text-[10px] text-[var(--mu)] uppercase block">Component</span>
+                <span className="font-bold text-xs text-[var(--ink)] block mt-1 truncate">{data?.component}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Tracking Link Copy */}
+          <div className="card space-y-2 p-4 bg-[var(--sf)]">
+            <span className="text-xs font-bold text-[var(--ink)] uppercase tracking-wider block">
+              Tracking Link
+            </span>
             <button
               type="button"
               onClick={handleCopyLink}
-              className="btn2 w-full min-h-[40px] text-xs font-semibold flex items-center justify-center gap-1.5"
+              className="btn2 w-full min-h-[40px] text-xs font-semibold flex items-center justify-center"
             >
-              <span>📋</span> {copied ? "✓ Copied to Clipboard!" : "Copy Live Tracking Link"}
+              {copied ? "Link Copied" : "Copy Tracking Link"}
             </button>
           </div>
 
-          {/* Refresh Footer */}
-          <div className="text-center text-[11px] text-[var(--mu)] pt-1">
-            Edge-cached • Synced: {lastRefreshed.toLocaleTimeString()}
+          <div className="text-center text-[11px] text-[var(--mu)]">
+            HTTP Polling 15s • Last Synced: {lastRefreshed.toLocaleTimeString()}
           </div>
         </div>
       </div>

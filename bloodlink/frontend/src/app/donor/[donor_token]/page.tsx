@@ -65,7 +65,7 @@ export default function DonorDashboardPage() {
 
   const handleDeleteData = async () => {
     const confirmed = window.confirm(
-      "Under DPDP Act compliance, your phone number, locality, and donor registration will be permanently erased. Proceed?"
+      "Confirm permanent deletion of your voluntary donor profile under DPDP Act rights?"
     );
     if (!confirmed) return;
 
@@ -78,13 +78,12 @@ export default function DonorDashboardPage() {
   if (deleted) {
     return (
       <div className="card space-y-3 text-center py-16 bg-[var(--sf)] max-w-xl mx-auto">
-        <div className="text-4xl" aria-hidden="true">🗑️</div>
-        <h2 className="text-lg font-bold text-[var(--ink)]">Data Permanently Deleted</h2>
+        <h2 className="text-base font-bold text-[var(--ink)]">Data Permanently Deleted</h2>
         <p className="text-xs text-[var(--mu)] leading-relaxed max-w-sm mx-auto">
-          In compliance with the DPDP Act 2023, your personal details, phone number, and history have been wiped from active tables.
+          Under DPDP Act compliance, your registration and records have been deleted from active tables.
         </p>
-        <Link href="/" className="btn2 inline-block text-xs font-semibold px-5 py-2.5 mt-3">
-          Return to Home →
+        <Link href="/request" className="btn2 inline-block text-xs font-semibold px-5 py-2.5 mt-3">
+          Return to Intake Portal
         </Link>
       </div>
     );
@@ -93,7 +92,6 @@ export default function DonorDashboardPage() {
   if (loading) {
     return (
       <div className="py-24 text-center space-y-2">
-        <div className="text-3xl animate-pulse">🩸</div>
         <p className="text-xs text-[var(--mu)] font-medium">Loading private donor portal...</p>
       </div>
     );
@@ -107,90 +105,91 @@ export default function DonorDashboardPage() {
     <div className="space-y-6 pb-12">
       <AppHeader
         title={`Donor Portal: ${profile?.full_name || "Voluntary Donor"}`}
-        subtitle={`Locality: ${profile?.locality || "Pune"} • Capability Link`}
+        subtitle={`Locality: ${profile?.locality || "Pune"} • Capability Token`}
         bloodGroup={profile?.blood_group}
-        badge={profile?.is_available ? "🟢 Available" : "⏸️ Paused"}
+        badge={profile?.is_available ? "Available" : "Paused"}
         badgeType={profile?.is_available ? "ok" : "default"}
-        backHref="/"
-        backLabel="Home"
       />
 
       {error && (
-        <div className="p-4 bg-[var(--tint)] text-[var(--rt)] rounded-2xl text-xs font-medium border border-[var(--ln)]">
-          ⚠️ {error}
+        <div className="p-4 bg-[var(--tint)] text-[var(--rt)] rounded-xl text-xs font-medium border border-[var(--ln)]">
+          {error}
         </div>
       )}
 
-      {/* 2-Column Desktop Grid */}
+      {/* 2-Column Desktop Grid per PRD Section 3 */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column (7 Cols on Desktop): Active Wave Alerts & Commitments */}
+        {/* Left Column: Dual-State View: 1. Active Alert State */}
         <div className="lg:col-span-7 space-y-6">
-          {/* 1. Active Wave Alerts (Pinged) */}
           {pingedAlerts.length > 0 ? (
             <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <span className="text-lg" aria-hidden="true">🚨</span>
-                <h2 className="text-xs font-bold text-[var(--rt)] uppercase tracking-wider">
-                  Emergency Wave Alerts In Your Radius ({pingedAlerts.length})
-                </h2>
-              </div>
+              <h2 className="text-xs font-bold text-[var(--rt)] uppercase tracking-wider">
+                Active Wave Alert ({pingedAlerts.length})
+              </h2>
 
               {pingedAlerts.map((alert: any) => (
                 <div
                   key={alert.wave_id}
-                  className="card border-2 border-[var(--rt)]/40 space-y-4 bg-[var(--sf)] p-6 shadow-xs"
+                  className="card border-2 border-[var(--rt)]/40 space-y-4 bg-[var(--sf)] p-6"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <div className="text-[11px] font-semibold text-[var(--ok)] flex items-center gap-1">
-                        <span>🛡️</span> Verified Hospital Requisition
-                      </div>
-                      <h3 className="font-bold text-base text-[var(--ink)] mt-0.5">{alert.hospital_name}</h3>
-                      {alert.hospital_address && (
-                        <p className="text-xs text-[var(--mu)] mt-0.5">{alert.hospital_address}</p>
+                      {/* Verified Hospital Seal */}
+                      <span className="tg ok text-[10px] uppercase font-bold">
+                        Verified Hospital Seal
+                      </span>
+                      {/* Hospital Name */}
+                      <h3 className="font-bold text-base text-[var(--ink)] mt-1">{alert.hospital_name}</h3>
+                      {/* Google Maps link */}
+                      {alert.google_maps_url && (
+                        <a
+                          href={alert.google_maps_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-xs font-semibold text-[var(--ok)] hover:underline inline-block mt-0.5"
+                        >
+                          Google Maps Link
+                        </a>
                       )}
                     </div>
-                    <span className="font-mono font-bold text-xs bg-[var(--tint)] text-[var(--rt)] px-3 py-1.5 rounded-xl flex-none">
+                    {/* Exact distance */}
+                    <span className="font-mono font-bold text-xs bg-[var(--tint)] text-[var(--rt)] px-3 py-1.5 rounded-lg flex-none">
                       {alert.distance_km} km away
                     </span>
                   </div>
 
+                  {/* Blood Group & Component needed */}
                   <div className="grid grid-cols-2 gap-3 text-xs">
-                    <div className="bg-[var(--bg)] p-3 rounded-xl border border-[var(--ln)]">
-                      <span className="text-[10px] text-[var(--mu)] uppercase font-semibold block">Component</span>
+                    <div className="bg-[var(--bg)] p-3 rounded-lg border border-[var(--ln)]">
+                      <span className="text-[10px] text-[var(--mu)] uppercase font-semibold block">Blood Group &amp; Component</span>
                       <strong className="font-mono text-[var(--ink)] text-sm">{alert.blood_group} {alert.component}</strong>
                     </div>
-                    <div className="bg-[var(--bg)] p-3 rounded-xl border border-[var(--ln)] flex flex-col justify-between">
+                    {/* Calm factual urgency tag */}
+                    <div className="bg-[var(--bg)] p-3 rounded-lg border border-[var(--ln)] flex flex-col justify-between">
                       <span className="text-[10px] text-[var(--mu)] uppercase font-semibold block">Urgency</span>
                       <UrgencyBadge urgency={alert.urgency} />
                     </div>
                   </div>
 
-                  {/* Self-Check Before You Travel */}
-                  <div className="bg-[var(--bg)] p-3.5 rounded-2xl space-y-2 text-xs text-[var(--ink)] border border-[var(--ln)]">
+                  {/* Self-Check Before You Travel checklist (PRD Section 3) */}
+                  <div className="bg-[var(--bg)] p-3.5 rounded-xl space-y-1.5 text-xs text-[var(--ink)] border border-[var(--ln)]">
                     <div className="font-semibold text-[var(--mu)] uppercase text-[10px] tracking-wider">
-                      Self-Check Before Committing:
+                      Self-Check Before You Travel:
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px]">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[var(--ok)] font-bold">✓</span> Eaten in last 4 hrs
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[var(--ok)] font-bold">✓</span> Feeling healthy
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[var(--ok)] font-bold">✓</span> 90d/120d gap clear
-                      </div>
+                    <div className="text-[11px] space-y-1">
+                      <div>• Eaten in last 4 hrs</div>
+                      <div>• Feeling well</div>
+                      <div>• 90/120+ days gap</div>
                     </div>
                   </div>
 
-                  {/* Actions */}
+                  {/* One-tap Accept & Commit or Snooze / Pass buttons */}
                   <div className="grid grid-cols-2 gap-3 pt-1">
                     <button
                       type="button"
                       disabled={isProcessing}
                       onClick={() => handleRespond(alert.wave_id, "snooze")}
-                      className="btn2 w-full min-h-[48px] text-xs font-semibold active:scale-[0.98]"
+                      className="btn2 w-full min-h-[48px] text-xs font-semibold"
                     >
                       Snooze / Pass
                     </button>
@@ -198,52 +197,34 @@ export default function DonorDashboardPage() {
                       type="button"
                       disabled={isProcessing}
                       onClick={() => handleRespond(alert.wave_id, "accept")}
-                      className="btn w-full min-h-[48px] text-xs font-semibold active:scale-[0.98] shadow-sm"
+                      className="btn w-full min-h-[48px] text-xs font-semibold"
                     >
-                      Accept &amp; Commit →
+                      Accept &amp; Commit
                     </button>
                   </div>
-
-                  {alert.google_maps_url && (
-                    <div className="text-center pt-1 border-t border-[var(--ln)]">
-                      <a
-                        href={alert.google_maps_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-xs font-semibold text-[var(--ok)] hover:underline inline-flex items-center gap-1"
-                      >
-                        Navigate to Hospital in Google Maps ↗
-                      </a>
-                    </div>
-                  )}
                 </div>
               ))}
             </div>
           ) : (
-            /* Idle Notice */
-            <div className="card p-8 text-center bg-[var(--sf)] space-y-2 border-dashed">
-              <div className="text-3xl" aria-hidden="true">🕊️</div>
-              <h3 className="font-bold text-sm text-[var(--ink)]">No Urgent Wave Pings Right Now</h3>
+            <div className="card p-8 text-center bg-[var(--sf)] space-y-2">
+              <h3 className="font-bold text-sm text-[var(--ink)]">No Active Wave Pings</h3>
               <p className="text-xs text-[var(--mu)] max-w-md mx-auto leading-relaxed">
-                You are registered for <strong>{profile?.locality}</strong>. When a verified Pune hospital requests <strong>{profile?.blood_group}</strong> blood in your wave radius, you will receive an instant private alert.
+                Your profile is active for <strong>{profile?.locality}</strong>. You will be alerted when a verified hospital within your wave radius submits an approved requisition.
               </p>
             </div>
           )}
 
-          {/* 2. Confirmed In-Transit State */}
+          {/* Accepted State Commitments */}
           {acceptedAlerts.length > 0 && (
             <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <span className="text-lg" aria-hidden="true">⏱️</span>
-                <h2 className="text-xs font-bold text-[var(--ok)] uppercase tracking-wider">
-                  Confirmed Commitments — Head to Blood Centre
-                </h2>
-              </div>
+              <h2 className="text-xs font-bold text-[var(--ok)] uppercase tracking-wider">
+                Committed Donation
+              </h2>
 
               {acceptedAlerts.map((alert: any) => (
                 <div
                   key={alert.wave_id}
-                  className="card border-2 border-[var(--ok)]/40 space-y-4 bg-[var(--okt)]/20 p-6 shadow-xs"
+                  className="card border-2 border-[var(--ok)]/40 space-y-4 bg-[var(--okt)]/20 p-6"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
@@ -253,16 +234,11 @@ export default function DonorDashboardPage() {
                     <CountdownTimer deadline={alert.arrival_deadline} label="Arrival Deadline" size="lg" />
                   </div>
 
-                  <div className="p-3.5 bg-[var(--sf)] rounded-2xl border border-[var(--ln)] text-xs space-y-1">
+                  <div className="p-3 bg-[var(--sf)] rounded-xl border border-[var(--ln)] text-xs space-y-1">
                     <div className="font-semibold text-[var(--ink)]">On-Site Instructions:</div>
                     <p className="text-[11px] text-[var(--mu)] leading-relaxed">
-                      Head to the Hospital Blood Bank / Transfusion Centre. Mention the patient requisition reference.
+                      Report to the hospital blood bank desk. State the patient reference.
                     </p>
-                    {alert.hospital_phone && (
-                      <a href={`tel:${alert.hospital_phone}`} className="text-[var(--ok)] font-semibold block text-xs pt-1">
-                        📞 Blood Bank Desk: {alert.hospital_phone}
-                      </a>
-                    )}
                   </div>
 
                   {alert.google_maps_url && (
@@ -270,9 +246,9 @@ export default function DonorDashboardPage() {
                       href={alert.google_maps_url}
                       target="_blank"
                       rel="noreferrer"
-                      className="btn w-full min-h-[46px] text-center text-xs block font-semibold active:scale-[0.98]"
+                      className="btn w-full min-h-[46px] text-center text-xs block font-semibold"
                     >
-                      Start Google Maps Navigation ↗
+                      Google Maps Navigation
                     </a>
                   )}
                 </div>
@@ -281,15 +257,15 @@ export default function DonorDashboardPage() {
           )}
         </div>
 
-        {/* Right Column (5 Cols on Desktop): Sticky Profile & Availability Sidebar */}
-        <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
-          <div className="card space-y-5 p-5 sm:p-6 bg-[var(--sf)]">
+        {/* Right Column: Dual-State View: 2. Idle / Profile State (PRD Section 3) */}
+        <div className="lg:col-span-5 space-y-5 lg:sticky lg:top-24">
+          <div className="card space-y-5 p-6 bg-[var(--sf)]">
             <div className="flex items-center justify-between border-b border-[var(--ln)] pb-3">
               <span className="text-xs font-bold text-[var(--ink)] uppercase tracking-wider">
-                Voluntary Donor Status
+                Donor Profile State
               </span>
               <span className="tg ok font-mono text-[10px]">
-                Active
+                Registered
               </span>
             </div>
 
@@ -298,22 +274,22 @@ export default function DonorDashboardPage() {
                 <h3 className="font-bold text-base text-[var(--ink)]">{profile?.full_name}</h3>
                 <p className="text-xs text-[var(--mu)] mt-0.5">Locality: {profile?.locality}</p>
               </div>
-              <div className="bg-badge w-14 h-14 text-lg shadow-sm">
+              <div className="bg-badge w-12 h-12 text-base">
                 {profile?.blood_group}
               </div>
             </div>
 
-            {/* Availability Toggle */}
-            <div className="p-4 bg-[var(--bg)] rounded-2xl border border-[var(--ln)] space-y-3">
+            {/* One-tap Available / Paused toggle (PRD Section 3) */}
+            <div className="p-4 bg-[var(--bg)] rounded-xl border border-[var(--ln)] space-y-2">
               <div className="flex items-center justify-between">
-                <div className="text-xs font-bold text-[var(--ink)]">
-                  {profile?.is_available ? "🟢 Ready for Waves" : "⏸️ Alerts Paused"}
-                </div>
+                <span className="text-xs font-bold text-[var(--ink)]">
+                  Status: {profile?.is_available ? "Available" : "Paused"}
+                </span>
                 <button
                   type="button"
                   disabled={isProcessing}
                   onClick={handleToggleAvailability}
-                  className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all active:scale-[0.97] ${
+                  className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
                     profile?.is_available
                       ? "btn2 min-h-[38px] bg-[var(--sf)]"
                       : "btn min-h-[38px]"
@@ -322,48 +298,38 @@ export default function DonorDashboardPage() {
                   {profile?.is_available ? "Pause Alerts" : "Resume Alerts"}
                 </button>
               </div>
-              <p className="text-[11px] text-[var(--mu)] leading-relaxed">
-                {profile?.is_available
-                  ? "You will receive targeted WhatsApp alerts when nearby Pune hospitals need your blood group."
-                  : "You will not receive any wave notification pings while paused."}
+              <p className="text-[11px] text-[var(--mu)]">
+                One-tap toggle to pause incoming notification wave alerts.
               </p>
             </div>
 
-            {/* NBTC Cooldown Card */}
+            {/* Live countdown timer if on NBTC cooldown (PRD Section 3) */}
             {profile?.is_on_cooldown ? (
-              <div className="p-4 bg-[#FEF3C7] rounded-2xl border border-[#D97706]/30 space-y-1.5">
-                <div className="text-xs font-bold text-[#92400E] flex items-center gap-1.5">
-                  <span>⏳</span> NBTC Cooldown Active ({profile?.cooldown_days_left} days left)
+              <div className="p-4 bg-[#FEF3C7] rounded-xl border border-[#92400E]/20 space-y-1">
+                <div className="text-xs font-bold text-[#92400E]">
+                  NBTC Cooldown Active ({profile?.cooldown_days_left} days remaining)
                 </div>
                 <p className="text-[11px] text-[#92400E]/90 leading-relaxed">
                   Next eligible donation date:{" "}
                   <strong>{new Date(profile?.cooldown_until).toLocaleDateString()}</strong>.
-                  Wave matching will automatically resume once the health cooldown expires.
                 </p>
               </div>
             ) : (
-              <div className="p-4 bg-[var(--okt)]/40 rounded-2xl border border-[var(--ok)]/20 space-y-1">
-                <div className="text-xs font-bold text-[var(--ok)] flex items-center gap-1">
-                  <span>✓</span> Medically Eligible
-                </div>
-                <p className="text-[11px] text-[var(--mu)] leading-relaxed">
-                  No active NBTC cooldown. You are eligible for emergency matching waves.
-                </p>
+              <div className="p-4 bg-[var(--okt)]/30 rounded-xl border border-[var(--ok)]/20 text-xs">
+                <span className="font-bold text-[var(--ok)] block">Eligible for Wave Matching</span>
+                <span className="text-[11px] text-[var(--mu)]">No active NBTC cooldown.</span>
               </div>
             )}
 
-            {/* DPDP Deletion */}
-            <div className="pt-3 border-t border-[var(--ln)] flex items-center justify-between text-xs">
-              <Link href="/privacy" className="text-[var(--mu)] hover:underline">
-                DPDP Notice
-              </Link>
+            {/* Delete My Data button (PRD Section 3) */}
+            <div className="pt-3 border-t border-[var(--ln)]">
               <button
                 type="button"
                 disabled={isProcessing}
                 onClick={handleDeleteData}
-                className="text-[var(--rt)] hover:underline font-semibold"
+                className="btn2 w-full text-xs font-semibold text-[var(--rt)] border-[var(--rt)]/40 hover:bg-[var(--tint)]"
               >
-                Delete My Data Permanently
+                Delete My Data
               </button>
             </div>
           </div>

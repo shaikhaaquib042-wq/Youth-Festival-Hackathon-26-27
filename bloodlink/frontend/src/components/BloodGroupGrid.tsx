@@ -27,7 +27,7 @@ export const BloodGroupGrid = memo<BloodGroupGridProps>(({
         </span>
       </div>
 
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
         {BLOOD_GROUPS.map((bg) => {
           const isSelected = value === bg;
           return (
@@ -37,10 +37,10 @@ export const BloodGroupGrid = memo<BloodGroupGridProps>(({
               disabled={disabled}
               onClick={() => onChange(bg)}
               aria-pressed={isSelected}
-              className={`min-h-[46px] rounded-xl text-center font-mono font-bold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C62828] active:scale-[0.97] ${
+              className={`min-h-[48px] rounded-lg text-center font-mono font-bold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C62828] ${
                 isSelected
-                  ? "bg-[#C62828] text-white shadow-sm ring-2 ring-[#C62828]/25 scale-[1.02]"
-                  : "bg-[var(--bg)] border border-[var(--ln)] text-[var(--ink)] hover:bg-[var(--ln)]/40 hover:border-[var(--mu)]/40"
+                  ? "bg-[#C62828] text-white shadow-xs"
+                  : "bg-[var(--sf)] border border-[var(--ln)] text-[var(--ink)] hover:bg-[var(--bg)]"
               }`}
             >
               {bg}

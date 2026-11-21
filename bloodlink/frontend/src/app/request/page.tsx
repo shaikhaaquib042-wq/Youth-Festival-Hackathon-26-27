@@ -22,7 +22,7 @@ interface Hospital {
 export default function RequestPage() {
   const router = useRouter();
 
-  // Form states
+  // Form states per PRD Section 3
   const [patientRef, setPatientRef] = useState("");
   const [bloodGroup, setBloodGroup] = useState("A+");
   const [component, setComponent] = useState("WHOLE_BLOOD");
@@ -64,23 +64,23 @@ export default function RequestPage() {
     setError(null);
 
     if (!patientRef.trim()) {
-      setError("Please provide patient reference initials or IPD/UHID.");
+      setError("Patient reference initials or IPD/UHID is required.");
       return;
     }
     if (!hospitalId) {
-      setError("Please select an accredited Pune hospital.");
+      setError("Please select a verified Pune hospital.");
       return;
     }
     if (!requesterPhone.trim() || requesterPhone.length < 10) {
-      setError("Please enter a valid 10-digit mobile number for requester contact.");
+      setError("Requester contact phone number is required.");
       return;
     }
     if (!verifierPhone.trim() || verifierPhone.length < 10) {
-      setError("Please enter a valid official mobile number for duty doctor / blood bank.");
+      setError("Duty doctor or blood bank official phone is required.");
       return;
     }
     if (!slipFile) {
-      setError("An official hospital requisition slip photo is required for clinical verification.");
+      setError("Requisition slip photo upload is mandatory.");
       return;
     }
 
@@ -115,41 +115,40 @@ export default function RequestPage() {
   return (
     <div className="space-y-6 pb-12">
       <AppHeader
-        title="Urgent Blood Requisition Intake"
-        subtitle="Distance-ranked voluntary notification waves • Pune hospital cluster"
+        title="Urgent Blood Intake Form"
+        subtitle="Route: /request • Patient Family or Hospital Desk"
         bloodGroup={bloodGroup}
-        backHref="/"
-        backLabel="Home"
+        badge="Accredited Intake"
+        badgeType="ok"
       />
 
       {error && (
         <div
-          className="p-4 bg-[var(--tint)] text-[var(--rt)] rounded-2xl text-xs font-semibold border border-[var(--ln)] flex items-start gap-2 shadow-xs"
+          className="p-4 bg-[var(--tint)] text-[var(--rt)] rounded-xl text-xs font-semibold border border-[var(--ln)]"
           role="alert"
         >
-          <span>⚠️</span>
-          <span>{error}</span>
+          {error}
         </div>
       )}
 
-      {/* 2-Column Desktop Layout */}
+      {/* 2-Column Desktop Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Form Column (7 Cols on Desktop) */}
+        {/* Form Column */}
         <div className="lg:col-span-7 space-y-5">
           <form onSubmit={handleSubmit} className="space-y-5" noValidate>
             {/* 1. Blood Group */}
             <BloodGroupGrid
               value={bloodGroup}
               onChange={setBloodGroup}
-              label="1. Required Blood Group"
+              label="Blood Group (A+ to O-)"
             />
 
             {/* 2. Component & Units */}
             <div className="card space-y-3">
               <label className="text-xs font-semibold text-[var(--ink)]">
-                2. Blood Component &amp; Units Needed
+                Blood Component &amp; Units
               </label>
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 <div>
                   <span className="text-[11px] text-[var(--mu)] block mb-1">Component</span>
                   <select
@@ -178,9 +177,9 @@ export default function RequestPage() {
                         key={num}
                         type="button"
                         onClick={() => setUnitsNeeded(num)}
-                        className={`flex-1 min-h-[46px] rounded-xl font-mono font-bold text-sm border transition-all active:scale-[0.97] ${
+                        className={`flex-1 min-h-[48px] rounded-lg font-mono font-bold text-sm border transition-all ${
                           unitsNeeded === num
-                            ? "bg-[var(--ink)] text-[var(--bg)] border-[var(--ink)] shadow-sm"
+                            ? "bg-[var(--ink)] text-[var(--bg)] border-[var(--ink)]"
                             : "bg-[var(--sf)] border-[var(--ln)] text-[var(--ink)] hover:bg-[var(--bg)]"
                         }`}
                       >
@@ -195,7 +194,7 @@ export default function RequestPage() {
             {/* 3. Clinical Urgency */}
             <div className="card space-y-2">
               <label className="text-xs font-semibold text-[var(--ink)]">
-                3. Clinical Urgency Level
+                Clinical Urgency
               </label>
               <div className="grid grid-cols-3 gap-2">
                 {URGENCY_LEVELS.map((u) => {
@@ -205,13 +204,13 @@ export default function RequestPage() {
                       key={u.value}
                       type="button"
                       onClick={() => setUrgency(u.value as any)}
-                      className={`min-h-[46px] px-2 rounded-xl text-xs font-semibold text-center border transition-all active:scale-[0.98] ${
+                      className={`min-h-[48px] px-2 rounded-lg text-xs font-semibold text-center border transition-all ${
                         selected
                           ? u.value === "CRITICAL"
-                            ? "bg-[var(--tint)] text-[var(--rt)] border-[var(--rt)] ring-1 ring-[var(--rt)]"
+                            ? "bg-[#FEE2E2] text-[#991B1B] border-[#991B1B]"
                             : u.value === "URGENT"
-                            ? "bg-[#FEF3C7] text-[#92400E] border-[#D97706] ring-1 ring-[#D97706]"
-                            : "bg-[var(--ln)] text-[var(--ink)] border-[var(--mu)] ring-1 ring-[var(--mu)]"
+                            ? "bg-[#FEF3C7] text-[#92400E] border-[#92400E]"
+                            : "bg-[#F1F5F9] text-[#334155] border-[#334155]"
                           : "bg-[var(--sf)] border-[var(--ln)] text-[var(--mu)] hover:bg-[var(--bg)]"
                       }`}
                     >
@@ -225,10 +224,10 @@ export default function RequestPage() {
             {/* 4. Receiving Pune Hospital */}
             <div className="card space-y-2">
               <label className="text-xs font-semibold text-[var(--ink)]">
-                4. Receiving Accredited Pune Hospital
+                Verified Pune Hospital
               </label>
               {loadingHospitals ? (
-                <div className="text-xs text-[var(--mu)] py-2">Loading verified institutions...</div>
+                <div className="text-xs text-[var(--mu)] py-2">Loading hospitals...</div>
               ) : (
                 <select
                   value={hospitalId}
@@ -242,24 +241,21 @@ export default function RequestPage() {
                   ))}
                 </select>
               )}
-              <div className="flex items-center gap-1.5 text-[11px] text-[var(--ok)] font-medium pt-0.5">
-                <span>🛡️</span> Accredited Pune blood centres with dedicated transfusion medical officers.
-              </div>
             </div>
 
-            {/* 5. Patient Reference & Contacts */}
+            {/* 5. Patient Reference & Phones */}
             <div className="card space-y-3">
               <label className="text-xs font-semibold text-[var(--ink)]">
-                5. Clinical Reference &amp; Contact Numbers
+                Patient Reference &amp; Contact Numbers
               </label>
               <div>
                 <span className="text-[11px] text-[var(--mu)] block mb-1">
-                  Patient Initials or Hospital IPD / UHID
+                  Patient Reference Initials or Hospital IPD / UHID
                 </span>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. R.S. or IPD-48921 (DPDP privacy compliant)"
+                  placeholder="Initials or Hospital IPD/UHID only"
                   value={patientRef}
                   onChange={(e) => setPatientRef(e.target.value)}
                   className="w-full text-xs"
@@ -273,19 +269,19 @@ export default function RequestPage() {
                     type="tel"
                     required
                     maxLength={10}
-                    placeholder="Patient family mobile"
+                    placeholder="Patient family phone"
                     value={requesterPhone}
                     onChange={(e) => setRequesterPhone(e.target.value)}
                     className="w-full text-xs font-mono"
                   />
                 </div>
                 <div>
-                  <span className="text-[11px] text-[var(--mu)] block mb-1">Duty Doctor / Blood Bank</span>
+                  <span className="text-[11px] text-[var(--mu)] block mb-1">Duty Doctor / Blood Bank Official Phone</span>
                   <input
                     type="tel"
                     required
                     maxLength={10}
-                    placeholder="Doctor WhatsApp for sign-off"
+                    placeholder="Official verifier phone"
                     value={verifierPhone}
                     onChange={(e) => setVerifierPhone(e.target.value)}
                     className="w-full text-xs font-mono"
@@ -301,89 +297,47 @@ export default function RequestPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn w-full min-h-[52px] text-sm font-semibold shadow-sm flex items-center justify-center gap-2"
+              className="btn w-full min-h-[48px] text-sm font-semibold shadow-xs"
             >
-              {isSubmitting ? (
-                <span>Dispatching Requisition...</span>
-              ) : (
-                <span>Submit Requisition for Clinical Sign-Off →</span>
-              )}
+              {isSubmitting ? "Submitting Requisition..." : "Submit Urgent Request"}
             </button>
           </form>
         </div>
 
-        {/* Right Column: Live Requisition Preview & Timeline (5 Cols on Desktop) */}
-        <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
-          {/* Live Preview Card */}
-          <div className="card space-y-4 p-5 sm:p-6 bg-[var(--sf)] border-2 border-[var(--ln)]">
+        {/* Right Column: Requisition Summary */}
+        <div className="lg:col-span-5 space-y-5 lg:sticky lg:top-24">
+          <div className="card space-y-4 p-5 bg-[var(--sf)]">
             <div className="flex items-center justify-between border-b border-[var(--ln)] pb-3">
-              <span className="text-[11px] font-bold text-[var(--mu)] uppercase tracking-wider">
-                Live Requisition Preview
+              <span className="text-xs font-bold text-[var(--ink)] uppercase tracking-wider">
+                Requisition Summary
               </span>
               <UrgencyBadge urgency={urgency} />
             </div>
 
-            <div className="flex items-start gap-3">
+            <div className="flex items-center gap-3">
               <div className="bg-badge w-12 h-12 text-base flex-none">
                 {bloodGroup}
               </div>
               <div className="min-w-0">
                 <h3 className="font-bold text-sm text-[var(--ink)] truncate">
-                  {selectedHospital?.name || "Sahyadri Hospital"}
+                  {selectedHospital?.name || "Hospital"}
                 </h3>
-                <p className="text-xs text-[var(--mu)]">
+                <p className="text-xs text-[var(--mu)] mt-0.5">
                   {patientRef ? `Patient: ${patientRef}` : "Patient UHID pending"} • {component.replace("_", " ")}
                 </p>
               </div>
             </div>
 
-            <div className="p-3 bg-[var(--bg)] rounded-xl border border-[var(--ln)] flex items-center justify-between text-xs">
-              <span className="text-[var(--mu)]">Required Units:</span>
-              <span className="font-mono font-bold text-base text-[var(--ink)]">
+            <div className="p-3 bg-[var(--bg)] rounded-lg border border-[var(--ln)] flex items-center justify-between text-xs">
+              <span className="text-[var(--mu)]">Units Needed:</span>
+              <span className="font-mono font-bold text-sm text-[var(--ink)]">
                 {unitsNeeded} Unit{unitsNeeded > 1 ? "s" : ""}
               </span>
             </div>
 
-            <div className="text-[11px] text-[var(--mu)] leading-relaxed bg-[var(--tint)]/40 p-3 rounded-xl border border-[var(--ln)]">
-              ℹ️ Once submitted, the duty doctor receives a private WhatsApp sign-off link. The PostGIS matching engine will alert 10–15 nearest eligible donors within 3 km.
-            </div>
-          </div>
-
-          {/* How Matching Works Timeline */}
-          <div className="card space-y-3 p-5 sm:p-6 bg-[var(--sf)]">
-            <h3 className="text-xs font-bold text-[var(--ink)] uppercase tracking-wider">
-              Wave Dispatch Architecture
-            </h3>
-            <div className="space-y-3 text-xs text-[var(--mu)]">
-              <div className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--tint)] text-[var(--rt)] flex items-center justify-center font-bold text-[10px] flex-none">1</span>
-                <div>
-                  <strong className="text-[var(--ink)] block">Intake &amp; Image Hash:</strong>
-                  Requisition slip photo is compressed client-side and stored securely.
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--tint)] text-[var(--rt)] flex items-center justify-center font-bold text-[10px] flex-none">2</span>
-                <div>
-                  <strong className="text-[var(--ink)] block">Clinician Authorization:</strong>
-                  Duty doctor verifies slip authenticity via single-tap capability token.
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--tint)] text-[var(--rt)] flex items-center justify-center font-bold text-[10px] flex-none">3</span>
-                <div>
-                  <strong className="text-[var(--ink)] block">PostGIS Wave Dispatch:</strong>
-                  Nearest 10–15 eligible donors within 3 km (expanding to 7 km / 15 km) receive WhatsApp alert.
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--tint)] text-[var(--rt)] flex items-center justify-center font-bold text-[10px] flex-none">4</span>
-                <div>
-                  <strong className="text-[var(--ink)] block">First Acceptance Locks Slot:</strong>
-                  Unit slot is reserved, triggering a 45-minute arrival countdown on live board.
-                </div>
-              </div>
-            </div>
+            <p className="text-[11px] text-[var(--mu)] leading-relaxed">
+              Per PRD Section 1.2: Exact blood-group matching enforced unless hospital duty doctor authorizes universal O- fallback. Notification waves are capped at 10–15 nearby donors within 3 km.
+            </p>
           </div>
         </div>
       </div>

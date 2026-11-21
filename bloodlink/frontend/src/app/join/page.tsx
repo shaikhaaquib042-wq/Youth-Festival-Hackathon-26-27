@@ -44,7 +44,7 @@ export default function JoinPage() {
       },
       (err) => {
         setIsGettingGps(false);
-        setError("Could not retrieve GPS pin. Falling back to locality dropdown.");
+        setError("Could not retrieve GPS pin. Locality dropdown will be used.");
         console.warn(err);
       },
       { timeout: 8000, enableHighAccuracy: true }
@@ -56,15 +56,15 @@ export default function JoinPage() {
     setError(null);
 
     if (!fullName.trim()) {
-      setError("Please provide your full name.");
+      setError("Full name is required.");
       return;
     }
     if (!whatsappPhone.trim() || whatsappPhone.length < 10) {
-      setError("Please enter a valid 10-digit WhatsApp number.");
+      setError("Valid WhatsApp phone number is required.");
       return;
     }
     if (!dpdpConsent) {
-      setError("DPDP privacy consent is required to register as a voluntary donor.");
+      setError("DPDP consent is required to register as a voluntary donor.");
       return;
     }
 
@@ -97,12 +97,12 @@ export default function JoinPage() {
         setSuccessData({
           donor_token: res.data.donor_token,
           donor_url: res.data.donor_url,
-          message: res.data.message || "Registration successful!",
+          message: res.data.message || "Registration confirmed.",
         });
         setIsSubmitting(false);
       }
     } catch (err: any) {
-      setError(err.message || "Registration failed. Please check connection.");
+      setError(err.message || "Registration failed.");
       setIsSubmitting(false);
     }
   };
@@ -114,67 +114,59 @@ export default function JoinPage() {
   return (
     <div className="space-y-6 pb-12">
       <AppHeader
-        title="Join as Voluntary Blood Donor"
-        subtitle="30-second registration • Privacy-first PostGIS wave matching"
+        title="Voluntary Donor Registration"
+        subtitle="Route: /join • 30-Second Onboarding"
         bloodGroup={bloodGroup}
-        backHref="/"
-        backLabel="Home"
+        badge="NBTC Cooldown Enforced"
+        badgeType="ok"
       />
 
       {error && (
         <div
-          className="p-4 bg-[var(--tint)] text-[var(--rt)] rounded-2xl text-xs font-semibold border border-[var(--ln)] flex items-start gap-2"
+          className="p-4 bg-[var(--tint)] text-[var(--rt)] rounded-xl text-xs font-semibold border border-[var(--ln)]"
           role="alert"
         >
-          <span>⚠️</span>
-          <span>{error}</span>
+          {error}
         </div>
       )}
 
       {/* 2-Column Desktop Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column (7 Cols on Desktop): Form or Confirmation */}
         <div className="lg:col-span-7 space-y-5">
           {successData ? (
-            <div className="card space-y-5 p-6 sm:p-8 border-[var(--ok)]/40 bg-[var(--okt)]/30">
-              <div className="flex items-center gap-3">
-                <span className="text-4xl" aria-hidden="true">🎉</span>
-                <div>
-                  <h2 className="text-base font-bold text-[var(--ok)]">Registration Confirmed</h2>
-                  <p className="text-xs text-[var(--mu)]">{successData.message}</p>
-                </div>
+            <div className="card space-y-4 p-6 border-[var(--ok)]/40 bg-[var(--okt)]/20">
+              <div>
+                <h2 className="text-base font-bold text-[var(--ok)]">Registration Confirmed</h2>
+                <p className="text-xs text-[var(--mu)] mt-0.5">{successData.message}</p>
               </div>
 
-              <div className="bg-[var(--sf)] p-4 sm:p-5 rounded-2xl border border-[var(--ln)] space-y-2.5">
-                <div className="text-xs font-bold text-[var(--ink)]">Your Private Capability Link</div>
-                <p className="text-xs text-[var(--mu)] leading-relaxed">
-                  Bookmark this private link. You can use it anytime to pause alerts, monitor cooldown, or delete your data under DPDP rights.
-                </p>
-                <div className="p-3 bg-[var(--bg)] rounded-xl font-mono text-xs break-all text-[var(--ink)] border border-[var(--ln)] select-all">
+              <div className="bg-[var(--sf)] p-4 rounded-xl border border-[var(--ln)] space-y-2">
+                <div className="text-xs font-bold text-[var(--ink)]">Private Capability Token Link:</div>
+                <div className="p-3 bg-[var(--bg)] rounded font-mono text-xs break-all text-[var(--ink)] border border-[var(--ln)] select-all">
                   {typeof window !== "undefined" ? window.location.origin : ""}{successData.donor_url}
                 </div>
               </div>
 
               <Link
                 href={successData.donor_url}
-                className="btn w-full min-h-[50px] text-center text-xs font-semibold flex items-center justify-center gap-2 shadow-sm"
+                className="btn w-full min-h-[48px] text-center text-xs font-semibold flex items-center justify-center shadow-xs"
               >
-                Open My Donor Dashboard →
+                Open Donor Portal →
               </Link>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-              {/* 1. Name & WhatsApp */}
+              {/* Full Name & WhatsApp */}
               <div className="card space-y-3">
                 <label className="text-xs font-semibold text-[var(--ink)]">
-                  1. Contact Information
+                  Contact Information
                 </label>
                 <div>
                   <span className="text-[11px] text-[var(--mu)] block mb-1">Full Name</span>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Aditya Deshmukh"
+                    placeholder="Full name"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     className="w-full text-xs"
@@ -182,76 +174,70 @@ export default function JoinPage() {
                 </div>
 
                 <div>
-                  <span className="text-[11px] text-[var(--mu)] block mb-1">WhatsApp Mobile Number</span>
+                  <span className="text-[11px] text-[var(--mu)] block mb-1">WhatsApp Phone</span>
                   <div className="flex items-center gap-2">
-                    <span className="px-3 py-2.5 bg-[var(--bg)] border border-[var(--ln)] rounded-xl text-xs font-mono text-[var(--mu)]">
+                    <span className="px-3 py-2.5 bg-[var(--bg)] border border-[var(--ln)] rounded-lg text-xs font-mono text-[var(--mu)]">
                       +91
                     </span>
                     <input
                       type="tel"
                       required
                       maxLength={10}
-                      placeholder="10-digit number"
+                      placeholder="10-digit mobile"
                       value={whatsappPhone}
                       onChange={(e) => setWhatsappPhone(e.target.value)}
                       className="w-full text-xs font-mono"
                     />
                   </div>
-                  <p className="text-[11px] text-[var(--mu)] mt-1">
-                    Zero public directory pledge: Your number is never shown publicly or shared with commercial entities.
-                  </p>
                 </div>
               </div>
 
-              {/* 2. Biological Sex (NBTC Cooldown) */}
+              {/* Biological Sex (sets automated NBTC cooldown) */}
               <div className="card space-y-2">
                 <label className="text-xs font-semibold text-[var(--ink)]">
-                  2. Biological Sex (Automated NBTC Cooldown)
+                  Biological Sex (Sets Automated NBTC Cooldown: 90 days Male / 120 days Female)
                 </label>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setBiologicalSex("MALE")}
-                    className={`min-h-[48px] rounded-xl text-xs font-semibold transition-all active:scale-[0.98] ${
+                    className={`min-h-[48px] rounded-lg text-xs font-semibold transition-all ${
                       biologicalSex === "MALE"
-                        ? "bg-[var(--ink)] text-[var(--bg)] shadow-sm"
+                        ? "bg-[var(--ink)] text-[var(--bg)] shadow-xs"
                         : "bg-[var(--sf)] border border-[var(--ln)] text-[var(--ink)] hover:bg-[var(--bg)]"
                     }`}
                   >
-                    Male (90d NBTC cooldown)
+                    Male (90 days cooldown)
                   </button>
                   <button
                     type="button"
                     onClick={() => setBiologicalSex("FEMALE")}
-                    className={`min-h-[48px] rounded-xl text-xs font-semibold transition-all active:scale-[0.98] ${
+                    className={`min-h-[48px] rounded-lg text-xs font-semibold transition-all ${
                       biologicalSex === "FEMALE"
-                        ? "bg-[var(--ink)] text-[var(--bg)] shadow-sm"
+                        ? "bg-[var(--ink)] text-[var(--bg)] shadow-xs"
                         : "bg-[var(--sf)] border border-[var(--ln)] text-[var(--ink)] hover:bg-[var(--bg)]"
                     }`}
                   >
-                    Female (120d NBTC cooldown)
+                    Female (120 days cooldown)
                   </button>
                 </div>
-                <p className="text-[11px] text-[var(--mu)]">
-                  Mandatory under National Blood Transfusion Council regulations to protect voluntary donor health.
-                </p>
               </div>
 
-              {/* 3. Blood Group Grid */}
+              {/* Blood Group */}
               <BloodGroupGrid
                 value={bloodGroup}
                 onChange={setBloodGroup}
-                label="3. Your Blood Group"
+                label="Blood Group"
               />
 
-              {/* 4. Pune Locality & GPS Pin */}
+              {/* Pune Locality selector + optional GPS */}
               <div className="card space-y-2.5">
                 <label className="text-xs font-semibold text-[var(--ink)]">
-                  4. Primary Pune Locality &amp; Radius
+                  Pune Locality Selector
                 </label>
                 <input
                   type="text"
-                  placeholder="Filter Pune areas (e.g. Sinhagad, Deccan, Kothrud)..."
+                  placeholder="Filter Pune areas..."
                   value={searchLocality}
                   onChange={(e) => setSearchLocality(e.target.value)}
                   className="w-full text-xs mb-1"
@@ -272,21 +258,20 @@ export default function JoinPage() {
                   type="button"
                   onClick={handleGetGps}
                   disabled={isGettingGps}
-                  className="btn2 w-full min-h-[44px] text-xs font-semibold flex items-center justify-center gap-1.5 mt-2 active:scale-[0.98] bg-[var(--sf)] hover:bg-[var(--bg)]"
+                  className="btn2 w-full min-h-[44px] text-xs font-semibold flex items-center justify-center mt-2 bg-[var(--sf)] hover:bg-[var(--bg)]"
                 >
-                  <span>📍</span>
                   {isGettingGps
                     ? "Acquiring coordinates..."
                     : gpsLat && gpsLng
-                    ? "✓ Precise GPS Pin Attached"
-                    : "Attach Precise GPS Pin for 3 km Waves (Optional)"}
+                    ? "GPS Coordinates Attached"
+                    : "Attach Browser GPS Pin Drop (Optional)"}
                 </button>
               </div>
 
-              {/* 5. Last Donation Date */}
+              {/* Last Donation Date */}
               <div className="card space-y-2">
                 <label className="text-xs font-semibold text-[var(--ink)]">
-                  5. Last Whole Blood Donation Date (Optional)
+                  Last Donation Date (Optional)
                 </label>
                 <input
                   type="date"
@@ -295,12 +280,9 @@ export default function JoinPage() {
                   onChange={(e) => setLastDonationDate(e.target.value)}
                   className="w-full text-xs font-mono"
                 />
-                <p className="text-[11px] text-[var(--mu)]">
-                  Leave blank if this is your first donation or if it has been &gt; 4 months.
-                </p>
               </div>
 
-              {/* 6. Explicit DPDP Consent */}
+              {/* DPDP Consent */}
               <div className="card space-y-2 p-4">
                 <label className="flex items-start gap-3 cursor-pointer">
                   <input
@@ -311,11 +293,7 @@ export default function JoinPage() {
                     className="mt-0.5 h-4 w-4 rounded border-[var(--ln)] text-[#C62828] focus:ring-[#C62828]"
                   />
                   <span className="text-xs text-[var(--ink)] leading-relaxed">
-                    I voluntarily consent to BloodLink processing my name, WhatsApp number, blood group, and locality strictly for emergency matching waves. I understand I can delete my data anytime. (
-                    <Link href="/privacy" className="text-[var(--rt)] underline">
-                      DPDP Notice
-                    </Link>
-                    )
+                    I give explicit DPDP consent for BloodLink to store my name, WhatsApp phone, blood group, and locality strictly for voluntary donation wave coordination.
                   </span>
                 </label>
               </div>
@@ -324,49 +302,29 @@ export default function JoinPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="btn w-full min-h-[52px] text-sm font-semibold shadow-sm flex items-center justify-center gap-2"
+                className="btn w-full min-h-[48px] text-sm font-semibold shadow-xs"
               >
-                {isSubmitting ? "Registering Voluntary Profile..." : "Register as Voluntary Donor →"}
+                {isSubmitting ? "Submitting..." : "Register as Voluntary Donor"}
               </button>
             </form>
           )}
         </div>
 
-        {/* Right Column (5 Cols on Desktop): Why BloodLink & Privacy Sidebar */}
-        <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
-          <div className="card space-y-4 p-5 sm:p-6 bg-[var(--sf)]">
-            <h3 className="text-xs font-bold text-[var(--ink)] uppercase tracking-wider flex items-center gap-1.5">
-              <span>🛡️</span> The BloodLink Donor Guarantee
+        {/* Right Column: PRD Guardrails */}
+        <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-24">
+          <div className="card space-y-3 p-5 bg-[var(--sf)] text-xs text-[var(--mu)]">
+            <h3 className="font-bold text-[var(--ink)] uppercase tracking-wider text-xs">
+              PRD Compliance Specifications
             </h3>
-            <div className="space-y-3 text-xs text-[var(--mu)]">
-              <div className="p-3 rounded-xl bg-[var(--bg)] border border-[var(--ln)] space-y-1">
-                <div className="font-bold text-[var(--ink)]">No Midnight Spam</div>
-                <p className="leading-relaxed text-[11px]">
-                  Unlike public registries where phone numbers are scraped, your number is kept encrypted. You only receive alerts when nearby hospitals submit verified needs.
-                </p>
-              </div>
-
-              <div className="p-3 rounded-xl bg-[var(--bg)] border border-[var(--ln)] space-y-1">
-                <div className="font-bold text-[var(--ink)]">Hyper-Local 3–5 km Wave Alerts</div>
-                <p className="leading-relaxed text-[11px]">
-                  PostGIS queries alert only donors living close to the hospital, avoiding long travel and ensuring rapid arrival when every minute counts.
-                </p>
-              </div>
-
-              <div className="p-3 rounded-xl bg-[var(--bg)] border border-[var(--ln)] space-y-1">
-                <div className="font-bold text-[var(--ink)]">Automated NBTC Health Locks</div>
-                <p className="leading-relaxed text-[11px]">
-                  Our database automatically locks your profile for 90 days (males) or 120 days (females) after donation, protecting you from over-donation.
-                </p>
-              </div>
-
-              <div className="p-3 rounded-xl bg-[var(--bg)] border border-[var(--ln)] space-y-1">
-                <div className="font-bold text-[var(--ink)]">1-Tap DPDP Data Erasure</div>
-                <p className="leading-relaxed text-[11px]">
-                  You maintain full data sovereignty. Clicking &quot;Delete My Data&quot; on your private link immediately removes your profile from all active tables.
-                </p>
-              </div>
-            </div>
+            <p className="leading-relaxed">
+              Section 1.2: Selling, renting, or publicly listing donor phone numbers is strictly prohibited. Communication is mediated via private capability tokens.
+            </p>
+            <p className="leading-relaxed">
+              Enforces automated NBTC cooldown intervals (90 days male / 120 days female for whole blood).
+            </p>
+            <p className="leading-relaxed">
+              Maintains DPDP consent timestamps, audit logs, and one-tap data deletion controls.
+            </p>
           </div>
         </div>
       </div>

@@ -67,12 +67,12 @@ export const CountdownTimer = memo<CountdownTimerProps>(({
         aria-live="polite"
       >
         {timeLeft.isExpired ? (
-          <span>Arrived / Window Passed</span>
+          <span>Window Expired</span>
         ) : (
           <>
-            <span className="bg-[var(--okt)]/50 px-1 py-0.5 rounded">{timeLeft.minutes}</span>
+            <span className="bg-[var(--okt)] px-1.5 py-0.5 rounded">{timeLeft.minutes}</span>
             <span>:</span>
-            <span className="bg-[var(--okt)]/50 px-1 py-0.5 rounded">{timeLeft.seconds}</span>
+            <span className="bg-[var(--okt)] px-1.5 py-0.5 rounded">{timeLeft.seconds}</span>
           </>
         )}
       </div>

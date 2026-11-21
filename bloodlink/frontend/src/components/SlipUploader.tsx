@@ -77,17 +77,17 @@ export const SlipUploader = memo<SlipUploaderProps>(({
     <div className="card space-y-2">
       <div className="flex items-center justify-between">
         <label className="text-xs font-semibold text-[var(--ink)]">
-          Official Requisition Slip Photo {required && <span className="text-[var(--rt)]">*</span>}
+          Requisition Slip Photo {required && <span className="text-[var(--rt)]">*</span>}
         </label>
         {fileSize && (
-          <span className="text-[10px] font-mono text-[var(--ok)] font-semibold">
-            ✓ Optimized: {fileSize}
+          <span className="text-[11px] font-mono text-[var(--ok)] font-semibold">
+            Compressed: {fileSize}
           </span>
         )}
       </div>
 
       <p className="text-[11px] text-[var(--mu)] leading-relaxed">
-        Mandatory clinical anti-spam guardrail. Auto-compressed in browser to &lt; 300 KB before upload.
+        Mandatory clinical verification requirement. Compressed client-side to &lt; 400 KB before upload.
       </p>
 
       <input
@@ -102,28 +102,27 @@ export const SlipUploader = memo<SlipUploaderProps>(({
       <button
         type="button"
         onClick={() => fileInputRef.current?.click()}
-        className="w-full border-2 border-dashed border-[var(--ln)] rounded-xl p-4 text-center hover:bg-[var(--bg)] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C62828] active:scale-[0.99]"
+        className="w-full border-2 border-dashed border-[var(--ln)] rounded-xl p-5 text-center hover:bg-[var(--bg)] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C62828]"
       >
         {isCompressing ? (
-          <div className="py-2 text-xs text-[var(--mu)] font-medium animate-pulse">
-            Processing and optimizing image...
+          <div className="py-2 text-xs text-[var(--mu)] font-medium">
+            Compressing image client-side...
           </div>
         ) : preview ? (
           <div className="space-y-2">
             <img
               src={preview}
               alt="Uploaded Requisition Slip"
-              className="max-h-40 mx-auto rounded-lg object-contain border border-[var(--ln)]"
+              className="max-h-48 mx-auto rounded-lg object-contain border border-[var(--ln)]"
             />
-            <div className="text-xs text-[var(--ok)] font-semibold flex items-center justify-center gap-1">
-              <span>✓</span> Photo selected. Tap to replace.
+            <div className="text-xs text-[var(--ok)] font-semibold">
+              Requisition image attached. Click to replace.
             </div>
           </div>
         ) : (
-          <div className="space-y-1.5 py-1">
-            <div className="text-2xl" aria-hidden="true">📷</div>
-            <div className="text-xs font-semibold text-[var(--ink)]">Tap to Take or Upload Photo</div>
-            <div className="text-[11px] text-[var(--mu)]">Mobile camera, JPEG, PNG, WebP</div>
+          <div className="space-y-1.5 py-1 text-center">
+            <div className="text-xs font-semibold text-[var(--ink)]">Select or Take Photo of Hospital Requisition Slip</div>
+            <div className="text-[11px] text-[var(--mu)]">Formats: JPEG, PNG, WebP</div>
           </div>
         )}
       </button>
