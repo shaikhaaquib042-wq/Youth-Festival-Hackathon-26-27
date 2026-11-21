@@ -1,4 +1,4 @@
-# Sajag — Handoff (21 Nov 2026, updated 15:00 IST)
+# Sajag — Handoff (21 Nov 2026, updated 15:25 IST)
 
 Hackathon: Naya Bharat 2047 · Code for Bharat (Rotary × Rotaract Youth Festival, Pune). **Code freeze 21:00, submission before 22:00 IST.**
 Problem statements: **7.3** "Which road is flooded right now?" (primary) + **7.2** "Too hot to work, too poor to stop".
@@ -12,13 +12,13 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 
 | What | Where |
 |---|---|
-| Repo (local) | `~/NayaBharat Hackathon/sajag` — branch **`team/sajag`** (24 commits, **nothing pushed yet**) |
+| Repo (local) | `~/NayaBharat Hackathon/sajag` — branch **`team/sajag`** (34 commits, **nothing pushed yet**) |
 | Remote | github.com/shaikhaaquib042-wq/Youth-Festival-Hackathon-26-27 — **we only have READ access**; waiting for organisers to add the team account as collaborator. Never push `main`. Devang handles git (one email per team). |
 | Dev server | `npm run dev` → http://localhost:5173 (`?city=pune|mumbai|bengaluru|hyderabad`, `?hazard=flood|heat`) |
 | Routing (OSRM) | Docker container `osrm-pune` on **localhost:5000** (Colima on the M1 Mac; `colima start` after reboot). Data in `~/osrm`, rebuild with `npm run osrm`. Covers 73.30–74.50 E, 18.10–19.00 N. |
 | Map tiles | `public/tiles/pune-region-20261120.pmtiles` (committed). Mumbai / Bengaluru / Hyderabad `.pmtiles` are local only (gitignored, >25 MiB Cloudflare Pages limit → need R2 for public deploy). |
 | Backend | Supabase project **`sajag`** (ref `icknjgvstmvglggqauev`, region Mumbai ap-south-1, org "Devangs Org"). Keys + DB password in **`.env.local`** (gitignored, never commit). |
-| agy worktrees (Orca) | `sajag-heat` → `~/orca/workspaces/sajag/sajag-heat` (branch `team/sajag-heat`, **merged**). `sajag-cards` → `~/orca/workspaces/sajag/sajag-cards` (branch `team/sajag-cards`, **merged** 14:54). Both merged. **`sajag-ux`** → `~/orca/workspaces/sajag/sajag-ux` (branch `team/sajag-ux`) — agy's UX pass **in progress** (brief: scratchpad `agy-brief-ux.md`). **`sajag-city`** → `~/orca/workspaces/sajag/sajag-city` (branch `team/sajag-city`) — **Codex, GPT-6 Luna, effort high**: city auto-switch offer (brief: scratchpad `codex-brief-city.md`). Owns `src/ui/citySwitch.js`, `config.js` CITY resolution, `src/store.js` per-city seed data, `src/data/<city>-*.json`, grids in non-Pune packs. Don't edit those until merged. |
+| agy worktrees (Orca) | `sajag-heat` → `~/orca/workspaces/sajag/sajag-heat` (branch `team/sajag-heat`, **merged**). `sajag-cards` → `~/orca/workspaces/sajag/sajag-cards` (branch `team/sajag-cards`, **merged** 14:54). Both merged. **`sajag-ux`** (agy) and **`sajag-city`** (Codex GPT-6 Luna) — both **merged** 15:22. All workers idle. Launch new workers WITHOUT `--activate` (Devang's request). |
 | Research inputs | `docs/PRD.md`; teammate's *Sajag Research Report* (`~/Downloads/Sajag Research Report.html`); official PS PDF in the parent folder. |
 
 ## 2. Done (verified)
@@ -65,6 +65,10 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 
 **UX pass — orchestrator part (done 14:59)** — per Devang (14:52): "as simple as possible". Top: two picture tabs (🌧 Rain | ☀️ Heat) + ⋯ More. Bottom: 3 big buttons per side (Rain: Is my route safe? · Report · 🆘 Help | Heat: Start work · 💧 Water/shade near me · 🆘 Help). First-run setup (`src/ui/onboarding.js`): language in own scripts → "Who are you?" pictures (`src/ui/profile.js` sets mode + work type) → location; **recommends the local language when location permission is already granted** (city pack containing the fix, or nearest within 150 km; never prompts on screen 1). `?setup=1` re-runs it; skipped for `?scenario=` links. More menu (`src/ui/more.js`): language, who-you-are, helplines, radar / add cooling point, sign in/out, setup again, demo replay. Help sheet (`src/ui/help.js`): tap-to-call, ambulance first. 18 px base font, ≥ 48 px targets. Events: `sajag:mode`, `sajag:profile`, `sajag:show-cooling`, `sajag:route`. **Verified:** setup flow in Marathi + new main screen.
 
+**UX pass — agy part (merged 15:22)** — one-answer status cards (big icon + one sentence + big 🔊; details under "More details ▾"; WBGT behind ⓘ; simple other-side chip), quiet map (soft cells, no outlines/labels in LIVE; flood spots at zoom ≥ 12 or during route check; cooling only on 💧), picture-first report (🌊/🚧 tiles, **depth as SVG figures: ankle / knee / waist-torso** in `src/ui/depthIcons.js`, big "📷 Add photo proof" tile, "📷 Proof" badge in popups). ⚠️ The report form itself is **not visually verified** — it only opens after sign-in, which needs Google/SMTP set up.
+
+**City auto-switch — Codex GPT-6 Luna (merged 15:22)** — `src/ui/citySwitch.js`: when the app's GPS fix is in another city pack, banner "You seem to be in {city}. Switch?" (once per pair; skipped for `?scenario=` / `?city=`); city choice: `?city=` → saved `sajag.city` → `VITE_CITY` → Pune; per-city seed data in `store.js` (Mumbai / Bengaluru / Hyderabad gazetteers ~10+ approx places each; hotspots/cooling empty); grids for all 4 packs. City picker added to ⋯ More. **Verified:** simulated Bengaluru fix → banner in Marathi.
+
 **Heat engine (by agy, merged)** — `src/heat/`: `wbgt.js` (WBGT shade/sun estimate), `workrest.js` (ACGIH-style table), `safeAgain.js` ("safe to work again at HH:MM"), `illness.js` (red flags / warning signs + triage), `scripts/heat-selftest.mjs` → **ALL HEAT TESTS PASSED**.
 
 ## 3. Not done / known gaps
@@ -72,7 +76,7 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 | Item | Note |
 |---|---|
 | End-to-end report submit from the browser | Blocked until a sign-in method works (Google not configured; Supabase's default mailer only emails project-team members, 2/hour). A direct test-user insert into the hosted DB was refused by the safety check — not worked around. |
-| Strings | All 180 keys present in all 5 languages. |
+| Strings | All 229 keys present in all 5 languages. |
 | Native-speaker review | All mr / hi / kn / te strings were machine-written — Kannada & Telugu especially need a native read. |
 | Work/rest numbers | PRD §21.2 table is simplified from ACGIH — verify before quoting on stage. |
 | Helplines | Only 112 / 108 verified. |
@@ -99,8 +103,8 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 | 4 | — | Status cards, weather grid, radar, advisory | ✅ done (agy) + integrated |
 | 5 | 18:00 | Paste-in police post → gazetteer → pins | agy |
 | 6 | — | Scenario player | ✅ done |
-| City | 16:15 | Offer to switch the whole app to the city the GPS fix is in (once; skip for ?scenario= / ?city=); per-city seed data; grids + gazetteers for Mumbai / Bengaluru / Hyderabad. Then wire `switchCity()` into More as a City picker. | Codex (GPT-6 Luna, high) → Claude merges |
-| UX | 16:30 | Simplify UI/UX — orchestrator part ✅; **agy part in progress**: one-answer status cards (big icon + sentence + 🔊, details collapsed), quiet map (soft cells, no labels, cooling only on 💧, hotspots at zoom ≥ 12 or during route check), picture-first report form. Then merge + translate agy's en.js keys. | agy → Claude merges |
+| City | — | City auto-switch + per-city data + City picker | ✅ done (Codex) |
+| UX | — | Simplified UI/UX (shell + cards + map + report) | ✅ done (Claude + agy) |
 | 7 | 20:00 | PWA manifest + service worker + shortcuts, WhatsApp share, CSV for PMC, deploy (Pages + R2) | both |
 | 8 | 21:00 | Rehearse ×3, slides, code freeze | team |
 
