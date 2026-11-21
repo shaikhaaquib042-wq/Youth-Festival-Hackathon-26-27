@@ -130,3 +130,27 @@
 .tone-leaf { background: #DCEFD9; color: #2D7341; }
 .tone-sky { background: #E3EAF8; color: #1F3A8A; }
 .tone-rose { background: #FCE3DD; color: #A33A22; }
+
+/* ---------- Legal aid ---------- */
+.la-head { display: flex; align-items: flex-start; margin-bottom: 26px; }
+.la-badge { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; margin: 6px 18px 0 0; border-radius: 22px; background: #DCEFD9; color: var(--leaf-700); }
+.la-grid { display: grid; grid-template-columns: minmax(0, 1fr); grid-gap: 24px; gap: 24px; }
+@media (min-width: 1000px) { .la-grid { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: start; } }
+.la-card { padding: 26px 24px; border-radius: 34px; background: var(--paper); box-shadow: var(--shadow-soft); }
+.la-card h2 { font-size: 1.45rem; }
+.la-row { display: grid; grid-template-columns: minmax(0, 1fr); grid-gap: 4px 20px; gap: 4px 20px; margin-top: 18px; }
+@media (min-width: 640px) { .la-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.la-row .field > label { display: block; font-family: var(--font-display); font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.la-hint { margin: 8px 0 0; font-size: 0.92rem; color: var(--ink-500); }
+.la-submit { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--sage-100); }
+.la-submit .btn { width: auto; }
+.la-call {
+  display: flex; align-items: flex-start; margin-bottom: 14px; padding: 18px 20px; border-radius: 28px;
+  background: var(--paper); box-shadow: var(--shadow-soft); text-decoration: none; color: var(--ink);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+a.la-call:hover { transform: translateY(-3px); color: var(--ink); }
+.la-call strong { display: block; font-family: var(--font-display); font-size: 1.2rem; }
+.la-call small { display: block; margin-top: 4px; font-size: 0.95rem; color: var(--ink-600); }
+.la-call-icon { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; margin-right: 14px; border-radius: 16px; }
+.la-more { padding: 16px 20px; border-radius: 24px; background: var(--sage-50); color: var(--ink-700); }
