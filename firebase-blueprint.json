@@ -1,0 +1,345 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Authenticated MaternaCare account with role, preferred language, and profile type.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID matching document ID." },
+        "role": { "type": "string", "enum": ["MOTHER", "CAREGIVER", "FAMILY", "ASHA"] },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "preferredLanguage": { "type": "string", "enum": ["en", "hi", "mr"] },
+        "status": { "type": "string", "enum": ["ACTIVE", "SUSPENDED"] },
+        "hasPregnancyProfile": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Clients must submit FieldValue.serverTimestamp()." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Clients must submit FieldValue.serverTimestamp()." }
+      },
+      "required": ["userId", "role", "name", "preferredLanguage", "status", "hasPregnancyProfile", "createdAt", "updatedAt"]
+    },
+    "ASHAProfile": {
+      "title": "ASHAProfile",
+      "description": "ASHA worker identity, worker ID, service area, health centre, and manual verification state.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "workerId": { "type": "string" },
+        "identityProofRef": { "type": "string", "description": "Submitted ASHA identity proof type and reference number." },
+        "verificationStatus": { "type": "string", "enum": ["PENDING", "VERIFIED", "REJECTED"] },
+        "serviceAreaId": { "type": "string" },
+        "healthCentre": { "type": "string" },
+        "phone": { "type": "string" },
+        "reviewNote": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "workerId", "verificationStatus", "serviceAreaId", "healthCentre", "createdAt", "updatedAt"]
+    },
+    "MotherProfile": {
+      "title": "MotherProfile",
+      "description": "Private maternal pregnancy profile, IFA reminder preferences, and assigned ASHA reference.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "motherName": { "type": "string" },
+        "beneficiaryCode": { "type": "string" },
+        "phone": { "type": "string" },
+        "pregnancyWeek": { "type": "integer" },
+        "expectedDueDate": { "type": "string" },
+        "ifaReminderTime": { "type": "string" },
+        "ifaReminderTimezone": { "type": "string" },
+        "serviceAreaId": { "type": "string" },
+        "assignedAshaId": { "type": "string" },
+        "assignedAshaName": { "type": "string" },
+        "assignedAshaPhone": { "type": "string" },
+        "inviteCode": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "motherName", "beneficiaryCode", "pregnancyWeek", "ifaReminderTime", "ifaReminderTimezone", "serviceAreaId", "inviteCode", "createdAt", "updatedAt"]
+    },
+    "ChildProfile": {
+      "title": "ChildProfile",
+      "description": "Child profile linked directly to caregiver account; usable independently without a pregnancy profile.",
+      "type": "object",
+      "properties": {
+        "caregiverId": { "type": "string" },
+        "childName": { "type": "string" },
+        "ageMonths": { "type": "integer" },
+        "dateOfBirth": { "type": "string" },
+        "lastSymptomCheck": { "type": "string" },
+        "lastSymptomSummary": { "type": "string" },
+        "dangerSignsFlagged": { "type": "boolean" },
+        "nextVaccinationNote": { "type": "string" },
+        "sharedWithFamily": { "type": "boolean" },
+        "sharedFamilyIds": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["caregiverId", "childName", "ageMonths", "dangerSignsFlagged", "sharedWithFamily", "sharedFamilyIds", "createdAt", "updatedAt"]
+    },
+    "ConsentGrant": {
+      "title": "ConsentGrant",
+      "description": "Explicit mother-controlled consent record granting or revoking specific family supporter scopes.",
+      "type": "object",
+      "properties": {
+        "motherId": { "type": "string" },
+        "motherName": { "type": "string" },
+        "granteeId": { "type": "string" },
+        "granteeName": { "type": "string" },
+        "granteeRelation": { "type": "string" },
+        "active": { "type": "boolean" },
+        "scopeIfa": { "type": "boolean" },
+        "scopeAppointments": { "type": "boolean" },
+        "scopeChildCare": { "type": "boolean" },
+        "scopeAshaConnect": { "type": "boolean" },
+        "grantedAt": { "type": "string", "format": "date-time" },
+        "revokedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["motherId", "motherName", "granteeId", "granteeName", "active", "scopeIfa", "scopeAppointments", "scopeChildCare", "scopeAshaConnect", "grantedAt", "createdAt", "updatedAt"]
+    },
+    "FamilyView": {
+      "title": "FamilyView",
+      "description": "Server-isolated projection containing only mother-authorised fields for a connected family supporter.",
+      "type": "object",
+      "properties": {
+        "motherId": { "type": "string" },
+        "familyUserId": { "type": "string" },
+        "motherName": { "type": "string" },
+        "connectionStatus": { "type": "string", "enum": ["ACTIVE", "REVOKED"] },
+        "revoked": { "type": "boolean" },
+        "shareIfa": { "type": "boolean" },
+        "shareAppointments": { "type": "boolean" },
+        "shareChildCare": { "type": "boolean" },
+        "shareAshaConnect": { "type": "boolean" },
+        "ifaTakenCount": { "type": "integer" },
+        "ifaMissedCount": { "type": "integer" },
+        "ifaUpcomingCount": { "type": "integer" },
+        "nextCheckupDate": { "type": "string" },
+        "nextCheckupTitle": { "type": "string" },
+        "ashaFollowUpStatus": { "type": "string" },
+        "assignedAshaId": { "type": "string" },
+        "assignedAshaName": { "type": "string" },
+        "assignedAshaPhone": { "type": "string" },
+        "motherPhone": { "type": "string" },
+        "childCareGuideAvailable": { "type": "boolean" },
+        "latestUpdates": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["motherId", "familyUserId", "motherName", "connectionStatus", "revoked", "shareIfa", "shareAppointments", "shareChildCare", "shareAshaConnect", "ifaTakenCount", "ifaMissedCount", "ifaUpcomingCount", "childCareGuideAvailable", "latestUpdates", "createdAt", "updatedAt"]
+    },
+    "BeneficiaryAssignment": {
+      "title": "BeneficiaryAssignment",
+      "description": "Approved maternal beneficiary assignment linking a verified ASHA worker to an assigned mother.",
+      "type": "object",
+      "properties": {
+        "ashaId": { "type": "string" },
+        "motherId": { "type": "string" },
+        "motherName": { "type": "string" },
+        "beneficiaryCode": { "type": "string" },
+        "motherPhone": { "type": "string" },
+        "serviceAreaId": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "APPROVED", "REVOKED"] },
+        "ashaVerified": { "type": "boolean" },
+        "nextFollowUpDate": { "type": "string" },
+        "followUpStatusLabel": { "type": "string" },
+        "pregnancyWeek": { "type": "integer" },
+        "approvedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ashaId", "motherId", "motherName", "beneficiaryCode", "serviceAreaId", "status", "ashaVerified", "createdAt", "updatedAt"]
+    },
+    "IFADoseEvent": {
+      "title": "IFADoseEvent",
+      "description": "Scheduled and recorded IFA tablet dose event with separate notification delivery status.",
+      "type": "object",
+      "properties": {
+        "motherId": { "type": "string" },
+        "scheduledDateKey": { "type": "string" },
+        "scheduledTime": { "type": "string" },
+        "status": { "type": "string", "enum": ["UPCOMING", "TAKEN", "MISSED", "REMIND_LATER"] },
+        "source": { "type": "string", "enum": ["MOTHER_APP", "SCHEDULE_SEED"] },
+        "notificationStatus": { "type": "string", "enum": ["DEMO_NOT_SENT", "PENDING", "SCHEDULED", "FAILED"] },
+        "note": { "type": "string" },
+        "assignedAshaId": { "type": "string" },
+        "ashaAuthorized": { "type": "boolean" },
+        "sharedFamilyIds": { "type": "array" },
+        "recordedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["motherId", "scheduledDateKey", "scheduledTime", "status", "source", "notificationStatus", "ashaAuthorized", "sharedFamilyIds", "createdAt", "updatedAt"]
+    },
+    "SideEffectReport": {
+      "title": "SideEffectReport",
+      "description": "Mother-reported IFA side effects visible to mother and authorised assigned ASHA.",
+      "type": "object",
+      "properties": {
+        "motherId": { "type": "string" },
+        "symptoms": { "type": "array" },
+        "severity": { "type": "string", "enum": ["MILD", "MODERATE", "SEVERE"] },
+        "notes": { "type": "string" },
+        "assignedAshaId": { "type": "string" },
+        "ashaAuthorized": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["motherId", "symptoms", "severity", "ashaAuthorized", "createdAt", "updatedAt"]
+    },
+    "FollowUp": {
+      "title": "FollowUp",
+      "description": "Maternal appointments, ASHA visits/calls/messages, and child check-ins.",
+      "type": "object",
+      "properties": {
+        "beneficiaryId": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "ashaId": { "type": "string" },
+        "motherName": { "type": "string" },
+        "dateKey": { "type": "string" },
+        "timeLabel": { "type": "string" },
+        "type": { "type": "string", "enum": ["ANC_CHECKUP", "ASHA_VISIT", "ASHA_CALL", "ASHA_MESSAGE", "CHILD_FOLLOWUP"] },
+        "category": { "type": "string", "enum": ["MATERNAL", "CHILD"] },
+        "status": { "type": "string", "enum": ["SCHEDULED", "COMPLETED", "MISSED", "CANCELLED"] },
+        "deliveryStatus": { "type": "string", "enum": ["DEMO_NOT_SENT", "LOGGED", "PENDING", "FAILED"] },
+        "notes": { "type": "string" },
+        "ashaAuthorized": { "type": "boolean" },
+        "sharedWithFamily": { "type": "boolean" },
+        "sharedFamilyIds": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["beneficiaryId", "ownerId", "motherName", "dateKey", "timeLabel", "type", "category", "status", "deliveryStatus", "ashaAuthorized", "sharedWithFamily", "sharedFamilyIds", "createdAt", "updatedAt"]
+    },
+    "ConnectionRequest": {
+      "title": "ConnectionRequest",
+      "description": "Family-to-Mother and Family-to-ASHA connection request requiring explicit consent and acceptance.",
+      "type": "object",
+      "properties": {
+        "motherId": { "type": "string" },
+        "motherName": { "type": "string" },
+        "familyUserId": { "type": "string" },
+        "familyName": { "type": "string" },
+        "relation": { "type": "string" },
+        "ashaId": { "type": "string" },
+        "requestType": { "type": "string", "enum": ["FAMILY_MOTHER", "FAMILY_ASHA"] },
+        "status": { "type": "string", "enum": ["PENDING_MOTHER", "PENDING_ASHA", "APPROVED", "REJECTED", "REVOKED"] },
+        "motherConsented": { "type": "boolean" },
+        "ashaAccepted": { "type": "boolean" },
+        "ashaAuthorized": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["motherId", "motherName", "familyUserId", "familyName", "requestType", "status", "motherConsented", "ashaAccepted", "ashaAuthorized", "createdAt", "updatedAt"]
+    },
+    "Encouragement": {
+      "title": "Encouragement",
+      "description": "Encouragement note sent by a consented family supporter to the mother.",
+      "type": "object",
+      "properties": {
+        "motherId": { "type": "string" },
+        "familyUserId": { "type": "string" },
+        "familyName": { "type": "string" },
+        "message": { "type": "string" },
+        "deliveryStatus": { "type": "string", "enum": ["DEMO_NOT_SENT", "IN_APP_SAVED"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["motherId", "familyUserId", "familyName", "message", "deliveryStatus", "createdAt"]
+    },
+    "SOSRequest": {
+      "title": "SOSRequest",
+      "description": "Mother or Child urgent-help SOS event with explicit consent and truthful adapter status.",
+      "type": "object",
+      "properties": {
+        "requesterId": { "type": "string" },
+        "beneficiaryType": { "type": "string", "enum": ["MOTHER", "CHILD"] },
+        "status": { "type": "string", "enum": ["DEMO_NOT_SENT", "PENDING", "CANCELLED"] },
+        "consentConfirmed": { "type": "boolean" },
+        "providerReference": { "type": "string" },
+        "dangerSigns": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["requesterId", "beneficiaryType", "status", "consentConfirmed", "providerReference", "dangerSigns", "createdAt", "updatedAt"]
+    },
+    "AuditEvent": {
+      "title": "AuditEvent",
+      "description": "Immutable append-only audit trail for consent changes, ASHA verification, dose logs, follow-ups, and SOS.",
+      "type": "object",
+      "properties": {
+        "actorId": { "type": "string" },
+        "actorRole": { "type": "string" },
+        "action": { "type": "string" },
+        "recordType": { "type": "string" },
+        "recordId": { "type": "string" },
+        "targetMotherId": { "type": "string" },
+        "detail": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["actorId", "actorRole", "action", "recordType", "recordId", "detail", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User account role, language preference, and status."
+    },
+    "/ashaProfiles/{ashaId}": {
+      "schema": { "$ref": "#/entities/ASHAProfile" },
+      "description": "ASHA worker identity and verification status."
+    },
+    "/motherProfiles/{motherId}": {
+      "schema": { "$ref": "#/entities/MotherProfile" },
+      "description": "Private maternal profile accessible to owner and verified assigned ASHA only."
+    },
+    "/childProfiles/{childId}": {
+      "schema": { "$ref": "#/entities/ChildProfile" },
+      "description": "Child profiles linked to caregiver; optionally shared with consented family."
+    },
+    "/consentGrants/{grantId}": {
+      "schema": { "$ref": "#/entities/ConsentGrant" },
+      "description": "Mother-controlled consent grants and revocation state."
+    },
+    "/familyViews/{grantId}": {
+      "schema": { "$ref": "#/entities/FamilyView" },
+      "description": "Field-minimised mother-authorised dashboard projection for connected family supporter."
+    },
+    "/beneficiaryAssignments/{assignmentId}": {
+      "schema": { "$ref": "#/entities/BeneficiaryAssignment" },
+      "description": "Approved maternal beneficiary assignments linking verified ASHA workers to mothers."
+    },
+    "/ifaDoses/{doseId}": {
+      "schema": { "$ref": "#/entities/IFADoseEvent" },
+      "description": "IFA tablet schedule and recorded dose events with duplicate protection."
+    },
+    "/sideEffectReports/{reportId}": {
+      "schema": { "$ref": "#/entities/SideEffectReport" },
+      "description": "Mother-reported IFA side effects."
+    },
+    "/followUps/{followUpId}": {
+      "schema": { "$ref": "#/entities/FollowUp" },
+      "description": "Maternal appointments, ASHA follow-up activities, and child check-ins."
+    },
+    "/connectionRequests/{requestId}": {
+      "schema": { "$ref": "#/entities/ConnectionRequest" },
+      "description": "Family-Mother and Family-ASHA connection workflow requests."
+    },
+    "/encouragements/{encId}": {
+      "schema": { "$ref": "#/entities/Encouragement" },
+      "description": "Family encouragement messages to connected mothers."
+    },
+    "/sosRequests/{sosId}": {
+      "schema": { "$ref": "#/entities/SOSRequest" },
+      "description": "Mother and Child urgent-help SOS logs with explicit demo status."
+    },
+    "/auditEvents/{eventId}": {
+      "schema": { "$ref": "#/entities/AuditEvent" },
+      "description": "Immutable append-only security and clinical activity audit trail."
+    }
+  }
+}

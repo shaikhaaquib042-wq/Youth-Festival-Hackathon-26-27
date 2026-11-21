@@ -1,0 +1,6 @@
+{
+  "name": "MaternaCare",
+  "description": "Connected maternal and child health support app with role-based experiences for Mothers/Caregivers, Family Supporters, and ASHA Workers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

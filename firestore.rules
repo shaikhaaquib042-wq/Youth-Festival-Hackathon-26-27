@@ -1,0 +1,883 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net: Default Deny All
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // -----------------------------------------------------------------------
+    // Global Hardened Helpers
+    // -----------------------------------------------------------------------
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        ('email' in request.auth.token &&
+         'email_verified' in request.auth.token &&
+         request.auth.token.email == 'surprisetoyou7@gmail.com' &&
+         request.auth.token.email_verified == true) ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidTimestamp(ts) {
+      return ts is timestamp && ts <= request.time;
+    }
+
+    function isOptionalString(data, field, maxLen) {
+      return !(field in data) || (data[field] is string && data[field].size() <= maxLen);
+    }
+
+    function isBoundedStringList(val, maxSize) {
+      return val is list && val.size() <= maxSize && (val.size() == 0 || val[0] is string);
+    }
+
+    // Relational Authorization Helpers (used ONLY in get/create/update, NEVER in list)
+    function isVerifiedAsha(ashaUid) {
+      return exists(/databases/$(database)/documents/ashaProfiles/$(ashaUid)) &&
+             get(/databases/$(database)/documents/ashaProfiles/$(ashaUid)).data.verificationStatus == 'VERIFIED';
+    }
+
+    function isVerifiedAshaAssigned(ashaUid, motherUid) {
+      return isVerifiedAsha(ashaUid) &&
+             exists(/databases/$(database)/documents/beneficiaryAssignments/$(ashaUid + '_' + motherUid)) &&
+             get(/databases/$(database)/documents/beneficiaryAssignments/$(ashaUid + '_' + motherUid)).data.status == 'APPROVED';
+    }
+
+    function hasActiveFamilyConsent(motherUid, familyUid) {
+      return exists(/databases/$(database)/documents/consentGrants/$(motherUid + '_' + familyUid)) &&
+             get(/databases/$(database)/documents/consentGrants/$(motherUid + '_' + familyUid)).data.active == true;
+    }
+
+    function hasFamilyIfaConsent(motherUid, familyUid) {
+      return hasActiveFamilyConsent(motherUid, familyUid) &&
+             get(/databases/$(database)/documents/consentGrants/$(motherUid + '_' + familyUid)).data.scopeIfa == true;
+    }
+
+    function hasFamilyAppointmentConsent(motherUid, familyUid) {
+      return hasActiveFamilyConsent(motherUid, familyUid) &&
+             get(/databases/$(database)/documents/consentGrants/$(motherUid + '_' + familyUid)).data.scopeAppointments == true;
+    }
+
+    function hasFamilyChildConsent(motherUid, familyUid) {
+      return hasActiveFamilyConsent(motherUid, familyUid) &&
+             get(/databases/$(database)/documents/consentGrants/$(motherUid + '_' + familyUid)).data.scopeChildCare == true;
+    }
+
+    // -----------------------------------------------------------------------
+    // Validation Blueprints (Anti-Update-Gap)
+    // -----------------------------------------------------------------------
+    function isValidUser(data) {
+      return data.keys().hasAll(['userId', 'role', 'name', 'preferredLanguage', 'status', 'hasPregnancyProfile', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['userId', 'role', 'name', 'phone', 'preferredLanguage', 'status', 'hasPregnancyProfile', 'createdAt', 'updatedAt']) &&
+             data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.role in ['MOTHER', 'CAREGIVER', 'FAMILY', 'ASHA'] &&
+             data.name is string && data.name.size() >= 1 && data.name.size() <= 80 &&
+             isOptionalString(data, 'phone', 25) &&
+             data.preferredLanguage in ['en', 'hi', 'mr'] &&
+             data.status in ['ACTIVE', 'SUSPENDED'] &&
+             data.hasPregnancyProfile is bool &&
+             isValidTimestamp(data.createdAt) &&
+             isValidTimestamp(data.updatedAt);
+    }
+
+    function isValidAshaProfile(data) {
+      return data.keys().hasAll(['userId', 'name', 'workerId', 'verificationStatus', 'serviceAreaId', 'healthCentre', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['userId', 'name', 'workerId', 'identityProofRef', 'verificationStatus', 'serviceAreaId', 'healthCentre', 'phone', 'reviewNote', 'createdAt', 'updatedAt']) &&
+             data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.name is string && data.name.size() >= 1 && data.name.size() <= 80 &&
+             data.workerId is string && data.workerId.size() >= 2 && data.workerId.size() <= 40 &&
+             isOptionalString(data, 'identityProofRef', 160) &&
+             data.verificationStatus in ['PENDING', 'VERIFIED', 'REJECTED'] &&
+             data.serviceAreaId is string && data.serviceAreaId.size() >= 2 && data.serviceAreaId.size() <= 60 &&
+             data.healthCentre is string && data.healthCentre.size() >= 2 && data.healthCentre.size() <= 120 &&
+             isOptionalString(data, 'phone', 25) &&
+             isOptionalString(data, 'reviewNote', 300) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidTimestamp(data.updatedAt);
+    }
+
+    function isValidMotherProfile(data) {
+      return data.keys().hasAll(['userId', 'motherName', 'beneficiaryCode', 'pregnancyWeek', 'ifaReminderTime', 'ifaReminderTimezone', 'serviceAreaId', 'inviteCode', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['userId', 'motherName', 'beneficiaryCode', 'phone', 'pregnancyWeek', 'expectedDueDate', 'ifaReminderTime', 'ifaReminderTimezone', 'serviceAreaId', 'assignedAshaId', 'assignedAshaName', 'assignedAshaPhone', 'inviteCode', 'notes', 'createdAt', 'updatedAt']) &&
+             data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.motherName is string && data.motherName.size() >= 1 && data.motherName.size() <= 80 &&
+             data.beneficiaryCode is string && data.beneficiaryCode.size() >= 2 && data.beneficiaryCode.size() <= 32 &&
+             isOptionalString(data, 'phone', 25) &&
+             data.pregnancyWeek is int && data.pregnancyWeek >= 0 && data.pregnancyWeek <= 44 &&
+             isOptionalString(data, 'expectedDueDate', 30) &&
+             data.ifaReminderTime is string && data.ifaReminderTime.size() >= 4 && data.ifaReminderTime.size() <= 16 &&
+             data.ifaReminderTimezone is string && data.ifaReminderTimezone.size() >= 2 && data.ifaReminderTimezone.size() <= 64 &&
+             data.serviceAreaId is string && data.serviceAreaId.size() >= 2 && data.serviceAreaId.size() <= 60 &&
+             isOptionalString(data, 'assignedAshaId', 128) &&
+             isOptionalString(data, 'assignedAshaName', 80) &&
+             isOptionalString(data, 'assignedAshaPhone', 25) &&
+             data.inviteCode is string && data.inviteCode.size() >= 4 && data.inviteCode.size() <= 24 &&
+             isOptionalString(data, 'notes', 500) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidTimestamp(data.updatedAt);
+    }
+
+    function isValidChildProfile(data) {
+      return data.keys().hasAll(['caregiverId', 'childName', 'ageMonths', 'dangerSignsFlagged', 'sharedWithFamily', 'sharedFamilyIds', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['caregiverId', 'childName', 'ageMonths', 'dateOfBirth', 'lastSymptomCheck', 'lastSymptomSummary', 'dangerSignsFlagged', 'nextVaccinationNote', 'sharedWithFamily', 'sharedFamilyIds', 'createdAt', 'updatedAt']) &&
+             data.caregiverId is string && data.caregiverId.size() >= 1 && data.caregiverId.size() <= 128 &&
+             data.childName is string && data.childName.size() >= 1 && data.childName.size() <= 80 &&
+             data.ageMonths is int && data.ageMonths >= 0 && data.ageMonths <= 72 &&
+             isOptionalString(data, 'dateOfBirth', 30) &&
+             isOptionalString(data, 'lastSymptomCheck', 40) &&
+             isOptionalString(data, 'lastSymptomSummary', 300) &&
+             data.dangerSignsFlagged is bool &&
+             isOptionalString(data, 'nextVaccinationNote', 200) &&
+             data.sharedWithFamily is bool &&
+             isBoundedStringList(data.sharedFamilyIds, 10) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidTimestamp(data.updatedAt);
+    }
+
+    function isValidConsentGrant(data) {
+      return data.keys().hasAll(['motherId', 'motherName', 'granteeId', 'granteeName', 'active', 'scopeIfa', 'scopeAppointments', 'scopeChildCare', 'scopeAshaConnect', 'grantedAt', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['motherId', 'motherName', 'granteeId', 'granteeName', 'granteeRelation', 'active', 'scopeIfa', 'scopeAppointments', 'scopeChildCare', 'scopeAshaConnect', 'grantedAt', 'revokedAt', 'createdAt', 'updatedAt']) &&
+             data.motherId is string && data.motherId.size() >= 1 && data.motherId.size() <= 128 &&
+             data.motherName is string && data.motherName.size() >= 1 && data.motherName.size() <= 80 &&
+             data.granteeId is string && data.granteeId.size() >= 1 && data.granteeId.size() <= 128 &&
+             data.granteeName is string && data.granteeName.size() >= 1 && data.granteeName.size() <= 80 &&
+             isOptionalString(data, 'granteeRelation', 40) &&
+             data.active is bool &&
+             data.scopeIfa is bool &&
+             data.scopeAppointments is bool &&
+             data.scopeChildCare is bool &&
+             data.scopeAshaConnect is bool &&
+             isValidTimestamp(data.grantedAt) &&
+             (!('revokedAt' in data) || isValidTimestamp(data.revokedAt)) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidTimestamp(data.updatedAt);
+    }
+
+    function isValidFamilyView(data) {
+      return data.keys().hasAll(['motherId', 'familyUserId', 'motherName', 'connectionStatus', 'revoked', 'shareIfa', 'shareAppointments', 'shareChildCare', 'shareAshaConnect', 'ifaTakenCount', 'ifaMissedCount', 'ifaUpcomingCount', 'childCareGuideAvailable', 'latestUpdates', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['motherId', 'familyUserId', 'motherName', 'connectionStatus', 'revoked', 'shareIfa', 'shareAppointments', 'shareChildCare', 'shareAshaConnect', 'ifaTakenCount', 'ifaMissedCount', 'ifaUpcomingCount', 'nextCheckupDate', 'nextCheckupTitle', 'ashaFollowUpStatus', 'assignedAshaId', 'assignedAshaName', 'assignedAshaPhone', 'motherPhone', 'childCareGuideAvailable', 'latestUpdates', 'createdAt', 'updatedAt']) &&
+             data.motherId is string && data.motherId.size() >= 1 && data.motherId.size() <= 128 &&
+             data.familyUserId is string && data.familyUserId.size() >= 1 && data.familyUserId.size() <= 128 &&
+             data.motherName is string && data.motherName.size() >= 1 && data.motherName.size() <= 80 &&
+             data.connectionStatus in ['ACTIVE', 'REVOKED'] &&
+             data.revoked is bool &&
+             data.shareIfa is bool &&
+             data.shareAppointments is bool &&
+             data.shareChildCare is bool &&
+             data.shareAshaConnect is bool &&
+             data.ifaTakenCount is int && data.ifaTakenCount >= 0 && data.ifaTakenCount <= 500 &&
+             data.ifaMissedCount is int && data.ifaMissedCount >= 0 && data.ifaMissedCount <= 500 &&
+             data.ifaUpcomingCount is int && data.ifaUpcomingCount >= 0 && data.ifaUpcomingCount <= 500 &&
+             isOptionalString(data, 'nextCheckupDate', 40) &&
+             isOptionalString(data, 'nextCheckupTitle', 120) &&
+             isOptionalString(data, 'ashaFollowUpStatus', 80) &&
+             isOptionalString(data, 'assignedAshaId', 128) &&
+             isOptionalString(data, 'assignedAshaName', 80) &&
+             isOptionalString(data, 'assignedAshaPhone', 25) &&
+             isOptionalString(data, 'motherPhone', 25) &&
+             data.childCareGuideAvailable is bool &&
+             isBoundedStringList(data.latestUpdates, 10) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidTimestamp(data.updatedAt);
+    }
+
+    function isValidBeneficiaryAssignment(data) {
+      return data.keys().hasAll(['ashaId', 'motherId', 'motherName', 'beneficiaryCode', 'serviceAreaId', 'status', 'ashaVerified', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['ashaId', 'motherId', 'motherName', 'beneficiaryCode', 'motherPhone', 'serviceAreaId', 'status', 'ashaVerified', 'nextFollowUpDate', 'followUpStatusLabel', 'pregnancyWeek', 'approvedAt', 'createdAt', 'updatedAt']) &&
+             data.ashaId is string && data.ashaId.size() >= 1 && data.ashaId.size() <= 128 &&
+             data.motherId is string && data.motherId.size() >= 1 && data.motherId.size() <= 128 &&
+             data.motherName is string && data.motherName.size() >= 1 && data.motherName.size() <= 80 &&
+             data.beneficiaryCode is string && data.beneficiaryCode.size() >= 2 && data.beneficiaryCode.size() <= 32 &&
+             isOptionalString(data, 'motherPhone', 25) &&
+             data.serviceAreaId is string && data.serviceAreaId.size() >= 2 && data.serviceAreaId.size() <= 60 &&
+             data.status in ['PENDING', 'APPROVED', 'REVOKED'] &&
+             data.ashaVerified is bool &&
+             isOptionalString(data, 'nextFollowUpDate', 40) &&
+             isOptionalString(data, 'followUpStatusLabel', 120) &&
+             (!('pregnancyWeek' in data) || (data.pregnancyWeek is int && data.pregnancyWeek >= 0 && data.pregnancyWeek <= 44)) &&
+             (!('approvedAt' in data) || isValidTimestamp(data.approvedAt)) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidTimestamp(data.updatedAt);
+    }
+
+    function isValidIfaDose(data) {
+      return data.keys().hasAll(['motherId', 'scheduledDateKey', 'scheduledTime', 'status', 'source', 'notificationStatus', 'ashaAuthorized', 'sharedFamilyIds', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['motherId', 'scheduledDateKey', 'scheduledTime', 'status', 'source', 'notificationStatus', 'note', 'assignedAshaId', 'ashaAuthorized', 'sharedFamilyIds', 'recordedAt', 'createdAt', 'updatedAt']) &&
+             data.motherId is string && data.motherId.size() >= 1 && data.motherId.size() <= 128 &&
+             data.scheduledDateKey is string && data.scheduledDateKey.matches('^\\d{4}-\\d{2}-\\d{2}$') &&
+             data.scheduledTime is string && data.scheduledTime.size() >= 4 && data.scheduledTime.size() <= 16 &&
+             data.status in ['UPCOMING', 'TAKEN', 'MISSED', 'REMIND_LATER'] &&
+             data.source in ['MOTHER_APP', 'SCHEDULE_SEED'] &&
+             data.notificationStatus in ['DEMO_NOT_SENT', 'PENDING', 'SCHEDULED', 'FAILED'] &&
+             isOptionalString(data, 'note', 250) &&
+             isOptionalString(data, 'assignedAshaId', 128) &&
+             data.ashaAuthorized is bool &&
+             isBoundedStringList(data.sharedFamilyIds, 10) &&
+             (!('recordedAt' in data) || isValidTimestamp(data.recordedAt)) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidTimestamp(data.updatedAt);
+    }
+
+    function isValidSideEffectReport(data) {
+      return data.keys().hasAll(['motherId', 'symptoms', 'severity', 'ashaAuthorized', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['motherId', 'symptoms', 'severity', 'notes', 'assignedAshaId', 'ashaAuthorized', 'createdAt', 'updatedAt']) &&
+             data.motherId is string && data.motherId.size() >= 1 && data.motherId.size() <= 128 &&
+             isBoundedStringList(data.symptoms, 10) &&
+             data.severity in ['MILD', 'MODERATE', 'SEVERE'] &&
+             isOptionalString(data, 'notes', 500) &&
+             isOptionalString(data, 'assignedAshaId', 128) &&
+             data.ashaAuthorized is bool &&
+             isValidTimestamp(data.createdAt) &&
+             isValidTimestamp(data.updatedAt);
+    }
+
+    function isValidFollowUp(data) {
+      return data.keys().hasAll(['beneficiaryId', 'ownerId', 'motherName', 'dateKey', 'timeLabel', 'type', 'category', 'status', 'deliveryStatus', 'ashaAuthorized', 'sharedWithFamily', 'sharedFamilyIds', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['beneficiaryId', 'ownerId', 'ashaId', 'motherName', 'dateKey', 'timeLabel', 'type', 'category', 'status', 'deliveryStatus', 'notes', 'ashaAuthorized', 'sharedWithFamily', 'sharedFamilyIds', 'createdAt', 'updatedAt']) &&
+             data.beneficiaryId is string && data.beneficiaryId.size() >= 1 && data.beneficiaryId.size() <= 128 &&
+             data.ownerId is string && data.ownerId.size() >= 1 && data.ownerId.size() <= 128 &&
+             isOptionalString(data, 'ashaId', 128) &&
+             data.motherName is string && data.motherName.size() >= 1 && data.motherName.size() <= 80 &&
+             data.dateKey is string && data.dateKey.matches('^\\d{4}-\\d{2}-\\d{2}$') &&
+             data.timeLabel is string && data.timeLabel.size() >= 2 && data.timeLabel.size() <= 24 &&
+             data.type in ['ANC_CHECKUP', 'ASHA_VISIT', 'ASHA_CALL', 'ASHA_MESSAGE', 'CHILD_FOLLOWUP'] &&
+             data.category in ['MATERNAL', 'CHILD'] &&
+             data.status in ['SCHEDULED', 'COMPLETED', 'MISSED', 'CANCELLED'] &&
+             data.deliveryStatus in ['DEMO_NOT_SENT', 'LOGGED', 'PENDING', 'FAILED'] &&
+             isOptionalString(data, 'notes', 500) &&
+             data.ashaAuthorized is bool &&
+             data.sharedWithFamily is bool &&
+             isBoundedStringList(data.sharedFamilyIds, 10) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidTimestamp(data.updatedAt);
+    }
+
+    function isValidConnectionRequest(data) {
+      return data.keys().hasAll(['motherId', 'motherName', 'familyUserId', 'familyName', 'requestType', 'status', 'motherConsented', 'ashaAccepted', 'ashaAuthorized', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['motherId', 'motherName', 'familyUserId', 'familyName', 'relation', 'ashaId', 'requestType', 'status', 'motherConsented', 'ashaAccepted', 'ashaAuthorized', 'createdAt', 'updatedAt']) &&
+             data.motherId is string && data.motherId.size() >= 1 && data.motherId.size() <= 128 &&
+             data.motherName is string && data.motherName.size() >= 1 && data.motherName.size() <= 80 &&
+             data.familyUserId is string && data.familyUserId.size() >= 1 && data.familyUserId.size() <= 128 &&
+             data.familyName is string && data.familyName.size() >= 1 && data.familyName.size() <= 80 &&
+             isOptionalString(data, 'relation', 40) &&
+             isOptionalString(data, 'ashaId', 128) &&
+             data.requestType in ['FAMILY_MOTHER', 'FAMILY_ASHA'] &&
+             data.status in ['PENDING_MOTHER', 'PENDING_ASHA', 'APPROVED', 'REJECTED', 'REVOKED'] &&
+             data.motherConsented is bool &&
+             data.ashaAccepted is bool &&
+             data.ashaAuthorized is bool &&
+             isValidTimestamp(data.createdAt) &&
+             isValidTimestamp(data.updatedAt);
+    }
+
+    function isValidEncouragement(data) {
+      return data.keys().hasAll(['motherId', 'familyUserId', 'familyName', 'message', 'deliveryStatus', 'createdAt']) &&
+             data.keys().hasOnly(['motherId', 'familyUserId', 'familyName', 'message', 'deliveryStatus', 'createdAt']) &&
+             data.motherId is string && data.motherId.size() >= 1 && data.motherId.size() <= 128 &&
+             data.familyUserId is string && data.familyUserId.size() >= 1 && data.familyUserId.size() <= 128 &&
+             data.familyName is string && data.familyName.size() >= 1 && data.familyName.size() <= 80 &&
+             data.message is string && data.message.size() >= 1 && data.message.size() <= 300 &&
+             data.deliveryStatus in ['DEMO_NOT_SENT', 'IN_APP_SAVED'] &&
+             isValidTimestamp(data.createdAt);
+    }
+
+    function isValidSosRequest(data) {
+      return data.keys().hasAll(['requesterId', 'beneficiaryType', 'status', 'consentConfirmed', 'providerReference', 'dangerSigns', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['requesterId', 'beneficiaryType', 'status', 'consentConfirmed', 'providerReference', 'dangerSigns', 'createdAt', 'updatedAt']) &&
+             data.requesterId is string && data.requesterId.size() >= 1 && data.requesterId.size() <= 128 &&
+             data.beneficiaryType in ['MOTHER', 'CHILD'] &&
+             data.status in ['DEMO_NOT_SENT', 'PENDING', 'CANCELLED'] &&
+             data.consentConfirmed is bool &&
+             data.providerReference is string && data.providerReference.size() >= 1 && data.providerReference.size() <= 120 &&
+             isBoundedStringList(data.dangerSigns, 10) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidTimestamp(data.updatedAt);
+    }
+
+    function isValidAuditEvent(data) {
+      return data.keys().hasAll(['actorId', 'actorRole', 'action', 'recordType', 'recordId', 'detail', 'timestamp']) &&
+             data.keys().hasOnly(['actorId', 'actorRole', 'action', 'recordType', 'recordId', 'targetMotherId', 'detail', 'timestamp']) &&
+             data.actorId is string && data.actorId.size() >= 1 && data.actorId.size() <= 128 &&
+             data.actorRole is string && data.actorRole.size() >= 2 && data.actorRole.size() <= 30 &&
+             data.action is string && data.action.size() >= 2 && data.action.size() <= 60 &&
+             data.recordType is string && data.recordType.size() >= 2 && data.recordType.size() <= 60 &&
+             data.recordId is string && data.recordId.size() >= 1 && data.recordId.size() <= 128 &&
+             isOptionalString(data, 'targetMotherId', 128) &&
+             data.detail is string && data.detail.size() <= 300 &&
+             isValidTimestamp(data.timestamp);
+    }
+
+    // -----------------------------------------------------------------------
+    // 1. Users (PII-isolated: owner or admin only)
+    // -----------------------------------------------------------------------
+    match /users/{userId} {
+      allow get: if isSignedIn() && isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isSignedIn() && (isAdmin() || resource.data.userId == request.auth.uid);
+
+      allow create: if isSignedIn() &&
+                       isValidId(userId) &&
+                       isValidUser(incoming()) &&
+                       incoming().userId == userId &&
+                       incoming().status == 'ACTIVE' &&
+                       (isOwner(userId) || isAdmin());
+
+      allow update: if isSignedIn() &&
+                       isValidId(userId) &&
+                       isValidUser(incoming()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt && (
+                         isAdmin() ||
+                         (isOwner(userId) &&
+                          incoming().status == existing().status &&
+                          (incoming().role == existing().role ||
+                           (existing().role in ['MOTHER', 'CAREGIVER'] && incoming().role in ['MOTHER', 'CAREGIVER'])) &&
+                          incoming().diff(existing()).affectedKeys().hasOnly(['name', 'phone', 'preferredLanguage', 'hasPregnancyProfile', 'role', 'updatedAt']))
+                       );
+
+      allow delete: if isAdmin();
+    }
+
+    // -----------------------------------------------------------------------
+    // 2. ASHA Profiles (Manual admin verification gate)
+    // -----------------------------------------------------------------------
+    match /ashaProfiles/{ashaId} {
+      allow get: if isSignedIn() && isValidId(ashaId) && (isOwner(ashaId) || isAdmin());
+      allow list: if isSignedIn() && (isAdmin() || resource.data.userId == request.auth.uid);
+
+      // Non-admin ASHA applicants MUST start as PENDING; cannot self-verify!
+      allow create: if isSignedIn() &&
+                       isValidId(ashaId) &&
+                       isValidAshaProfile(incoming()) &&
+                       incoming().userId == ashaId && (
+                         isAdmin() ||
+                         (isOwner(ashaId) && incoming().verificationStatus == 'PENDING')
+                       );
+
+      allow update: if isSignedIn() &&
+                       isValidId(ashaId) &&
+                       isValidAshaProfile(incoming()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt && (
+                         (isAdmin() &&
+                          incoming().diff(existing()).affectedKeys().hasOnly(['name', 'workerId', 'identityProofRef', 'verificationStatus', 'serviceAreaId', 'healthCentre', 'phone', 'reviewNote', 'updatedAt'])) ||
+                         (isOwner(ashaId) &&
+                          incoming().verificationStatus == existing().verificationStatus &&
+                          incoming().diff(existing()).affectedKeys().hasOnly(['name', 'phone', 'identityProofRef', 'healthCentre', 'serviceAreaId', 'updatedAt']))
+                       );
+
+      allow delete: if isAdmin();
+    }
+
+    // -----------------------------------------------------------------------
+    // 3. Mother Profiles (Owner + Verified Assigned ASHA ONLY; Family blocked)
+    // -----------------------------------------------------------------------
+    match /motherProfiles/{motherId} {
+      allow get: if isSignedIn() && isValidId(motherId) && (
+        isAdmin() ||
+        isOwner(motherId) ||
+        isVerifiedAshaAssigned(request.auth.uid, motherId)
+      );
+
+      allow list: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.userId == request.auth.uid
+      );
+
+      allow create: if isSignedIn() &&
+                       isValidId(motherId) &&
+                       isValidMotherProfile(incoming()) &&
+                       incoming().userId == motherId &&
+                       (isOwner(motherId) || isAdmin());
+
+      // Only Mother or Admin can edit maternal medical profile; ASHA & Family strictly blocked
+      allow update: if isSignedIn() &&
+                       isValidId(motherId) &&
+                       isValidMotherProfile(incoming()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt && (
+                         isAdmin() ||
+                         (isOwner(motherId) &&
+                          incoming().diff(existing()).affectedKeys().hasOnly([
+                            'motherName', 'phone', 'pregnancyWeek', 'expectedDueDate',
+                            'ifaReminderTime', 'ifaReminderTimezone', 'serviceAreaId',
+                            'assignedAshaId', 'assignedAshaName', 'assignedAshaPhone',
+                            'notes', 'updatedAt'
+                          ]))
+                       );
+
+      allow delete: if isAdmin();
+    }
+
+    // -----------------------------------------------------------------------
+    // 4. Child Profiles (Caregiver owner + explicitly consented Family ONLY)
+    // -----------------------------------------------------------------------
+    match /childProfiles/{childId} {
+      allow get: if isSignedIn() && isValidId(childId) && (
+        isAdmin() ||
+        existing().caregiverId == request.auth.uid ||
+        (existing().sharedWithFamily == true && hasFamilyChildConsent(existing().caregiverId, request.auth.uid))
+      );
+
+      allow list: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.caregiverId == request.auth.uid ||
+        (resource.data.sharedWithFamily == true && request.auth.uid in resource.data.sharedFamilyIds)
+      );
+
+      allow create: if isSignedIn() &&
+                       isValidId(childId) &&
+                       isValidChildProfile(incoming()) &&
+                       (isAdmin() || incoming().caregiverId == request.auth.uid);
+
+      allow update: if isSignedIn() &&
+                       isValidId(childId) &&
+                       isValidChildProfile(incoming()) &&
+                       incoming().caregiverId == existing().caregiverId &&
+                       incoming().createdAt == existing().createdAt && (
+                         isAdmin() ||
+                         (existing().caregiverId == request.auth.uid &&
+                          incoming().diff(existing()).affectedKeys().hasOnly([
+                            'childName', 'ageMonths', 'dateOfBirth', 'lastSymptomCheck',
+                            'lastSymptomSummary', 'dangerSignsFlagged', 'nextVaccinationNote',
+                            'sharedWithFamily', 'sharedFamilyIds', 'updatedAt'
+                          ]))
+                       );
+
+      allow delete: if isSignedIn() && isValidId(childId) && (isAdmin() || existing().caregiverId == request.auth.uid);
+    }
+
+    // -----------------------------------------------------------------------
+    // 5. Consent Grants (Mother controls scopes & instant revocation)
+    // -----------------------------------------------------------------------
+    match /consentGrants/{grantId} {
+      allow get: if isSignedIn() && isValidId(grantId) && (
+        isAdmin() ||
+        existing().motherId == request.auth.uid ||
+        existing().granteeId == request.auth.uid
+      );
+
+      allow list: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.motherId == request.auth.uid ||
+        resource.data.granteeId == request.auth.uid
+      );
+
+      allow create: if isSignedIn() &&
+                       isValidId(grantId) &&
+                       isValidConsentGrant(incoming()) &&
+                       grantId == incoming().motherId + '_' + incoming().granteeId &&
+                       (isAdmin() || incoming().motherId == request.auth.uid);
+
+      allow update: if isSignedIn() &&
+                       isValidId(grantId) &&
+                       isValidConsentGrant(incoming()) &&
+                       incoming().motherId == existing().motherId &&
+                       incoming().granteeId == existing().granteeId &&
+                       incoming().createdAt == existing().createdAt && (
+                         isAdmin() ||
+                         (existing().motherId == request.auth.uid &&
+                          incoming().diff(existing()).affectedKeys().hasOnly([
+                            'active', 'scopeIfa', 'scopeAppointments', 'scopeChildCare',
+                            'scopeAshaConnect', 'revokedAt', 'grantedAt', 'updatedAt'
+                          ]))
+                       );
+
+      allow delete: if isAdmin();
+    }
+
+    // -----------------------------------------------------------------------
+    // 6. Family Views (Field-minimised mother-authorised projection)
+    // -----------------------------------------------------------------------
+    match /familyViews/{grantId} {
+      allow get: if isSignedIn() && isValidId(grantId) && (
+        isAdmin() ||
+        existing().motherId == request.auth.uid ||
+        (existing().familyUserId == request.auth.uid &&
+         existing().revoked == false &&
+         hasActiveFamilyConsent(existing().motherId, request.auth.uid))
+      );
+
+      allow list: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.motherId == request.auth.uid ||
+        (resource.data.familyUserId == request.auth.uid && resource.data.revoked == false)
+      );
+
+      allow create: if isSignedIn() &&
+                       isValidId(grantId) &&
+                       isValidFamilyView(incoming()) &&
+                       grantId == incoming().motherId + '_' + incoming().familyUserId &&
+                       (isAdmin() || incoming().motherId == request.auth.uid);
+
+      allow update: if isSignedIn() &&
+                       isValidId(grantId) &&
+                       isValidFamilyView(incoming()) &&
+                       incoming().motherId == existing().motherId &&
+                       incoming().familyUserId == existing().familyUserId &&
+                       incoming().createdAt == existing().createdAt && (
+                         isAdmin() ||
+                         (existing().motherId == request.auth.uid &&
+                          incoming().diff(existing()).affectedKeys().hasOnly([
+                            'motherName', 'connectionStatus', 'revoked', 'shareIfa',
+                            'shareAppointments', 'shareChildCare', 'shareAshaConnect',
+                            'ifaTakenCount', 'ifaMissedCount', 'ifaUpcomingCount',
+                            'nextCheckupDate', 'nextCheckupTitle', 'ashaFollowUpStatus',
+                            'assignedAshaId', 'assignedAshaName', 'assignedAshaPhone',
+                            'motherPhone', 'childCareGuideAvailable', 'latestUpdates', 'updatedAt'
+                          ]))
+                       );
+
+      allow delete: if isAdmin();
+    }
+
+    // -----------------------------------------------------------------------
+    // 7. Beneficiary Assignments (Verified ASHA mothers-only list)
+    // -----------------------------------------------------------------------
+    match /beneficiaryAssignments/{assignmentId} {
+      allow get: if isSignedIn() && isValidId(assignmentId) && (
+        isAdmin() ||
+        existing().motherId == request.auth.uid ||
+        (existing().ashaId == request.auth.uid && isVerifiedAsha(request.auth.uid))
+      );
+
+      allow list: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.motherId == request.auth.uid ||
+        (resource.data.ashaId == request.auth.uid &&
+         resource.data.ashaVerified == true &&
+         resource.data.status == 'APPROVED')
+      );
+
+      // Only Admin or Mother can create an assignment; non-admin ASHA cannot self-assign
+      allow create: if isSignedIn() &&
+                       isValidId(assignmentId) &&
+                       isValidBeneficiaryAssignment(incoming()) &&
+                       assignmentId == incoming().ashaId + '_' + incoming().motherId && (
+                         isAdmin() ||
+                         (incoming().motherId == request.auth.uid &&
+                          incoming().ashaVerified == isVerifiedAsha(incoming().ashaId))
+                       );
+
+      allow update: if isSignedIn() &&
+                       isValidId(assignmentId) &&
+                       isValidBeneficiaryAssignment(incoming()) &&
+                       incoming().ashaId == existing().ashaId &&
+                       incoming().motherId == existing().motherId &&
+                       incoming().createdAt == existing().createdAt && (
+                         isAdmin() ||
+                         // Mother can approve or revoke her assignment
+                         (existing().motherId == request.auth.uid &&
+                          incoming().ashaVerified == existing().ashaVerified &&
+                          incoming().diff(existing()).affectedKeys().hasOnly(['status', 'approvedAt', 'nextFollowUpDate', 'followUpStatusLabel', 'pregnancyWeek', 'updatedAt'])) ||
+                         // Verified ASHA can ONLY update follow-up summary on an ALREADY APPROVED assignment
+                         (existing().ashaId == request.auth.uid &&
+                          existing().status == 'APPROVED' &&
+                          isVerifiedAsha(request.auth.uid) &&
+                          incoming().status == existing().status &&
+                          incoming().ashaVerified == existing().ashaVerified &&
+                          incoming().diff(existing()).affectedKeys().hasOnly(['nextFollowUpDate', 'followUpStatusLabel', 'updatedAt']))
+                       );
+
+      allow delete: if isAdmin();
+    }
+
+    // -----------------------------------------------------------------------
+    // 8. IFA Doses (Mother-only writes; duplicate & terminal TAKEN protection)
+    // -----------------------------------------------------------------------
+    match /ifaDoses/{doseId} {
+      allow get: if isSignedIn() && isValidId(doseId) && (
+        isAdmin() ||
+        existing().motherId == request.auth.uid ||
+        isVerifiedAshaAssigned(request.auth.uid, existing().motherId) ||
+        hasFamilyIfaConsent(existing().motherId, request.auth.uid)
+      );
+
+      allow list: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.motherId == request.auth.uid ||
+        (resource.data.assignedAshaId == request.auth.uid && resource.data.ashaAuthorized == true) ||
+        (resource.data.sharedFamilyIds is list && request.auth.uid in resource.data.sharedFamilyIds)
+      );
+
+      // Deterministic ID motherId_YYYY-MM-DD prevents duplicate doses for the same day
+      allow create: if isSignedIn() &&
+                       isValidId(doseId) &&
+                       isValidIfaDose(incoming()) &&
+                       doseId == incoming().motherId + '_' + incoming().scheduledDateKey &&
+                       (isAdmin() || incoming().motherId == request.auth.uid);
+
+      // Only Mother can mark IFA doses; Family & ASHA strictly blocked!
+      // Terminal state lock: once status == 'TAKEN', dose status cannot be re-recorded/overwritten by non-admin.
+      allow update: if isSignedIn() &&
+                       isValidId(doseId) &&
+                       isValidIfaDose(incoming()) &&
+                       incoming().motherId == existing().motherId &&
+                       incoming().scheduledDateKey == existing().scheduledDateKey &&
+                       incoming().createdAt == existing().createdAt && (
+                         isAdmin() ||
+                         // Action 1: Record dose status (blocked if already TAKEN)
+                         (existing().motherId == request.auth.uid &&
+                          existing().status != 'TAKEN' &&
+                          incoming().diff(existing()).affectedKeys().hasOnly([
+                            'status', 'recordedAt', 'notificationStatus', 'note', 'scheduledTime', 'updatedAt'
+                          ])) ||
+                         // Action 2: Sync consent/sharing metadata without changing dose status
+                         (existing().motherId == request.auth.uid &&
+                          incoming().status == existing().status &&
+                          incoming().diff(existing()).affectedKeys().hasOnly([
+                            'sharedFamilyIds', 'assignedAshaId', 'ashaAuthorized', 'notificationStatus', 'updatedAt'
+                          ]))
+                       );
+
+      allow delete: if isAdmin();
+    }
+
+    // -----------------------------------------------------------------------
+    // 9. Side Effect Reports (Mother writes; Mother + Verified Assigned ASHA read)
+    // -----------------------------------------------------------------------
+    match /sideEffectReports/{reportId} {
+      allow get: if isSignedIn() && isValidId(reportId) && (
+        isAdmin() ||
+        existing().motherId == request.auth.uid ||
+        isVerifiedAshaAssigned(request.auth.uid, existing().motherId)
+      );
+
+      allow list: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.motherId == request.auth.uid ||
+        (resource.data.assignedAshaId == request.auth.uid && resource.data.ashaAuthorized == true)
+      );
+
+      allow create: if isSignedIn() &&
+                       isValidId(reportId) &&
+                       isValidSideEffectReport(incoming()) &&
+                       (isAdmin() || incoming().motherId == request.auth.uid);
+
+      allow update: if isSignedIn() &&
+                       isValidId(reportId) &&
+                       isValidSideEffectReport(incoming()) &&
+                       incoming().motherId == existing().motherId &&
+                       incoming().createdAt == existing().createdAt && (
+                         isAdmin() ||
+                         (existing().motherId == request.auth.uid &&
+                          incoming().diff(existing()).affectedKeys().hasOnly(['notes', 'severity', 'assignedAshaId', 'ashaAuthorized', 'updatedAt']))
+                       );
+
+      allow delete: if isAdmin();
+    }
+
+    // -----------------------------------------------------------------------
+    // 10. Follow-Ups & Appointments
+    // -----------------------------------------------------------------------
+    match /followUps/{followUpId} {
+      allow get: if isSignedIn() && isValidId(followUpId) && (
+        isAdmin() ||
+        existing().beneficiaryId == request.auth.uid ||
+        (existing().category == 'MATERNAL' && isVerifiedAshaAssigned(request.auth.uid, existing().beneficiaryId)) ||
+        (existing().sharedWithFamily == true && hasFamilyAppointmentConsent(existing().beneficiaryId, request.auth.uid))
+      );
+
+      allow list: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.beneficiaryId == request.auth.uid ||
+        (resource.data.category == 'MATERNAL' && resource.data.ashaId == request.auth.uid && resource.data.ashaAuthorized == true) ||
+        (resource.data.sharedWithFamily == true && request.auth.uid in resource.data.sharedFamilyIds)
+      );
+
+      allow create: if isSignedIn() &&
+                       isValidId(followUpId) &&
+                       isValidFollowUp(incoming()) && (
+                         isAdmin() ||
+                         // Mother/Caregiver creating own appointment/follow-up
+                         (incoming().beneficiaryId == request.auth.uid && incoming().ownerId == request.auth.uid) ||
+                         // Verified Assigned ASHA logging maternal follow-up ONLY (never child-only!)
+                         (incoming().category == 'MATERNAL' &&
+                          incoming().ownerId == request.auth.uid &&
+                          incoming().ashaId == request.auth.uid &&
+                          incoming().ashaAuthorized == true &&
+                          isVerifiedAshaAssigned(request.auth.uid, incoming().beneficiaryId))
+                       );
+
+      allow update: if isSignedIn() &&
+                       isValidId(followUpId) &&
+                       isValidFollowUp(incoming()) &&
+                       incoming().beneficiaryId == existing().beneficiaryId &&
+                       incoming().ownerId == existing().ownerId &&
+                       incoming().createdAt == existing().createdAt && (
+                         isAdmin() ||
+                         // Mother updating own appointment or sharing flags
+                         (existing().beneficiaryId == request.auth.uid &&
+                          incoming().diff(existing()).affectedKeys().hasOnly([
+                            'dateKey', 'timeLabel', 'status', 'notes', 'sharedWithFamily', 'sharedFamilyIds', 'updatedAt'
+                          ])) ||
+                         // Verified Assigned ASHA updating maternal follow-up activity status & notes
+                         (existing().category == 'MATERNAL' &&
+                          existing().ashaId == request.auth.uid &&
+                          isVerifiedAshaAssigned(request.auth.uid, existing().beneficiaryId) &&
+                          existing().status != 'COMPLETED' &&
+                          incoming().diff(existing()).affectedKeys().hasOnly([
+                            'status', 'deliveryStatus', 'notes', 'dateKey', 'timeLabel', 'updatedAt'
+                          ]))
+                       );
+
+      allow delete: if isAdmin();
+    }
+
+    // -----------------------------------------------------------------------
+    // 11. Connection Requests (Family-Mother & Family-ASHA dual consent)
+    // -----------------------------------------------------------------------
+    match /connectionRequests/{requestId} {
+      allow get: if isSignedIn() && isValidId(requestId) && (
+        isAdmin() ||
+        existing().motherId == request.auth.uid ||
+        existing().familyUserId == request.auth.uid ||
+        (existing().ashaId == request.auth.uid && isVerifiedAsha(request.auth.uid))
+      );
+
+      allow list: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.motherId == request.auth.uid ||
+        resource.data.familyUserId == request.auth.uid ||
+        (resource.data.ashaId == request.auth.uid && resource.data.ashaAuthorized == true)
+      );
+
+      allow create: if isSignedIn() &&
+                       isValidId(requestId) &&
+                       isValidConnectionRequest(incoming()) && (
+                         isAdmin() ||
+                         // Family initiates request (cannot self-approve!)
+                         (incoming().familyUserId == request.auth.uid &&
+                          incoming().status in ['PENDING_MOTHER', 'PENDING_ASHA'] &&
+                          incoming().ashaAccepted == false) ||
+                         // Mother initiates invite/request
+                         (incoming().motherId == request.auth.uid &&
+                          incoming().motherConsented == true)
+                       );
+
+      allow update: if isSignedIn() &&
+                       isValidId(requestId) &&
+                       isValidConnectionRequest(incoming()) &&
+                       incoming().motherId == existing().motherId &&
+                       incoming().familyUserId == existing().familyUserId &&
+                       incoming().createdAt == existing().createdAt && (
+                         isAdmin() ||
+                         // Mother consents / revokes
+                         (existing().motherId == request.auth.uid &&
+                          incoming().diff(existing()).affectedKeys().hasOnly(['status', 'motherConsented', 'ashaAuthorized', 'updatedAt'])) ||
+                         // Verified ASHA accepts/rejects Family-ASHA request ONLY if Mother already consented
+                         (existing().ashaId == request.auth.uid &&
+                          existing().motherConsented == true &&
+                          isVerifiedAsha(request.auth.uid) &&
+                          incoming().diff(existing()).affectedKeys().hasOnly(['status', 'ashaAccepted', 'updatedAt']))
+                       );
+
+      allow delete: if isAdmin();
+    }
+
+    // -----------------------------------------------------------------------
+    // 12. Encouragements (Consented Family -> Mother)
+    // -----------------------------------------------------------------------
+    match /encouragements/{encId} {
+      allow get: if isSignedIn() && isValidId(encId) && (
+        isAdmin() ||
+        existing().motherId == request.auth.uid ||
+        existing().familyUserId == request.auth.uid
+      );
+
+      allow list: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.motherId == request.auth.uid ||
+        resource.data.familyUserId == request.auth.uid
+      );
+
+      allow create: if isSignedIn() &&
+                       isValidId(encId) &&
+                       isValidEncouragement(incoming()) &&
+                       incoming().familyUserId == request.auth.uid && (
+                         isAdmin() ||
+                         hasActiveFamilyConsent(incoming().motherId, request.auth.uid)
+                       );
+
+      allow update, delete: if false;
+    }
+
+    // -----------------------------------------------------------------------
+    // 13. SOS Requests (Mother/Caregiver ONLY; no ASHA SOS)
+    // -----------------------------------------------------------------------
+    match /sosRequests/{sosId} {
+      allow get: if isSignedIn() && isValidId(sosId) && (
+        isAdmin() ||
+        existing().requesterId == request.auth.uid
+      );
+
+      allow list: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.requesterId == request.auth.uid
+      );
+
+      allow create: if isSignedIn() &&
+                       isValidId(sosId) &&
+                       isValidSosRequest(incoming()) &&
+                       incoming().requesterId == request.auth.uid &&
+                       incoming().consentConfirmed == true;
+
+      allow update: if isSignedIn() &&
+                       isValidId(sosId) &&
+                       isValidSosRequest(incoming()) &&
+                       incoming().requesterId == existing().requesterId &&
+                       incoming().createdAt == existing().createdAt && (
+                         isAdmin() ||
+                         (existing().requesterId == request.auth.uid &&
+                          incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']))
+                       );
+
+      allow delete: if isAdmin();
+    }
+
+    // -----------------------------------------------------------------------
+    // 14. Audit Events (Strictly append-only)
+    // -----------------------------------------------------------------------
+    match /auditEvents/{eventId} {
+      allow get: if isSignedIn() && isValidId(eventId) && (
+        isAdmin() ||
+        existing().actorId == request.auth.uid ||
+        existing().targetMotherId == request.auth.uid
+      );
+
+      allow list: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.actorId == request.auth.uid ||
+        resource.data.targetMotherId == request.auth.uid
+      );
+
+      allow create: if isSignedIn() &&
+                       isValidId(eventId) &&
+                       isValidAuditEvent(incoming()) &&
+                       incoming().actorId == request.auth.uid;
+
+      allow update, delete: if false;
+    }
+  }
+}
