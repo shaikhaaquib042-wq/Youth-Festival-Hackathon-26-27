@@ -192,3 +192,5 @@ a.btn.call { display: block; text-align: left; margin: 2px 0; }
 .rec-tag { font-size: 13px; font-weight: 600; color: #1f7a45; }
 .ico.huge { font-size: 64px; }
 #mode-chip { top: auto; right: auto; left: 10px; bottom: 124px; }
+/* Map controls: lower right, clear of the status card */
+.maplibregl-ctrl-top-right { top: auto; bottom: 150px; }

@@ -249,4 +249,5 @@ export default {
   'report.proof': 'Add photo proof',
   'report.retakePhoto': 'Retake photo',
   'report.proofBadge': 'Proof',
+  'more.city': 'City',
 };
