@@ -37,6 +37,15 @@ let userMode = 'commuter';
 let workType = 'moderate';
 let newToHeat = false;
 let detailsOpen = false;
+// Collapsed card = one slim line. Remembered per device; re-opens itself when the shown level gets worse.
+const RANK = { green: 0, yellow: 1, orange: 2, red: 3 };
+let collapsed = (() => { try { return localStorage.getItem('sajag.cardCollapsed') === '1'; } catch { return false; } })();
+const lastLevel = {};
+function setCollapsed(v) {
+  collapsed = v;
+  try { localStorage.setItem('sajag.cardCollapsed', v ? '1' : '0'); } catch { /* private mode */ }
+  render();
+}
 
 function loadStoredPrefs() {
   try {
@@ -307,13 +316,37 @@ function render() {
     moreContent.appendChild(advEl);
   }
 
+  // Auto-expand when this side's level gets worse than what the user last saw.
+  const prev = lastLevel[activeHazard];
+  lastLevel[activeHazard] = activeLevel;
+  if (collapsed && prev && RANK[activeLevel] > RANK[prev]) {
+    collapsed = false; // we are mid-render: flip in place (no re-render) and persist
+    try { localStorage.setItem('sajag.cardCollapsed', '0'); } catch { /* private mode */ }
+  }
+
+  const foldBtn = document.createElement('button');
+  foldBtn.type = 'button';
+  foldBtn.className = 'btn-card-fold';
+  foldBtn.textContent = collapsed ? '▾' : '▴';
+  foldBtn.setAttribute('aria-label', t(collapsed ? 'card.expand' : 'card.collapse'));
+  foldBtn.title = t(collapsed ? 'card.expand' : 'card.collapse');
+  foldBtn.setAttribute('aria-expanded', String(!collapsed));
+  foldBtn.onclick = (e) => { e.stopPropagation(); setCollapsed(!collapsed); };
+  speakBtn.addEventListener('click', (e) => e.stopPropagation());
+
   mainRow.appendChild(emojiEl);
   mainRow.appendChild(textGroup);
   mainRow.appendChild(speakBtn);
+  mainRow.appendChild(foldBtn);
   activeCard.appendChild(mainRow);
 
-  detailsEl.appendChild(moreContent);
-  activeCard.appendChild(detailsEl);
+  if (collapsed) {
+    activeCard.classList.add('collapsed');
+    activeCard.onclick = () => setCollapsed(false); // tap anywhere on the slim card to open
+  } else {
+    detailsEl.appendChild(moreContent);
+    activeCard.appendChild(detailsEl);
+  }
   container.appendChild(activeCard);
 
   // 3. Mini chip for the inactive hazard

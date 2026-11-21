@@ -35,7 +35,7 @@ export async function POST(request) {
         method: 'POST',
         headers: { authorization: `Token ${key}`, 'content-type': type },
         body: audio,
-        signal: AbortSignal.timeout(10000),
+        signal: AbortSignal.timeout(20000),
       });
       if (r.ok) {
         const d = await r.json();
@@ -46,6 +46,7 @@ export async function POST(request) {
       if (r.status === 401 || r.status === 403 || r.status === 429) break; // retrying won't help
     } catch (e) {
       last = String(e?.message ?? e);
+      if (e?.name === 'TimeoutError' || e?.name === 'AbortError') break; // slow network: another model won't be faster
     }
   }
   console.error('deepgram failed:', last);

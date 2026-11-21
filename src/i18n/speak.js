@@ -46,7 +46,7 @@ export function speak(key, vars, { pack = cityPack(), interrupt = true } = {}) {
   const clip = findClip(key, vars);
   if (clip && CONFIG.HEAT.AUDIO_CLIP_LANGS.includes(lang)) {
     if (interrupt) { globalThis.speechSynthesis?.cancel(); speak.audio?.pause(); }
-    speak.audio = new Audio(`/audio/${lang}/${clip.id}.mp3`);
+    speak.audio = new Audio(`/audio/${lang}/${clip.id}.m4a`);
     speak.audio.play().catch(() => speakTTS(key, vars, lang, text, interrupt));
     navigator.vibrate?.([200, 100, 200]);
     return { lang, voice: `clip:${clip.id}`, text };

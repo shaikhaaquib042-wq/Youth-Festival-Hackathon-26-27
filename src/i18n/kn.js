@@ -242,4 +242,6 @@ export default {
   'voice.unavailable': "ಧ್ವನಿ ಸೌಲಭ್ಯ ಇನ್ನೂ ಆನ್ ಆಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಬಟನ್ ಬಳಸಿ.",
   'voice.tryHelp': "ತುರ್ತು ಪರಿಸ್ಥಿತಿಯಲ್ಲಿ 🆘 ಒತ್ತಿ",
   'help.continueReport': "ತುರ್ತು ಅಲ್ಲ — ನನ್ನ ವರದಿ ಮುಂದುವರಿಸಿ",
+  'card.collapse': "ವಿವರ ಮರೆಮಾಡಿ",
+  'card.expand': "ವಿವರ ತೋರಿಸಿ",
 };

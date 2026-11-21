@@ -61,12 +61,20 @@ function setHazard(h) {
   document.body.dataset.hazard = h;
   showHazard(map, h);
   setReportHazard(h);
-  try { localStorage.setItem(HZ_KEY, h); } catch { /* ignore */ }
   window.dispatchEvent(new CustomEvent('sajag:hazard', { detail: { hazard: h } }));
 }
-document.getElementById('hazard-toggle').addEventListener('click', (e) => { const b = e.target.closest('[data-h]'); if (b) setHazard(b.dataset.h); });
-let saved = null; try { saved = localStorage.getItem(HZ_KEY); } catch { /* ignore */ }
-setHazard(new URLSearchParams(location.search).get('hazard') ?? saved ?? 'flood');
+// Season by real calendar month (not the scenario clock): Feb–May → Heat, Jun–Oct → Rain (CONFIG.SEASON_HAZARD).
+const month = new Date().getMonth() + 1;
+const season = Object.entries(CONFIG.SEASON_HAZARD).find(([, ms]) => ms.includes(month))?.[0] ?? 'none';
+document.getElementById('hazard-toggle').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-h]');
+  if (!b) return;
+  setHazard(b.dataset.h);
+  try { localStorage.setItem(HZ_KEY, JSON.stringify({ h: b.dataset.h, season })); } catch { /* ignore */ } // manual pick, valid this season
+});
+let pick = null; try { pick = JSON.parse(localStorage.getItem(HZ_KEY)); } catch { /* old plain-string value or none */ }
+const urlHazard = new URLSearchParams(location.search).get('hazard');
+setHazard(urlHazard ?? (pick?.season === season ? pick.h : null) ?? (season !== 'none' ? season : pick?.h) ?? 'flood');
 
 window.addEventListener('sajag:set-hazard', (e) => setHazard(e.detail.hazard)); // used by the Scenario player
 

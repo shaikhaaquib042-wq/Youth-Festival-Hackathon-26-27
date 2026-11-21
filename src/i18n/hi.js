@@ -242,4 +242,6 @@ export default {
   'voice.unavailable': "आवाज़ सुविधा अभी चालू नहीं है. कृपया बटन इस्तेमाल करें.",
   'voice.tryHelp': "आपात स्थिति में 🆘 दबाएँ",
   'help.continueReport': "आपात स्थिति नहीं — मेरी रिपोर्ट जारी रखें",
+  'card.collapse': "विवरण छिपाएँ",
+  'card.expand': "विवरण दिखाएँ",
 };

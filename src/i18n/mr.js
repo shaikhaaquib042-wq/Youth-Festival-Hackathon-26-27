@@ -242,4 +242,6 @@ export default {
   'voice.unavailable': "आवाज सुविधा अजून सुरू नाही. कृपया बटणे वापरा.",
   'voice.tryHelp': "आणीबाणीसाठी 🆘 दाबा",
   'help.continueReport': "आणीबाणी नाही — माझी तक्रार पुढे भरा",
+  'card.collapse': "तपशील लपवा",
+  'card.expand': "तपशील दाखवा",
 };

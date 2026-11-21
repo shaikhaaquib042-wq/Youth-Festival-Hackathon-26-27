@@ -242,4 +242,6 @@ export default {
   'voice.unavailable': "వాయిస్ సదుపాయం ఇంకా ఆన్ కాలేదు. దయచేసి బటన్లు వాడండి.",
   'voice.tryHelp': "అత్యవసరమైతే 🆘 నొక్కండి",
   'help.continueReport': "అత్యవసరం కాదు — నా రిపోర్ట్ కొనసాగించండి",
+  'card.collapse': "వివరాలు దాచండి",
+  'card.expand': "వివరాలు చూపండి",
 };

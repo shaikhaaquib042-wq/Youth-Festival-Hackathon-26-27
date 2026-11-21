@@ -36,7 +36,7 @@ export function classifyPost(text) {
   const s = String(text).toLowerCase();
   const has = (...w) => w.some((x) => s.includes(x));
   const above = has('waist', 'above knee', 'chest', 'कंबर', 'कमर', 'छाती', 'ಸೊಂಟ', 'ಎದೆ', 'నడుము', 'ఛాతీ');
-  const knee = has('knee', 'गुडघ', 'घुटन', 'ಮೊಣಕಾಲು', 'ಮಂಡಿ', 'మోకాలు', 'మోకాళ్ల');
+  const knee = has('knee', 'गुडघ', 'गुढघ', 'गुद्दा', 'गुडगा', 'घुटन', 'ಮೊಣಕಾಲು', 'ಮಂಡಿ', 'మోకాలు', 'మోకాళ్ల');
   const ankle = has('ankle', 'घोट', 'टखन', 'ಪಾದ', 'ಕಣಕಾಲು', 'చీలమండ', 'పాదం');
   return {
     type: has('chamber', 'drain', 'clog', 'choked', 'gutter', 'गटार', 'चेंबर', 'नाली', 'नाला', 'ಚರಂಡಿ', 'ಮೋರಿ', 'డ్రైనేజీ', 'మురుగు') ? 'clog' : 'flood',

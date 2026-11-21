@@ -47,6 +47,11 @@ export const CONFIG = {
   OPENMETEO_REFRESH_MS: 15 * 60 * 1000,
 
   // Heat module (PRD §21)
+  // Which side opens by default, by calendar month (1 = Jan). Feb–May = heat season, Jun–Oct = monsoon
+  // (Oct: retreating-monsoon rain in Pune). Nov–Jan: no season → the user's last pick, else Rain.
+  // A manual Rain/Heat tap is remembered only until the season changes. ?hazard= always wins.
+  SEASON_HAZARD: { heat: [2, 3, 4, 5], flood: [6, 7, 8, 9, 10] },
+
   HEAT: {
     MAP_BANDS_C: { amber: 37, red: 40, severe: 45 }, // Layer C cells, IMD-style air temperature
     SUN_SR_WM2: 600, SUN_WBGT_ADD_C: 2,               // WBGT_sun = WBGT_shade + 2 when shortwave > 600 W/m²

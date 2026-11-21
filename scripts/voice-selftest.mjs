@@ -23,4 +23,7 @@ c = classifyPost('Swargate underpass waist deep');
 assert.equal(c.depth, 'above_knee'); assert.equal(c.underpass, true);
 assert.equal(classifyPost('ಚರಂಡಿ ಕಟ್ಟಿಕೊಂಡಿದೆ').type, 'clog');
 assert.equal(classifyPost('మోకాలు లోతు నీరు').depth, 'knee');
+// Real Deepgram nova-3 output (21 Nov): Marathi 'गुडघाभर' came back as 'गुद्दाभर'; Hindi help came back code-switched.
+assert.equal(classifyPost('पुलाखाली गुद्दाभर पाणी आहे स्वारगेट जवळ.').depth, 'knee');
+assert.equal(detectHelp('मदद चाहिए, accident हो गया है, ambulance बुलाओ.').help, true);
 console.log(`ALL VOICE TESTS PASSED (${help.length} help, ${notHelp.length} not-help, 5 parse)`);

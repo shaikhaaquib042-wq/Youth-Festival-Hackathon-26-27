@@ -530,3 +530,17 @@
   align-items: center;
   margin-bottom: 4px;
 }
+
+/* Collapsible status card (▴ / ▾) — slim one-line pill when collapsed */
+.btn-card-fold {
+  min-width: 44px; min-height: 44px; width: 44px; height: 44px; border-radius: 50%;
+  border: 1.5px solid #c9ced6; background: #fff; font-size: 20px; line-height: 1; color: #1b1f24;
+  display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0;
+}
+.status-card.collapsed { padding: 6px 10px; gap: 0; cursor: pointer; align-self: flex-start; max-width: 100%; }
+.status-card.collapsed .card-main-row { gap: 10px; }
+.status-card.collapsed .card-emoji { font-size: 24px; }
+.status-card.collapsed .card-headline { font-size: 18px; }
+.status-card.collapsed .card-subline,
+.status-card.collapsed .card-safe-again { display: none; }
+.status-card.collapsed .btn-speak-big { min-width: 44px; min-height: 44px; width: 44px; height: 44px; font-size: 20px; }

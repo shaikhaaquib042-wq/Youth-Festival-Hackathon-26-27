@@ -1,4 +1,4 @@
-// Pre-recorded voice clips (PRD §21.3). File: public/audio/<lang>/<id>.mp3
+// Pre-recorded voice clips (PRD §21.3). File: public/audio/<lang>/<id>.m4a (AAC; generated with Gemini TTS: scripts/gen-audio.mjs)
 // speak() plays a clip when one exists for (key, vars) and the language is listed in CONFIG.AUDIO_CLIP_LANGS;
 // otherwise it falls back to the device's text-to-speech. Script for recording: docs/audio-script.md
 export const CLIPS = [
@@ -17,6 +17,9 @@ export const CLIPS = [
   { id: 'flood-do-not-enter', key: 'red.doNotEnter' },
   { id: 'flood-route-avoid', key: 'voice.routeAvoid' },
   { id: 'alert-official', key: 'voice.officialAlert' },
+  { id: 'card-flood-safe', key: 'card.flood.safe' },
+  { id: 'card-flood-careful', key: 'severity.yellow' },
+  { id: 'onb-ready', key: 'onb.ready' },
 ];
 
 const same = (a = {}, b = {}) => {

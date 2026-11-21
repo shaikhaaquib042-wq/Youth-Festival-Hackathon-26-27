@@ -263,4 +263,6 @@ export default {
   'voice.unavailable': "Voice is not switched on yet. Please use the buttons.",
   'voice.tryHelp': "For emergencies tap 🆘",
   'help.continueReport': "Not an emergency — continue my report",
+  'card.collapse': "Hide details",
+  'card.expand': "Show details",
 };
