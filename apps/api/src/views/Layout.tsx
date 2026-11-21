@@ -132,6 +132,8 @@ export function Layout({ lang, title, description, path, query, noindex, saveDat
             <link rel="stylesheet" href={fontHref(lang)} />
           </>
         )}
+        <link rel="icon" type="image/svg+xml" href={`/favicon.svg?v=${ASSET_V}`} />
+        <link rel="manifest" href="/site.webmanifest" />
         <link rel="stylesheet" href={`/styles/raasta.css?v=${ASSET_V}`} />
         <link rel="stylesheet" href={`/styles/flow.css?v=${ASSET_V}`} />
         <script src={`/js/locate.js?v=${ASSET_V}`} defer></script>

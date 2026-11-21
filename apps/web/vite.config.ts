@@ -10,7 +10,7 @@ import { ASSET_V } from "../../packages/config/src/asset-version";
 // Shared unhashed assets get ?v=<content hash> so browsers never show a stale copy after a deploy.
 const assetVersion = {
   name: "raasta-asset-version",
-  transformIndexHtml: (html: string) => html.replace(/(\/styles\/raasta\.css|\/js\/locate\.js)"/g, `$1?v=${ASSET_V}"`),
+  transformIndexHtml: (html: string) => html.replace(/(\/styles\/raasta\.css|\/js\/locate\.js|\/favicon\.svg)"/g, `$1?v=${ASSET_V}"`),
 };
 
 const LOCAL_WORKER = "http://127.0.0.1:8787";
