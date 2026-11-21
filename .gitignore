@@ -12,3 +12,6 @@ public/tiles/*.pmtiles
 .vercel
 .env*
 .vercel
+
+# Google OAuth client secret downloads — never commit
+client_secret*.json
