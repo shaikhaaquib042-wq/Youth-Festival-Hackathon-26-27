@@ -6,7 +6,7 @@
 - [x] **Phase 3**: State: Zustand slices, JSON repository + API routes, clock, event reducer, response simulation
 - [x] **Phase 4**: Live Map (deck.gl + MapLibre GL, 3D tilt, columns, arcs, pulse, fallbacks)
 - [x] **Phase 5**: Request + donor flows (Create request 3-step, verify, phone mock, accept, decline, reveal)
-- [ ] **Phase 6**: Privacy (Masking, audit log, retention/purge, Privacy Center)
+- [x] **Phase 6**: Privacy (Masking, audit log, retention/purge, Privacy Center)
 - [ ] **Phase 7**: Analytics: Impact (500 vs 5), Blood Desert Heatmap, Lean-Month Forecast, Campus Network + Camp Scheduler
 - [ ] **Phase 8**: Demo Mode (Scripted 8-scene walkthrough, timeline scrubber, speed controls, reset)
 - [ ] **Phase 9**: Polish: motion, accessibility, responsive, empty/error states, error boundaries

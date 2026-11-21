@@ -7,6 +7,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { RequestSidePanel } from '@/components/map/RequestSidePanel';
 import { CreateRequestModal } from '@/components/requests/CreateRequestModal';
 import { DonorPhoneMock } from '@/components/donors/DonorPhoneMock';
+import { PrivacyCenter } from '@/components/privacy/PrivacyCenter';
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 import seedJson from '@/data/seed.json';
 import { AppDataStore, BloodRequest } from '@/types';
@@ -133,6 +134,12 @@ export default function HomePage() {
         {ui.activeView === 'donor' && (
           <div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)]">
             <DonorPhoneMock onClose={() => setActiveView('map')} />
+          </div>
+        )}
+
+        {ui.activeView === 'privacy' && (
+          <div className="py-2">
+            <PrivacyCenter />
           </div>
         )}
 
