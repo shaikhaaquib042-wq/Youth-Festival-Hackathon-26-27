@@ -38,7 +38,7 @@ let workType = 'moderate';
 let newToHeat = false;
 let detailsOpen = false;
 // Collapsed card = one slim line. Remembered per device; re-opens itself when the shown level gets worse.
-const RANK = { green: 0, yellow: 1, orange: 2, red: 3 };
+const RANK = { unknown: 0, green: 0, yellow: 1, orange: 2, red: 3 };
 let collapsed = (() => { try { return localStorage.getItem('sajag.cardCollapsed') === '1'; } catch { return false; } })();
 const lastLevel = {};
 function setCollapsed(v) {
@@ -194,7 +194,12 @@ function render() {
   const moreContent = document.createElement('div');
   moreContent.className = 'card-more-content';
 
-  if (activeHazard === 'flood') {
+  if (activeLevel === 'unknown') {
+    emojiEl.textContent = '—';
+    headlineEl.textContent = t('card.weatherUnavailable');
+    textGroup.appendChild(headlineEl);
+    speakBtn.onclick = () => speak('card.weatherUnavailable');
+  } else if (activeHazard === 'flood') {
     // ── Flood Card ──────────────────────────────────────────
     emojiEl.textContent = FLOOD_EMOJIS[floodStatus.level] || '⚠️';
 
@@ -344,8 +349,10 @@ function render() {
     activeCard.classList.add('collapsed');
     activeCard.onclick = () => setCollapsed(false); // tap anywhere on the slim card to open
   } else {
-    detailsEl.appendChild(moreContent);
-    activeCard.appendChild(detailsEl);
+    if (activeLevel !== 'unknown') {
+      detailsEl.appendChild(moreContent);
+      activeCard.appendChild(detailsEl);
+    }
   }
   container.appendChild(activeCard);
 
@@ -355,7 +362,9 @@ function render() {
   const inactiveIcon = hiddenHazard === 'heat' ? '☀️' : '🌧️';
   const inactiveName = t(hiddenHazard === 'heat' ? 'hazard.heat' : 'hazard.flood');
   let chipStatusWord = t('chip.ok');
-  if (hiddenStatus.level === 'red') {
+  if (hiddenStatus.level === 'unknown') {
+    chipStatusWord = t('card.weatherUnavailable');
+  } else if (hiddenStatus.level === 'red') {
     chipStatusWord = t('chip.danger');
   } else if (hiddenStatus.level === 'yellow' || hiddenStatus.level === 'orange') {
     chipStatusWord = t('chip.caution');

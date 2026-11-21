@@ -202,6 +202,7 @@ export default {
   // Cards UI (PRD §22.1)
   'card.floodTitle': 'Flood status',
   'card.heatTitle': 'Heat status',
+  'card.weatherUnavailable': 'Weather data unavailable',
   'card.noFloodNearby': 'No waterlogged roads reported within 1 km',
   'card.tapToSwitch': 'Tap to view',
   'card.readAloud': 'Listen to advisory',
