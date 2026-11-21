@@ -191,3 +191,7 @@
 .chat-input:focus-within { box-shadow: 0 0 0 3px var(--saffron-500); }
 .chat-input textarea { flex: 1 1 auto; min-height: 52px; padding: 10px 12px; border: 0; outline: none; resize: vertical; font: inherit; font-size: 1.05rem; background: transparent; color: var(--ink); }
 .chat-input .btn { width: auto; margin-left: 8px; }
+
+.official-list { list-style: none; margin: 6px 0 0; padding: 0; }
+.official-list li { padding: 8px 0; border-top: 1px dashed var(--sage-100); }
+.official-list a { font-weight: 700; }

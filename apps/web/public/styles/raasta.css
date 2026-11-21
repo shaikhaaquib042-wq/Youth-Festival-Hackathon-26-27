@@ -482,28 +482,7 @@ input[type="checkbox"], input[type="radio"] { width: 22px; height: 22px; accent-
 .door-street #path { transition: stroke-dashoffset 900ms var(--ease-out); }
 
 /* ---------- 14. Site chrome ---------- */
-.site-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 0;
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
-}
-.site-header .brand { font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; color: var(--ink); text-decoration: none; }
-.site-header nav { display: flex; flex-wrap: wrap; align-items: center; }
-.site-header nav a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 0 12px;
-  color: var(--ink-700);
-  font-weight: 700;
-  text-decoration: none;
-}
-.site-header nav a:hover { color: var(--ink); text-decoration: underline; }
-.site-header nav a[aria-current="page"] { color: var(--leaf-700); }
+/* Header rules live in section 21. */
 .site-footer {
   margin-top: 64px;
   padding: 40px 0 48px;
@@ -545,7 +524,7 @@ input[type="checkbox"], input[type="radio"] { width: 22px; height: 22px; accent-
   .blob { width: 220px; height: 220px; }
   .section { padding: 40px 0; }
   .card { border-radius: var(--r-card); }
-  .site-header nav a { padding: 0 8px; }
+
 }
 
 /* ---------- 18. Right to left ---------- */

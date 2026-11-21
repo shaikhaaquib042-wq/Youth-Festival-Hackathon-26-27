@@ -224,6 +224,19 @@ const KIND_LABEL: Record<SubmissionMode["kind"], string> = {
 };
 
 /** One ForumOption: why, fee, SLA, then every submission mode best-first with truthful labels. */
+/** Filing-related official pages from the verified registry (complaint forms, registration, tracking, PDF guides). */
+const OFFICIAL_KEY = /complaint|register|grievance|form|registration|signup|track|upload|legal_aid|lok_adalat|pdf|manual|lost_and_found/i;
+function officialLinks(platform: ReturnType<typeof platformById>): Array<[string, string]> {
+  const urls = (platform?.urls ?? {}) as Record<string, unknown>;
+  const out: Array<[string, string]> = [];
+  for (const [k, v] of Object.entries(urls)) {
+    if (k === "home" || k === "deprecated_url" || !OFFICIAL_KEY.test(k) || typeof v !== "string") continue;
+    const safe = safeHttps(v);
+    if (safe && !/edaakhil/i.test(safe)) out.push([k, safe]);
+  }
+  return out.slice(0, 6);
+}
+
 export function Door({ ctx, option, heading, level, idx, compact }: { ctx: ActionCtx; option: ForumOption; heading: string; level: 2 | 3; idx: number; compact?: boolean }) {
   const { lang } = ctx;
   const platform = platformById(option.platform_id);
@@ -275,6 +288,20 @@ export function Door({ ctx, option, heading, level, idx, compact }: { ctx: Actio
           <ol className="mode-list" role="list">
             {rest.map((m, i) => renderMode(m, i + top.length))}
           </ol>
+        </details>
+      ) : null}
+      {officialLinks(platform).length && !blocked ? (
+        <details className="doc-more">
+          <summary>{t(lang, "ui.act.official", { n: officialLinks(platform).length })}</summary>
+          <ul className="official-list" role="list">
+            {officialLinks(platform).map(([key, url]) => (
+              <li key={key}>
+                <a href={url} target="_blank" rel="noopener noreferrer">
+                  {key.replace(/_/g, " ").replace(/\bpdf\b/i, "(PDF)").replace(/^./, (c) => c.toUpperCase())}
+                </a>
+              </li>
+            ))}
+          </ul>
         </details>
       ) : null}
       {portal && !blocked ? (
