@@ -267,6 +267,16 @@ Deploy: `vercel deploy --prod` (Vercel project `sajag`). Database: `supabase db 
 - **Sensors when available:** fuse water-level sensors (the IIT Bombay *Mumbai Flood* model), CCTV, and IMD nowcasts into the same engine.
 - **Heat:** a recorded native voice for every language; per-ward heat maps; employer dashboards to log breaks.
 
+**A third hazard: cold waves (North-Indian winters)**
+- **Same engine, third side:** a "Cold" status beside Rain and Heat for winter city packs (Delhi, Lucknow, Jaipur, Chandigarh and others).
+  - It uses the same Open-Meteo feed we already read (temperature and "feels like").
+  - It follows IMD's cold-wave rules: a night-time low of about 10 °C or below that is well under normal for the date.
+- **Shift and "I feel unwell" for the cold:**
+  - layering and warm-break reminders for night-shift and early-morning workers;
+  - hypothermia warning signs that lead to **Call 108 first**.
+- **Night shelters on the map:** government *rain basera* (night shelters) and warming points as a new point type, crowd-added like free water spots.
+- It doesn't apply to today's four cities, which rarely meet IMD's cold-wave criteria, so it ships with the North-Indian city packs.
+
 **Product polish**
 - A native-speaker review of all five languages, and verified helplines for every city.
 - Offline map tiles for the user's own ward, so the map works with no signal during a storm.
