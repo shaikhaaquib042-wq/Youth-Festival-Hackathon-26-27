@@ -440,3 +440,18 @@ Login needs a backend anyway, and a shared DB fixes the single-device limitation
 
 ### 22.8 Kept from our plan despite the research
 MapLibre (not Leaflet — already working, offline PMTiles); recorded Marathi clips (no Marathi TTS on the demo Mac); saved-route check on app open (no push needed; it is brief direction 3); 5 languages; SACHET live feed (research listed it "unconfirmed" — ours is verified); cooling points view-first (crowdsourced add kept but not demoed).
+
+---
+
+## 23. Maharashtra heat SOPs (13 Apr 2026) — policy alignment [21 Nov 14:35]
+**Source: teammate research (pasted 21 Nov). VERIFY against the government notification / a news report before putting on a slide.**
+Announced 13 April 2026 by Disaster Management Minister Girish Mahajan under the State Heat Action Plan and IMD colour-coded alerts; developed after six months of study; ₹184-crore Centre of Excellence in Nagpur for extreme-heat research and training. Implementation via District Disaster Management Authorities, municipal corporations, PWD, MHADA, CIDCO. Helplines circulated: **1077** (district control room), **108**, **112 / 100**.
+- **SOP 1 — outdoor & informal workers:** work rescheduled to cooler hours **6–11 am and 4–8 pm**, **mandatory 12–4 pm break on orange and red alerts**; water booths at markets, junctions, transit hubs, vending zones; ORS / electrolytes via PHCs, ward offices, NGOs; temporary shade at vending areas, labour chowks, major intersections; parks open in the afternoon; health centres stocked (ORS, IV fluids, heat-illness kits); ASHA / ward workers trained; 108 ambulances pre-positioned.
+- **SOP 2 — Chandrapur coal mines:** cooling rest centres, water, ventilation, job rotation, training, facilities for women workers.
+- **SOP 3 — heat-resilient housing & planning:** cool roofs, green spaces, thermal improvements; PMAY housing + building by-laws (medium term); state building code (long term).
+- **15 high-risk districts:** Vidarbha — Nagpur, Chandrapur, Wardha, Amravati, Yavatmal, Washim, Akola, Buldhana, Gondia, Bhandara; Marathwada — Nanded, Latur; Khandesh — Jalgaon, Nandurbar, Dhule.
+
+**What it changes in Sajag (Maharashtra city packs):**
+- Heat shift card: on orange/red heat days show "State SOP: mandatory break 12–4 pm; work 6–11 am and 4–8 pm" and cap the **safe-again** time at no earlier than 16:00 (the state's resumption window). Config: `HEAT.MH_SOP = { breakStart: '12:00', breakEnd: '16:00', windows: ['06:00-11:00','16:00-20:00'] }` in the Maharashtra packs.
+- Cooling-point layer = the SOP's water booths + shade; ORS tagging + one-tap 108 = the SOP's health response. Helplines for MH packs add 100 alongside 112 / 108 / 1077.
+- Pitch line: "The state wrote the policy; Sajag puts it in a rider's pocket, in Marathi — and the 15 high-risk districts are the next city packs."
