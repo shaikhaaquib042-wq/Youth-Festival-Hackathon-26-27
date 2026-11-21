@@ -224,11 +224,12 @@
 .card-advisory-strip {
   font-size: 12px;
   line-height: 1.35;
-  background: #f8f9fa;
+  background: var(--surface-2);
+  color: var(--ink);
   padding: 6px 10px;
   border-radius: 8px;
-  color: #24292f;
-  border: 1px solid #eaeef2;
+  color: var(--ink, #24292f);
+  border: 1px solid var(--line);
 }
 
 /* Simplified mini chip for inactive side */
@@ -240,7 +241,7 @@
   padding: 6px 14px;
   font-size: 13px;
   font-weight: 700;
-  color: #24292f;
+  color: var(--ink, #24292f);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   display: inline-flex;
@@ -290,20 +291,27 @@
   font-size: 15px;
   font-weight: 700;
   border-radius: 10px;
-  border: 1.5px solid #c9ced6;
-  background: #f8f9fa;
+  border: 1.5px solid var(--line, #c9ced6);
+  background: var(--surface-2, #f8f9fa);
+  color: var(--ink, #111418);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
 }
+/* Still there = confirm (status green), Cleared = neutral — readable in light and dark */
+.maplibregl-popup-content .pin-popup .vote-row button:first-child {
+  background: var(--ok-bg, #ecfdf3);
+  color: var(--ok-ink, #14532d);
+  border-color: var(--ok-line, rgba(21,128,61,.25));
+}
 
 .maplibregl-popup-content .badge-proof {
   display: inline-block;
-  background: #ebfbee;
-  color: #2b8a3e;
-  border: 1px solid #8ce99a;
+  background: var(--ok-bg, #ebfbee);
+  color: var(--ok-ink, #2b8a3e);
+  border: 1px solid var(--ok-line, #8ce99a);
   font-size: 11px;
   font-weight: 700;
   padding: 1px 7px;
@@ -362,9 +370,10 @@
   padding: 12px 6px;
   min-height: 64px;
   border-radius: 12px;
-  border: 2px solid #e1e4e8;
-  background: #ffffff;
-  color: #24292f;
+  border: 2px solid var(--line);
+  background: var(--surface-2);
+  color: var(--ink);
+  color: var(--ink, #24292f);
   cursor: pointer;
   text-align: center;
   transition: all 0.15s ease;
@@ -394,9 +403,10 @@
   justify-content: center;
   gap: 8px;
   min-height: 48px;
-  border: 2px dashed #c9ced6;
+  border: 2px dashed var(--line);
   border-radius: 12px;
-  background: #ffffff;
+  background: var(--surface-2);
+  color: var(--ink);
   font-size: 15px;
   font-weight: 700;
   color: #495057;
@@ -418,9 +428,10 @@
   justify-content: center;
   gap: 10px;
   min-height: 54px;
-  border: 2px dashed #1971c2;
+  border: 2px dashed var(--line);
   border-radius: 12px;
-  background: #f8f9fa;
+  background: var(--surface-2);
+  color: var(--ink);
   color: #1864ab;
   font-size: 15px;
   font-weight: 700;
@@ -544,3 +555,10 @@
 .status-card.collapsed .card-subline,
 .status-card.collapsed .card-safe-again { display: none; }
 .status-card.collapsed .btn-speak-big { min-width: 44px; min-height: 44px; width: 44px; height: 44px; font-size: 20px; }
+
+/* Dark mode: selected report tile + text colours inside report tiles */
+:root[data-theme="dark"] .report-tile-btn.selected { background: #11284a; color: #93c5fd; border-color: #3b82f6; }
+:root[data-theme="dark"] .report-tile-btn .tile-text,
+:root[data-theme="dark"] .report-proof-tile .proof-label,
+:root[data-theme="dark"] .report-proof-tile .proof-opt { color: inherit; }
+:root[data-theme="dark"] .report-proof-tile, :root[data-theme="dark"] .report-photo-tile { color: #93c5fd; border-color: rgba(147,197,253,.45); }
