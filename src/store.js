@@ -30,8 +30,9 @@ const OSM = { kind: 'seed', name: 'OpenStreetMap', url: 'https://www.openstreetm
 const SEED_TIME = '2026-11-01T00:00:00+05:30';
 
 const seed = [
-  ...hotspots.map((h) => makePin({ id: h.id, type: 'hotspot', lat: h.lat, lng: h.lng, name: h.name, inUnderpass: h.inUnderpass,
-    tier: TIERS.SEED, source: h.source, createdAt: SEED_TIME, status: 'unverified' })),
+  // Archived spots (undated lists, 2019/2024 flood history) stay in the file but not on the live map.
+  ...hotspots.filter((h) => !h.archived).map((h) => makePin({ id: h.id, type: 'hotspot', lat: h.lat, lng: h.lng, name: h.name, inUnderpass: h.inUnderpass,
+    tier: TIERS.SEED, source: h.source, createdAt: h.lastReported ? `${h.lastReported}T00:00:00+05:30` : SEED_TIME, status: 'unverified' })),
   ...cooling.map((c) => makePin({ id: c.id, type: 'cooling', lat: c.lat, lng: c.lng, name: c.name, amenities: c.amenities,
     tier: TIERS.SEED, source: OSM, createdAt: SEED_TIME, status: 'confirmed' })),
 ];

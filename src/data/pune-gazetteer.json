@@ -442,5 +442,113 @@
   "lng": 73.8105,
   "approx": true,
   "hotspotId": "hx-02"
+ },
+ {
+  "name": "Mitramandal Chowk, Sinhagad Road",
+  "aliases": [
+   "mitramandal chowk",
+   "mitra mandal chowk",
+   "मित्रमंडळ चौक"
+  ],
+  "lat": 18.49727,
+  "lng": 73.85412,
+  "approx": true,
+  "hotspotId": "n26-01"
+ },
+ {
+  "name": "Lagad Mala, Sinhagad Road",
+  "aliases": [
+   "lagad mala",
+   "lagadmala",
+   "लगड मळा"
+  ],
+  "lat": 18.45823,
+  "lng": 73.80807,
+  "approx": false,
+  "hotspotId": "n26-02"
+ },
+ {
+  "name": "Kothrud Kachra Depot, Paud Road",
+  "aliases": [
+   "kothrud garbage depot",
+   "kachra depot",
+   "कचरा डेपो"
+  ],
+  "lat": 18.50757,
+  "lng": 73.79988,
+  "approx": false,
+  "hotspotId": "n26-03"
+ },
+ {
+  "name": "Upper Depot, Bibwewadi",
+  "aliases": [
+   "upper depot",
+   "upper bus depot",
+   "अप्पर डेपो"
+  ],
+  "lat": 18.46044,
+  "lng": 73.87208,
+  "approx": false,
+  "hotspotId": "n26-04"
+ },
+ {
+  "name": "VIT College Road, Bibwewadi",
+  "aliases": [
+   "vit college road",
+   "vit road",
+   "व्हीआयटी"
+  ],
+  "lat": 18.4636,
+  "lng": 73.868,
+  "approx": true,
+  "hotspotId": "n26-05"
+ },
+ {
+  "name": "Gokul Nagar, Katraj–Kondhwa Road",
+  "aliases": [
+   "gokul nagar",
+   "gokulnagar",
+   "गोकुळ नगर"
+  ],
+  "lat": 18.4481,
+  "lng": 73.87558,
+  "approx": true,
+  "hotspotId": "n26-06"
+ },
+ {
+  "name": "Yewalewadi",
+  "aliases": [
+   "yewalewadi",
+   "येवलेवाडी"
+  ],
+  "lat": 18.43583,
+  "lng": 73.89636,
+  "approx": true,
+  "hotspotId": "n26-07"
+ },
+ {
+  "name": "Wagholi",
+  "aliases": [
+   "wagholi",
+   "वाघोली"
+  ],
+  "lat": 18.58063,
+  "lng": 73.98331,
+  "approx": true,
+  "hotspotId": "n26-08"
+ },
+ {
+  "name": "Tathawade–Punawale (BRTS stretch, underpass service road)",
+  "aliases": [
+   "tathawade",
+   "punawale",
+   "tathawade chowk",
+   "ताथवडे",
+   "पुनावळे"
+  ],
+  "lat": 18.6265,
+  "lng": 73.748,
+  "approx": true,
+  "hotspotId": "n26-09"
  }
 ]

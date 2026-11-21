@@ -32,7 +32,7 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 - Local OSRM verified (Pune → Lonavala 63.7 km). OSRM often returns only ONE route → detour via-point logic is required (spec in AGENTS.md).
 
 **Data**
-- 19 flood hotspots (`src/data/pune-hotspots.json`): 10 named Traffic Police spots, 7 repeat spots from the research, Ambil Odha (2019) and Ekta Nagar (2024). Hand-placed ones flagged `approx`.
+- **19 live flood hotspots, all 2026-sourced** (`src/data/pune-hotspots.json`, updated 18:10): 10 Pune Traffic Police spots (list of 26 published 3 Jul 2026, graded from 2025 monsoon calls; only these 10 are named publicly) + 9 places reported waterlogged in the 2026 monsoon (Mitramandal Chowk, Lagad Mala, Kothrud Kachra Depot, Upper Depot, VIT College Rd, Gokul Nagar, Yewalewadi, Wagholi, Tathawade–Punawale underpass; Punekar News 29 Sep, Bridge Chronicle 22 & 30 Sep 2026). Each popup shows the dated source + link. 9 older spots (7 undated news-list spots, Ambil Odha 2019, Ekta Nagar 2024) kept in the file with `archived: true`, not shown live (2019 lives on in the Scenario replay). Coordinates from OSM Nominatim; area-level ones flagged `approx`. Skipped (not found on OSM): Kamthe Nagar, Bodkewadi Phata, Ambethan Temple Road.
 - 45-name gazetteer (English + Marathi aliases) for landmark labels / paste-in matcher.
 - 1,862 cooling points from OpenStreetMap (water, pharmacies = ORS, clinics, hospitals, parks = shade).
 - Helplines per city (only 112 / 108 confirmed — **call-check the rest**).
@@ -81,7 +81,7 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 | Native-speaker review | All mr / hi / kn / te strings were machine-written — Kannada & Telugu especially need a native read. |
 | Work/rest numbers | PRD §21.2 table is simplified from ACGIH — verify before quoting on stage. |
 | Helplines | Only 112 / 108 verified. |
-| PMC spot count | 120 (TOI, pre-monsoon) vs 201 (Punekar News, 29 Sep) — verify before quoting. 2019 flood: quote the brief (112 mm / ~20 deaths); 106 mm / 17 deaths if asked. |
+| PMC spot count | Use **201 waterlogging-prone spots** (PMC, quoted by Punekar News 29 Sep 2026 and Bridge Chronicle 30 Sep 2026); 120 was the May 2026 priority list. 2019 flood: quote the brief (112 mm / ~20 deaths); 106 mm / 17 deaths if asked. |
 | Maharashtra heat SOP figures (§23) | From teammate — confirm against the government notification / news source before a slide. |
 
 ## 4. Blocked on Devang (accounts)
