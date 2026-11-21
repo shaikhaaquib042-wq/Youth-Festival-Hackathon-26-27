@@ -22,7 +22,7 @@ export default {
   'action.call108': '108కి కాల్ చేయండి',
   'depth.ankle': 'చీలమండ వరకు',
   'depth.knee': 'మోకాలి వరకు',
-  'depth.above_knee': 'మోకాలి పైన',
+  'depth.above_knee': 'నడుము / ఛాతీ వరకు',
   'vehicle.bike': 'ద్విచక్ర వాహనం',
   'vehicle.car': 'కారు',
   'verdict.safe': 'సురక్షితం',

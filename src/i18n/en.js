@@ -25,7 +25,7 @@ export default {
 
   'depth.ankle': 'Ankle deep',
   'depth.knee': 'Knee deep',
-  'depth.above_knee': 'Above knee',
+  'depth.above_knee': 'Waist / torso deep',
   'vehicle.bike': 'Two-wheeler',
   'vehicle.car': 'Car',
 

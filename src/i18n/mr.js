@@ -22,7 +22,7 @@ export default {
   'action.call108': '१०८ ला कॉल करा',
   'depth.ankle': 'घोट्यापर्यंत',
   'depth.knee': 'गुडघ्यापर्यंत',
-  'depth.above_knee': 'गुडघ्याच्या वर',
+  'depth.above_knee': 'कंबरेपर्यंत / छातीपर्यंत',
   'vehicle.bike': 'दुचाकी',
   'vehicle.car': 'चारचाकी',
   'verdict.safe': 'सुरक्षित',
