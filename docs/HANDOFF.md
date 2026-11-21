@@ -1,6 +1,6 @@
 # Sajag — Handoff (21 Nov 2026, updated 20:40 IST — read §0 first)
 
-Hackathon: Naya Bharat 2047 · Code for Bharat (Rotary × Rotaract Youth Festival, Pune). **Code freeze 21:00, submission before 22:00 IST.**
+Hackathon: Naya Bharat 2047 · Code for Bharat (Rotary × Rotaract Youth Festival, Pune). **Submission deadline moved to 23:59 IST, 21 Nov** (was 22:00; told 20:42). Code freeze: confirm with Devang.
 Problem statements: **7.3** "Which road is flooded right now?" (primary) + **7.2** "Too hot to work, too poor to stop".
 Product: **Sajag (सजग, "alert")** — one safety companion for people who can't stay indoors (commuters, two-wheeler / delivery riders, outdoor workers). Pune live; Mumbai, Bengaluru, Hyderabad as city packs.
 
