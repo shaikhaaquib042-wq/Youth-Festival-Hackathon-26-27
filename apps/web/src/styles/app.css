@@ -1,0 +1,553 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* Shell layout and street motion. Component look (buttons, cards, chips) lives in /styles/raasta.css. */
+
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sh-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  flex-wrap: wrap;
+  padding-block: 0.6rem;
+}
+.sh-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1.35rem;
+  text-decoration: none;
+  color: inherit;
+}
+.sh-nav {
+  display: none;
+  gap: 1rem;
+  margin-inline-start: 0.5rem;
+}
+.sh-nav a {
+  text-decoration: none;
+  padding: 0.5rem 0.25rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.sh-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-inline-start: auto;
+  flex-wrap: wrap;
+}
+.sh-pop {
+  position: relative;
+}
+.sh-pop > summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+}
+.sh-pop > summary::-webkit-details-marker {
+  display: none;
+}
+.sh-pop-panel {
+  position: absolute;
+  inset-inline-end: 0;
+  top: calc(100% + 0.4rem);
+  z-index: 40;
+  min-width: 15rem;
+  max-width: calc(100vw - 2rem);
+  padding: 0.75rem;
+  margin: 0;
+  list-style: none;
+}
+.sh-pop-panel li a {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  text-decoration: none;
+  border-radius: 14px;
+}
+.sh-pop-panel li a:hover,
+.sh-pop-panel li a[aria-current="true"] {
+  background: rgba(45, 115, 65, 0.1);
+}
+.sh-muted {
+  opacity: 0.78;
+}
+.sh-menu {
+  display: block;
+}
+.sh-loc > summary span,
+.sh-lang > summary span {
+  max-width: 9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sh-emergency span {
+  white-space: nowrap;
+}
+.sh-footer-nav {
+  gap: 0.5rem 1.25rem;
+}
+.sh-footer-nav a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+.path-sweep {
+  position: fixed;
+  inset-inline: 0;
+  top: 64px;
+  width: 100%;
+  height: 28px;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0;
+}
+.path-sweep path {
+  fill: none;
+  stroke: #e56420;
+  stroke-width: 3px;
+  stroke-linecap: round;
+  stroke-dasharray: 0.012 0.03;
+}
+main:focus {
+  outline: none;
+}
+
+.page {
+  padding-block: 2rem 3rem;
+}
+.page-lead {
+  max-width: 62ch;
+  font-size: 1.1rem;
+}
+.page-card {
+  display: block;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  padding: 1.25rem;
+}
+.page-card h2 {
+  font-size: 1.2rem;
+  margin: 0.4rem 0;
+}
+.page-card-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 700;
+  color: #2d7341;
+}
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+}
+.em-call {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.1rem 1.5rem;
+  text-align: start;
+  min-height: 84px;
+}
+.em-call strong {
+  display: block;
+  font-size: 1.5rem;
+}
+.em-call small {
+  display: block;
+  font-size: 0.95rem;
+}
+
+/* Landing */
+.lp {
+  display: grid;
+  gap: 1.5rem;
+  padding-block: 1.5rem 5.5rem;
+}
+.lp-rail {
+  display: none;
+}
+.lp-cats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+.lp-cat {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  padding: 0.4rem 0.75rem;
+  border-radius: 50px;
+  text-decoration: none;
+  color: inherit;
+}
+.lp-cat:hover,
+.lp-cat:focus-visible {
+  background: rgba(45, 115, 65, 0.12);
+}
+.lp-rail-title {
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+.lp-rail-links {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: grid;
+}
+.lp-rail-links a {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  padding-inline: 0.75rem;
+}
+.lp-main {
+  display: grid;
+  gap: 2rem;
+  min-width: 0;
+}
+.lp-lead {
+  max-width: 54ch;
+  font-size: 1.1rem;
+}
+.lp-form {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+.lp-textarea {
+  width: 100%;
+  min-height: 7rem;
+  resize: vertical;
+  font: inherit;
+  font-size: 1.1rem;
+}
+.lp-form-row {
+  display: flex;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.lp-privacy {
+  margin: 0;
+  font-size: 0.95rem;
+  max-width: 38ch;
+}
+.lp-examples {
+  margin-top: 0.75rem;
+}
+.lp-prefer {
+  margin: 0.75rem 0 0;
+}
+.lp-inline-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  font-weight: 700;
+}
+.lp-tiles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.lp-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  height: 100%;
+  padding: 1rem;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 700;
+  min-height: 44px;
+}
+.lp-tile-arrow {
+  display: none;
+}
+.lp-street {
+  margin-inline: calc(var(--gutter, 1rem) * -1);
+}
+.lp-mobilebar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 35;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 248, 238, 0.96);
+  box-shadow: 0 -6px 24px rgba(29, 43, 34, 0.12);
+}
+.lp-sheet > summary {
+  list-style: none;
+  cursor: pointer;
+}
+.lp-sheet > summary::-webkit-details-marker {
+  display: none;
+}
+.lp-sheet-panel {
+  position: absolute;
+  inset-inline: 0.75rem;
+  bottom: calc(100% + 0.5rem);
+  padding: 0.75rem;
+  max-height: 60vh;
+  overflow: auto;
+  border-radius: 34px;
+}
+.lp-below {
+  display: grid;
+  gap: 2.5rem;
+  margin-top: 1rem;
+}
+.lp-steps {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: grid;
+  gap: 1rem;
+}
+.lp-steps li {
+  padding: 1.25rem;
+  position: relative;
+}
+.lp-step-n {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: #e56420;
+  color: #fff;
+  font-weight: 700;
+}
+.lp-free {
+  padding: 1.5rem;
+}
+.lp-fact {
+  font-weight: 700;
+}
+.lp-faq-item {
+  padding: 0.25rem 1rem;
+  margin-top: 0.75rem;
+}
+.lp-faq-item summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+}
+
+/* Tablet: icon rail, tiles become a two-row horizontal scroller */
+@media (min-width: 768px) {
+  .sh-nav {
+    display: flex;
+  }
+  .sh-menu {
+    display: none;
+  }
+  .lp {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    padding-bottom: 3rem;
+  }
+  .lp-rail {
+    display: block;
+    position: sticky;
+    top: 5rem;
+    align-self: start;
+  }
+  .lp-rail-title,
+  .lp-cat-label,
+  .lp-rail-links {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .lp-rail:hover,
+  .lp-rail:focus-within {
+    z-index: 20;
+    width: 15rem;
+    padding: 0.75rem;
+    background: #fff8ee;
+    border-radius: 34px;
+    box-shadow: 0 12px 32px rgba(29, 43, 34, 0.14);
+  }
+  .lp-rail:hover .lp-rail-title,
+  .lp-rail:hover .lp-cat-label,
+  .lp-rail:hover .lp-rail-links,
+  .lp-rail:focus-within .lp-rail-title,
+  .lp-rail:focus-within .lp-cat-label,
+  .lp-rail:focus-within .lp-rail-links {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+  .lp-mobilebar {
+    display: none;
+  }
+  .lp-tiles {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(2, auto);
+    grid-auto-columns: minmax(12rem, 1fr);
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scroll-snap-type: x proximity;
+  }
+  .lp-tiles li {
+    scroll-snap-align: start;
+  }
+  .lp-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Desktop: rail plus 3/5 and 2/5 columns */
+@media (min-width: 1200px) {
+  .lp {
+    grid-template-columns: 15rem minmax(0, 1fr);
+  }
+  .lp-rail-title,
+  .lp-cat-label,
+  .lp-rail-links {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+  .lp-rail:hover,
+  .lp-rail:focus-within {
+    width: auto;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .lp-main {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: start;
+    column-gap: 2rem;
+  }
+  .lp-street {
+    grid-column: 1 / -1;
+  }
+  .lp-tiles {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-rows: none;
+    grid-template-columns: 1fr;
+    overflow: visible;
+    gap: 0.5rem;
+  }
+  .lp-tile {
+    flex-direction: row;
+    align-items: center;
+    padding: 0.75rem 1rem;
+  }
+  .lp-tile span {
+    flex: 1;
+  }
+  .lp-tile-arrow {
+    display: block;
+  }
+}
+
+/* Street of doors */
+.door-street {
+  min-height: 120px;
+}
+.door-street svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.door-street [data-door],
+.door-street [id^="door-"] {
+  transition: opacity 360ms var(--ease-out), filter 360ms var(--ease-out);
+}
+.door-street .is-dim {
+  opacity: 0.38;
+}
+.door-street .is-warm {
+  opacity: 1;
+  filter: saturate(1.25) drop-shadow(0 0 10px rgba(229, 100, 32, 0.45));
+}
+.door-street [data-street-path],
+.door-street [data-path-for] {
+  fill: none;
+  stroke: #e56420;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 1 12;
+  opacity: 0;
+  transition: opacity 280ms var(--ease-out);
+}
+.door-street [data-street-path].is-on,
+.door-street [data-path-for].is-on,
+.door-street #path.is-on {
+  opacity: 1;
+  animation: street-dash 900ms var(--ease-out) both;
+}
+@keyframes street-dash {
+  from {
+    stroke-dashoffset: var(--len, 240);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .door-street [data-door],
+  .door-street [data-street-path],
+  .door-street [data-path-for] {
+    transition: none;
+  }
+  .door-street [data-street-path].is-on,
+  .door-street [data-path-for].is-on,
+  .door-street #path.is-on {
+    animation: none;
+  }
+  .path-sweep {
+    display: none;
+  }
+}
+
+.sh-tools .btn {
+  display: inline-flex;
+  width: auto;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding-block: 0.4rem;
+}
