@@ -3,8 +3,9 @@ import maplibregl from 'maplibre-gl';
 import { LANGS, t, tIn, onLang } from '../i18n/index.js';
 import { CONFIG } from '../../config.js';
 import { planRoute } from '../engine/route.js';
+import { hasHeavyRain } from '../engine/advisory.js';
 import { getPins, subscribe, now, gazetteer } from '../store.js';
-import { getGrid, onGrid } from '../feeds/openmeteo.js';
+import { getGrid, nearestCell, onGrid } from '../feeds/openmeteo.js';
 import { getFix, requestLocation } from '../location.js';
 import { SEV_COLOR } from '../map/pins.js';
 import { toast } from './report.js';
@@ -154,16 +155,17 @@ function cancelPlan() {
   checking = false;
 }
 
-function pinSignature(pins) {
+function pinSignature(pins, rainClogs) {
   return JSON.stringify([mode, ...pins.map((p) => [
-    p.id, p.lat, p.lng, p.status, p.depth, p.inUnderpass, p.confirmations,
+    p.id, p.lat, p.lng, p.status, p.depth, p.inUnderpass, p.confirmations, rainClogs.has(p.id),
   ])]);
 }
 
 async function recheck() {
   if (!active) return;
   const pins = getPins({ includeCooling: false }).filter((p) => p.type === 'flood' || p.type === 'clog');
-  const sig = pinSignature(pins);
+  const rainClogs = new Set(pins.filter((p) => p.type === 'clog' && hasHeavyRain(nearestCell(p))).map((p) => p.id));
+  const sig = pinSignature(pins, rainClogs);
   if (sig === signature) return;
   signature = sig;
   const prev = result?.verdict;
@@ -176,7 +178,7 @@ async function recheck() {
   try {
     const next = await planRoute(active.from, active.to, pins,
       { osrmUrl: CONFIG.OSRM_URL, mode, bufferM: CONFIG.ROUTE_BUFFER_M, detourM: CONFIG.DETOUR_OFFSET_M,
-        alternatives: CONFIG.OSRM_ALTERNATIVES, signal: controller.signal });
+        alternatives: CONFIG.OSRM_ALTERNATIVES, signal: controller.signal, heavyRainAt: (p) => rainClogs.has(p.id) });
     if (request !== controller) return;
     checking = false;
     result = next;
@@ -267,6 +269,7 @@ export function initRoute(m) {
   subscribe(recheck);
   let simulated = hasSimulatedWeather();
   onGrid(() => {
+    recheck();
     const next = hasSimulatedWeather();
     if (next !== simulated && !editing) render();
     simulated = next;
