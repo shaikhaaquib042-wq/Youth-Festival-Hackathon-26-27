@@ -80,5 +80,37 @@
       "mr",
       "hi"
     ]
-  }
+  },
+  "helplines": [
+    {
+      "number": "112",
+      "label": "Emergency (all services)",
+      "verified": true
+    },
+    {
+      "number": "108",
+      "label": "Ambulance",
+      "verified": true
+    },
+    {
+      "number": "1077",
+      "label": "District disaster helpline",
+      "verified": false
+    },
+    {
+      "number": "020-25501269",
+      "label": "PMC 24x7 control room",
+      "verified": false
+    },
+    {
+      "number": "020-25506800",
+      "label": "PMC 24x7 control room",
+      "verified": false
+    },
+    {
+      "number": "8087240400",
+      "label": "Pune Traffic Police WhatsApp",
+      "verified": false
+    }
+  ]
 }

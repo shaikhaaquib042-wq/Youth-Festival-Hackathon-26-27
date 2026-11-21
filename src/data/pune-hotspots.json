@@ -169,5 +169,162 @@
    "name": "Pune Traffic Police list (Punekar News, 3 Jul 2026)",
    "url": "https://www.punekarnews.in/?p=238846"
   }
+ },
+ {
+  "id": "rs-01",
+  "name": "Baner Phata",
+  "aliases": [
+   "baner phata",
+   "बाणेर फाटा"
+  ],
+  "lat": 18.55005,
+  "lng": 73.8095,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "seed",
+   "name": "Repeat waterlogging spots (Sajag research: Pune Mirror / TOI lists)",
+   "url": null
+  }
+ },
+ {
+  "id": "rs-02",
+  "name": "Magarpatta Chowk",
+  "aliases": [
+   "magarpatta",
+   "magarpatta chowk"
+  ],
+  "lat": 18.5137,
+  "lng": 73.927,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "seed",
+   "name": "Repeat waterlogging spots (Sajag research: Pune Mirror / TOI lists)",
+   "url": null
+  }
+ },
+ {
+  "id": "rs-03",
+  "name": "Vimantal Chowk (Airport Road)",
+  "aliases": [
+   "vimantal",
+   "viman tal chowk",
+   "airport road chowk"
+  ],
+  "lat": 18.577,
+  "lng": 73.909,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "seed",
+   "name": "Repeat waterlogging spots (Sajag research: Pune Mirror / TOI lists)",
+   "url": null
+  }
+ },
+ {
+  "id": "rs-04",
+  "name": "Dhanori Jakat Naka",
+  "aliases": [
+   "dhanori jakat naka",
+   "dhanori zakat naka",
+   "jakat naka"
+  ],
+  "lat": 18.587,
+  "lng": 73.896,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "seed",
+   "name": "Repeat waterlogging spots (Sajag research: Pune Mirror / TOI lists)",
+   "url": null
+  }
+ },
+ {
+  "id": "rs-05",
+  "name": "Church Chowk, Khadki",
+  "aliases": [
+   "church chowk",
+   "khadki church chowk"
+  ],
+  "lat": 18.564,
+  "lng": 73.846,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "seed",
+   "name": "Repeat waterlogging spots (Sajag research: Pune Mirror / TOI lists)",
+   "url": null
+  }
+ },
+ {
+  "id": "rs-06",
+  "name": "Poultry Chowk, Khadki",
+  "aliases": [
+   "poultry chowk"
+  ],
+  "lat": 18.561,
+  "lng": 73.842,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "seed",
+   "name": "Repeat waterlogging spots (Sajag research: Pune Mirror / TOI lists)",
+   "url": null
+  }
+ },
+ {
+  "id": "rs-07",
+  "name": "Bopodi underpass",
+  "aliases": [
+   "bopodi",
+   "bopodi underpass",
+   "बोपोडी"
+  ],
+  "lat": 18.56966,
+  "lng": 73.8381,
+  "inUnderpass": true,
+  "approx": false,
+  "source": {
+   "kind": "seed",
+   "name": "Repeat waterlogging spots (Sajag research: Pune Mirror / TOI lists)",
+   "url": null
+  }
+ },
+ {
+  "id": "hx-01",
+  "name": "Ambil Odha (Dandekar Bridge stretch)",
+  "aliases": [
+   "ambil odha",
+   "आंबील ओढा",
+   "ambil odha nala"
+  ],
+  "lat": 18.49961,
+  "lng": 73.85136,
+  "inUnderpass": false,
+  "approx": false,
+  "source": {
+   "kind": "seed",
+   "name": "Flood history: 25 Sep 2019 Ambil Odha flash flood",
+   "url": "https://citizenmatters.in/pune-september-flash-floods-causes-and-aftermath-14109"
+  }
+ },
+ {
+  "id": "hx-02",
+  "name": "Ekta Nagar, Sinhagad Road",
+  "aliases": [
+   "ekta nagar",
+   "ekta nagari",
+   "एकता नगर"
+  ],
+  "lat": 18.47,
+  "lng": 73.8105,
+  "inUnderpass": false,
+  "approx": true,
+  "source": {
+   "kind": "seed",
+   "name": "Flood history: 25 Jul 2024 Khadakwasla release, Ekta Nagar",
+   "url": null
+  }
  }
 ]

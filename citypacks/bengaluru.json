@@ -37,5 +37,22 @@
       "kn",
       "te"
     ]
-  }
+  },
+  "helplines": [
+    {
+      "number": "112",
+      "label": "Emergency (all services)",
+      "verified": true
+    },
+    {
+      "number": "108",
+      "label": "Ambulance",
+      "verified": true
+    },
+    {
+      "number": "1533",
+      "label": "BBMP Sahaaya",
+      "verified": false
+    }
+  ]
 }

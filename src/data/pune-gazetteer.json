@@ -339,5 +339,108 @@
   "lat": 18.54059,
   "lng": 73.88344,
   "approx": false
+ },
+ {
+  "name": "Baner Phata",
+  "aliases": [
+   "baner phata",
+   "बाणेर फाटा"
+  ],
+  "lat": 18.55005,
+  "lng": 73.8095,
+  "approx": false,
+  "hotspotId": "rs-01"
+ },
+ {
+  "name": "Magarpatta Chowk",
+  "aliases": [
+   "magarpatta",
+   "magarpatta chowk"
+  ],
+  "lat": 18.5137,
+  "lng": 73.927,
+  "approx": true,
+  "hotspotId": "rs-02"
+ },
+ {
+  "name": "Vimantal Chowk (Airport Road)",
+  "aliases": [
+   "vimantal",
+   "viman tal chowk",
+   "airport road chowk"
+  ],
+  "lat": 18.577,
+  "lng": 73.909,
+  "approx": true,
+  "hotspotId": "rs-03"
+ },
+ {
+  "name": "Dhanori Jakat Naka",
+  "aliases": [
+   "dhanori jakat naka",
+   "dhanori zakat naka",
+   "jakat naka"
+  ],
+  "lat": 18.587,
+  "lng": 73.896,
+  "approx": true,
+  "hotspotId": "rs-04"
+ },
+ {
+  "name": "Church Chowk, Khadki",
+  "aliases": [
+   "church chowk",
+   "khadki church chowk"
+  ],
+  "lat": 18.564,
+  "lng": 73.846,
+  "approx": true,
+  "hotspotId": "rs-05"
+ },
+ {
+  "name": "Poultry Chowk, Khadki",
+  "aliases": [
+   "poultry chowk"
+  ],
+  "lat": 18.561,
+  "lng": 73.842,
+  "approx": true,
+  "hotspotId": "rs-06"
+ },
+ {
+  "name": "Bopodi underpass",
+  "aliases": [
+   "bopodi",
+   "bopodi underpass",
+   "बोपोडी"
+  ],
+  "lat": 18.56966,
+  "lng": 73.8381,
+  "approx": false,
+  "hotspotId": "rs-07"
+ },
+ {
+  "name": "Ambil Odha (Dandekar Bridge stretch)",
+  "aliases": [
+   "ambil odha",
+   "आंबील ओढा",
+   "ambil odha nala"
+  ],
+  "lat": 18.49961,
+  "lng": 73.85136,
+  "approx": false,
+  "hotspotId": "hx-01"
+ },
+ {
+  "name": "Ekta Nagar, Sinhagad Road",
+  "aliases": [
+   "ekta nagar",
+   "ekta nagari",
+   "एकता नगर"
+  ],
+  "lat": 18.47,
+  "lng": 73.8105,
+  "approx": true,
+  "hotspotId": "hx-02"
  }
 ]

@@ -38,5 +38,22 @@
       "mr",
       "hi"
     ]
-  }
+  },
+  "helplines": [
+    {
+      "number": "112",
+      "label": "Emergency (all services)",
+      "verified": true
+    },
+    {
+      "number": "108",
+      "label": "Ambulance",
+      "verified": true
+    },
+    {
+      "number": "1916",
+      "label": "BMC helpline",
+      "verified": false
+    }
+  ]
 }

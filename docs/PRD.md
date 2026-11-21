@@ -393,3 +393,50 @@ Flip to **Heat scenario** → "Start shift: delivery rider (Moderate)" → card 
 - **HQ2.** Verify the work/rest numbers (§21.2) against the ACGIH/NIOSH source before quoting them on stage.
 - **HQ3.** Is a Marathi (`mr-IN`) voice available on the demo laptop's browser? If not → Hindi voice + Marathi text on screen.
 - **HQ4.** Supervisor/contractor dashboard (all workers on a site) — slide only today?
+
+---
+
+## 22. R3 — Sajag research adoptions, login, Flood | Heat structure [21 Nov 14:30]
+Source: teammate's *Sajag Research Report* (21 Nov 2026). Decisions by Devang: name = **Sajag**; adopt the recommendations below; **login required to REPORT only**; sign-in = **Google + email code**.
+
+### 22.1 App structure — verdict-first, two hazards side by side
+- Top: **Flood | Heat** toggle (पूर | उष्णता). Each side = its own **status card** (colour + one action line + 🔊 read-aloud), then its map layers, then its report choices. Map = supporting screen, not the product.
+- **Never merge the two into one colour.** Inactive side shows a mini-chip ("Heat: ORANGE") so a day can be Danger-heat and Okay-flood.
+- **Danger always breaks through:** a RED on the hidden side shows as a banner on the active side.
+- **Default side:** official heat alert or ≥ 37 °C → Heat; rain expected or live flood reports nearby → Flood; else last used. Deep link `?hazard=flood|heat`; PWA manifest `shortcuts` give two home-screen entry points ("Flood check", "Heat shift").
+- Flood card: worst live pin on/near saved route or within 1 km → verdict + evidence line. Heat card: §21 shift status + **safe-again time**.
+
+### 22.2 "Safe to work again at HH:MM" ★ (research: genuine gap)
+From the Open-Meteo hourly forecast (`temperature_2m`, `wet_bulb_temperature_2m`, `shortwave_radiation`): first hour today, after now, whose estimated WBGT is below the user's work-type "normal work" threshold (§21.2) → "Safe to work again at 16:30". None today → "Heat stays high for the rest of today". Shown with the NDMA advisory line (no mandatory gig work 11 am–4 pm on orange/red days). Pure function in `src/heat/`, takes `now`.
+
+### 22.3 Trust & anti-abuse (research "six mechanics")
+1. Confirm / "Still flooded? Yes / Cleared" (already §6). 2. Auto-expiry 2 h (already Q8). 3. **GPS-at-spot:** a report must be filed within `REPORT_MAX_DISTANCE_M = 300` of the device's GPS fix (drag-adjust limited to that radius). 4. **Per-user rate limit:** `REPORT_RATE = 5 per 30 min` (enforced in the DB, see 22.5). 5. Known-spot prior: a report within 150 m of a seeded hotspot starts as "likely" (higher confidence badge). 6. **Show evidence, not a score:** "3 people confirmed · 20 min ago".
+- **Underpass rule refined:** an *unconfirmed* underpass report = **ORANGE** ("possibly flooded underpass"); **RED** once confirmed, official, or a photo report is corroborated. (Replaces "red at any depth" for single unverified reports; §9 otherwise unchanged.)
+- **Landmark naming:** every report/pin is labelled with the nearest gazetteer name within 400 m ("Near Bhairobanala Chowk").
+- **Disclaimer on every screen:** "Community reports, not an official warning — follow IMD / PMC instructions." (`t('disclaimer')`).
+
+### 22.4 Login — required to report, never to view
+- **Open without login:** map, both status cards, official alerts, route check, voice, helplines, danger-signs card, share.
+- **Needs login:** filing a flood / clog / cooling report, confirming or clearing a report. Tapping Report while signed out opens a sheet: why (`auth.why`), **Continue with Google**, or **email → 6-digit code**. After sign-in the report form opens with the draft kept.
+- **Provider: Supabase Auth** (Google OAuth + email OTP). Free tier. Phone OTP = roadmap (paid SMS + Indian DLT sender registration).
+- **Privacy:** store only the auth user id with a report; show reporters as "Citizen" (first name optional later, §19.5). No public emails.
+- **Demo:** the presenter is signed in beforehand; judges can still sign in with Google in seconds.
+
+### 22.5 Reports move to Supabase (replaces §11 "browser memory + localStorage")
+Login needs a backend anyway, and a shared DB fixes the single-device limitation (judges' phones and the laptop see the same pins).
+- Table `reports` (Pin contract fields + `user_id uuid references auth.users`, `geom` lat/lng). **RLS:** `select` for everyone (anon), `insert` only `auth.uid() = user_id`, rate-limited by a trigger (22.3.4). Table `report_votes` (`report_id`, `user_id`, `vote: still|cleared`, unique per user per report).
+- Client: `@supabase/supabase-js`, Realtime subscription on `reports` so new pins appear on every screen live (research wow-moment #2).
+- Seed hotspots / cooling points stay as static JSON (no DB needed). Scenario-mode pins stay client-side (simulated, never written to the shared DB).
+- Offline: last fetched pins cached in localStorage; reports filed offline are queued and sent on reconnect (stretch).
+
+### 22.6 Data additions (done)
+- Hotspots 10 → 19: + Baner Phata, Magarpatta Chowk, Vimantal Chowk, Dhanori Jakat Naka, Church Chowk & Poultry Chowk (Khadki), Bopodi underpass (repeat spots, research), Ambil Odha stretch (2019) and Ekta Nagar (2024) as flood-history spots. Hand-placed points flagged `approx`.
+- City-pack **helplines**: Pune 112 · 108 · 1077 · PMC control room 020-25501269 / 020-25506800 · Traffic Police WhatsApp 8087240400; Mumbai BMC 1916; Bengaluru BBMP 1533; Hyderabad HYDRAA 1070. Only 112/108 marked verified — **call-check the rest before the demo.**
+
+### 22.7 Facts — conflicts to handle on stage
+- 2019: the official brief says >112 mm in ~3 h, ~20 deaths (judges hold it). Research found PMC's figure 106 mm in 3.5 h, 17 city / 26 district deaths. **Quote the brief; keep 106 mm / 17 ready if asked.**
+- PMC waterlogging spots: 120 (TOI, pre-monsoon 2026) vs 201 (Punekar News, 29 Sep 2026) — verify which before quoting.
+- Pitch numbers (research, sourced): ~150,000 estimated excess heat deaths/yr vs 159 official (2024); 1.2 crore gig workers, 40% < ₹15,000/month; 71% lost income in summer 2026 heat; Ahmedabad HAP ≈ 1,100 deaths avoided/yr; Ekta Nagar Jul 2024 — announcement vehicle never came; RiskMap India died for lack of an institutional home → name ours (Rotaract/NSS reporters, open-source repo, PMC handover).
+
+### 22.8 Kept from our plan despite the research
+MapLibre (not Leaflet — already working, offline PMTiles); recorded Marathi clips (no Marathi TTS on the demo Mac); saved-route check on app open (no push needed; it is brief direction 3); 5 languages; SACHET live feed (research listed it "unconfirmed" — ours is verified); cooling points view-first (crowdsourced add kept but not demoed).
