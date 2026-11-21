@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
-import { isLocale, LANG_META, type Locale } from "@raasta/i18n";
+import { isLocale, LANG_META, registerDict, type Locale } from "@raasta/i18n";
 import { App } from "./App";
 import { LangProvider, basenameFor } from "./lib/lang";
 import { canAnimate } from "./lib/motion";
@@ -13,6 +13,15 @@ function detectLang(): Locale {
 }
 
 const lang = detectLang();
+// Production pages embed only the active locale dictionary; dev imports every locale through the full index.
+const dictEl = document.getElementById("raasta-i18n");
+if (dictEl?.textContent) {
+  try {
+    registerDict(lang, JSON.parse(dictEl.textContent) as Record<string, string>);
+  } catch {
+    /* keep the English fallback */
+  }
+}
 const root = document.getElementById("root");
 
 if (root) {

@@ -27,6 +27,12 @@ const urlPath = (lang, path) => {
 
 const DEFAULT_FONT_LOCALES = new Set(["en", "hi", "mr"]);
 
+// The active locale's dictionary, as inert JSON the client reads before hydrating (not executed, so no CSP hash needed).
+function i18nScript(lang) {
+  const json = JSON.stringify(mod.dictFor(lang)).replace(/</g, String.fromCharCode(92) + "u003c");
+  return `<script type="application/json" id="raasta-i18n">${json}</script>`;
+}
+
 function fontLinks(lang) {
   const fams = [];
   if (!DEFAULT_FONT_LOCALES.has(lang)) {
@@ -78,7 +84,7 @@ function page(lang, path, notFound = false) {
   let out = template
     .replace(/<html lang="[^"]*" dir="[^"]*">/, `<html lang="${LANG_META[lang].tag}" dir="${LANG_META[lang].dir}">`)
     .replace("<!--head-->", headFor(lang, path, meta, notFound))
-    .replace("<!--app-->", html);
+    .replace("<!--app-->", html + i18nScript(lang));
   if (!out.includes(html.slice(0, 40))) throw new Error("prerender: app placeholder missing in template");
   return out;
 }

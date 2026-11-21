@@ -6,7 +6,6 @@
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
   "observability": { "enabled": true },
-  // Replace the TODO ids after creating the resources (wrangler kv namespace create / d1 create).
   "kv_namespaces": [{ "binding": "CACHE", "id": "7ca18a9f77bc40b08ba2790909cefb2a" }],
   "d1_databases": [
     { "binding": "DB", "database_name": "raasta-db", "database_id": "45666e7c-0369-4fa5-b19b-60a9eb0a5f1d", "migrations_dir": "migrations" }
@@ -21,10 +20,11 @@
     "ALLOWED_ORIGINS": "https://raasta.safalmutha.in,http://localhost:5173,http://localhost:8787",
     "AI_PRIMARY": "gemini",
     "OSM_USER_AGENT": "Raasta/1.0 (hackathon project)"
-  }
-  // Enable at deploy time (zone safalmutha.in is on Cloudflare):
-  // "routes": [
-  //   { "pattern": "raasta.safalmutha.in/api/*", "zone_name": "safalmutha.in" },
-  //   { "pattern": "raasta.safalmutha.in/r/*", "zone_name": "safalmutha.in" }
-  // ]
+  },
+  // API and server-rendered pages only. The static site is a separate Cloudflare Pages project (docs/DEPLOY.md).
+  // These routes put the Worker on the same hostname as Pages, so /api/* and /r/* reach the Worker and the rest reach Pages.
+  "routes": [
+    { "pattern": "raasta.safalmutha.in/api/*", "zone_name": "safalmutha.in" },
+    { "pattern": "raasta.safalmutha.in/r/*", "zone_name": "safalmutha.in" }
+  ]
 }

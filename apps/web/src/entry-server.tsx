@@ -7,6 +7,7 @@ import { LangProvider, basenameFor } from "./lib/lang";
 import { preloadLazyPages } from "./lib/lazy-page";
 
 export { metaFor } from "./lib/meta";
+export { dictFor } from "@raasta/i18n";
 export { CATEGORY_IDS, STATIC_PATHS } from "./lib/content";
 
 /** Renders the app for a path (without locale prefix) in a locale. */

@@ -34,6 +34,8 @@ export default defineConfig(({ isSsrBuild, command }) => ({
           "react-dom": "preact/compat",
           "react/jsx-runtime": "preact/jsx-runtime",
           react: fileURLToPath(new URL("./src/lib/react-shim.ts", import.meta.url)),
+          // Browser gets the dictionary-free core; the page embeds the active locale (scripts/prerender.mjs).
+          "@raasta/i18n": fileURLToPath(new URL("../../packages/i18n/src/core.ts", import.meta.url)),
         }
       : {}) as Record<string, string>,
   },
