@@ -26,6 +26,7 @@
   "homepage": "https://github.com/shaikhaaquib042-wq/Youth-Festival-Hackathon-26-27#readme",
   "dependencies": {
     "@protomaps/basemaps": "^5.7.2",
+    "@supabase/supabase-js": "2.119.0",
     "maplibre-gl": "^5.24.1",
     "pmtiles": "^4.5.0"
   },

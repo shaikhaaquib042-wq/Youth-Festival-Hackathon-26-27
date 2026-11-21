@@ -29,6 +29,9 @@ export const CONFIG = {
   CONFIRM_RADIUS_M: 500,
   CONFIRM_WINDOW_MIN: 30,
   CONFIRM_TAPS: 3,
+  REPORT_MAX_DISTANCE_M: 300, // GPS-at-spot: report must be this close to the device fix (PRD §22.3)
+  LANDMARK_RADIUS_M: 400,     // label pins 'Near <gazetteer name>' within this distance
+  HOTSPOT_PRIOR_M: 150,       // report near a seeded hotspot starts as 'likely'
 
   // Feeds
   SACHET_PATH: '/api/sachet', // Vite proxy in dev, Pages Function in prod
