@@ -81,6 +81,7 @@ export interface OfficeRef {
   lat?: number;
   lng?: number;
   verified: boolean;
+  url?: string; // optional link (e.g. NALSA directory) for offices that have no street address
 }
 
 export type SubmissionMode =
