@@ -38,7 +38,7 @@ html, body { margin: 0; height: 100%; background: var(--bg); }
 body[data-hazard="heat"] #report-fab { background: #0c8599; }
 #disclaimer { position: absolute; left: 8px; bottom: 8px; right: 220px; z-index: 2; font-size: 11px; line-height: 1.3; color: #3b424b;
   background: rgb(255 255 255 / .85); padding: 3px 8px; border-radius: 6px; }
-#toast { position: absolute; left: 50%; bottom: 100px; transform: translateX(-50%); z-index: 6; background: #1b1f24; color: #fff;
+#toast { pointer-events: none; position: absolute; left: 50%; bottom: 100px; transform: translateX(-50%); z-index: 6; background: #1b1f24; color: #fff;
   padding: 10px 16px; border-radius: 10px; font-size: 14px; max-width: calc(100% - 32px); }
 
 /* ── Report sheet ─────────────────────────────────────────────── */
