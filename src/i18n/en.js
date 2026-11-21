@@ -3,6 +3,9 @@ export default {
   'lang.name': 'English',
   'app.name': 'Sajag',
   'app.tagline': 'Stay alert in heat and rain',
+  'city.switchPrompt': '📍 You seem to be in {city}. Switch Sajag to {city}?',
+  'city.switch': 'Switch',
+  'city.stay': 'Stay in {city}',
 
   'mode.live': 'LIVE',
   'mode.scenario': 'SCENARIO',

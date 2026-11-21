@@ -1,0 +1,93 @@
+[
+  {
+    "name": "Hitech City",
+    "aliases": [
+      "hi tech city",
+      "hitec city"
+    ],
+    "lat": 17.4435,
+    "lng": 78.3772,
+    "approx": true
+  },
+  {
+    "name": "Gachibowli",
+    "aliases": [
+      "gachibowli"
+    ],
+    "lat": 17.4401,
+    "lng": 78.3489,
+    "approx": true
+  },
+  {
+    "name": "Secunderabad",
+    "aliases": [
+      "secunderabad station"
+    ],
+    "lat": 17.4399,
+    "lng": 78.4983,
+    "approx": true
+  },
+  {
+    "name": "Ameerpet",
+    "aliases": [
+      "ameerpet"
+    ],
+    "lat": 17.4375,
+    "lng": 78.4483,
+    "approx": true
+  },
+  {
+    "name": "LB Nagar",
+    "aliases": [
+      "lb nagar"
+    ],
+    "lat": 17.3457,
+    "lng": 78.5522,
+    "approx": true
+  },
+  {
+    "name": "Kukatpally",
+    "aliases": [
+      "kukatpally"
+    ],
+    "lat": 17.4849,
+    "lng": 78.4138,
+    "approx": true
+  },
+  {
+    "name": "Begumpet",
+    "aliases": [
+      "begumpet"
+    ],
+    "lat": 17.4448,
+    "lng": 78.466,
+    "approx": true
+  },
+  {
+    "name": "Mehdipatnam",
+    "aliases": [
+      "mehdipatnam"
+    ],
+    "lat": 17.3936,
+    "lng": 78.4315,
+    "approx": true
+  },
+  {
+    "name": "Malakpet",
+    "aliases": [
+      "malakpet"
+    ],
+    "lat": 17.3731,
+    "lng": 78.4964,
+    "approx": true
+  },
+  {
+    "name": "Banjara Hills",
+    "aliases": [
+      "banjara hills"
+    ],
+    "lat": 17.4156,
+    "lng": 78.4347,
+    "approx": true
+  }
+]
