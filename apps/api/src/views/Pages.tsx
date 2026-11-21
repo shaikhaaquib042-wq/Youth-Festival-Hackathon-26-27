@@ -234,3 +234,69 @@ export function MessagePage({ lang, title, body, path = "/", backHref }: { lang:
     </Layout>
   );
 }
+
+export interface ChatTurn {
+  role: "user" | "assistant";
+  content: string;
+}
+
+/** Plain-language assistant about one route. Each question is a normal form post, so it works on any phone. */
+export function ChatPage({ lang, token, title, turns, available, error }: { lang: Locale; token?: string; title?: string; turns: ChatTurn[]; available: boolean; error?: boolean }) {
+  const suggestions = ["ui.chat.s1", "ui.chat.s2", "ui.chat.s3"];
+  const full = turns.length >= 12;
+  return (
+    <Layout lang={lang} title={`${t(lang, "ui.chat.h1")} | Raasta`} path="/r/chat" query={token ? `t=${encodeURIComponent(token)}` : undefined} noindex>
+      <div className="q-stage">
+        <div className="q-card q-card-wide chat">
+          <h1 className="q-title">{t(lang, "ui.chat.h1")}</h1>
+          {title ? <p className="q-lead">{t(lang, "ui.chat.about", { title })}</p> : null}
+          <ol className="chat-log" role="list" aria-live="polite">
+            <li className="bubble bubble-ai">{t(lang, "ui.chat.hello")}</li>
+            {turns.map((m, i) => (
+              <li key={i} className={m.role === "user" ? "bubble bubble-me" : "bubble bubble-ai"}>
+                {m.content}
+              </li>
+            ))}
+            {error ? <li className="bubble bubble-ai bubble-err">{t(lang, "ui.chat.error")}</li> : null}
+          </ol>
+          {!available ? (
+            <p className="q-error">{t(lang, "ui.chat.unavailable")}</p>
+          ) : full ? (
+            <p className="q-skip">{t(lang, "ui.chat.full")}</p>
+          ) : (
+            <form method="post" action="/r/chat" className="chat-form">
+              {token ? <input type="hidden" name="t" value={token} /> : null}
+              {turns.map((m, i) => (
+                <input key={i} type="hidden" name={m.role === "user" ? "hu" : "ha"} value={`${i}:${m.content}`} />
+              ))}
+              {turns.length === 0 ? (
+                <div className="chat-suggest">
+                  {suggestions.map((k) => (
+                    <button key={k} type="submit" name="q" value={t(lang, k)} className="chip ask-chip">
+                      {t(lang, k)}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+              <label className="sr-only" for="chat-q">
+                {t(lang, "ui.chat.label")}
+              </label>
+              <div className="chat-input">
+                <textarea id="chat-q" name="q" rows={2} maxlength={600} placeholder={t(lang, "ui.chat.placeholder")}></textarea>
+                <button type="submit" className="btn btn-primary">
+                  {t(lang, "ui.chat.send")}
+                </button>
+              </div>
+              <p className="q-skip">{t(lang, "ui.chat.note")}</p>
+            </form>
+          )}
+          {token ? (
+            <p>
+              <a href={`/r/route/${token}`}>{t(lang, "ui.chat.back")}</a>
+            </p>
+          ) : null}
+        </div>
+      </div>
+    </Layout>
+  );
+}

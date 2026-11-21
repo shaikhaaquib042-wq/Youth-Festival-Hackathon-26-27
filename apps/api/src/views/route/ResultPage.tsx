@@ -268,6 +268,15 @@ export function ResultPage({ lang, token, result, geo, timers, title, slots, dem
           ) : null}
         </ol>
         <aside className="res-side">
+          <a className="side-chat" href={`/r/chat?t=${q}`}>
+            <span className="side-chat-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+            </span>
+            <span>
+              <strong>{t(lang, "ui.res.ask_chat")}</strong>
+              <small>{t(lang, "ui.chat.s2")}</small>
+            </span>
+          </a>
           <Checklist lang={lang} items={result.documents} />
           <Timers lang={lang} timers={timers} />
           <section className="side-card" aria-labelledby="aid-h">

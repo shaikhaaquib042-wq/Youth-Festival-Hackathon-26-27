@@ -25,8 +25,10 @@ export async function complete(env: Env, args: CompleteArgs): Promise<AiResult> 
     try {
       const r = await p.complete(env, args);
       if (r.stream || (r.text && r.text.trim())) return r;
-    } catch {
-      // Move on to the next provider. Never log prompts or bodies.
+      console.warn("ai_provider_empty", p.name);
+    } catch (e) {
+      // Move on to the next provider. Log only the provider name and error message, never prompts or bodies.
+      console.warn("ai_provider_failed", p.name, e instanceof Error ? e.message.slice(0, 120) : "unknown");
     }
   }
   throw new AiUnavailableError();

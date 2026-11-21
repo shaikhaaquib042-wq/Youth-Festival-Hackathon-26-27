@@ -11,10 +11,12 @@ import { forwardGeocode } from "../geo/forward";
 import { findOffices } from "../geo/offices";
 import { resolveGeo, stateCodeFrom } from "../geo/resolver";
 import { prefillVars } from "../lib/draft";
-import { HttpError, parseForm } from "../lib/http";
+import { HttpError, parseForm, parseFormAll } from "../lib/http";
 import { storeDigitSubmission } from "../lib/store";
 import { GuidePage } from "../views/Guide";
-import { MessagePage } from "../views/Pages";
+import { ChatPage, MessagePage, type ChatTurn } from "../views/Pages";
+import { aiAvailable, allowedUrlSet, complete, filterUrls } from "../ai";
+import { buildChatSystem } from "../ai/chat";
 import { DirectionsPage, DocFormPage, FIELD, LabelPage, LegalAidResultPage, OfficesPage, type Dest } from "../views/Tools";
 import { cfOf } from "./api";
 import { renderHtml } from "./pages";
@@ -311,5 +313,51 @@ tools.post("/submit/digit", async (c) => {
     return c.redirect(`/r/submitted/${id}`, 303);
   } catch {
     return renderHtml(c, <MessagePage lang={lang} title={t(lang, "ui.thanks.h1")} body={`${created.service_request_id}`} backHref="/" />, 200);
+  }
+});
+
+// ---------- /r/chat (no-JS assistant; one question per post, history carried in the form) ----------
+function chatTurns(form: Record<string, string | string[]>): ChatTurn[] {
+  const pick = (k: string) => {
+    const v = form[k];
+    return Array.isArray(v) ? v : v ? [v] : [];
+  };
+  const turns: Array<ChatTurn & { i: number }> = [];
+  for (const [k, role] of [["hu", "user"], ["ha", "assistant"]] as const) {
+    for (const raw of pick(k)) {
+      const m = /^(\d{1,2}):([\s\S]*)$/.exec(raw);
+      if (m) turns.push({ i: Number(m[1]), role, content: m[2]!.slice(0, 1200) });
+    }
+  }
+  return turns.sort((a, b) => a.i - b.i).slice(-12).map(({ role, content }) => ({ role, content }));
+}
+
+tools.get("/chat", async (c) => {
+  const raw = c.req.query("t");
+  const td = await tokenData(c, raw);
+  const lang = c.get("lang");
+  const title = td ? t(lang, `dispute.${td.slots.dispute_type}.title`) : undefined;
+  return renderHtml(c, <ChatPage lang={lang} token={td ? raw : undefined} title={title} turns={[]} available={aiAvailable(c.env)} />);
+});
+
+tools.post("/chat", async (c) => {
+  const lang = c.get("lang");
+  const form = parseFormAll(c);
+  const raw = typeof form.t === "string" ? form.t : undefined;
+  const td = await tokenData(c, raw);
+  const title = td ? t(lang, `dispute.${td.slots.dispute_type}.title`) : undefined;
+  const turns = chatTurns(form);
+  const q = redact(String(Array.isArray(form.q) ? form.q.filter(Boolean).pop() ?? "" : form.q ?? "")).trim().slice(0, 600);
+  const page = (extra: Partial<{ error: boolean }>, list: ChatTurn[]) =>
+    renderHtml(c, <ChatPage lang={lang} token={td ? raw : undefined} title={title} turns={list} available={aiAvailable(c.env)} {...extra} />);
+  if (!q || !aiAvailable(c.env) || turns.length >= 12) return page({}, turns);
+  const asked: ChatTurn[] = [...turns, { role: "user", content: q }];
+  try {
+    const routeResult = td ? route(td.slots, td.geo) : undefined;
+    const out = await complete(c.env, { system: buildChatSystem(lang, routeResult), messages: asked.map((m) => ({ role: m.role, content: m.content })), maxTokens: 600 });
+    const answer = filterUrls((out.text ?? "").trim(), allowedUrlSet()).slice(0, 1200);
+    return page({}, [...asked, { role: "assistant", content: answer || t(lang, "ui.chat.error") }]);
+  } catch {
+    return page({ error: true }, asked);
   }
 });

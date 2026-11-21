@@ -10,6 +10,8 @@ export class HttpError extends Error {
 
 export const BODY_LIMIT_CHAT = 16 * 1024;
 export const BODY_LIMIT_FORM = 4 * 1024;
+/** The no-JS chat page carries its own history (Indic text is about 9 bytes per character once URL-encoded). */
+export const BODY_LIMIT_CHAT_PAGE = 64 * 1024;
 
 /** Reads a request body as text, refusing anything larger than `max` bytes (Content-Length or actual). */
 export async function readLimited(req: Request, max: number): Promise<string> {
@@ -39,7 +41,8 @@ export async function readLimited(req: Request, max: number): Promise<string> {
 }
 
 export function bodyLimitFor(pathname: string): number {
-  return pathname === "/api/chat" || pathname === "/r/chat" || pathname.startsWith("/r/doc/") ? BODY_LIMIT_CHAT : BODY_LIMIT_FORM;
+  if (pathname === "/r/chat") return BODY_LIMIT_CHAT_PAGE;
+  return pathname === "/api/chat" || pathname.startsWith("/r/doc/") ? BODY_LIMIT_CHAT : BODY_LIMIT_FORM;
 }
 
 /** Parses the (already size-checked) JSON body with zod. */
@@ -60,6 +63,18 @@ export function parseForm(c: Context<AppEnv>): Record<string, string> {
   const out: Record<string, string> = {};
   const params = new URLSearchParams(c.get("rawBody") || "");
   for (const [k, v] of params) if (!(k in out)) out[k] = v;
+  return out;
+}
+
+/** Like parseForm, but keeps every value of repeated keys (arrays) for forms that carry lists. */
+export function parseFormAll(c: Context<AppEnv>): Record<string, string | string[]> {
+  const out: Record<string, string | string[]> = {};
+  const params = new URLSearchParams(c.get("rawBody") || "");
+  for (const [k, v] of params) {
+    const cur = out[k];
+    if (cur === undefined) out[k] = v;
+    else out[k] = Array.isArray(cur) ? [...cur, v] : [cur, v];
+  }
   return out;
 }
 

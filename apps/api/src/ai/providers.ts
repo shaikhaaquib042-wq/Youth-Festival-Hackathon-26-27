@@ -176,6 +176,7 @@ export const ollama: Provider = {
       {
         model: "qwen3.5:4b",
         stream: false,
+        think: false,
         ...(args.schema ? { format: "json" } : {}),
         messages: [{ role: "system", content: args.system }, ...args.messages],
       },
