@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useRef } from "react";
 import { Link, Outlet, useLocation } from "react-router";
-import { Languages, MapPin, Menu, PhoneCall } from "lucide-react";
+import { Crosshair, Languages, MapPin, Menu, PhoneCall } from "lucide-react";
 import { APP_NAME, DISCLAIMER_EN, LOCALES } from "@raasta/config";
 import { LANG_META } from "@raasta/i18n";
 import { useLang, useT, localePath } from "../lib/lang";
@@ -9,6 +9,7 @@ import { schemaFor } from "../lib/schema";
 import { JsonLd } from "./JsonLd";
 import { runPageTransition } from "../lib/motion";
 import { Logo } from "./Logo";
+import { states } from "../lib/site-data";
 
 const NAV = [
   { to: "/help", key: "ui.nav.help" },
@@ -23,11 +24,11 @@ function LangSwitcher() {
   const { pathname } = useLocation();
   return (
     <details className="sh-pop sh-lang">
-      <summary className="chip" aria-label={tt("ui.lang.label")}>
+      <summary className="sh-chip" aria-label={tt("ui.lang.label")}>
         <Languages size={18} aria-hidden="true" />
-        <span>{LANG_META[lang].native}</span>
+        <span className="sh-chip-label">{LANG_META[lang].native}</span>
       </summary>
-      <ul className="sh-pop-panel card" role="list">
+      <ul className="sh-pop-panel" role="list">
         {LOCALES.map((l) => (
           <li key={l}>
             <a href={localePath(l, pathname)} lang={LANG_META[l].tag} hrefLang={LANG_META[l].tag} aria-current={l === lang ? "true" : undefined}>
@@ -47,20 +48,41 @@ function LocationChip() {
   const { pathname } = useLocation();
   return (
     <details className="sh-pop sh-loc">
-      <summary className="chip" aria-label={tt("ui.location.label")}>
+      <summary className="sh-chip" data-loc-chip="" aria-label={tt("ui.location.label")}>
         <MapPin size={18} aria-hidden="true" />
-        <span>{tt("ui.location.set")}</span>
+        <span className="sh-chip-label" data-loc-label="">
+          {tt("ui.location.set")}
+        </span>
       </summary>
-      <form className="sh-pop-panel card stack" method="post" action="/r/location">
-        <p className="sh-muted">{tt("ui.location.help")}</p>
-        <label className="field" htmlFor="header-loc-state">
-          <span>{tt("ui.location.state")}</span>
-          <input id="header-loc-state" name="state" type="text" autoComplete="address-level1" maxLength={60} />
-        </label>
-        <label className="field" htmlFor="header-loc-city">
-          <span>{tt("ui.location.city")}</span>
+      <form className="sh-pop-panel sh-loc-form" method="post" action="/r/location">
+        <button
+          type="button"
+          className="sh-locate"
+          data-locate=""
+          data-msg-busy={tt("ui.location.busy")}
+          data-msg-denied={tt("ui.location.denied")}
+          data-msg-fail={tt("ui.location.fail")}
+        >
+          <Crosshair size={18} aria-hidden="true" />
+          <span>{tt("ui.location.use_mine")}</span>
+        </button>
+        <span data-locate-status="" role="status" />
+        <span className="sh-or">{tt("ui.location.or")}</span>
+        <div className="field">
+          <label htmlFor="header-loc-state">{tt("ui.location.state")}</label>
+          <select id="header-loc-state" name="state" autoComplete="address-level1" defaultValue="">
+            <option value="">{tt("ui.location.pick_state")}</option>
+            {states.map((st) => (
+              <option key={st.code} value={st.code}>
+                {st.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="field">
+          <label htmlFor="header-loc-city">{tt("ui.location.city")}</label>
           <input id="header-loc-city" name="city" type="text" autoComplete="address-level2" maxLength={60} />
-        </label>
+        </div>
         <input type="hidden" name="next" value={localePath(lang, pathname)} />
         <input type="hidden" name="lang" value={lang} />
         <button type="submit" className="btn btn-primary">
@@ -90,16 +112,16 @@ function SiteHeader() {
         <div className="sh-tools">
           <LocationChip />
           <LangSwitcher />
-          <Link to="/emergency" className="btn btn-secondary sh-emergency">
+          <Link to="/emergency" className="sh-emergency">
             <PhoneCall size={18} aria-hidden="true" />
             <span>{tt("ui.emergency")}</span>
           </Link>
           <details className="sh-pop sh-menu">
-            <summary className="chip" aria-label={tt("ui.nav.menu")}>
+            <summary className="sh-chip" aria-label={tt("ui.nav.menu")}>
               <Menu size={18} aria-hidden="true" />
-              <span>{tt("ui.nav.menu")}</span>
+              <span className="sh-chip-label">{tt("ui.nav.menu")}</span>
             </summary>
-            <ul className="sh-pop-panel card" role="list">
+            <ul className="sh-pop-panel" role="list">
               {NAV.map((n) => (
                 <li key={n.to}>
                   <Link to={n.to}>{tt(n.key)}</Link>

@@ -1,0 +1,117 @@
+/* Raasta: server-rendered pages (/r/*). Loaded after raasta.css by the Worker layout.
+   Same rules as raasta.css: Chrome 61 / Safari 12 safe, transform and opacity motion only, reduced motion honoured. */
+
+/* ---------- Stage: a calm warm backdrop with one question card ---------- */
+.q-stage {
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 220px);
+  padding: 40px 16px 80px;
+  background:
+    radial-gradient(700px 360px at 85% 0%, #FFE6CC 0%, rgba(255, 230, 204, 0) 70%),
+    radial-gradient(600px 360px at 0% 100%, #EAF3E5 0%, rgba(234, 243, 229, 0) 70%),
+    var(--ground);
+}
+.q-card {
+  position: relative;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 28px 22px 22px;
+  background: var(--paper);
+  border-radius: 34px;
+  box-shadow: 0 34px 80px -40px rgba(29, 43, 34, 0.35);
+  animation: q-rise 520ms var(--ease-out) both;
+}
+.q-card-center { text-align: center; }
+.q-card-wide { max-width: 860px; }
+@keyframes q-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@media (min-width: 640px) { .q-card { padding: 40px 44px 30px; } .q-stage { padding-top: 56px; } }
+
+.q-title { display: block; font-family: var(--font-display); font-weight: 800; font-size: 1.7rem; line-height: 1.15; color: var(--ink); margin: 0 0 18px; padding: 0; }
+@media (min-width: 640px) { .q-title { font-size: 2.1rem; } }
+.q-lead { color: var(--ink-600); font-size: 1.08rem; margin: -6px 0 22px; }
+.q-label { display: block; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--ink); margin: 0 0 10px; padding: 0; }
+.q { border: 0; padding: 0; margin: 0 0 8px; min-width: 0; }
+.q-list > .q + .q { margin-top: 22px; padding-top: 22px; border-top: 2px dashed var(--sage-100); }
+.q-skip { margin: 14px 0 0; font-size: 0.95rem; color: var(--ink-500); }
+.q-error { padding: 12px 16px; border-radius: 18px; background: #FDECEC; color: var(--alert-700); font-weight: 700; }
+
+/* ---------- Progress: a little dotted road ---------- */
+.q-progress { margin: 0 0 22px; }
+.q-dots { display: flex; list-style: none; padding: 0; margin: 0 0 10px; }
+.q-dots li { flex: 1 1 0; height: 8px; margin-right: 6px; border-radius: 999px; background: var(--sage-100); transition: background var(--dur-base) var(--ease-out); }
+.q-dots li:last-child { margin-right: 0; }
+.q-dots li.done { background: var(--leaf-600); }
+.q-dots li.now { background: var(--saffron-600); }
+.q-meta { margin: 0; font-size: 0.95rem; color: var(--ink-500); font-weight: 600; }
+
+/* ---------- Answer cards ---------- */
+.opts { display: grid; grid-template-columns: minmax(0, 1fr); grid-gap: 10px; gap: 10px; }
+@media (min-width: 560px) { .opts { grid-template-columns: repeat(2, minmax(0, 1fr)); } .opts-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.opt { display: block; position: relative; cursor: pointer; margin: 0; padding: 0; border: 0; background: none; min-height: 0; }
+fieldset .opt { display: block; min-height: 0; padding: 0; margin: 0; border: 0; border-radius: 0; background: none; }
+fieldset .opt:hover { transform: none; }
+.opt-input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.opt-face {
+  display: flex; align-items: center;
+  min-height: 60px; padding: 12px 16px;
+  border-radius: 22px; border: 2px solid var(--sage-100); background: var(--paper);
+  font-family: var(--font-display); font-weight: 700; font-size: 1.08rem; color: var(--ink);
+  transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.opt:hover .opt-face { border-color: var(--saffron-500); transform: translateY(-2px); }
+.opt-dot {
+  flex: 0 0 auto; position: relative; width: 22px; height: 22px; margin-right: 12px;
+  border-radius: 50%; border: 2px solid var(--sage-400); background: var(--paper);
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.opt-dot::after { content: ""; position: absolute; left: 4px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--saffron-700); transform: scale(0); transition: transform 260ms var(--ease-out); }
+.opt-input:checked + .opt-face { border-color: var(--saffron-700); background: var(--saffron-50); }
+.opt-input:checked + .opt-face .opt-dot { border-color: var(--saffron-700); }
+.opt-input:checked + .opt-face .opt-dot::after { transform: scale(1); }
+.opt-input:focus-visible + .opt-face { box-shadow: 0 0 0 4px rgba(61, 136, 84, 0.3); }
+.opt-input:focus + .opt-face { box-shadow: 0 0 0 4px rgba(61, 136, 84, 0.22); }
+.opt-hint { display: block; font-family: var(--font-body); font-weight: 400; font-size: 0.9rem; color: var(--ink-500); margin-left: 8px; }
+
+/* Checkbox cards (legal aid screener etc.) */
+.opt-check .opt-dot { border-radius: 8px; }
+.opt-check .opt-dot::after { left: 5px; top: 1px; width: 7px; height: 12px; border-radius: 0; background: none; border: solid #FFFFFF; border-width: 0 3px 3px 0; transform: rotate(45deg) scale(0); }
+.opt-check .opt-input:checked + .opt-face .opt-dot { background: var(--saffron-700); }
+.opt-check .opt-input:checked + .opt-face .opt-dot::after { transform: rotate(45deg) scale(1); }
+
+/* ---------- Inputs with units ---------- */
+.q-input { position: relative; display: flex; align-items: center; }
+.q-input input { flex: 1 1 auto; font-size: 1.25rem !important; min-height: 58px !important; border-radius: 20px !important; }
+.q-input.has-pre input { padding-left: 44px !important; }
+.q-input.has-post input { padding-right: 84px !important; }
+.q-pre, .q-post { position: absolute; top: 50%; transform: translateY(-50%); color: var(--ink-500); font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; pointer-events: none; }
+.q-pre { left: 18px; }
+.q-post { right: 18px; }
+.q-textarea {
+  display: block; width: 100%; min-height: 150px; padding: 16px 18px; border: 2px solid var(--sage-100); border-radius: 24px;
+  font: inherit; font-size: 1.12rem; color: var(--ink); background: var(--paper); resize: vertical; outline: none;
+}
+.q-textarea:focus { border-color: var(--saffron-600); box-shadow: 0 0 0 4px rgba(255, 140, 66, 0.22); }
+
+/* ---------- Actions ---------- */
+.q-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--sage-100); }
+.q-actions .btn { width: auto; }
+.q-actions .btn-primary { min-width: 160px; }
+.btn-ghost { background: transparent; color: var(--ink-600); border-color: transparent; }
+.btn-ghost:hover { background: var(--sage-50); color: var(--ink); }
+
+/* ---------- Letter and label forms (/r/doc, /r/label) ---------- */
+.doc-grid { display: grid; grid-template-columns: minmax(0, 1fr); grid-gap: 18px 20px; gap: 18px 20px; }
+@media (min-width: 700px) { .doc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .doc-grid .span-2 { grid-column: 1 / -1; } }
+.doc-grid .field { margin: 0; }
+.doc-grid .field > label, .doc-grid .field > span { display: block; font-family: var(--font-display); font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.tag-optional { font-family: var(--font-body); font-weight: 400; color: var(--ink-500); font-size: 0.9rem; margin-left: 6px; }
+
+/* ---------- Result page polish ---------- */
+.res-hero { padding: 36px 0 8px; }
+.res-hero h1 { margin-bottom: 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .q-card { animation: none; }
+  .opt-face, .opt-dot::after, .q-dots li { transition: none; }
+}

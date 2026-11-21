@@ -46,7 +46,7 @@ export function isLocale(value: string | undefined | null): value is Locale {
 export function t(lang: Locale, key: string, vars?: Record<string, string | number>): string {
   const raw = DICTS[lang]?.[key] ?? DICTS.en?.[key] ?? key;
   if (!vars) return raw;
-  return raw.replace(/{(w+)}/g, (m, name: string) => (name in vars ? String(vars[name]) : m));
+  return raw.replace(/\{(\w+)\}/g, (m, name: string) => (name in vars ? String(vars[name]) : m));
 }
 
 export function hasKey(lang: Locale, key: string): boolean {

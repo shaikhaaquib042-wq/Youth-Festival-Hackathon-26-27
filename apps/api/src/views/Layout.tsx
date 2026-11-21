@@ -1,6 +1,7 @@
 import type { Child } from "hono/jsx";
 import { APP_NAME, DISCLAIMER_EN, LOCALES } from "@raasta/config";
 import { LANG_META, t, type Locale } from "@raasta/i18n";
+import { states } from "@raasta/data";
 
 const DEFAULT_FONT_LOCALES = new Set<string>(["en", "hi", "mr"]);
 
@@ -25,13 +26,34 @@ export interface LayoutProps {
   children?: Child;
 }
 
+const Icon = ({ d, size = 18 }: { d: string; size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d={d} />
+  </svg>
+);
+const PIN = "M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z";
+const GLOBE = "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z M2 12h20 M12 2a15 15 0 0 1 0 20 M12 2a15 15 0 0 0 0 20";
+const PHONE = "M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z";
+const CROSS = "M12 2v4 M12 18v4 M2 12h4 M18 12h4 M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z";
+
+function Logo() {
+  return (
+    <svg width="36" height="36" viewBox="0 0 40 40" aria-hidden="true" focusable="false" class="sh-logo-mark">
+      <rect width="40" height="40" rx="12" fill="#2D7341" />
+      <path d="M12 32V15a8 8 0 0 1 16 0v17z" fill="#FFF8EE" />
+      <circle cx="24" cy="24" r="1.7" fill="#E56420" />
+    </svg>
+  );
+}
+
 function LangLinks({ lang, path, query }: { lang: Locale; path: string; query?: string }) {
   return (
-    <details>
-      <summary className="chip" aria-label={t(lang, "ui.lang.label")}>
-        <span>{LANG_META[lang].native}</span>
+    <details className="sh-pop sh-lang">
+      <summary className="sh-chip" aria-label={t(lang, "ui.lang.label")}>
+        <Icon d={GLOBE} />
+        <span className="sh-chip-label">{LANG_META[lang].native}</span>
       </summary>
-      <ul className="stack" role="list">
+      <ul className="sh-pop-panel" role="list">
         {LOCALES.map((l) => (
           <li key={l}>
             <a
@@ -40,12 +62,51 @@ function LangLinks({ lang, path, query }: { lang: Locale; path: string; query?: 
               hreflang={LANG_META[l].tag}
               aria-current={l === lang ? "true" : undefined}
             >
-              {LANG_META[l].native}
-              {l !== "en" ? ` ${LANG_META[l].english}` : ""}
+              <span>{LANG_META[l].native}</span>
+              {l !== "en" ? <span className="sh-muted">{LANG_META[l].english}</span> : null}
             </a>
           </li>
         ))}
       </ul>
+    </details>
+  );
+}
+
+function LocationPop({ lang, next }: { lang: Locale; next: string }) {
+  return (
+    <details className="sh-pop sh-loc">
+      <summary className="sh-chip" data-loc-chip="" aria-label={t(lang, "ui.location.label")}>
+        <Icon d={PIN} />
+        <span className="sh-chip-label" data-loc-label="">
+          {t(lang, "ui.location.set")}
+        </span>
+      </summary>
+      <form className="sh-pop-panel sh-loc-form" method="post" action="/r/location">
+        <button type="button" className="sh-locate" data-locate="" data-msg-busy={t(lang, "ui.location.busy")} data-msg-denied={t(lang, "ui.location.denied")} data-msg-fail={t(lang, "ui.location.fail")}>
+          <Icon d={CROSS} />
+          <span>{t(lang, "ui.location.use_mine")}</span>
+        </button>
+        <span data-locate-status="" role="status"></span>
+        <span className="sh-or">{t(lang, "ui.location.or")}</span>
+        <div className="field">
+          <label for="w-loc-state">{t(lang, "ui.location.state")}</label>
+          <select id="w-loc-state" name="state" autocomplete="address-level1">
+            <option value="">{t(lang, "ui.location.pick_state")}</option>
+            {states.map((st) => (
+              <option value={st.code}>{st.name}</option>
+            ))}
+          </select>
+        </div>
+        <div className="field">
+          <label for="w-loc-city">{t(lang, "ui.location.city")}</label>
+          <input id="w-loc-city" name="city" type="text" autocomplete="address-level2" maxlength={60} />
+        </div>
+        <input type="hidden" name="next" value={next} />
+        <input type="hidden" name="lang" value={lang} />
+        <button type="submit" className="btn btn-primary">
+          {t(lang, "ui.location.save")}
+        </button>
+      </form>
     </details>
   );
 }
@@ -69,25 +130,33 @@ export function Layout({ lang, title, description, path, query, noindex, saveDat
           </>
         )}
         <link rel="stylesheet" href="/styles/raasta.css" />
+        <link rel="stylesheet" href="/styles/flow.css" />
+        <script src="/js/locate.js" defer></script>
       </head>
       <body>
         <a className="skip-link" href="#main">
           {t(lang, "ui.skip")}
         </a>
         <header className="site-header">
-          <div className="container cluster">
-            <a href="/" aria-label={`${APP_NAME}, ${t(lang, "ui.nav.home")}`}>
-              <strong>{APP_NAME}</strong>
+          <div className="container sh-bar">
+            <a href={lang === "en" ? "/" : `/${lang}/`} className="sh-logo" aria-label={`${APP_NAME}, ${t(lang, "ui.nav.home")}`}>
+              <Logo />
+              <span>{APP_NAME}</span>
             </a>
-            <nav className="cluster" aria-label={t(lang, "ui.nav.main")}>
+            <nav className="sh-nav" aria-label={t(lang, "ui.nav.main")}>
               <a href="/help">{t(lang, "ui.nav.help")}</a>
               <a href="/offices">{t(lang, "ui.nav.offices")}</a>
               <a href="/legal-aid">{t(lang, "ui.nav.legal_aid")}</a>
+              <a href="/about">{t(lang, "ui.nav.about")}</a>
             </nav>
-            <LangLinks lang={lang} path={path} query={query} />
-            <a className="btn btn-secondary" href="/emergency">
-              {t(lang, "ui.emergency")}
-            </a>
+            <div className="sh-tools">
+              <LocationPop lang={lang} next={path} />
+              <LangLinks lang={lang} path={path} query={query} />
+              <a className="sh-emergency" href="/emergency">
+                <Icon d={PHONE} />
+                <span>{t(lang, "ui.emergency")}</span>
+              </a>
+            </div>
           </div>
         </header>
         <main id="main" tabindex={-1}>
@@ -96,7 +165,7 @@ export function Layout({ lang, title, description, path, query, noindex, saveDat
         <footer className="site-footer">
           <div className="container stack">
             <p>{lang === "en" ? DISCLAIMER_EN : t(lang, "ui.disclaimer")}</p>
-            <nav className="cluster" aria-label={t(lang, "ui.footer.nav")}>
+            <nav className="cluster sh-footer-nav" aria-label={t(lang, "ui.footer.nav")}>
               <a href="/terms">{t(lang, "ui.footer.terms")}</a>
               <a href="/privacy">{t(lang, "ui.footer.privacy")}</a>
               <a href="/disclaimer">{t(lang, "ui.footer.disclaimer")}</a>

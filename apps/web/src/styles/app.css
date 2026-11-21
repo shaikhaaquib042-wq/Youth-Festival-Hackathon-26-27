@@ -7,102 +7,6 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.sh-bar {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem 1rem;
-  flex-wrap: wrap;
-  padding-block: 0.6rem;
-}
-.sh-logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 700;
-  font-size: 1.35rem;
-  text-decoration: none;
-  color: inherit;
-}
-.sh-nav {
-  display: none;
-  gap: 1rem;
-  margin-inline-start: 0.5rem;
-}
-.sh-nav a {
-  text-decoration: none;
-  padding: 0.5rem 0.25rem;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-}
-.sh-tools {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-inline-start: auto;
-  flex-wrap: wrap;
-}
-.sh-pop {
-  position: relative;
-}
-.sh-pop > summary {
-  list-style: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  min-height: 44px;
-}
-.sh-pop > summary::-webkit-details-marker {
-  display: none;
-}
-.sh-pop-panel {
-  position: absolute;
-  inset-inline-end: 0;
-  top: calc(100% + 0.4rem);
-  z-index: 40;
-  min-width: 15rem;
-  max-width: calc(100vw - 2rem);
-  padding: 0.75rem;
-  margin: 0;
-  list-style: none;
-}
-.sh-pop-panel li a {
-  display: flex;
-  min-height: 44px;
-  align-items: center;
-  padding: 0.25rem 0.5rem;
-  text-decoration: none;
-  border-radius: 14px;
-}
-.sh-pop-panel li a:hover,
-.sh-pop-panel li a[aria-current="true"] {
-  background: rgba(45, 115, 65, 0.1);
-}
-.sh-muted {
-  opacity: 0.78;
-}
-.sh-menu {
-  display: block;
-}
-.sh-loc > summary span,
-.sh-lang > summary span {
-  max-width: 9rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.sh-emergency span {
-  white-space: nowrap;
-}
-.sh-footer-nav {
-  gap: 0.5rem 1.25rem;
-}
-.sh-footer-nav a {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-}
 .path-sweep {
   position: fixed;
   inset-inline: 0;
@@ -172,12 +76,6 @@ main:focus {
   font-size: 0.95rem;
 }
 
-/* Header nav breakpoint (landing styles live in landing.css) */
-@media (min-width: 768px) {
-  .sh-nav { display: flex; }
-  .sh-menu { display: none; }
-}
-
 /* Street of doors */
 .door-street {
   min-height: 120px;
@@ -238,15 +136,6 @@ main:focus {
   }
 }
 
-.sh-tools .btn {
-  display: inline-flex;
-  width: auto;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: 0.4rem;
-  min-height: 44px;
-  padding-block: 0.4rem;
-}
 
 .note-hand {
   font-family: var(--font-hand);
