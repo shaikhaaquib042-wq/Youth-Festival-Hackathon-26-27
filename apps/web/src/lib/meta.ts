@@ -28,6 +28,13 @@ export function metaFor(lang: Locale, rawPath: string): PageMeta {
       };
     }
   }
+  if (parts[0] === "offices" && parts[1]) {
+    const city = parts[1].charAt(0).toUpperCase() + parts[1].slice(1);
+    return {
+      title: `${t(lang, "ui.offices.h1_city", { city })} | ${APP_NAME}`,
+      description: t(lang, "ui.offices.lead_short"),
+    };
+  }
   if (parts[0] === "state" && parts[1]) {
     const code = parts[1].toUpperCase();
     return {

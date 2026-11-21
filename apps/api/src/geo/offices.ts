@@ -1,4 +1,4 @@
-import { officesPune, stateByCode } from "@raasta/data";
+import { officesCities, officesPune, stateByCode } from "@raasta/data";
 import type { Office } from "@raasta/data";
 import type { Env } from "../env";
 
@@ -61,6 +61,14 @@ export async function findOffices(
     const list = officesPune.filter((o) => !q.type || o.type === q.type).map((o) => fromRegistry(o, from));
     if (from) list.sort((a, b) => (a.distance_km ?? 1e9) - (b.distance_km ?? 1e9));
     if (list.length && (!from || inPune)) return { source: "registry", offices: list.slice(0, 25) };
+  }
+  // Researched directories for other major cities.
+  const cityName = (q.city ?? "").toLowerCase().replace("bangalore", "bengaluru").replace("new delhi", "delhi");
+  const cityList = officesCities.filter((o) => cityName && cityName.includes(o.city.toLowerCase()) && (!q.type || o.type === q.type));
+  if (cityList.length) {
+    const list = cityList.map((o) => fromRegistry(o, from));
+    if (from) list.sort((a, b) => (a.distance_km ?? 1e9) - (b.distance_km ?? 1e9));
+    return { source: "registry", offices: list.slice(0, 25) };
   }
   if (!from) return { source: "none", offices: [] };
 

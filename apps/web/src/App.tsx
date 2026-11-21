@@ -26,6 +26,7 @@ export function App() {
         <Route path="help/:category" element={<HelpCategory />} />
         <Route path="emergency" element={<Emergency />} />
         <Route path="offices" element={<Offices />} />
+        <Route path="offices/:city" element={<Offices />} />
         <Route path="state/:code" element={<StatePage />} />
         <Route path="legal-aid" element={<LegalAid />} />
         <Route path="feedback" element={<Feedback />} />

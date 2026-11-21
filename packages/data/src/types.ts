@@ -38,6 +38,7 @@ export interface Office {
   city: string;
   state_code: string;
   zone?: string; // PMC zone number for wards
+  website?: string;
   cc_office_id?: string; // ward -> zone DMC
   verified: boolean;
   source: string; // e.g. "handbook 3.2"

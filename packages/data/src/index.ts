@@ -1,6 +1,7 @@
 import { z } from "zod";
 import platformsRaw from "./platforms.json";
 import officesRaw from "./offices.pune.json";
+import officesCitiesRaw from "./offices.cities.json";
 import legalAidRaw from "./legal-aid.json";
 import timersRaw from "./timers.json";
 import disputesRaw from "./disputes.json";
@@ -19,6 +20,8 @@ export type { Platform, Dispute, Office, LegalAidData, StateInfo, TimerDef, Plat
 export const platforms: Platform[] = z.array(platformSchema).parse(platformsRaw);
 export const disputes: Dispute[] = z.array(disputeSchema).parse(disputesRaw);
 export const officesPune: Office[] = z.array(officeSchema).parse(officesRaw);
+/** Researched offices in Mumbai, Delhi, Bengaluru, Chennai, Hyderabad (and extra Pune ones). All start unverified. */
+export const officesCities: Office[] = z.array(officeSchema).parse(officesCitiesRaw);
 export const legalAid: LegalAidData = legalAidSchema.parse(legalAidRaw);
 export const timers: TimerDef[] = z.array(timerDefSchema).parse(timersRaw);
 export const states: StateInfo[] = z.array(stateInfoSchema).parse(statesRaw);
@@ -26,7 +29,7 @@ export const platformInsights: PlatformInsight[] = platformInsightsFileSchema.pa
 
 const platformMap = new Map(platforms.map((p) => [p.id, p] as const));
 const disputeMap = new Map(disputes.map((d) => [d.id, d] as const));
-const officeMap = new Map(officesPune.map((o) => [o.id, o] as const));
+const officeMap = new Map([...officesPune, ...officesCities].map((o) => [o.id, o] as const));
 const stateMap = new Map(states.map((s) => [s.code, s] as const));
 
 export function platformById(id: string): Platform | undefined {
