@@ -169,6 +169,8 @@ export function initRoute(m) {
     if (s === sig) return; sig = s;
     clearTimeout(timer); timer = setTimeout(() => recheck(), 400);
   });
+  window.addEventListener('sajag:mode', (e) => setRouteMode(e.detail.mode));
+  try { mode = localStorage.getItem('sajag.userMode') || 'commuter'; } catch { /* ignore */ }
   window.addEventListener('sajag:hazard', (e) => { btn.hidden = e.detail.hazard !== 'flood'; if (btn.hidden) toggle(false); });
   if (map.isStyleLoaded()) ensureLayers(); else map.once('load', ensureLayers);
 }

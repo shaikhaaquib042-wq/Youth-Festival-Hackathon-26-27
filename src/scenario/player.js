@@ -6,6 +6,8 @@ import { makePin } from '../engine/pin.js';
 import { setClock, setScenarioPins, setClockFormat, gazetteer } from '../store.js';
 import { setScenarioAlerts } from '../ui/alerts.js';
 import { setHeatProvider } from '../heat/ui/shift.js';
+import { setScenarioGrid, gridPoints } from '../feeds/openmeteo.js';
+import { cityPack } from '../../config.js';
 import flood2019 from './pune-2019-09-25.json';
 import heatAfternoon from './pune-heat-afternoon.json';
 
@@ -14,7 +16,7 @@ export const SCENARIOS = [flood2019, heatAfternoon];
 const PHOTO = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160"><rect width="100%" height="100%" fill="#5b6b7a"/><text x="50%" y="45%" fill="#fff" font-family="sans-serif" font-size="20" text-anchor="middle">📷 SIMULATED PHOTO</text><text x="50%" y="65%" fill="#dfe6ee" font-family="sans-serif" font-size="13" text-anchor="middle">scenario replay — not a real report</text></svg>')}`;
 
 let sc = null, startReal = 0, offset = 0, playing = false, speed = 60, timer = null, lastReal = 0;
-let bar, chip;
+let bar, chip, lastGridKey = '';
 const gridHooks = new Set();
 
 /** Weather module (step 4) subscribes here to draw SIMULATED rain/heat cells. fn(state|null) */
@@ -38,6 +40,29 @@ function heatAt(min) {
   const f = b.t === a.t ? 0 : (min - a.t) / (b.t - a.t);
   const lerp = (x, y) => x + (y - x) * f;
   return { t: lerp(a.t2m, b.t2m), tw: lerp(a.tw, b.tw), sr: lerp(a.sr, b.sr), simulated: true };
+}
+
+/** Turn the scenario's rain bands / heat condition into SIMULATED grid cells (same shape as the Open-Meteo feed). */
+function buildGrid(rain, heat) {
+  const pts = gridPoints(cityPack());
+  const lats = [...new Set(pts.map((p) => p.lat))].sort((a, b) => a - b);
+  const band = (lat) => (lat === lats[0] ? 'south' : lat === lats[lats.length - 1] ? 'north' : 'central');
+  const heatPts = sc.events.filter((e) => e.kind === 'heat').sort((a, b) => a.t - b.t);
+  return pts.map((p, i) => {
+    const wobble = ((i * 37) % 7) / 10 - 0.3; // small cell-to-cell variation so the grid doesn't look flat
+    const mmhr = rain ? rain[band(p.lat)] ?? 0 : 0;
+    const cur = heat
+      ? { temperature_2m: +(heat.t + wobble).toFixed(1), wet_bulb_temperature_2m: +(heat.tw + wobble / 2).toFixed(1), shortwave_radiation: Math.round(heat.sr), precipitation: 0 }
+      : { temperature_2m: 24 + wobble, wet_bulb_temperature_2m: 22.5, shortwave_radiation: 20, precipitation: mmhr };
+    const hourly = heat
+      ? { time: heatPts.map((e) => at(e.t).toISOString()), temperature_2m: heatPts.map((e) => e.t2m + wobble),
+          wet_bulb_temperature_2m: heatPts.map((e) => e.tw), shortwave_radiation: heatPts.map((e) => e.sr),
+          precipitation: heatPts.map(() => 0), precipitation_probability: heatPts.map(() => 0) }
+      : { time: [0, 60, 120, 180].map((m) => at(offset + m).toISOString()), temperature_2m: [24, 24, 23, 23],
+          wet_bulb_temperature_2m: [22.5, 22.5, 22, 22], shortwave_radiation: [0, 0, 0, 0],
+          precipitation: [mmhr, mmhr * 0.8, mmhr * 0.4, 0], precipitation_probability: [mmhr ? 95 : 10, mmhr ? 85 : 10, 50, 20] };
+    return { lat: p.lat, lng: p.lng, current: { apparent_temperature: cur.temperature_2m, relative_humidity_2m: heat ? 20 : 95, wind_gusts_10m: mmhr > 30 ? 45 : 15, ...cur }, hourly };
+  });
 }
 
 function apply() {
@@ -70,6 +95,8 @@ function apply() {
     .map((e) => ({ title: e.title, author: `(${e.source})`, publishedAt: at(e.t).toISOString(), simulated: true })));
   const rain = [...evs].reverse().find((e) => e.kind === 'rain')?.cells ?? null;
   const heat = heatAt(offset);
+  const gkey = JSON.stringify(rain) + (heat ? `${heat.t.toFixed(1)}/${heat.tw.toFixed(1)}/${Math.round(heat.sr / 10)}` : '');
+  if (gkey !== lastGridKey) { lastGridKey = gkey; setScenarioGrid(buildGrid(rain, heat)); } // only when values change
   gridHooks.forEach((fn) => fn({ rain, heat, simulated: true }));
   updateLive();
 }
@@ -97,7 +124,7 @@ function tick() {
 
 export function loadScenario(id) {
   sc = SCENARIOS.find((s) => s.id === id) ?? SCENARIOS[0];
-  startReal = Date.now(); offset = 0; speed = sc.speed ?? 60; playing = false;
+  startReal = Date.now(); offset = 0; lastGridKey = ''; speed = sc.speed ?? 60; playing = false;
   setHeatProvider(sc.hazard === 'heat' ? async () => heatAt(offset) : null);
   setClockFormat((d) => hhmm((d.getTime() - startReal) / 60000));
   window.dispatchEvent(new CustomEvent('sajag:set-hazard', { detail: { hazard: sc.hazard } }));
@@ -109,7 +136,7 @@ export function loadScenario(id) {
 
 export function exitScenario() {
   clearInterval(timer); timer = null; sc = null; playing = false;
-  setClock(null); setClockFormat(null); setScenarioPins([]); setScenarioAlerts(null); setHeatProvider(null);
+  setClock(null); setClockFormat(null); setScenarioPins([]); setScenarioAlerts(null); setHeatProvider(null); setScenarioGrid(null);
   gridHooks.forEach((fn) => fn(null));
   chip.classList.remove('scenario');
   bar.hidden = true; renderChip();

@@ -127,3 +127,6 @@ a.btn.btn-danger { color: #fff; }
 .sb-controls input[type=range] { flex: 1; min-width: 120px; accent-color: var(--chip-sim); }
 .sb-clock { font: 700 14px/1 ui-monospace, monospace; color: var(--chip-sim); }
 .sb-sub { font-size: 12px; }
+/* Scenario bar open → push the status cards and alert banner below it */
+body:has(#scenario-bar:not([hidden])) #status-cards-root { top: 174px; }
+body:has(#scenario-bar:not([hidden])) #alert-banner:not([hidden]) ~ #status-cards-root { top: 226px; }

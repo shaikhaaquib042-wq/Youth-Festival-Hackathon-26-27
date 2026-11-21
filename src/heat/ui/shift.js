@@ -10,15 +10,16 @@ import { getFix, requestLocation } from '../../location.js';
 import { estimateWBGT, assessWork } from '../index.js';
 import { SEV_COLOR } from '../../map/pins.js';
 import { openUnwell } from './unwell.js';
+import { nearestCell } from '../../feeds/openmeteo.js';
 
-export const PREFS_KEY = 'sajag.heatPrefs'; // { workType, newToHeat } — shared with the heat status card
 const LEVEL_TO_SEV = { green: 'green', yellow: 'yellow', orange: 'orange', red: 'red' };
 
 let el, btn, shift = null, tickTimer = null, wakeLock = null;
 let provider = null; // async ({lat,lng}) => { t, tw, sr, simulated? } — set by the weather module after step 4 merge
 
-export const loadPrefs = () => { try { return { workType: 'moderate', newToHeat: false, ...JSON.parse(localStorage.getItem(PREFS_KEY)) }; } catch { return { workType: 'moderate', newToHeat: false }; } };
-const savePrefs = (p) => { try { localStorage.setItem(PREFS_KEY, JSON.stringify(p)); } catch { /* ignore */ } };
+// Same keys as the heat status card (ui/cards.js) so both stay in sync.
+export const loadPrefs = () => { try { return { workType: localStorage.getItem('sajag.workType') || 'moderate', newToHeat: localStorage.getItem('sajag.newToHeat') === '1' }; } catch { return { workType: 'moderate', newToHeat: false }; } };
+const savePrefs = (p) => { try { localStorage.setItem('sajag.workType', p.workType); localStorage.setItem('sajag.newToHeat', p.newToHeat ? '1' : '0'); } catch { /* ignore */ } };
 const hhmm = (d) => fmtClock(d);
 const addMin = (d, m) => new Date(d.getTime() + m * 60000);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -26,8 +27,12 @@ const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '
 /** Let the weather feed supply conditions (Scenario-aware). */
 export function setHeatProvider(fn) { provider = fn; if (shift) assess(true); }
 
-// Fallback provider: live Open-Meteo for the exact point (until the grid feed is wired in).
+// Default provider: the regional weather grid (live, or the scenario's simulated grid); else a point request.
 async function defaultProvider(at) {
+  const cell = nearestCell(at);
+  if (cell?.current?.wet_bulb_temperature_2m != null) {
+    return { t: cell.current.temperature_2m, tw: cell.current.wet_bulb_temperature_2m, sr: cell.current.shortwave_radiation, simulated: !!cell.simulated };
+  }
   const u = `https://api.open-meteo.com/v1/forecast?latitude=${at.lat.toFixed(3)}&longitude=${at.lng.toFixed(3)}&current=temperature_2m,wet_bulb_temperature_2m,shortwave_radiation&timezone=Asia%2FKolkata`;
   const j = await (await fetch(u)).json();
   return { t: j.current.temperature_2m, tw: j.current.wet_bulb_temperature_2m, sr: j.current.shortwave_radiation };

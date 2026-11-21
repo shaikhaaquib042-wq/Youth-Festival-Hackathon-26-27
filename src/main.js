@@ -13,6 +13,9 @@ import { initRoute } from './ui/route.js';
 import { initShift } from './heat/ui/shift.js';
 import { initUnwell } from './heat/ui/unwell.js';
 import { initScenario } from './scenario/player.js';
+import { startWeather } from './feeds/openmeteo.js';
+import { initWeatherLayers } from './map/weather.js';
+import { initCards } from './ui/cards.js';
 
 const pack = cityPack();
 initLang(pack);
@@ -67,3 +70,17 @@ initAlerts(pack);
 
 // Scenario player (PRD §6.6) — tap the LIVE chip. ?scenario=<id> autoloads.
 initScenario();
+
+// ==== step 4 wiring (agy) ====
+startWeather(pack);
+initWeatherLayers(map, pack);
+initCards(map, {
+  getHazard: () => document.body.dataset.hazard ?? 'flood',
+  onHazardChange: (fn) => {
+    window.addEventListener('sajag:hazard', (e) => fn(e.detail.hazard));
+    document.getElementById('hazard-toggle')?.addEventListener('click', () => {
+      setTimeout(() => fn(document.body.dataset.hazard ?? 'flood'), 0);
+    });
+  },
+});
+// ==== end step 4 wiring ====
