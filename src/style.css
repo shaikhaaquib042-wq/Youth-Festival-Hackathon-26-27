@@ -209,8 +209,8 @@ a.btn.call { display: block; text-align: left; margin: 2px 0; }
 
 /* ── Layout pass (17:55): one tidy left column. Phone = full-width thumb bar; wide screens = floating left panel. ── */
 /* Phone: LIVE chip sits right of the 🎤 instead of under it. */
-#voice-btn { bottom: 116px; }
-#mode-chip { left: 84px; bottom: 136px; }
+#voice-btn { bottom: 150px; } /* above the 2-line disclaimer on phones */
+#mode-chip { left: 84px; bottom: 170px; }
 
 @media (min-width: 760px) {
   :root { --col: 440px; }
