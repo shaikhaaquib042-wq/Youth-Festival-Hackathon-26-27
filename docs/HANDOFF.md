@@ -1,4 +1,4 @@
-# Sajag — Handoff (21 Nov 2026, updated 17:45 IST — voice works locally with Deepgram; collapsible card; season default; Gemini clip generator)
+# Sajag — Handoff (21 Nov 2026, updated 20:20 IST — ACCOUNT SWITCH: read §0 first)
 
 Hackathon: Naya Bharat 2047 · Code for Bharat (Rotary × Rotaract Youth Festival, Pune). **Code freeze 21:00, submission before 22:00 IST.**
 Problem statements: **7.3** "Which road is flooded right now?" (primary) + **7.2** "Too hot to work, too poor to stop".
@@ -7,6 +7,44 @@ Product: **Sajag (सजग, "alert")** — one safety companion for people who 
 Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `docs/PRD.md` (§22 overrides older sections; heat = §21; Maharashtra SOP = §23).
 
 ---
+
+## 0. START HERE — state at 20:20 IST (written for the next Claude account)
+
+**Code freeze 21:00, submission before 22:00.** Live: **https://sajag-app.vercel.app** (deployed 20:15 = HEAD `6bf40a8`, everything below is live). Branch `team/sajag` → pushed as **`origin/tokenizers`** (`git push` works; `push.default=upstream`). Repo is in sync, working tree clean.
+
+**Deploys:** `cd sajag && vercel deploy --prod` — the auto-mode safety check blocks it unless Devang approves each deploy in chat ("deploy it"). Verify after deploy (curl the page / run a flow).
+
+### Done since 17:45 (all live)
+- Redesign "calm signal" + **dark mode** (`src/theme.js`, tokens at end of `src/style.css`, More → Appearance, `?theme=dark`), design canvas https://claude.ai/artifact/XgZNEenxNd6u8MEeYcXAJY.
+- Collapsible status card (docks to the LEFT edge when collapsed). Season default (Feb–May Heat, Jun–Oct Rain). `?setup=0` skips setup.
+- **Flood spots 2026-only**: Pune 19 (10 Traffic Police Jul 2026 + 9 from 2026 news), Mumbai 13, Bengaluru 11, Hyderabad 17 — dated source + link in every popup; old/undated ones `archived`.
+- Cooling points 2,395 (+533 OSM: bus shelters, stations, shelters, toilets, taps) + 🧭 Directions; OSM link per point.
+- 🎤 Voice (Deepgram Nova-3, `/api/transcribe`): help words → Help sheet (no login), else report prefill. Verified with real speech (hi/mr/en).
+- **English voiceovers = Deepgram Aura-2 "harmonia"** (`public/audio/en/*.m4a`, `scripts/gen-audio-deepgram.mjs`); English added to every city's voice list. **Deepgram has NO Indian-language TTS** (checked 103 voices).
+- 👤 **My reports** (top bar): active + earlier reports, "people helped" = distinct others who confirmed.
+- Paste a police/news post → local unverified pins (More menu).
+- Heat shift starts instantly (no GPS wait). Route panel compact after a check.
+- **Route "safer, not safe"** (`src/engine/route.js`): Vitthalwadi→Shivajinagar always crosses Dandekar Bridge; with the heavy-rain clog rule no route was clean → now offers the less-severe route with a caution naming the hazard. Verified live: 2019 replay T+60 → "⛔ Avoid · Safer route (take care) · 7.1 km — Blocked drain · Dandekar Bridge".
+- Google sign-in WORKS (Supabase Google provider ON; OAuth client `522884372191-d0nush…`; secret JSON in `sajag/` is git-ignored + vercel-ignored — delete it any time, it lives in Supabase now). Clean URL **sajag-app.vercel.app** added (old sajag-inky still works).
+- Merged workers: QA dark-mode/320px (Antigravity), paste-in, 22 bug fixes, 12 security fixes (Codex). Reports: `docs/SECURITY-REVIEW.md`, `docs/security/claude-db-review.md`.
+- Secrets audit: **CLEAN** — no secret ever committed; real values of Deepgram key, DB password, Vercel token, Google client secret absent from git history and live bundle; only the Supabase URL + publishable key are public (by design).
+- README rewritten for judges (live links, 60-s demo, screenshots in `docs/screenshots/`).
+
+### Open — in priority order
+1. **Demo video (≤45 s)** — Remotion project at **`~/NayaBharat Hackathon/sajag-video`** (NOT in git). Script `docs/demo-video-script.md`. 9 scenes in `src/Scenes.tsx`, timing in `src/Composition.tsx` (1344 frames = 44.8 s, 1920×1080), VO `public/vo/vo1-9.mp3` (Deepgram), **real screen recordings** of the app in `public/rec/<flow>/f0000.jpg…` (30 fps JPEG sequences, frame counts in `src/rec.ts`) recorded by `scratchpad/rec.mjs` (Chrome DevTools screencast; copy it into the video repo if you need to re-record). Studio: `cd sajag-video && npx remotion studio` → http://localhost:3000/SajagDemo. **Waiting for Devang's review; render only when he says "render"**: `npx remotion render SajagDemo out/sajag-demo.mp4`. QR `public/qr.png` may still point to the old -inky URL (still works) — regenerate with `npx qrcode` if time.
+2. **DB security migration NOT applied** — `supabase/migrations/20261121134445_harden_citizen_report_writes.sql` (anon can't file flood/votes, server-set created_at, no self-votes, hide user_id, photo cap). Client has fallbacks so the app works either way. Apply only with Devang's OK: `set -a; . ./.env.local; set +a; supabase db push --remote --dry-run` then without `--dry-run`; then run the verify SQL in the migration.
+3. **Supabase "Allow anonymous sign-ins" is still OFF** → heat-side "add cooling point" shows "not switched on yet". Devang toggles it in Authentication → Sign In / Providers.
+4. **Indian-language voiceovers** — need `SARVAM_API_KEY` (recommended) or `GEMINI_API_KEY` in `.env.local`; Gemini script exists (`scripts/gen-audio.mjs`), Sarvam needs a small adapter. Then `CONFIG.HEAT.AUDIO_CLIP_LANGS` += langs.
+5. Worker **`sajag-clicktest`** (Antigravity, terminal `term_1f6144c5…`, REPORT ONLY) still clicking through the live site — read its final table with `orca agent read c85f7098-b2a6-4f4a-a523-a46a89d2f397 --json` or its terminal; fix top items; then `orca worktree rm --worktree path:~/orca/workspaces/sajag/sajag-clicktest --delete-branch`.
+6. Rehearse ×3 (`?scenario=pune-2019-09-25` → scrub to 19:30 → route; `?scenario=pune-heat-afternoon` → 12:30 → Start work), slides, submission. After submission: `sudo pmset -a disablesleep 0`.
+
+### Rules learned today (follow them)
+- **Codex workers: `--model gpt-6-luna --effort high` + priority mode, NEVER defaults** (Devang was angry when they ran on 6.2 Sol). Priority-mode flag is unknown — Orca CLI has none; ask Devang how he sets it.
+- Orca workers: never `--activate`; brief = self-contained; workers commit on their branch only, orchestrator merges + tests + deploys.
+- A fresh Claude worker stops at a "Bypass Permissions" prompt — don't click through it yourself; use Codex/Antigravity or ask Devang.
+- Never commit `client_secret*.json` / `.env*`. Never write test users / data into the hosted DB.
+- MapLibre CSS loads after ours → use `.maplibregl-map .maplibregl-ctrl-*` specificity. Local OSRM (Colima) is down; dev uses `VITE_OSRM_URL=https://router.project-osrm.org npm run dev`.
+- Headless screenshots: Chrome `--headless=new --use-angle=swiftshader --enable-unsafe-swiftshader`; phone width via a 390-px iframe or CDP device metrics (`scratchpad/cdp.mjs`).
 
 ## 1. Where things live
 
