@@ -12,7 +12,7 @@ import { openSignIn, takeIntent } from './signin.js';
 import { getFix, requestLocation } from '../location.js';
 import { depthIcon } from './depthIcons.js';
 
-let map, hazard = 'flood', sheet, crosshair, draft = null;
+let map, hazard = 'flood', sheet, crosshair, draft = null, sending = null, photoRead = 0;
 
 export function toast(msg, ms = 3500) {
   const b = document.getElementById('toast');
@@ -153,8 +153,8 @@ function render() {
 
   // One big full-width "Send" button
   html += `
-    <button type="button" class="btn btn-primary btn-submit-big" data-act="submit" ${canSubmit() ? '' : 'disabled'}>
-      ${t('report.submit')}
+    <button type="button" class="btn btn-primary btn-submit-big" data-act="submit" ${canSubmit() && sending !== d ? '' : 'disabled'}>
+      ${t(sending === d ? 'report.sending' : 'report.submit')}
     </button>
   `;
 
@@ -224,24 +224,38 @@ function onClick(e) {
 
 async function readPhoto(file) {
   if (!file) return;
-  const img = await createImageBitmap(file);
-  const s = Math.min(1, 900 / Math.max(img.width, img.height));
-  const c = Object.assign(document.createElement('canvas'), {
-    width: Math.round(img.width * s),
-    height: Math.round(img.height * s),
-  });
-  c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-  draft.photo = c.toDataURL('image/jpeg', 0.6); // ~60–150 KB, under the DB's 400 KB cap
-  render();
+  const target = draft;
+  const read = ++photoRead;
+  try {
+    const img = await createImageBitmap(file);
+    if (target !== draft || read !== photoRead) { img.close(); return; }
+    const s = Math.min(1, 900 / Math.max(img.width, img.height));
+    const c = Object.assign(document.createElement('canvas'), {
+      width: Math.round(img.width * s),
+      height: Math.round(img.height * s),
+    });
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    img.close();
+    target.photo = c.toDataURL('image/jpeg', 0.6);
+    render();
+  } catch {
+    if (target === draft && read === photoRead) toast(t('report.photoError'));
+  }
 }
 
 /** @param {{prefill?: {type?, depth?, inUnderpass?, place?: {name,lat,lng}, transcript?: string}}} [opts] — from voice */
 export async function openReport(opts = {}) {
+  const requestedHazard = hazard;
   // Heat side (cooling points) needs no login screen: silent anonymous session. Rain side keeps the sign-in gate.
-  if (!currentUser() && hazard === 'heat' && !(await ensureAnonUser())) return toast(t('report.heatUnavailable'));
-  if (!currentUser() || (hazard === 'flood' && currentUser().anonymous)) return openSignIn(() => openReport(opts)); // flood reports need a real login
+  if (!currentUser() && requestedHazard === 'heat') {
+    const user = await ensureAnonUser();
+    if (hazard !== requestedHazard) return;
+    if (!user) return toast(t('report.heatUnavailable'));
+  }
+  if (!currentUser() || (hazard === 'flood' && currentUser().anonymous)) return openSignIn(() => openReport(opts), { kind: 'report', hazard, opts }); // flood reports need a real login
   ensureSheet();
   const fix = getFix() ?? (await requestLocation({ timeoutMs: 8000 })); // asks permission the first time
+  if (hazard !== requestedHazard) return;
   const pre = hazard === 'flood' ? opts.prefill ?? {} : {};
   draft = {
     type: TYPES[hazard].includes(pre.type) ? pre.type : TYPES[hazard][0],
@@ -269,6 +283,8 @@ function closeReport() {
 }
 
 async function submit() {
+  if (!canSubmit() || sending === draft) return;
+  const submitted = draft;
   const c = map.getCenter();
   const at = { lat: c.lat, lng: c.lng };
   const fix = getFix();
@@ -287,20 +303,25 @@ async function submit() {
     ...(draft.type === 'cooling' ? { amenities: draft.amenities } : {}),
   });
 
+  sending = submitted;
+  render();
   try {
     const saved = await submitReport(pin);
     addLocalPin(saved);
     refreshLive();
-    closeReport();
+    if (draft === submitted) closeReport();
     toast(t('report.sent'));
   } catch (err) {
     toast(err.code === 'rate_limited' ? t('report.rateLimited') : t('auth.error', { msg: err.message }));
+  } finally {
+    if (sending === submitted) sending = null;
+    if (draft === submitted) render();
   }
 }
 
 /** Vote handler for pin popups (login-gated). */
 export async function onVote(pin, value) {
-  if (!currentUser() || currentUser().anonymous) return openSignIn(() => onVote(pin, value));
+  if (!currentUser() || currentUser().anonymous) return openSignIn(() => onVote(pin, value), { kind: 'vote', id: pin.id, value });
   try {
     await vote(pin.id, value);
     refreshLive();
@@ -311,11 +332,9 @@ export async function onVote(pin, value) {
 }
 
 export function setReportHazard(h) {
+  if (hazard === h) return;
   hazard = h;
-  if (draft) {
-    draft.type = TYPES[h][0];
-    render();
-  }
+  closeReport();
 }
 
 /** Mount the floating Report button. */
@@ -330,13 +349,21 @@ export function initReport(m) {
     });
     fab.addEventListener('click', () => (sheet && !sheet.hidden ? closeReport() : openReport()));
   }
-  if (takeIntent()) {
-    // resume the report after the Google redirect, once the session has loaded
+  const intent = takeIntent();
+  if (intent) {
+    // Resume the original action once the session has loaded after Google redirects back.
     let off = null;
     off = onAuth((u) => {
-      if (u) {
-        openReport();
-        queueMicrotask(() => off?.());
+      if (!u || u.anonymous) return;
+      queueMicrotask(() => off?.());
+      if (intent.kind === 'report') {
+        if (intent.hazard && intent.hazard !== hazard) {
+          window.dispatchEvent(new CustomEvent('sajag:set-hazard', { detail: { hazard: intent.hazard } }));
+        }
+        openReport(intent.opts);
+      }
+      if (intent.kind === 'vote' && ['still', 'cleared'].includes(intent.value)) {
+        onVote({ id: intent.id }, intent.value);
       }
     });
   }

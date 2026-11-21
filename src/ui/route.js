@@ -1,9 +1,11 @@
 // Route check (PRD §6.2 hero flow, §10, §19.3 share). Saved routes; live re-check whenever pins change.
 import maplibregl from 'maplibre-gl';
-import { t, onLang } from '../i18n/index.js';
+import { LANGS, t, tIn, onLang } from '../i18n/index.js';
 import { CONFIG } from '../../config.js';
 import { planRoute } from '../engine/route.js';
+import { hasHeavyRain } from '../engine/advisory.js';
 import { getPins, subscribe, now, gazetteer } from '../store.js';
+import { getGrid, nearestCell, onGrid } from '../feeds/openmeteo.js';
 import { getFix, requestLocation } from '../location.js';
 import { SEV_COLOR } from '../map/pins.js';
 import { toast } from './report.js';
@@ -11,18 +13,24 @@ import { toast } from './report.js';
 const SAVED_KEY = 'sajag.routes';
 const DEMO_ROUTES = { pune: [{ name: 'Sinhagad Rd → Shivajinagar', from: 'Vitthalwadi', to: 'Shivajinagar' }] };
 
-let map, panel, btn, mode = 'commuter', active = null, result = null, pickTarget = null, timer = null;
+let map, panel, btn, mode = 'commuter', active = null, result = null, pickTarget = null;
+let checkId = 0, request = null, checking = false, signature = null;
+let fields = { from: '', to: '' };
 let editing = true; // false after a check → compact panel (route summary + verdict) so the map shows the route
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const loadSaved = () => { try { return JSON.parse(localStorage.getItem(SAVED_KEY)) ?? []; } catch { return []; } };
 const storeSaved = (list) => { try { localStorage.setItem(SAVED_KEY, JSON.stringify(list.slice(0, 5))); } catch { /* ignore */ } };
 
+const isMyLocation = (value) => Object.keys(LANGS).some((lang) => value === tIn(lang, 'route.myLoc'));
+const fieldLabel = (value) => isMyLocation(value) ? t('route.myLoc') : value;
+const hasSimulatedWeather = () => !!getGrid()[0]?.simulated;
+
 /** Resolve a field value → {lat,lng,label}: "My location", a gazetteer name, or "lat,lng". */
 async function resolve(val) {
   const v = (val || '').trim();
   if (!v) return null;
-  if (v === t('route.myLoc')) { const f = getFix() ?? await requestLocation({ timeoutMs: 8000 }); return f ? { ...f, label: t('route.myLoc') } : null; }
+  if (isMyLocation(v)) { const f = getFix() ?? await requestLocation({ timeoutMs: 8000 }); return f ? { ...f, label: t('route.myLoc') } : null; }
   const m = v.match(/^(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)$/);
   if (m) return { lat: +m[1], lng: +m[2], label: v };
   const lc = v.toLowerCase();
@@ -32,7 +40,6 @@ async function resolve(val) {
 }
 
 function ensureLayers() {
-  if (!map?.isStyleLoaded()) return;
   if (map.getSource('sj-route')) return;
   map.addSource('sj-route', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
   const before = map.getLayer('sj-hotspots') ? 'sj-hotspots' : undefined;
@@ -43,17 +50,17 @@ function ensureLayers() {
 }
 
 function drawRoutes(r) {
-  if (!map?.isStyleLoaded()) return;
-  ensureLayers();
+  const source = map?.getSource('sj-route');
+  if (!source) return;
   const feats = [];
   if (r) {
     const blocked = r.verdict === 'avoid';
     feats.push({ type: 'Feature', geometry: { type: 'LineString', coordinates: r.primary.route.coords },
       properties: { color: SEV_COLOR[r.level === 'green' ? 'green' : r.level] ?? SEV_COLOR.green, blocked } });
     if (blocked && r.chosen) feats.unshift({ type: 'Feature', geometry: { type: 'LineString', coordinates: r.chosen.route.coords },
-      properties: { color: SEV_COLOR.green, blocked: false } });
+      properties: { color: SEV_COLOR[r.chosen.score.level], blocked: false } });
   }
-  map.getSource('sj-route').setData({ type: 'FeatureCollection', features: feats });
+  source.setData({ type: 'FeatureCollection', features: feats });
 }
 
 function reasonText(hit) {
@@ -65,13 +72,28 @@ function reasonText(hit) {
     + (p.simulated ? ` · ${t('tag.simulated')}` : '') + ` · ${t('pin.source', { name: p.source.name })}`;
 }
 
+function alternateText(r) {
+  if (r.noSafe) return t('route.noSafe');
+  const km = (r.chosen.route.distanceM / 1000).toFixed(1);
+  const min = Math.round(r.chosen.route.durationS / 60);
+  const label = r.chosen.score.level === 'yellow' ? 'route.altCaution' : 'route.altShown';
+  return t(label, { km, min });
+}
+
 function shareText(r) {
-  const head = r.verdict === 'avoid' ? (r.noSafe ? t('route.noSafe') : t('verdict.avoid')) : t('verdict.' + r.verdict);
-  return `${t('app.name')} · ${active.from.label} → ${active.to.label}: ${head}. ${reasonText(r.decidingHit)}\n${t('disclaimer')}\n${location.origin}`;
+  const head = t('verdict.' + r.verdict);
+  const sim = hasSimulatedWeather() ? ` · ${t('tag.simulated')}` : '';
+  const details = [reasonText(r.decidingHit), r.verdict === 'avoid' ? alternateText(r) : ''].filter(Boolean);
+  return `${t('app.name')}${sim} · ${fieldLabel(active.from.label)} → ${fieldLabel(active.to.label)}: ${[head, ...details].join('. ')}\n${t('disclaimer')}\n${location.origin}`;
 }
 
 function render() {
   if (!panel) return;
+  if (pickTarget) {
+    panel.innerHTML = `<div class="rp-head"><b>${esc(t('route.tapMap'))}</b>
+      <button class="btn btn-ghost" data-act="cancelPick">${esc(t('report.cancel'))}</button></div>`;
+    return;
+  }
   const saved = loadSaved(), demo = DEMO_ROUTES[CONFIG.CITY] ?? [];
   const chips = [...demo, ...saved].map((s, i) => `<button class="chip" data-saved="${i}">${esc(s.name)}</button>`).join('');
   let res = '';
@@ -81,41 +103,59 @@ function render() {
     const head = r.verdict === 'avoid' ? `⛔ ${t('verdict.avoid')}` : r.verdict === 'caution' ? `⚠️ ${t('verdict.caution')}` : `✅ ${t('verdict.safe')}`;
     const km = (x) => (x.route.distanceM / 1000).toFixed(1), min = (x) => Math.round(x.route.durationS / 60);
     res = `<div class="route-verdict" style="border-color:${color}">
-      <div class="rv-head" style="color:${color}">${esc(head)}</div>
+      <div class="rv-head" style="color:${color}">${esc(head)}${hasSimulatedWeather() ? ` <span class="tag-sim">${esc(t('tag.simulated'))}</span>` : ''}</div>
       ${r.verdict === 'avoid' ? `<div>${esc(t('red.doNotEnter'))}</div>` : ''}
       ${r.decidingHit ? `<div class="rv-reason">${esc(reasonText(r.decidingHit))}</div>` : `<div class="rv-reason">${esc(t('route.clear'))}</div>`}
-      ${r.verdict === 'avoid' ? `<div class="rv-alt">${esc(r.noSafe ? t('route.noSafe') : t('route.altShown', { km: km(r.chosen), min: min(r.chosen) }))}</div>` : `<div class="muted">${km(r.primary)} km · ${min(r.primary)} min</div>`}
+      ${r.verdict === 'avoid' ? `<div class="rv-alt">${esc(alternateText(r))}</div>` : `<div class="muted">${km(r.primary)} km · ${min(r.primary)} min</div>`}
       <div class="rs-row"><button class="btn" data-act="share">🟢 ${esc(t('action.share'))}</button><button class="btn btn-ghost" data-act="save">☆ ${esc(t('route.save'))}</button></div>
     </div>`;
   }
-  if (result && active && !editing) {
-    panel.innerHTML = `<div class="rp-head"><b>${esc(active.from.label)} → ${esc(active.to.label)}</b>
+  if (!editing) {
+    const title = active ? `${fieldLabel(active.from.label)} → ${fieldLabel(active.to.label)}` : t('route.title');
+    panel.innerHTML = `<div class="rp-head"><b>${esc(title)}</b>
       <span><button class="btn btn-ghost" data-act="edit" aria-label="${esc(t('route.title'))}">✎</button><button class="btn btn-ghost" data-act="close">✕</button></span></div>
-      <div class="rp-result">${res}</div>`;
+      <div class="rp-result" aria-busy="${checking}">${checking ? esc(t('route.checking')) : res}</div>`;
     return;
   }
   panel.innerHTML = `<div class="rp-head"><b>${esc(t('route.title'))}</b><button class="btn btn-ghost" data-act="close">✕</button></div>
     <div class="rs-row">${chips}</div>
-    <label class="field"><span>${esc(t('route.from'))}</span><div class="rp-in"><input list="sj-places" data-f="from" value="${esc(active?.fromText ?? '')}">
+    <label class="field"><span>${esc(t('route.from'))}</span><div class="rp-in"><input list="sj-places" data-f="from" value="${esc(fieldLabel(fields.from))}">
       <button class="chip" data-act="me" data-t="from">📍</button><button class="chip" data-act="pick" data-t="from">🗺</button></div></label>
-    <label class="field"><span>${esc(t('route.to'))}</span><div class="rp-in"><input list="sj-places" data-f="to" value="${esc(active?.toText ?? '')}">
+    <label class="field"><span>${esc(t('route.to'))}</span><div class="rp-in"><input list="sj-places" data-f="to" value="${esc(fieldLabel(fields.to))}">
       <button class="chip" data-act="pick" data-t="to">🗺</button></div></label>
     <datalist id="sj-places"><option value="${esc(t('route.myLoc'))}">${gazetteer.map((g) => `<option value="${esc(g.name)}">`).join('')}</datalist>
-    <div class="rs-row rs-actions"><button class="btn btn-primary" data-act="check">${esc(t('route.check'))}</button></div>
-    <div class="rp-result">${res}</div>`;
+    <div class="rs-row rs-actions"><button class="btn btn-primary" data-act="check">${esc(t('route.check'))}</button></div>`;
 }
 
 async function check(fromText, toText) {
-  const [from, to] = await Promise.all([resolve(fromText), resolve(toText)]);
-  if (!from || !to) return toast(t('route.notFound'));
-  active = { from, to, fromText, toText };
+  fields = { from: fromText, to: toText };
+  pickTarget = null;
+  const id = ++checkId;
+  cancelPlan();
+  active = result = null;
+  drawRoutes(null);
   editing = false;
-  await recheck(true);
-  if (!result) { editing = true; render(); return; }
+  checking = true;
+  render();
+  const [from, to] = await Promise.all([resolve(fromText), resolve(toText)]);
+  if (id !== checkId) return;
+  if (!from || !to) {
+    checking = false;
+    editing = true;
+    render();
+    return toast(t('route.notFound'));
+  }
+  active = { from, to, fromText, toText };
+  signature = null;
+  render();
+  await recheck();
+}
+
+function fitRoute(r) {
   const b = new maplibregl.LngLatBounds();
-  (result?.chosen ?? result?.primary)?.route.coords.forEach((c) => b.extend(c));
-  result?.primary.route.coords.forEach((c) => b.extend(c));
-  // Fit the route into the part of the map that is actually visible (between status card and panel / beside the left column).
+  (r.chosen ?? r.primary).route.coords.forEach((c) => b.extend(c));
+  r.primary.route.coords.forEach((c) => b.extend(c));
+  // Fit into the visible map between panels, or beside the desktop column.
   const wide = innerWidth >= 760;
   const padding = wide
     ? { top: 80, bottom: 40, left: 480, right: 70 }
@@ -123,30 +163,81 @@ async function check(fromText, toText) {
   if (!b.isEmpty()) map.fitBounds(b, { padding, maxZoom: 15 });
 }
 
-async function recheck(announce = false) {
+function cancelPlan() {
+  request?.abort();
+  request = null;
+  checking = false;
+}
+
+function pinSignature(pins, rainClogs) {
+  return JSON.stringify([mode, ...pins.map((p) => [
+    p.id, p.lat, p.lng, p.status, p.depth, p.inUnderpass, p.confirmations, rainClogs.has(p.id),
+  ])]);
+}
+
+async function recheck() {
   if (!active) return;
+  const pins = getPins({ includeCooling: false }).filter((p) => p.type === 'flood' || p.type === 'clog');
+  const rainClogs = new Set(pins.filter((p) => p.type === 'clog' && hasHeavyRain(nearestCell(p))).map((p) => p.id));
+  const sig = pinSignature(pins, rainClogs);
+  if (sig === signature) return;
+  signature = sig;
+  const prev = result?.verdict;
+  cancelPlan();
+  const controller = new AbortController();
+  request = controller;
+  checking = true;
+  drawRoutes(null);
+  if (!editing) render();
   try {
-    const prev = result?.verdict;
-    result = await planRoute(active.from, active.to, getPins({ includeCooling: false }),
-      { osrmUrl: CONFIG.OSRM_URL, mode, bufferM: CONFIG.ROUTE_BUFFER_M, detourM: CONFIG.DETOUR_OFFSET_M, alternatives: CONFIG.OSRM_ALTERNATIVES });
-    drawRoutes(result); render();
-    if (!announce && prev && prev !== result.verdict) toast(`${t('route.changed')}: ${t('verdict.' + result.verdict)}`);
-  } catch (e) { toast(t('auth.error', { msg: e.message })); }
+    const next = await planRoute(active.from, active.to, pins,
+      { osrmUrl: CONFIG.OSRM_URL, mode, bufferM: CONFIG.ROUTE_BUFFER_M, detourM: CONFIG.DETOUR_OFFSET_M,
+        alternatives: CONFIG.OSRM_ALTERNATIVES, signal: controller.signal, heavyRainAt: (p) => rainClogs.has(p.id) });
+    if (request !== controller) return;
+    checking = false;
+    result = next;
+    drawRoutes(result);
+    if (!editing) {
+      render();
+      if (!prev) fitRoute(result);
+    }
+    if (prev && prev !== result.verdict) toast(`${t('route.changed')}: ${t('verdict.' + result.verdict)}`);
+  } catch (e) {
+    if (request !== controller) return;
+    checking = false;
+    active = result = null;
+    editing = true;
+    render();
+    toast(t('auth.error', { msg: e.message }));
+  }
 }
 
 function onClick(e) {
   const b = e.target.closest('button'); if (!b) return;
-  const val = (f) => panel.querySelector(`[data-f=${f}]`).value;
   if (b.dataset.saved != null) {
     const s = [...(DEMO_ROUTES[CONFIG.CITY] ?? []), ...loadSaved()][+b.dataset.saved];
     return check(s.from, s.to);
   }
   const act = b.dataset.act;
   if (act === 'close') return toggle(false);
-  if (act === 'edit') { editing = true; render(); return; }
-  if (act === 'check') return check(val('from'), val('to'));
-  if (act === 'me') { panel.querySelector('[data-f=from]').value = t('route.myLoc'); return; }
-  if (act === 'pick') { pickTarget = b.dataset.t; toast(t('route.tapMap')); return; }
+  if (act === 'edit') {
+    if (checking) {
+      checkId++;
+      cancelPlan();
+      active = result = null;
+    }
+    editing = true;
+    render();
+    return;
+  }
+  if (act === 'check') return check(fields.from, fields.to);
+  if (act === 'me') {
+    pickTarget = null;
+    panel.querySelector('[data-f=from]').value = fields.from = t('route.myLoc');
+    return;
+  }
+  if (act === 'pick') { pickTarget = b.dataset.t; render(); return; }
+  if (act === 'cancelPick') { pickTarget = null; render(); return; }
   if (act === 'share' && result) return window.open(`https://wa.me/?text=${encodeURIComponent(shareText(result))}`, '_blank', 'noopener');
   if (act === 'save' && active) {
     storeSaved([{ name: `${active.from.label} → ${active.to.label}`, from: active.fromText, to: active.toText }, ...loadSaved()]);
@@ -157,8 +248,14 @@ function onClick(e) {
 function toggle(open) {
   panel.hidden = !open;
   window.dispatchEvent(new CustomEvent('sajag:route', { detail: { active: open } })); // pins show flood spots while checking
-  if (!open) { active = null; result = null; editing = true; drawRoutes(null); }
-  window.dispatchEvent(new CustomEvent('sajag:route', { detail: { active: open } }));
+  if (!open) {
+    checkId++;
+    cancelPlan();
+    active = result = pickTarget = null;
+    fields = { from: '', to: '' };
+    editing = true;
+    drawRoutes(null);
+  }
   render();
 }
 
@@ -172,24 +269,32 @@ export function initRoute(m) {
   panel.className = 'route-panel'; panel.hidden = true;
   document.getElementById('app').append(panel);
   panel.addEventListener('click', onClick);
+  panel.addEventListener('input', ({ target }) => {
+    if (target.dataset.f) fields[target.dataset.f] = target.value;
+  });
   btn.addEventListener('click', () => toggle(panel.hidden));
   map.on('click', (e) => {
-    if (!pickTarget || panel.hidden) return;
-    panel.querySelector(`[data-f=${pickTarget}]`).value = `${e.lngLat.lat.toFixed(5)}, ${e.lngLat.lng.toFixed(5)}`;
+    if (!pickTarget || panel.hidden || !editing) return;
+    fields[pickTarget] = `${e.lngLat.lat.toFixed(5)}, ${e.lngLat.lng.toFixed(5)}`;
     pickTarget = null;
+    render();
   });
   onLang(() => { btn.innerHTML = `<span class="ico">🛣</span><span>${esc(t('bar.route'))}</span>`; render(); });
   // Live: when reports change (new report, confirmation, expiry, scenario tick) re-plan the active route.
-  let sig = '';
-  subscribe(() => {
-    if (!active) return;
-    const s = getPins({ includeCooling: false }).filter((p) => p.type === 'flood' || p.type === 'clog')
-      .map((p) => `${p.id}:${p.status}:${p.depth}:${p.inUnderpass}`).join('|') + mode;
-    if (s === sig) return; sig = s;
-    clearTimeout(timer); timer = setTimeout(() => recheck(), 400);
+  subscribe(recheck);
+  let simulated = hasSimulatedWeather();
+  onGrid(() => {
+    recheck();
+    const next = hasSimulatedWeather();
+    if (next !== simulated && !editing) render();
+    simulated = next;
   });
   window.addEventListener('sajag:mode', (e) => setRouteMode(e.detail.mode));
   try { mode = localStorage.getItem('sajag.userMode') || 'commuter'; } catch { /* ignore */ }
   window.addEventListener('sajag:hazard', (e) => { btn.hidden = e.detail.hazard !== 'flood'; if (btn.hidden) toggle(false); });
-  if (map.isStyleLoaded()) ensureLayers(); else map.once('load', ensureLayers);
+  const mountLayers = () => {
+    ensureLayers();
+    drawRoutes(checking ? null : result);
+  };
+  if (map.isStyleLoaded()) mountLayers(); else map.once('load', mountLayers);
 }

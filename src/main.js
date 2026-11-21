@@ -78,7 +78,8 @@ document.getElementById('hazard-toggle').addEventListener('click', (e) => {
   try { localStorage.setItem(HZ_KEY, JSON.stringify({ h: b.dataset.h, season })); } catch { /* ignore */ } // manual pick, valid this season
 });
 let pick = null; try { pick = JSON.parse(localStorage.getItem(HZ_KEY)); } catch { /* old plain-string value or none */ }
-const urlHazard = new URLSearchParams(location.search).get('hazard');
+const requestedHazard = new URLSearchParams(location.search).get('hazard');
+const urlHazard = ['flood', 'heat'].includes(requestedHazard) ? requestedHazard : null;
 setHazard(urlHazard ?? (pick?.season === season ? pick.h : null) ?? (season !== 'none' ? season : pick?.h) ?? 'flood');
 
 window.addEventListener('sajag:set-hazard', (e) => setHazard(e.detail.hazard)); // used by the Scenario player

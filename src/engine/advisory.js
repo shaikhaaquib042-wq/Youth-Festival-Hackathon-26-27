@@ -152,6 +152,11 @@ export function advise({ cell, pins = [], mode = 'commuter', now = new Date() } 
 
 const SEV_RANK = { none: 0, grey: 0, green: 1, yellow: 2, orange: 3, red: 4 };
 
+/** Heavy rain at one regional weather cell. Used for clogged drains on cards and routes. */
+export function hasHeavyRain(cell) {
+  return cell?.current?.precipitation >= 2.5 || (cell?.hourly?.precipitation ?? []).some((mm) => mm >= 2.5);
+}
+
 /**
  * Pure helper for Flood Card status computation.
  * PRD §9, §22.1, §22.3.
@@ -177,10 +182,7 @@ export function computeFloodCardStatus({
   const prob = Array.isArray(cell?.hourly?.precipitation_probability)
     ? Math.max(0, ...cell.hourly.precipitation_probability)
     : 0;
-  const maxHourly = Array.isArray(cell?.hourly?.precipitation)
-    ? Math.max(0, ...cell.hourly.precipitation)
-    : 0;
-  const heavyRain = precip >= 2.5 || maxHourly >= 2.5;
+  const heavyRain = hasHeavyRain(cell);
   const rainExpected = prob >= 50 || precip > 0;
 
   let worstPin = null;
@@ -194,7 +196,7 @@ export function computeFloodCardStatus({
     }
   }
 
-  let level = 'green';
+  let level = Number.isFinite(cell?.current?.precipitation) ? 'green' : 'unknown';
   if (SEV_RANK[worstPinSev] >= SEV_RANK.red) {
     level = 'red';
   } else if (SEV_RANK[worstPinSev] >= SEV_RANK.orange) {
@@ -205,7 +207,7 @@ export function computeFloodCardStatus({
     level = 'yellow';
   }
 
-  let actionKey = 'advice.normalDay';
+  let actionKey = level === 'unknown' ? 'card.weatherUnavailable' : 'advice.normalDay';
   if (level === 'red') actionKey = 'red.doNotEnter';
   else if (level === 'orange') actionKey = 'severity.orange';
   else if (level === 'yellow') actionKey = 'severity.yellow';
@@ -247,9 +249,12 @@ export function computeHeatCardStatus({
   cfg = undefined,
 } = {}) {
   const current = cell?.current;
-  const t = current?.temperature_2m ?? 30;
-  const tw = current?.wet_bulb_temperature_2m ?? 18;
-  const sr = current?.shortwave_radiation ?? 500;
+  const t = current?.temperature_2m;
+  const tw = current?.wet_bulb_temperature_2m;
+  const sr = current?.shortwave_radiation;
+  if (![t, tw, sr].every(Number.isFinite)) {
+    return { level: 'unknown', actionKey: 'card.weatherUnavailable', actionVars: {} };
+  }
 
   const wbgtRes = estimateWBGT({ t, tw, sr }, cfg);
   const wbgt = wbgtRes.sun;

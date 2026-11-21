@@ -3,7 +3,7 @@ import { t } from '../i18n/index.js';
 import { signInWithGoogle, sendEmailCode, verifyEmailCode, onAuth, currentUser, signOut } from '../backend/auth.js';
 import { backendReady } from '../backend/client.js';
 
-let sheet, afterLogin = null;
+let sheet, afterLogin = null, loginIntent = null;
 
 function ensure() {
   if (sheet) return sheet;
@@ -32,7 +32,7 @@ function ensure() {
     const act = e.target.dataset.act;
     if (e.target === sheet || act === 'close') return close();
     try {
-      if (act === 'google') { saveIntent(); await signInWithGoogle(); }
+      if (act === 'google') { saveIntent(loginIntent); await signInWithGoogle(); }
       if (act === 'send') {
         const email = $('[data-f=email]').value.trim();
         if (!/^\S+@\S+\.\S+$/.test(email)) return msg(t('auth.badEmail'), true);
@@ -42,7 +42,10 @@ function ensure() {
       if (act === 'verify') {
         await verifyEmailCode($('[data-f=email]').value.trim(), $('[data-f=code]').value);
       }
-    } catch (err) { msg(t('auth.error', { msg: err.message }), true); }
+    } catch (err) {
+      if (act === 'google') saveIntent(null);
+      msg(t('auth.error', { msg: err.message }), true);
+    }
   });
   return sheet;
 }
@@ -59,22 +62,34 @@ function render() {
 
 // Google sign-in leaves the page: remember what the user was doing so it resumes after the redirect.
 const INTENT = 'sajag.afterLogin';
-function saveIntent() { try { sessionStorage.setItem(INTENT, '1'); } catch { /* ignore */ } }
-export function takeIntent() { try { const v = sessionStorage.getItem(INTENT); sessionStorage.removeItem(INTENT); return !!v; } catch { return false; } }
+function saveIntent(intent) {
+  try {
+    if (intent) sessionStorage.setItem(INTENT, JSON.stringify(intent));
+    else sessionStorage.removeItem(INTENT);
+  } catch { /* ignore */ }
+}
+export function takeIntent() {
+  try {
+    const value = sessionStorage.getItem(INTENT);
+    sessionStorage.removeItem(INTENT);
+    return value === '1' ? { kind: 'report' } : JSON.parse(value);
+  } catch { return null; }
+}
 
 /** Open the sheet; `then` runs once the user is signed in. */
-export function openSignIn(then) {
+export function openSignIn(then, intent) {
   if (!backendReady()) { alertOffline(); return; }
   afterLogin = then ?? null;
+  loginIntent = intent ?? null;
   render();
   ensure().hidden = false;
   ensure().querySelector('.msg').textContent = '';
 }
-function close() { if (sheet) sheet.hidden = true; afterLogin = null; }
+function close() { if (sheet) sheet.hidden = true; afterLogin = loginIntent = null; }
 function alertOffline() { const b = document.getElementById('toast'); if (b) { b.textContent = t('report.offline'); b.hidden = false; setTimeout(() => { b.hidden = true; }, 4000); } }
 
 onAuth((u) => {
-  if (u && sheet && !sheet.hidden) { const fn = afterLogin; close(); fn?.(u); }
+  if (u && !u.anonymous && sheet && !sheet.hidden) { const fn = afterLogin; close(); fn?.(u); }
 });
 
 /** Small account chip for the top bar. */

@@ -11,11 +11,11 @@ const RANK = { none: 0, grey: 0, green: 1, yellow: 2, orange: 3, red: 4 };
  * Score one route geometry against pins.
  * @returns {{ level:'green'|'yellow'|'orange'|'red', hits:Array<{pin, sev, distM}>, blocker:object|null }}
  */
-export function scoreRoute(coords, pins, { mode = 'commuter', bufferM = 300 } = {}) {
+export function scoreRoute(coords, pins, { mode = 'commuter', bufferM = 300, heavyRainAt } = {}) {
   const hits = [];
   for (const p of pins) {
     if (p.type !== 'flood' && p.type !== 'clog') continue;
-    const sev = pinSeverity(p, { mode });
+    const sev = pinSeverity(p, { mode, heavyRain: p.type === 'clog' && heavyRainAt?.(p) });
     if (RANK[sev] < RANK.yellow) continue;
     const d = distToLineM(p, coords);
     if (d <= bufferM) hits.push({ pin: p, sev, distM: Math.round(d) });
@@ -39,10 +39,10 @@ export function detourPoints(coords, pin, offsetM = 1000) {
   return [{ lat: pin.lat + dLat, lng: pin.lng + dLng }, { lat: pin.lat - dLat, lng: pin.lng - dLng }];
 }
 
-async function osrm(base, pts, alternatives) {
+async function osrm(base, pts, alternatives, signal) {
   const path = pts.map((p) => `${p.lng.toFixed(6)},${p.lat.toFixed(6)}`).join(';');
   const url = `${base}/route/v1/driving/${path}?overview=full&geometries=geojson&steps=false${alternatives ? `&alternatives=${alternatives}` : ''}`;
-  const res = await fetch(url);
+  const res = await fetch(url, { signal });
   if (!res.ok) throw new Error(`OSRM ${res.status}`);
   const j = await res.json();
   if (j.code !== 'Ok') throw new Error(`OSRM ${j.code}`);
@@ -53,19 +53,19 @@ async function osrm(base, pts, alternatives) {
  * Plan a route and return the verdict.
  * @returns {Promise<{ verdict:'safe'|'caution'|'avoid', level, primary:{route,score}, chosen:{route,score}|null, noSafe:boolean, decidingHit:object|null }>}
  */
-export async function planRoute(from, to, pins, { osrmUrl, mode, bufferM, detourM, alternatives = 3 }) {
-  const cands = await osrm(osrmUrl, [from, to], alternatives);
-  const scored = cands.map((route) => ({ route, score: scoreRoute(route.coords, pins, { mode, bufferM }) }));
+export async function planRoute(from, to, pins, { osrmUrl, mode, bufferM, detourM, alternatives = 3, signal, heavyRainAt }) {
+  const cands = await osrm(osrmUrl, [from, to], alternatives, signal);
+  const scored = cands.map((route) => ({ route, score: scoreRoute(route.coords, pins, { mode, bufferM, heavyRainAt }) }));
   const primary = scored[0];
   let chosen = scored.find((s) => !s.score.blocker) ?? null;
 
   if (!chosen && primary.score.blocker) {
     for (const via of detourPoints(primary.route.coords, primary.score.blocker.pin, detourM)) {
       try {
-        const [r] = await osrm(osrmUrl, [from, via, to], 0);
-        const s = scoreRoute(r.coords, pins, { mode, bufferM });
+        const [r] = await osrm(osrmUrl, [from, via, to], 0, signal);
+        const s = scoreRoute(r.coords, pins, { mode, bufferM, heavyRainAt });
         if (!s.blocker) { chosen = { route: r, score: s, detour: true }; break; }
-      } catch { /* try the other side */ }
+      } catch { signal?.throwIfAborted(); /* otherwise try the other side */ }
     }
   }
 

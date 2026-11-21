@@ -38,7 +38,7 @@ let workType = 'moderate';
 let newToHeat = false;
 let detailsOpen = false;
 // Collapsed card = one slim line. Remembered per device; re-opens itself when the shown level gets worse.
-const RANK = { green: 0, yellow: 1, orange: 2, red: 3 };
+const RANK = { unknown: 0, green: 0, yellow: 1, orange: 2, red: 3 };
 let collapsed = (() => { try { return localStorage.getItem('sajag.cardCollapsed') === '1'; } catch { return false; } })();
 const lastLevel = {};
 function setCollapsed(v) {
@@ -135,12 +135,16 @@ function render() {
     now: currentTime,
   });
   const advText = adviceList.map((a) => t(a.key, a.vars)).join(' · ');
+  const simBadge = `<span class="tag-sim">${esc(t('tag.simulated'))}</span>`;
+  const floodSimulated = !!(cell?.simulated || floodStatus.decidingPin?.simulated);
+  const heatSimulated = !!cell?.simulated;
 
   container.innerHTML = '';
 
   // 1. Red Breakthrough Banner (if hidden side is RED)
   const hiddenHazard = activeHazard === 'flood' ? 'heat' : 'flood';
   const hiddenStatus = activeHazard === 'flood' ? heatStatus : floodStatus;
+  const hiddenSimulated = activeHazard === 'flood' ? heatSimulated : floodSimulated;
 
   if (hiddenStatus.level === 'red') {
     const banner = document.createElement('div');
@@ -148,7 +152,7 @@ function render() {
     const hiddenTitle = t(hiddenHazard === 'heat' ? 'hazard.heat' : 'hazard.flood');
     const hiddenAction = t(hiddenStatus.actionKey, hiddenStatus.actionVars);
     banner.innerHTML = `
-      <span>⚠️ <b>${esc(hiddenTitle)} RED:</b> ${esc(hiddenAction)}</span>
+      <span>⚠️ <b>${esc(hiddenTitle)} · ${esc(t('chip.danger'))}</b> ${esc(hiddenAction)} ${hiddenSimulated ? simBadge : ''}</span>
       <button type="button" class="btn-switch">${esc(t('card.tapToSwitch'))} ❯</button>
     `;
     banner.onclick = () => switchHazard(hiddenHazard);
@@ -194,7 +198,12 @@ function render() {
   const moreContent = document.createElement('div');
   moreContent.className = 'card-more-content';
 
-  if (activeHazard === 'flood') {
+  if (activeLevel === 'unknown') {
+    emojiEl.textContent = '—';
+    headlineEl.textContent = t('card.weatherUnavailable');
+    textGroup.appendChild(headlineEl);
+    speakBtn.onclick = () => speak('card.weatherUnavailable');
+  } else if (activeHazard === 'flood') {
     // ── Flood Card ──────────────────────────────────────────
     emojiEl.textContent = FLOOD_EMOJIS[floodStatus.level] || '⚠️';
 
@@ -316,6 +325,10 @@ function render() {
     moreContent.appendChild(advEl);
   }
 
+  if (activeHazard === 'flood' ? floodSimulated : heatSimulated) {
+    textGroup.insertAdjacentHTML('beforeend', simBadge);
+  }
+
   // Auto-expand when this side's level gets worse than what the user last saw.
   const prev = lastLevel[activeHazard];
   lastLevel[activeHazard] = activeLevel;
@@ -344,8 +357,10 @@ function render() {
     activeCard.classList.add('collapsed');
     activeCard.onclick = () => setCollapsed(false); // tap anywhere on the slim card to open
   } else {
-    detailsEl.appendChild(moreContent);
-    activeCard.appendChild(detailsEl);
+    if (activeLevel !== 'unknown') {
+      detailsEl.appendChild(moreContent);
+      activeCard.appendChild(detailsEl);
+    }
   }
   container.appendChild(activeCard);
 
@@ -355,7 +370,9 @@ function render() {
   const inactiveIcon = hiddenHazard === 'heat' ? '☀️' : '🌧️';
   const inactiveName = t(hiddenHazard === 'heat' ? 'hazard.heat' : 'hazard.flood');
   let chipStatusWord = t('chip.ok');
-  if (hiddenStatus.level === 'red') {
+  if (hiddenStatus.level === 'unknown') {
+    chipStatusWord = t('card.weatherUnavailable');
+  } else if (hiddenStatus.level === 'red') {
     chipStatusWord = t('chip.danger');
   } else if (hiddenStatus.level === 'yellow' || hiddenStatus.level === 'orange') {
     chipStatusWord = t('chip.caution');
@@ -364,6 +381,7 @@ function render() {
   miniChip.innerHTML = `
     <span class="mini-dot dot-${hiddenStatus.level}"></span>
     <span>${inactiveIcon} <b>${esc(inactiveName)}:</b> ${esc(chipStatusWord)}</span>
+    ${hiddenSimulated ? simBadge : ''}
     <span style="opacity: 0.6; font-size: 10px;">❯</span>
   `;
   miniChip.onclick = () => switchHazard(hiddenHazard);
