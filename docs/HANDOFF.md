@@ -10,6 +10,8 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 
 ## 0. START HERE — state at 20:40 IST
 
+**21:05 update:** live = `78ed23a`. Replay bar sits below the top bar with ▴ minimise (one slim row: ▶, slider, clock, ▾); intro text hides once the replay starts; cards + banner stack under the bar (measured `--sb-h`), all widths incl. desktop (old 56px desktop offset overlapped the 70px top bar); other-hazard chip hidden during replays; scenario alerts now 'IMD Pune'; mic-blocked hint in 5 languages. Freeze moved with the 23:59 deadline.
+
 **20:40 update:** live = HEAD `051fe73` (deployed 20:39). Since 20:20: `?city=` links skip first-run setup; `mobile-web-app-capable` meta (no Chrome deprecation warning); collapsed status card sits BELOW the top bar on mobile as a clear "▾ <status>" pill (agy fix, verified at 390 px). **Demo video RENDERED**: `~/NayaBharat Hackathon/sajag-video/out/sajag-demo.mp4` (44.8 s, 1080p, stereo VO; route + heat scenes recorded inside the 2019-flood / heat-afternoon replays; end-card QR = `?scenario=pune-2019-09-25`). Click-test worker finished (all 7 areas PASS, 0 console errors) and its worktree + branch are removed — no workers running. `vercel deploy --prod` is allow-listed in `~/NayaBharat Hackathon/.claude/settings.local.json` (Devang, 20:30). Known nit: flood replay banner can show a live Mumbai SACHET line. Remaining: items 2–4 and 6 below.
 
 ### State at 20:20 IST (written for the next Claude account)
