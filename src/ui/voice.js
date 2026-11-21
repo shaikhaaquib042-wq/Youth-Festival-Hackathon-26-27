@@ -67,7 +67,13 @@ async function send(blob) {
   show(`<div class="vo-card"><div class="vo-pulse">⏳</div><b>${esc(t('voice.working'))}</b></div>`);
   const lang = getLang();
   const q = new URLSearchParams({ lang });
-  sosKeyterms(lang).forEach((k) => q.append('keyterm', k));
+  // Hints for Deepgram: help words + the city's place names (in the speaker's script when the gazetteer has it).
+  const isDeva = lang === 'mr' || lang === 'hi';
+  const places = deps.gazetteer
+    .map((p) => (isDeva && p.aliases?.find((a) => /[\u0900-\u097F]/.test(a))) || p.name.replace(/\s*\(.*\)$/, '').split(',')[0])
+    .filter((n, i, a) => n.length <= 30 && a.indexOf(n) === i)
+    .slice(0, 30);
+  [...sosKeyterms(lang), ...places, 'underpass', 'knee deep', 'ankle deep'].forEach((k) => q.append('keyterm', k));
   let text = '';
   try {
     const r = await fetch(`/api/transcribe?${q}`, { method: 'POST', headers: { 'content-type': blob.type.split(';')[0] }, body: blob });

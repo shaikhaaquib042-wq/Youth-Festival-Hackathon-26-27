@@ -12,7 +12,7 @@ export async function POST(request) {
 
   const url = new URL(request.url);
   const lang = LANGS[url.searchParams.get('lang')] ?? 'en-IN';
-  const keyterms = url.searchParams.getAll('keyterm').slice(0, 12).map((k) => k.slice(0, 40));
+  const keyterms = url.searchParams.getAll('keyterm').slice(0, 45).map((k) => k.slice(0, 40)); // help words + city place names
   const type = (request.headers.get('content-type') || 'audio/webm').split(';')[0].trim();
   if (!type.startsWith('audio/')) return json({ error: 'bad_type' }, 415);
 
