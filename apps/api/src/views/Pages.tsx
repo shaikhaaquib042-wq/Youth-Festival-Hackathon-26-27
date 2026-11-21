@@ -14,6 +14,9 @@ function unitFor(lang: Locale, q: Question): { pre?: string; post?: string } {
   return {};
 }
 
+/** An answer option that already means "I do not know". */
+export const isUnsure = (o: { value: string; label_en: string }) => o.value === "unknown" || /(not sure|don.?t know|unknown|unsure)/i.test(o.label_en);
+
 /** Translation with an English fallback taken from the data file. */
 function tr(lang: Locale, key: string, en: string): string {
   const s = t(lang, key);
@@ -56,15 +59,17 @@ export function QuestionField({ lang, q, value, big, dispute }: { lang: Locale; 
       </fieldset>
     );
   }
+  // Some questions already offer their own "Not sure"; never add a second one.
+  const ownUnsure = (q.options ?? []).find((o) => isUnsure(o));
   if (q.type === "select" && (q.options?.length ?? 0) <= 8) {
     return (
       <fieldset className="q">
         <legend className={labelCls}>{label}</legend>
         <div className="opts">
           {(q.options ?? []).map((o) => (
-            <Option key={o.value} name={name} value={o.value} label={opt(o)} checked={value === o.value} />
+            <Option key={o.value} name={name} value={o.value} label={opt(o)} checked={value === o.value || (!value && o === ownUnsure)} />
           ))}
-          <Option name={name} value="" label={t(lang, "ui.flow.notsure")} checked={!value} />
+          {ownUnsure ? null : <Option name={name} value="" label={t(lang, "ui.flow.notsure")} checked={!value} />}
         </div>
       </fieldset>
     );
@@ -76,7 +81,7 @@ export function QuestionField({ lang, q, value, big, dispute }: { lang: Locale; 
           {label}
         </label>
         <select id={id} name={name}>
-          <option value="">{t(lang, "ui.flow.notsure")}</option>
+          {ownUnsure ? null : <option value="">{t(lang, "ui.flow.notsure")}</option>}
           {(q.options ?? []).map((o) => (
             <option key={o.value} value={o.value} selected={value === o.value}>
               {opt(o)}

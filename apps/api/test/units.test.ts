@@ -101,3 +101,9 @@ describe("intake keeps a good AI answer even when one field is odd", () => {
     expect(classifyKeyword("My head did not give me my stipend")).toBe("unpaid_wages");
   });
 });
+
+describe("routing safety rules hold whatever the AI says", () => {
+  it("unpaid fees for work are wages", () => {
+    expect(classifyKeyword("Owner did not send fees for my work")).toBe("unpaid_wages");
+  });
+});

@@ -65,6 +65,8 @@ function extractJson(text: string): unknown {
   }
 }
 
+const WORKPLACE = /\b(office|work|workplace|job|boss|manager|colleague|co-worker|coworker|employer|company|factory|shop floor)\b|ऑफिस|दफ्तर|कार्यालय|नोकरी|नौकरी/i;
+
 const INT_KEYS = new Set(["days_since_incident", "prior_complaint_days_ago"]);
 
 /**
@@ -137,6 +139,8 @@ export async function runIntake(
     if (kw.is_emergency) base.is_emergency = true;
     if (kw.violence_indicated) base.violence_indicated = true;
   }
+  // Safety rule, whatever the model said: violence outside a workplace goes to the police route (safety first, Zero FIR).
+  if (base.violence_indicated && base.dispute_type !== "police_complaint" && !WORKPLACE.test(clean)) base.dispute_type = "police_complaint";
   if (!base.summary) base.summary = clean.slice(0, 280);
   if (hints.state_code && !base.state_code) base.state_code = hints.state_code.toUpperCase();
   if (hints.city && !base.city) base.city = hints.city;

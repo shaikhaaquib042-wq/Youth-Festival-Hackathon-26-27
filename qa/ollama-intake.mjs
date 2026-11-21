@@ -17,6 +17,18 @@ const CASES = [
   ["The washing machine I bought is faulty and the shop refuses to replace it", "consumer_refund"],
   ["माझा मोबाईल हरवला आहे", "lost_mobile"],
   ["मकान मालिक मेरा डिपॉजिट वापस नहीं दे रहा", "security_deposit"],
+  ["Owner did not send fees for my work", "unpaid_wages"],
+  ["My head did not give me my stipend", "unpaid_wages"],
+  ["The coaching class is not refunding my fees", "consumer_refund"],
+  ["Bank deducted wrong charges from my account and is not reversing them", "banking_nbfc"],
+  ["My PF withdrawal claim is stuck for months", "pension_pf"],
+  ["Builder has not given possession of my flat for 2 years", "builder_delay"],
+  ["Someone keeps sending threatening messages on WhatsApp", "cyber_harassment"],
+  ["My neighbour is building and my wall has cracked", "neighbour_construction"],
+  ["My ration card application is pending for months at the office", "govt_service"],
+  ["The insurance company rejected my health claim", "insurance_claim"],
+  ["The shopkeeper charged more than MRP for water bottle", "mrp_overcharge"],
+  ["My manager touches me and makes sexual comments at office", "workplace_harassment"],
 ];
 
 const out = [];

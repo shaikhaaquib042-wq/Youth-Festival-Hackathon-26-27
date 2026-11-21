@@ -160,6 +160,26 @@ export function Landing() {
               </Link>
             </p>
           </section>
+
+          <aside className="lp-common" aria-labelledby="common-h">
+            <h2 id="common-h">{tt("ui.home.common")}</h2>
+            <ul className="lp-tiles" role="list">
+              {COMPLAINT_TILES.map((tile, i) => {
+                const Icon = TILE_ICON[tile.key];
+                return (
+                  <li key={tile.key}>
+                    <a className="lp-tile" href={rUrl(lang, `/r/flow/${tile.dispute}/0`)}>
+                      <span className={`lp-tile-icon ${TILE_TONES[i % TILE_TONES.length]}`}>
+                        <Icon size={18} aria-hidden="true" />
+                      </span>
+                      <span className="lp-tile-label">{tt(`ui.tile.${tile.key}`)}</span>
+                      <ChevronRight size={16} aria-hidden="true" className="lp-tile-arrow" />
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </aside>
         </div>
       </div>
 
@@ -177,30 +197,6 @@ export function Landing() {
           {tt("ui.home.ask_short")}
         </a>
       </div>
-
-      <section className="lp-complaints" aria-labelledby="common-h">
-        <div className="container">
-          <h2 id="common-h" className="reveal">
-            {tt("ui.home.common")}
-          </h2>
-          <ul className="lp-tiles" role="list">
-            {COMPLAINT_TILES.map((tile, i) => {
-              const Icon = TILE_ICON[tile.key];
-              return (
-                <li key={tile.key} className="reveal">
-                  <a className="lp-tile" href={rUrl(lang, `/r/flow/${tile.dispute}/0`)}>
-                    <span className={`lp-tile-icon ${TILE_TONES[i % TILE_TONES.length]}`}>
-                      <Icon size={20} aria-hidden="true" />
-                    </span>
-                    <span className="lp-tile-label">{tt(`ui.tile.${tile.key}`)}</span>
-                    <ChevronRight size={18} aria-hidden="true" className="lp-tile-arrow" />
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </section>
 
       <section className="lp-how" id="how" aria-labelledby="how-h">
         <div className="container">
