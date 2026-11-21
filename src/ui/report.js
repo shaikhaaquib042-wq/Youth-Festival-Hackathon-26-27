@@ -173,7 +173,7 @@ function renderProofTile(d) {
   }
   return `
     <div class="report-proof-preview">
-      <img src="${d.photo}" alt="Proof" class="proof-thumb" />
+      <img src="${esc(d.photo)}" alt="Proof" class="proof-thumb" />
       <div class="proof-meta">
         <span class="proof-badge">📷 ${t('report.proofBadge')} ✓</span>
         <label class="btn-retake">

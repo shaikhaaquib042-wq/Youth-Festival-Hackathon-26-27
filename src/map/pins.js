@@ -36,6 +36,25 @@ export const LAYERS = {
 };
 
 const fc = (features) => ({ type: 'FeatureCollection', features });
+
+function webUrl(value) {
+  if (typeof value !== 'string') return null;
+  try {
+    const url = new URL(value);
+    return ['https:', 'http:'].includes(url.protocol) && !url.username && !url.password ? url.href : null;
+  } catch {
+    return null;
+  }
+}
+
+function proofPhoto(pin) {
+  const value = pin.photo;
+  if (typeof value !== 'string' || value.length > 400_000) return null;
+  // The local replay ships an SVG placeholder; shared reports only produce JPEG data URLs.
+  if (pin.simulated && value.startsWith('data:image/svg+xml,')) return value;
+  return /^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/.test(value) && value.trimEnd() === value ? value : null;
+}
+
 const pt = (p, props) => ({
   type: 'Feature',
   geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
@@ -351,6 +370,8 @@ function popup(p, actions) {
       : t('action.reportFlood');
 
   const lines = [];
+  const photo = proofPhoto(p);
+  const sourceUrl = webUrl(p.source.url);
 
   // Simulated badge
   if (p.simulated) {
@@ -375,7 +396,7 @@ function popup(p, actions) {
   // PRD §22: Evidence line FIRST, then source + age
   if (p.type === 'flood' || p.type === 'clog') {
     // 1. Evidence line with optional Proof badge
-    const proofBadge = p.photo
+    const proofBadge = photo
       ? ` <span class="badge-proof">📷 ${esc(t('report.proofBadge'))}</span>`
       : '';
     lines.push(
@@ -403,18 +424,21 @@ function popup(p, actions) {
 
   if (p.type === 'cooling') {
     // The useful action for a cooling point is getting there. OSM link = where the data comes from.
-    lines.push(`<a class="btn btn-primary popup-directions" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}&travelmode=walking" target="_blank" rel="noopener">🧭 ${esc(t('cooling.directions'))}</a>`);
-    if (p.source?.url) lines.push(`<small><a href="${esc(p.source.url)}" target="_blank" rel="noopener">OpenStreetMap ↗</a></small>`);
-  } else if (p.source?.url) {
-    lines.push(`<small><a href="${esc(p.source.url)}" target="_blank" rel="noopener">↗</a></small>`);
+    if (Number.isFinite(p.lat) && Number.isFinite(p.lng)) {
+      lines.push(`<a class="btn btn-primary popup-directions" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}&travelmode=walking" target="_blank" rel="noopener">🧭 ${esc(t('cooling.directions'))}</a>`);
+    }
+    if (sourceUrl) lines.push(`<small><a href="${esc(sourceUrl)}" target="_blank" rel="noopener">OpenStreetMap ↗</a></small>`);
+  } else if (sourceUrl) {
+    lines.push(`<small><a href="${esc(sourceUrl)}" target="_blank" rel="noopener">↗</a></small>`);
   }
-  if (p.photo) {
+  if (photo) {
     lines.push(
-      `<img src="${esc(p.photo)}" alt="Proof photo" class="pin-photo pin-photo-clickable" onclick="this.classList.toggle('enlarged')" title="Tap to enlarge">`,
+      `<img src="${esc(photo)}" alt="Proof photo" class="pin-photo pin-photo-clickable" title="Tap to enlarge">`,
     );
   }
 
   el.innerHTML = `<div class="pin-title">${esc(title)}</div>${lines.map((l) => `<div>${l}</div>`).join('')}`;
+  el.querySelector('.pin-photo')?.addEventListener('click', (event) => event.currentTarget.classList.toggle('enlarged'));
 
   // Big vote buttons with icons (✅ Still there / 🧹 Cleared) ≥ 48 px
   if ((p.type === 'flood' || p.type === 'clog') && !p.simulated && p.source.kind !== 'media' && actions.onVote) {
