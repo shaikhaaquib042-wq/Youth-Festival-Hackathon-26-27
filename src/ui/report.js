@@ -12,7 +12,7 @@ import { openSignIn, takeIntent } from './signin.js';
 import { getFix, requestLocation } from '../location.js';
 import { depthIcon } from './depthIcons.js';
 
-let map, hazard = 'flood', sheet, crosshair, draft = null;
+let map, hazard = 'flood', sheet, crosshair, draft = null, sending = null;
 
 export function toast(msg, ms = 3500) {
   const b = document.getElementById('toast');
@@ -153,8 +153,8 @@ function render() {
 
   // One big full-width "Send" button
   html += `
-    <button type="button" class="btn btn-primary btn-submit-big" data-act="submit" ${canSubmit() ? '' : 'disabled'}>
-      ${t('report.submit')}
+    <button type="button" class="btn btn-primary btn-submit-big" data-act="submit" ${canSubmit() && sending !== d ? '' : 'disabled'}>
+      ${t(sending === d ? 'report.sending' : 'report.submit')}
     </button>
   `;
 
@@ -269,6 +269,8 @@ function closeReport() {
 }
 
 async function submit() {
+  if (!canSubmit() || sending === draft) return;
+  const submitted = draft;
   const c = map.getCenter();
   const at = { lat: c.lat, lng: c.lng };
   const fix = getFix();
@@ -287,14 +289,19 @@ async function submit() {
     ...(draft.type === 'cooling' ? { amenities: draft.amenities } : {}),
   });
 
+  sending = submitted;
+  render();
   try {
     const saved = await submitReport(pin);
     addLocalPin(saved);
     refreshLive();
-    closeReport();
+    if (draft === submitted) closeReport();
     toast(t('report.sent'));
   } catch (err) {
     toast(err.code === 'rate_limited' ? t('report.rateLimited') : t('auth.error', { msg: err.message }));
+  } finally {
+    if (sending === submitted) sending = null;
+    if (draft === submitted) render();
   }
 }
 

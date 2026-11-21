@@ -102,6 +102,7 @@ export default {
   'report.photo': 'Photo (optional)',
   'report.submit': 'Send report',
   'report.cancel': 'Cancel',
+  'report.sending': 'Sending…',
   'report.tooFar': 'Move closer — you must be within {n} m of the spot',
   'report.needGps': 'Turn on location to report',
   'report.sent': 'Report sent — thank you!',
