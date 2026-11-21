@@ -295,7 +295,7 @@ export function ChatPage({ lang, token, title, turns, available, error }: { lang
                 <input key={i} type="hidden" name={m.role === "user" ? "hu" : "ha"} value={`${i}:${m.content}`} />
               ))}
               {turns.length === 0 ? (
-                <div className="chat-suggest">
+                <div className="chat-suggest" role="group" aria-label={t(lang, "ui.chat.suggested")}>
                   {suggestions.map((k) => (
                     <button key={k} type="submit" name="q" value={t(lang, k)} className="chip ask-chip">
                       {t(lang, k)}

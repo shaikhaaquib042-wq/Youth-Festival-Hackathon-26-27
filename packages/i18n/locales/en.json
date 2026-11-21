@@ -217,6 +217,7 @@
   "ui.chat.s2": "What if they do not reply?",
   "ui.chat.s3": "Do I need a lawyer for this?",
   "ui.chat.send": "Ask",
+  "ui.chat.suggested": "Suggested questions",
   "ui.chat.unavailable": "The assistant is resting right now. Your steps above still work, and the helpline 15100 can explain them for free.",
   "ui.check_link": "Check this link is current.",
   "ui.crumb.about": "About",

@@ -543,7 +543,7 @@ input[type="checkbox"], input[type="radio"] { width: 22px; height: 22px; accent-
 @media print {
   @page { size: A4; margin: 16mm; }
   html, body { background: #FFFFFF; color: #000000; font-size: 11pt; }
-  .site-header nav, .site-footer, .skip-link, .btn, .chip, .blob,
+  .site-header, .site-footer, .lp-mobilebar, .skip-link, .btn, .chip, .blob,
   .wave-top, .wave-bottom, .door-street, .no-print { display: none !important; }
   .card, .notice, .alert, .card-warm { box-shadow: none; border: 1px solid #999999; background: #FFFFFF; }
   .checklist label { border: 1px solid #999999; }
