@@ -87,6 +87,8 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 4. **Email codes** (optional): custom SMTP (Gmail app password, smtp.gmail.com:465) + magic-link template showing `{{ .Token }}`.
 5. **Audio clips**: generate from `docs/audio-script.md` (Marathi first).
 6. **R2 / Cloudflare** (for the public URL): `npx wrangler login`.
+7. **Vercel** (alternative host): CLI now logged in as personal account `ingaledevang-3418` (team `devang_hobby`). Was `devangingale-4954` / Secura Pod before — don't deploy there.
+8. **Mac power (set 21 Nov ~15:10):** `sudo pmset -a disablesleep 1` is ON so OSRM + dev server survive a closed lid. Keep it plugged in; don't press the power button. **After submission undo:** `sudo pmset -a disablesleep 0`.
 
 ## 5. Next steps (PRD §18, re-planned — time now ~14:35)
 
