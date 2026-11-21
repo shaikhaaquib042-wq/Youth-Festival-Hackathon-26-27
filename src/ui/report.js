@@ -245,11 +245,17 @@ async function readPhoto(file) {
 
 /** @param {{prefill?: {type?, depth?, inUnderpass?, place?: {name,lat,lng}, transcript?: string}}} [opts] — from voice */
 export async function openReport(opts = {}) {
+  const requestedHazard = hazard;
   // Heat side (cooling points) needs no login screen: silent anonymous session. Rain side keeps the sign-in gate.
-  if (!currentUser() && hazard === 'heat' && !(await ensureAnonUser())) return toast(t('report.heatUnavailable'));
+  if (!currentUser() && requestedHazard === 'heat') {
+    const user = await ensureAnonUser();
+    if (hazard !== requestedHazard) return;
+    if (!user) return toast(t('report.heatUnavailable'));
+  }
   if (!currentUser() || (hazard === 'flood' && currentUser().anonymous)) return openSignIn(() => openReport(opts), { kind: 'report', hazard, opts }); // flood reports need a real login
   ensureSheet();
   const fix = getFix() ?? (await requestLocation({ timeoutMs: 8000 })); // asks permission the first time
+  if (hazard !== requestedHazard) return;
   const pre = hazard === 'flood' ? opts.prefill ?? {} : {};
   draft = {
     type: TYPES[hazard].includes(pre.type) ? pre.type : TYPES[hazard][0],
@@ -326,11 +332,9 @@ export async function onVote(pin, value) {
 }
 
 export function setReportHazard(h) {
+  if (hazard === h) return;
   hazard = h;
-  if (draft) {
-    draft.type = TYPES[h][0];
-    render();
-  }
+  closeReport();
 }
 
 /** Mount the floating Report button. */
