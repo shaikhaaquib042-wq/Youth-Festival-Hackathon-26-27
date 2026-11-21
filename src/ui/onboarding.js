@@ -2,7 +2,7 @@
 // Shown once (sajag.onboarded). ?setup=1 shows it again, ?setup=0 skips it. Skipped for ?scenario= links (judge demo).
 import { t, setLang, LANGS, pickerLangs } from '../i18n/index.js';
 import { speak } from '../i18n/speak.js';
-import { cityPack, CITY_PACKS } from '../../config.js';
+import { CONFIG, cityPack, CITY_PACKS } from '../../config.js';
 import { distM } from '../engine/geo.js';
 import { WHO, applyWho, currentWho } from './profile.js';
 import { requestLocation, getFix } from '../location.js';
@@ -64,6 +64,9 @@ function finish(overlay) {
 
 export function startOnboarding({ force = false } = {}) {
   const q = new URLSearchParams(location.search);
+  const inSeason = Object.values(CONFIG.SEASON_HAZARD).some((months) => months.includes(new Date().getMonth() + 1));
+  const explicitHazard = ['flood', 'heat'].includes(q.get('hazard'));
+  const switchHazard = !force && !inSeason && !explicitHazard && !q.has('scenario');
   let done = false; try { done = localStorage.getItem('sajag.onboarded') === '1'; } catch { /* ignore */ }
   if (!force && q.get('setup') === '0') return; // ?setup=0 = skip (demo links, screenshots)
   if (!force && (done || q.has('scenario')) && !q.has('setup')) return;
@@ -75,7 +78,7 @@ export function startOnboarding({ force = false } = {}) {
   overlay.addEventListener('click', async (e) => {
     const b = e.target.closest('button'); if (!b) return;
     if (b.dataset.lang) { setLang(b.dataset.lang); step = 1; return render(); }
-    if (b.dataset.who) { applyWho(b.dataset.who, { switchHazard: true }); step = 2; return render(); }
+    if (b.dataset.who) { applyWho(b.dataset.who, { switchHazard }); step = 2; return render(); }
     if (b.dataset.act === 'back') { step = Math.max(0, step - 1); return render(); }
     if (b.dataset.act === 'allow') { b.disabled = true; await requestLocation({ timeoutMs: 10000 }); return finish(overlay); }
     if (b.dataset.act === 'skip') return finish(overlay);
