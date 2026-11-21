@@ -1,7 +1,7 @@
 /* Status cards styles (PRD §22.1, mobile-first, under topbar, max ~38% vh) */
 #status-cards-root {
   position: absolute;
-  top: 56px;
+  top: calc(var(--topbar-h, 70px) + 8px);
   left: 12px;
   right: 56px;
   z-index: 2;
@@ -16,7 +16,16 @@
 
 /* Push down if official alert banner is visible */
 #alert-banner:not([hidden]) ~ #status-cards-root {
-  top: 108px;
+  top: calc(var(--topbar-h, 70px) + 56px);
+}
+
+@media (min-width: 760px) {
+  #status-cards-root {
+    top: 56px;
+  }
+  #alert-banner:not([hidden]) ~ #status-cards-root {
+    top: 108px;
+  }
 }
 
 #status-cards-root > * {
@@ -549,12 +558,27 @@
   display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0;
 }
 .status-card.collapsed { padding: 6px 10px; gap: 0; cursor: pointer; align-self: flex-start; max-width: 100%; }
-.status-card.collapsed .card-main-row { gap: 10px; }
-.status-card.collapsed .card-emoji { font-size: 24px; }
-.status-card.collapsed .card-headline { font-size: 18px; }
+.status-card.collapsed .card-main-row { gap: 8px; align-items: center; }
+.status-card.collapsed .card-emoji { font-size: 22px; line-height: 1; }
+.status-card.collapsed .card-headline {
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.status-card.collapsed .card-chevron {
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+}
 .status-card.collapsed .card-subline,
 .status-card.collapsed .card-safe-again { display: none; }
-.status-card.collapsed .btn-speak-big { min-width: 44px; min-height: 44px; width: 44px; height: 44px; font-size: 20px; }
+.status-card.collapsed .btn-speak-big { display: none !important; }
+.status-card.collapsed .btn-card-fold { display: none !important; }
 
 /* Dark mode: selected report tile + text colours inside report tiles */
 :root[data-theme="dark"] .report-tile-btn.selected { background: #11284a; color: #93c5fd; border-color: #3b82f6; }
@@ -563,17 +587,82 @@
 :root[data-theme="dark"] .report-proof-tile .proof-opt { color: inherit; }
 :root[data-theme="dark"] .report-proof-tile, :root[data-theme="dark"] .report-photo-tile { color: #93c5fd; border-color: rgba(147,197,253,.45); }
 
-/* Collapsed card docks to the LEFT edge as a small tab (icon + one word + ▾); map stays clear. */
-#status-cards-root:has(.status-card.collapsed) { left: 0; right: auto; align-items: flex-start; }
-.status-card.collapsed {
-  align-self: flex-start; width: auto; max-width: 70vw;
-  border-radius: 0 999px 999px 0 !important;
-  padding: 6px 8px 6px 14px !important;
+/* Collapsed card docks to the LEFT edge as an obviously expandable pill below top bar. */
+#status-cards-root:has(.status-card.collapsed) {
+  left: 0;
+  right: auto;
+  align-items: flex-start;
+  top: calc(var(--topbar-h, 70px) + 8px);
 }
-.status-card.collapsed .card-main-row { gap: 8px; }
-.status-card.collapsed .card-emoji { font-size: 22px; }
-.status-card.collapsed .card-headline { font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.status-card.collapsed .btn-speak-big { display: none !important; } /* one tap = expand; 🔊 lives in the open card */
-.status-card.collapsed .btn-card-fold { min-width: 36px !important; min-height: 36px !important; width: 36px !important; height: 36px !important; }
-#status-cards-root:has(.status-card.collapsed) .card-mini-chip { border-radius: 0 999px 999px 0 !important; padding-left: 14px !important; }
-@media (min-width: 760px) { #status-cards-root:has(.status-card.collapsed) { left: 0; } }
+@media (min-width: 760px) {
+  #status-cards-root:has(.status-card.collapsed) {
+    top: 56px;
+    left: 0;
+  }
+}
+
+.status-card.collapsed {
+  align-self: flex-start;
+  width: auto;
+  max-width: min(85vw, 360px);
+  border-radius: 0 999px 999px 0 !important;
+  padding: 8px 16px 8px 14px !important;
+  border: 1.5px solid var(--line, rgba(17, 20, 24, 0.2)) !important;
+  border-left: 5px solid #1f9d55 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18), 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.status-card.collapsed:hover,
+.status-card.collapsed:focus-visible {
+  transform: translateX(3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.24) !important;
+  outline: none;
+}
+
+.status-card.collapsed.sev-green {
+  border-color: var(--ok-line, rgba(21, 128, 61, 0.35)) !important;
+  border-left-color: var(--ok, #15803d) !important;
+}
+.status-card.collapsed.sev-yellow {
+  border-color: var(--warn-line, rgba(180, 83, 9, 0.35)) !important;
+  border-left-color: var(--warn, #b45309) !important;
+}
+.status-card.collapsed.sev-orange {
+  border-color: var(--hot-line, rgba(194, 65, 12, 0.35)) !important;
+  border-left-color: var(--hot, #c2410c) !important;
+}
+.status-card.collapsed.sev-red {
+  border-color: var(--bad-line, rgba(200, 30, 30, 0.45)) !important;
+  border-left-color: var(--bad, #c81e1e) !important;
+}
+
+/* Dark mode border/shadow for collapsed card */
+:root[data-theme="dark"] .status-card.collapsed {
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.12) !important;
+}
+:root[data-theme="dark"] .status-card.collapsed.sev-green {
+  border-color: var(--ok-line, rgba(34, 197, 94, 0.45)) !important;
+  border-left-color: var(--ok, #22c55e) !important;
+}
+:root[data-theme="dark"] .status-card.collapsed.sev-yellow {
+  border-color: var(--warn-line, rgba(245, 158, 11, 0.45)) !important;
+  border-left-color: var(--warn, #f59e0b) !important;
+}
+:root[data-theme="dark"] .status-card.collapsed.sev-orange {
+  border-color: var(--hot-line, rgba(251, 146, 60, 0.45)) !important;
+  border-left-color: var(--hot, #fb923c) !important;
+}
+:root[data-theme="dark"] .status-card.collapsed.sev-red {
+  border-color: var(--bad-line, rgba(239, 68, 68, 0.55)) !important;
+  border-left-color: var(--bad, #ef4444) !important;
+}
+
+#status-cards-root:has(.status-card.collapsed) .card-mini-chip {
+  border-radius: 0 999px 999px 0 !important;
+  padding-left: 14px !important;
+  border: 1.5px solid var(--line, rgba(17, 20, 24, 0.15)) !important;
+  border-left: none !important;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12) !important;
+}

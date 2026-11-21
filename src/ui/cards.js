@@ -198,9 +198,11 @@ function render() {
   const moreContent = document.createElement('div');
   moreContent.className = 'card-more-content';
 
+  let headlineText = '';
   if (activeLevel === 'unknown') {
     emojiEl.textContent = '—';
-    headlineEl.textContent = t('card.weatherUnavailable');
+    headlineText = t('card.weatherUnavailable');
+    headlineEl.textContent = headlineText;
     textGroup.appendChild(headlineEl);
     speakBtn.onclick = () => speak('card.weatherUnavailable');
   } else if (activeHazard === 'flood') {
@@ -213,7 +215,8 @@ function render() {
     } else if (floodStatus.level === 'yellow' || floodStatus.level === 'orange') {
       floodWord = t('card.flood.careful');
     }
-    headlineEl.textContent = floodWord;
+    headlineText = floodWord;
+    headlineEl.textContent = headlineText;
     textGroup.appendChild(headlineEl);
 
     speakBtn.onclick = () => {
@@ -254,7 +257,8 @@ function render() {
     // ── Heat Card ───────────────────────────────────────────
     emojiEl.textContent = HEAT_EMOJIS[heatStatus.level] || '🥵';
 
-    headlineEl.textContent = t('heat.level.' + heatStatus.level);
+    headlineText = t('heat.level.' + heatStatus.level);
+    headlineEl.textContent = headlineText;
     textGroup.appendChild(headlineEl);
 
     // Work / rest sentence
@@ -354,9 +358,20 @@ function render() {
   activeCard.appendChild(mainRow);
 
   if (collapsed) {
+    headlineEl.innerHTML = `<span class="card-chevron" aria-hidden="true">▾</span> <span class="card-headline-text">${esc(headlineText)}</span>`;
     activeCard.classList.add('collapsed');
+    activeCard.setAttribute('role', 'button');
+    activeCard.setAttribute('tabindex', '0');
+    activeCard.setAttribute('aria-label', `${t('card.expand')}: ${headlineText}`);
     activeCard.onclick = () => setCollapsed(false); // tap anywhere on the slim card to open
+    activeCard.onkeydown = (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setCollapsed(false);
+      }
+    };
   } else {
+    headlineEl.textContent = headlineText;
     if (activeLevel !== 'unknown') {
       detailsEl.appendChild(moreContent);
       activeCard.appendChild(detailsEl);

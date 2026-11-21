@@ -263,6 +263,7 @@ a.btn.call { display: block; text-align: left; margin: 2px 0; }
   --bad: #c81e1e; --bad-bg: #fef2f2; --bad-ink: #7f1d1d; --bad-line: rgba(200,30,30,.30);
   --primary: #111418; --primary-ink: #ffffff; --heat-primary: #0e7490;
   --bar-h: 176px;
+  --topbar-h: 70px;
   font-family: Inter, system-ui, -apple-system, 'Segoe UI', 'Noto Sans', 'Noto Sans Devanagari', 'Noto Sans Kannada', 'Noto Sans Telugu', 'Kohinoor Devanagari', 'Kannada Sangam MN', 'Telugu Sangam MN', sans-serif;
   color-scheme: light;
 }
