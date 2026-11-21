@@ -18,7 +18,7 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 | Routing (OSRM) | Docker container `osrm-pune` on **localhost:5000** (Colima on the M1 Mac; `colima start` after reboot). Data in `~/osrm`, rebuild with `npm run osrm`. Covers 73.30–74.50 E, 18.10–19.00 N. |
 | Map tiles | `public/tiles/pune-region-20261120.pmtiles` (committed). Mumbai / Bengaluru / Hyderabad `.pmtiles` are local only (gitignored, >25 MiB Cloudflare Pages limit → need R2 for public deploy). |
 | Backend | Supabase project **`sajag`** (ref `icknjgvstmvglggqauev`, region Mumbai ap-south-1, org "Devangs Org"). Keys + DB password in **`.env.local`** (gitignored, never commit). |
-| agy worktrees (Orca) | `sajag-heat` → `~/orca/workspaces/sajag/sajag-heat` (branch `team/sajag-heat`, **merged**). `sajag-cards` → `~/orca/workspaces/sajag/sajag-cards` (branch `team/sajag-cards`, **merged** 14:54). Both merged. **`sajag-ux`** → `~/orca/workspaces/sajag/sajag-ux` (branch `team/sajag-ux`) — agy's UX pass **in progress** (brief: scratchpad `agy-brief-ux.md`). |
+| agy worktrees (Orca) | `sajag-heat` → `~/orca/workspaces/sajag/sajag-heat` (branch `team/sajag-heat`, **merged**). `sajag-cards` → `~/orca/workspaces/sajag/sajag-cards` (branch `team/sajag-cards`, **merged** 14:54). Both merged. **`sajag-ux`** → `~/orca/workspaces/sajag/sajag-ux` (branch `team/sajag-ux`) — agy's UX pass **in progress** (brief: scratchpad `agy-brief-ux.md`). **`sajag-city`** → `~/orca/workspaces/sajag/sajag-city` (branch `team/sajag-city`) — **Codex, GPT-6 Luna, effort high**: city auto-switch offer (brief: scratchpad `codex-brief-city.md`). Owns `src/ui/citySwitch.js`, `config.js` CITY resolution, `src/store.js` per-city seed data, `src/data/<city>-*.json`, grids in non-Pune packs. Don't edit those until merged. |
 | Research inputs | `docs/PRD.md`; teammate's *Sajag Research Report* (`~/Downloads/Sajag Research Report.html`); official PS PDF in the parent folder. |
 
 ## 2. Done (verified)
@@ -97,6 +97,7 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 | 4 | — | Status cards, weather grid, radar, advisory | ✅ done (agy) + integrated |
 | 5 | 18:00 | Paste-in police post → gazetteer → pins | agy |
 | 6 | — | Scenario player | ✅ done |
+| City | 16:15 | Offer to switch the whole app to the city the GPS fix is in (once; skip for ?scenario= / ?city=); per-city seed data; grids + gazetteers for Mumbai / Bengaluru / Hyderabad. Then wire `switchCity()` into More as a City picker. | Codex (GPT-6 Luna, high) → Claude merges |
 | UX | 16:30 | Simplify UI/UX — orchestrator part ✅; **agy part in progress**: one-answer status cards (big icon + sentence + 🔊, details collapsed), quiet map (soft cells, no labels, cooling only on 💧, hotspots at zoom ≥ 12 or during route check), picture-first report form. Then merge + translate agy's en.js keys. | agy → Claude merges |
 | 7 | 20:00 | PWA manifest + service worker + shortcuts, WhatsApp share, CSV for PMC, deploy (Pages + R2) | both |
 | 8 | 21:00 | Rehearse ×3, slides, code freeze | team |
