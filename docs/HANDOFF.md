@@ -1,4 +1,4 @@
-# Sajag — Handoff (21 Nov 2026, updated 14:55 IST)
+# Sajag — Handoff (21 Nov 2026, updated 15:00 IST)
 
 Hackathon: Naya Bharat 2047 · Code for Bharat (Rotary × Rotaract Youth Festival, Pune). **Code freeze 21:00, submission before 22:00 IST.**
 Problem statements: **7.3** "Which road is flooded right now?" (primary) + **7.2** "Too hot to work, too poor to stop".
@@ -12,13 +12,13 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 
 | What | Where |
 |---|---|
-| Repo (local) | `~/NayaBharat Hackathon/sajag` — branch **`team/sajag`** (22 commits, **nothing pushed yet**) |
+| Repo (local) | `~/NayaBharat Hackathon/sajag` — branch **`team/sajag`** (24 commits, **nothing pushed yet**) |
 | Remote | github.com/shaikhaaquib042-wq/Youth-Festival-Hackathon-26-27 — **we only have READ access**; waiting for organisers to add the team account as collaborator. Never push `main`. Devang handles git (one email per team). |
 | Dev server | `npm run dev` → http://localhost:5173 (`?city=pune|mumbai|bengaluru|hyderabad`, `?hazard=flood|heat`) |
 | Routing (OSRM) | Docker container `osrm-pune` on **localhost:5000** (Colima on the M1 Mac; `colima start` after reboot). Data in `~/osrm`, rebuild with `npm run osrm`. Covers 73.30–74.50 E, 18.10–19.00 N. |
 | Map tiles | `public/tiles/pune-region-20261120.pmtiles` (committed). Mumbai / Bengaluru / Hyderabad `.pmtiles` are local only (gitignored, >25 MiB Cloudflare Pages limit → need R2 for public deploy). |
 | Backend | Supabase project **`sajag`** (ref `icknjgvstmvglggqauev`, region Mumbai ap-south-1, org "Devangs Org"). Keys + DB password in **`.env.local`** (gitignored, never commit). |
-| agy worktrees (Orca) | `sajag-heat` → `~/orca/workspaces/sajag/sajag-heat` (branch `team/sajag-heat`, **merged**). `sajag-cards` → `~/orca/workspaces/sajag/sajag-cards` (branch `team/sajag-cards`, **merged** 14:54). Both agy branches are merged; agy is idle. |
+| agy worktrees (Orca) | `sajag-heat` → `~/orca/workspaces/sajag/sajag-heat` (branch `team/sajag-heat`, **merged**). `sajag-cards` → `~/orca/workspaces/sajag/sajag-cards` (branch `team/sajag-cards`, **merged** 14:54). Both merged. **`sajag-ux`** → `~/orca/workspaces/sajag/sajag-ux` (branch `team/sajag-ux`) — agy's UX pass **in progress** (brief: scratchpad `agy-brief-ux.md`). |
 | Research inputs | `docs/PRD.md`; teammate's *Sajag Research Report* (`~/Downloads/Sajag Research Report.html`); official PS PDF in the parent folder. |
 
 ## 2. Done (verified)
@@ -63,6 +63,8 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 
 **Step 6 — Scenario player (done 14:50)** — tap the LIVE chip (or `?scenario=pune-2019-09-25` / `?scenario=pune-heat-afternoon`). `src/scenario/player.js` + two JSON scripts; Play/Pause/Reset/speed (30–300×)/scrubber/Back to LIVE; SIMULATED pins, alerts, rain/heat cells; real reports keep their real age during a replay; all times shown in replay time. `src/engine/gazetteer.js` (place matcher EN/MR/HI, reused for step 5). **Verified:** flood 19:30 → AVOID (Ambil Odha knee-deep, green alternate), 21:25 → Caution; heat 12:00 Take care 45/15 → 12:35 30/30 → 13:30 Danger 15/45 + SOP → 16:10 Safe; safe-again 16:00.
 
+**UX pass — orchestrator part (done 14:59)** — per Devang (14:52): "as simple as possible". Top: two picture tabs (🌧 Rain | ☀️ Heat) + ⋯ More. Bottom: 3 big buttons per side (Rain: Is my route safe? · Report · 🆘 Help | Heat: Start work · 💧 Water/shade near me · 🆘 Help). First-run setup (`src/ui/onboarding.js`): language in own scripts → "Who are you?" pictures (`src/ui/profile.js` sets mode + work type) → location; **recommends the local language when location permission is already granted** (city pack containing the fix, or nearest within 150 km; never prompts on screen 1). `?setup=1` re-runs it; skipped for `?scenario=` links. More menu (`src/ui/more.js`): language, who-you-are, helplines, radar / add cooling point, sign in/out, setup again, demo replay. Help sheet (`src/ui/help.js`): tap-to-call, ambulance first. 18 px base font, ≥ 48 px targets. Events: `sajag:mode`, `sajag:profile`, `sajag:show-cooling`, `sajag:route`. **Verified:** setup flow in Marathi + new main screen.
+
 **Heat engine (by agy, merged)** — `src/heat/`: `wbgt.js` (WBGT shade/sun estimate), `workrest.js` (ACGIH-style table), `safeAgain.js` ("safe to work again at HH:MM"), `illness.js` (red flags / warning signs + triage), `scripts/heat-selftest.mjs` → **ALL HEAT TESTS PASSED**.
 
 ## 3. Not done / known gaps
@@ -95,7 +97,7 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 | 4 | — | Status cards, weather grid, radar, advisory | ✅ done (agy) + integrated |
 | 5 | 18:00 | Paste-in police post → gazetteer → pins | agy |
 | 6 | — | Scenario player | ✅ done |
-| UX | 16:30 | **Simplify UI/UX** (Devang, 14:52: "as simple as possible — many people aren't used to complex apps") — plan proposed, awaiting go-ahead | Claude (+ agy) |
+| UX | 16:30 | Simplify UI/UX — orchestrator part ✅; **agy part in progress**: one-answer status cards (big icon + sentence + 🔊, details collapsed), quiet map (soft cells, no labels, cooling only on 💧, hotspots at zoom ≥ 12 or during route check), picture-first report form. Then merge + translate agy's en.js keys. | agy → Claude merges |
 | 7 | 20:00 | PWA manifest + service worker + shortcuts, WhatsApp share, CSV for PMC, deploy (Pages + R2) | both |
 | 8 | 21:00 | Rehearse ×3, slides, code freeze | team |
 
