@@ -105,6 +105,7 @@ function updateCoolingVisibility() {
 export function addPinLayers(map, actions = {}) {
   mapRef = map;
   let index = new Map();
+  let openPopup = null, popupPinId = null;
 
   const setup = () => {
     const d = build();
@@ -245,21 +246,33 @@ export function addPinLayers(map, actions = {}) {
       map.getSource('sj-hotspots')?.setData(n.hot);
       map.getSource('sj-reports')?.setData(n.rep);
       map.getSource('sj-cooling')?.setData(n.cool);
+      const p = index.get(popupPinId);
+      if (!p || p.status === 'cleared') openPopup?.remove();
     };
     refreshMapPins = refresh;
     subscribe(refresh);
-    onLang(refresh);
+    onLang(() => {
+      const p = index.get(popupPinId);
+      if (p) openPopup?.setDOMContent(popup(p, actions));
+    });
 
-    for (const id of ['sj-reports', 'sj-hotspots', 'sj-cooling']) {
-      map.on('click', id, (e) => {
-        const p = index.get(e.features[0].properties.id);
-        if (p) {
-          new maplibregl.Popup({ maxWidth: '320px' })
-            .setLngLat([p.lng, p.lat])
-            .setDOMContent(popup(p, actions))
-            .addTo(map);
-        }
+    const pinLayers = ['sj-reports', 'sj-hotspots', 'sj-cooling'];
+    map.on('click', pinLayers, (e) => {
+      const f = e.features.find((feature) => feature.layer.id === 'sj-reports') ?? e.features[0];
+      const p = index.get(f.properties.id);
+      if (!p) return;
+      openPopup?.remove();
+      const next = new maplibregl.Popup({ maxWidth: '320px' })
+        .setLngLat([p.lng, p.lat])
+        .setDOMContent(popup(p, actions))
+        .addTo(map);
+      openPopup = next;
+      popupPinId = p.id;
+      next.on('close', () => {
+        if (openPopup === next) { openPopup = null; popupPinId = null; }
       });
+    });
+    for (const id of pinLayers) {
       map.on('mouseenter', id, () => {
         map.getCanvas().style.cursor = 'pointer';
       });
@@ -290,6 +303,7 @@ export function addPinLayers(map, actions = {}) {
   // Listen to cooling visibility toggle (Water / shade near me)
   window.addEventListener('sajag:show-cooling', (e) => {
     coolingVisible = Boolean(e.detail?.on);
+    if (!coolingVisible && index.get(popupPinId)?.type === 'cooling') openPopup?.remove();
     updateCoolingVisibility();
     if (coolingVisible) {
       const fix = getFix();
@@ -301,6 +315,8 @@ export function addPinLayers(map, actions = {}) {
 
   // Listen to hazard change event
   window.addEventListener('sajag:hazard', (e) => {
+    const p = index.get(popupPinId);
+    if (p && (p.type === 'cooling' ? 'heat' : 'flood') !== e.detail?.hazard) openPopup?.remove();
     if (e.detail?.hazard && e.detail.hazard !== currentHazard) {
       showHazard(map, e.detail.hazard);
     }
