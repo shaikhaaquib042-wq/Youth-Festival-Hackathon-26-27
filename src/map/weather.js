@@ -253,31 +253,34 @@ export function initWeatherLayers(map, pack = cityPack()) {
 
     // Start RainViewer radar feed and wire raster layer
     startRadarFeed((tileUrl) => {
-      if (!tileUrl || !map.isStyleLoaded()) return;
-      const bId = map.getLayer('sj-hotspots') ? 'sj-hotspots' : undefined;
-      if (!map.getSource('sj-radar')) {
-        map.addSource('sj-radar', {
-          type: 'raster',
-          tiles: [tileUrl],
-          tileSize: 256,
-          maxzoom: RAINVIEWER_MAXZOOM,
-          attribution: RAINVIEWER_ATTRIBUTION,
-        });
-        map.addLayer(
-          {
-            id: 'sj-radar',
-            type: 'raster',
-            source: 'sj-radar',
-            layout: {
-              visibility: radarEnabled && currentHazard === 'flood' ? 'visible' : 'none',
-            },
-            paint: {
-              'raster-opacity': 0.65,
-            },
-          },
-          bId,
-        );
+      if (!tileUrl) return;
+      const source = map.getSource('sj-radar');
+      if (source) {
+        if (map.getStyle().sources['sj-radar'].tiles[0] !== tileUrl) source.setTiles([tileUrl]);
+        return;
       }
+      const bId = map.getLayer('sj-hotspots') ? 'sj-hotspots' : undefined;
+      map.addSource('sj-radar', {
+        type: 'raster',
+        tiles: [tileUrl],
+        tileSize: 256,
+        maxzoom: RAINVIEWER_MAXZOOM,
+        attribution: RAINVIEWER_ATTRIBUTION,
+      });
+      map.addLayer(
+        {
+          id: 'sj-radar',
+          type: 'raster',
+          source: 'sj-radar',
+          layout: {
+            visibility: radarEnabled && currentHazard === 'flood' ? 'visible' : 'none',
+          },
+          paint: {
+            'raster-opacity': 0.65,
+          },
+        },
+        bId,
+      );
     });
 
     // Initial visibility apply
