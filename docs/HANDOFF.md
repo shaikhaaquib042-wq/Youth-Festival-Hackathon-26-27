@@ -1,4 +1,4 @@
-# Sajag — Handoff (21 Nov 2026, updated 20:20 IST — ACCOUNT SWITCH: read §0 first)
+# Sajag — Handoff (21 Nov 2026, updated 20:40 IST — read §0 first)
 
 Hackathon: Naya Bharat 2047 · Code for Bharat (Rotary × Rotaract Youth Festival, Pune). **Code freeze 21:00, submission before 22:00 IST.**
 Problem statements: **7.3** "Which road is flooded right now?" (primary) + **7.2** "Too hot to work, too poor to stop".
@@ -8,7 +8,11 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 
 ---
 
-## 0. START HERE — state at 20:20 IST (written for the next Claude account)
+## 0. START HERE — state at 20:40 IST
+
+**20:40 update:** live = HEAD `051fe73` (deployed 20:39). Since 20:20: `?city=` links skip first-run setup; `mobile-web-app-capable` meta (no Chrome deprecation warning); collapsed status card sits BELOW the top bar on mobile as a clear "▾ <status>" pill (agy fix, verified at 390 px). **Demo video RENDERED**: `~/NayaBharat Hackathon/sajag-video/out/sajag-demo.mp4` (44.8 s, 1080p, stereo VO; route + heat scenes recorded inside the 2019-flood / heat-afternoon replays; end-card QR = `?scenario=pune-2019-09-25`). Click-test worker finished (all 7 areas PASS, 0 console errors) and its worktree + branch are removed — no workers running. `vercel deploy --prod` is allow-listed in `~/NayaBharat Hackathon/.claude/settings.local.json` (Devang, 20:30). Known nit: flood replay banner can show a live Mumbai SACHET line. Remaining: items 2–4 and 6 below.
+
+### State at 20:20 IST (written for the next Claude account)
 
 **Code freeze 21:00, submission before 22:00.** Live: **https://sajag-app.vercel.app** (deployed 20:15 = HEAD `6bf40a8`, everything below is live). Branch `team/sajag` → pushed as **`origin/tokenizers`** (`git push` works; `push.default=upstream`). Repo is in sync, working tree clean.
 
