@@ -5,13 +5,14 @@ import dynamic from 'next/dynamic';
 import { useAppStore } from '@/store/useAppStore';
 import { Navbar } from '@/components/layout/Navbar';
 import { RequestSidePanel } from '@/components/map/RequestSidePanel';
+import { CreateRequestModal } from '@/components/requests/CreateRequestModal';
+import { DonorPhoneMock } from '@/components/donors/DonorPhoneMock';
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 import seedJson from '@/data/seed.json';
 import { AppDataStore, BloodRequest } from '@/types';
 
 const seedData = seedJson as unknown as AppDataStore;
 
-// Dynamic import of MapLibreDeckMap with ssr: false as required by SPEC §2
 const MapLibreDeckMap = dynamic(
   () => import('@/components/map/MapLibreDeckMap').then((mod) => mod.MapLibreDeckMap),
   {
@@ -26,8 +27,9 @@ const MapLibreDeckMap = dynamic(
 );
 
 export default function HomePage() {
-  const { data, ui, initialize, setActiveView, createRequest, setActiveRequestId } = useAppStore();
-  const [, setIsDemoRunning] = useState(false);
+  const { data, ui, initialize, setActiveView, createRequest, setActiveRequestId, escalateRequest } =
+    useAppStore();
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   // Initialize store with seed data if empty
   useEffect(() => {
@@ -48,7 +50,6 @@ export default function HomePage() {
       };
       initialize(initialStore);
 
-      // Seed an initial demo request at Ruby Hall Clinic if none exists
       if (initialStore.requests.length === 0) {
         const rubyHall = seedData.hospitals.find((h) => h.name.includes('Ruby Hall')) || seedData.hospitals[0];
         const defaultReq: BloodRequest = {
@@ -73,16 +74,18 @@ export default function HomePage() {
           },
           verificationCode: 'RHC-7824',
         };
-        createRequest(defaultReq);
-        setActiveRequestId(defaultReq.id);
+        createRequest(defaultReq).then(() => {
+          setActiveRequestId(defaultReq.id);
+          // Auto-trigger Tier 1 notifications for default request
+          escalateRequest(defaultReq.id);
+        });
       }
     }
-  }, [data.donors, initialize, createRequest, setActiveRequestId]);
+  }, [data.donors, initialize, createRequest, setActiveRequestId, escalateRequest]);
 
   const activeRequest = data.requests.find((r) => r.id === ui.activeRequestId) || data.requests[0] || null;
 
   const handleRunDemo = () => {
-    setIsDemoRunning(true);
     setActiveView('impact');
   };
 
@@ -92,40 +95,64 @@ export default function HomePage() {
         ui.isPresenterMode ? 'text-base font-normal contrast-125' : 'text-sm'
       }`}
     >
-      {/* Top Navbar */}
       <Navbar onRunDemo={handleRunDemo} />
 
-      {/* Main Command Center Layout */}
-      <main className="flex-1 p-3 md:p-4 max-w-[1920px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 overflow-hidden">
-        {/* Left Side: 3D Map (8 Cols) */}
-        <section className="lg:col-span-8 flex flex-col h-[65vh] lg:h-[calc(100vh-6.5rem)] min-h-[500px]">
-          <ErrorBoundary
-            fallbackTitle="3D Map Engine Offline"
-            fallbackMessage="Switching safely to 2D tactical vector mode."
-          >
-            <MapLibreDeckMap
-              donors={data.donors}
-              hospitals={data.hospitals}
-              activeRequest={activeRequest}
-              selectedBloodGroup={ui.selectedBloodGroup}
-            />
-          </ErrorBoundary>
-        </section>
+      {/* Main View Router */}
+      <main className="flex-1 p-3 md:p-4 max-w-[1920px] w-full mx-auto">
+        {ui.activeView === 'map' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 h-[calc(100vh-6.5rem)]">
+            <section className="lg:col-span-8 flex flex-col h-full min-h-[500px]">
+              <ErrorBoundary
+                fallbackTitle="3D Map Engine Offline"
+                fallbackMessage="Switching safely to 2D tactical vector mode."
+              >
+                <MapLibreDeckMap
+                  donors={data.donors}
+                  hospitals={data.hospitals}
+                  activeRequest={activeRequest}
+                  selectedBloodGroup={ui.selectedBloodGroup}
+                />
+              </ErrorBoundary>
+            </section>
 
-        {/* Right Side: Emergency Operations Side Panel (4 Cols) */}
-        <aside className="lg:col-span-4 flex flex-col h-auto lg:h-[calc(100vh-6.5rem)] min-h-[480px]">
-          <ErrorBoundary
-            fallbackTitle="Side Panel Error"
-            fallbackMessage="Recovering live telemetry feed."
-          >
-            <RequestSidePanel
-              onOpenCreateRequest={() => setActiveView('request')}
-              onOpenPhoneMock={() => setActiveView('donor')}
-              onRunDemo={handleRunDemo}
+            <aside className="lg:col-span-4 flex flex-col h-full min-h-[480px]">
+              <ErrorBoundary
+                fallbackTitle="Side Panel Error"
+                fallbackMessage="Recovering live telemetry feed."
+              >
+                <RequestSidePanel
+                  onOpenCreateRequest={() => setIsCreateModalOpen(true)}
+                  onOpenPhoneMock={() => setActiveView('donor')}
+                  onRunDemo={handleRunDemo}
+                />
+              </ErrorBoundary>
+            </aside>
+          </div>
+        )}
+
+        {ui.activeView === 'donor' && (
+          <div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)]">
+            <DonorPhoneMock onClose={() => setActiveView('map')} />
+          </div>
+        )}
+
+        {ui.activeView === 'request' && (
+          <div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)]">
+            <CreateRequestModal
+              isOpen={true}
+              onClose={() => setActiveView('map')}
             />
-          </ErrorBoundary>
-        </aside>
+          </div>
+        )}
       </main>
+
+      {/* Pop-up modal if triggered from side panel button while on Map view */}
+      {isCreateModalOpen && (
+        <CreateRequestModal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+        />
+      )}
     </div>
   );
 }

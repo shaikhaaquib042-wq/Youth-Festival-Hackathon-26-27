@@ -5,7 +5,7 @@
 - [x] **Phase 2**: Matching engine + tests (SPEC §6, pure parts of §7)
 - [x] **Phase 3**: State: Zustand slices, JSON repository + API routes, clock, event reducer, response simulation
 - [x] **Phase 4**: Live Map (deck.gl + MapLibre GL, 3D tilt, columns, arcs, pulse, fallbacks)
-- [ ] **Phase 5**: Request + donor flows (Create request 3-step, verify, phone mock, accept, decline, reveal)
+- [x] **Phase 5**: Request + donor flows (Create request 3-step, verify, phone mock, accept, decline, reveal)
 - [ ] **Phase 6**: Privacy (Masking, audit log, retention/purge, Privacy Center)
 - [ ] **Phase 7**: Analytics: Impact (500 vs 5), Blood Desert Heatmap, Lean-Month Forecast, Campus Network + Camp Scheduler
 - [ ] **Phase 8**: Demo Mode (Scripted 8-scene walkthrough, timeline scrubber, speed controls, reset)
@@ -17,7 +17,7 @@
 - [x] 300 donors, 8 hospitals, 60 historical requests; seed deterministic
 - [x] Compatibility, eligibility, scoring, escalation, rare-group and cap logic correct and tested
 - [x] Unverified requests cannot notify; verification works end to end
-- [ ] Accept, decline, reveal, audit work; contacts masked until authorized reveal
+- [x] Accept, decline, reveal, audit work; contacts masked until authorized reveal
 - [ ] Fulfilment, expiry, STALE label, archive, PII purge work
 - [ ] Heatmap, forecast and leaderboard computed from real state; camp scheduler persists
 - [ ] Impact numbers computed, with illustrative labels
