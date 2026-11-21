@@ -6,6 +6,7 @@ import { getPins, subscribe, now } from '../store.js';
 import { pinSeverity, minutesLeft } from '../engine/lifecycle.js';
 import { getFix } from '../location.js';
 import { depthIcon } from '../ui/depthIcons.js';
+import { TIERS } from '../engine/pin.js';
 import { CONFIG } from '../../config.js';
 import { t, onLang } from '../i18n/index.js';
 import { showWeatherHazard, WEATHER_LAYERS } from './weather.js';
@@ -58,6 +59,7 @@ function build() {
   const pins = getPins();
   const hot = [], rep = [], cool = [];
   for (const p of pins) {
+    if (!p.source?.name || !Number.isFinite(Date.parse(p.createdAt))) continue;
     if (p.type === 'hotspot') {
       hot.push(pt(p, { name: p.name, under: p.inUnderpass }));
     } else if (p.type === 'cooling') {
@@ -413,8 +415,11 @@ function popup(p, actions) {
       lines.push(`<small>${esc(t('pin.knownSpot'))}</small>`);
     }
   } else {
-    // Hotspot / Cooling source
-    lines.push(`<small>${esc(t('pin.source', { name: p.source.name }))}</small>`);
+    // Seed entries use the dataset timestamp. Live and simulated reports use their respective clock.
+    const age = p.tier === TIERS.SEED
+      ? new Intl.DateTimeFormat(document.documentElement.lang, { dateStyle: 'medium', timeZone: 'Asia/Kolkata' }).format(new Date(p.createdAt))
+      : t('pin.ageMin', { n: ageMin });
+    lines.push(`<small>${esc(t('pin.source', { name: p.source.name }))} · <time datetime="${esc(p.createdAt)}">${esc(age)}</time></small>`);
   }
 
   if (p.type === 'cooling') {
