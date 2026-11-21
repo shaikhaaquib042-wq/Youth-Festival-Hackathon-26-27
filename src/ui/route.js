@@ -58,7 +58,7 @@ function drawRoutes(r) {
     feats.push({ type: 'Feature', geometry: { type: 'LineString', coordinates: r.primary.route.coords },
       properties: { color: SEV_COLOR[r.level === 'green' ? 'green' : r.level] ?? SEV_COLOR.green, blocked } });
     if (blocked && r.chosen) feats.unshift({ type: 'Feature', geometry: { type: 'LineString', coordinates: r.chosen.route.coords },
-      properties: { color: SEV_COLOR.green, blocked: false } });
+      properties: { color: SEV_COLOR[r.chosen.score.level], blocked: false } });
   }
   source.setData({ type: 'FeatureCollection', features: feats });
 }
@@ -72,10 +72,19 @@ function reasonText(hit) {
     + (p.simulated ? ` · ${t('tag.simulated')}` : '') + ` · ${t('pin.source', { name: p.source.name })}`;
 }
 
+function alternateText(r) {
+  if (r.noSafe) return t('route.noSafe');
+  const km = (r.chosen.route.distanceM / 1000).toFixed(1);
+  const min = Math.round(r.chosen.route.durationS / 60);
+  const label = r.chosen.score.level === 'yellow' ? 'route.altCaution' : 'route.altShown';
+  return t(label, { km, min });
+}
+
 function shareText(r) {
-  const head = r.verdict === 'avoid' ? (r.noSafe ? t('route.noSafe') : t('verdict.avoid')) : t('verdict.' + r.verdict);
+  const head = t('verdict.' + r.verdict);
   const sim = hasSimulatedWeather() ? ` · ${t('tag.simulated')}` : '';
-  return `${t('app.name')}${sim} · ${fieldLabel(active.from.label)} → ${fieldLabel(active.to.label)}: ${head}. ${reasonText(r.decidingHit)}\n${t('disclaimer')}\n${location.origin}`;
+  const details = [reasonText(r.decidingHit), r.verdict === 'avoid' ? alternateText(r) : ''].filter(Boolean);
+  return `${t('app.name')}${sim} · ${fieldLabel(active.from.label)} → ${fieldLabel(active.to.label)}: ${[head, ...details].join('. ')}\n${t('disclaimer')}\n${location.origin}`;
 }
 
 function render() {
@@ -97,7 +106,7 @@ function render() {
       <div class="rv-head" style="color:${color}">${esc(head)}${hasSimulatedWeather() ? ` <span class="tag-sim">${esc(t('tag.simulated'))}</span>` : ''}</div>
       ${r.verdict === 'avoid' ? `<div>${esc(t('red.doNotEnter'))}</div>` : ''}
       ${r.decidingHit ? `<div class="rv-reason">${esc(reasonText(r.decidingHit))}</div>` : `<div class="rv-reason">${esc(t('route.clear'))}</div>`}
-      ${r.verdict === 'avoid' ? `<div class="rv-alt">${esc(r.noSafe ? t('route.noSafe') : t('route.altShown', { km: km(r.chosen), min: min(r.chosen) }))}</div>` : `<div class="muted">${km(r.primary)} km · ${min(r.primary)} min</div>`}
+      ${r.verdict === 'avoid' ? `<div class="rv-alt">${esc(alternateText(r))}</div>` : `<div class="muted">${km(r.primary)} km · ${min(r.primary)} min</div>`}
       <div class="rs-row"><button class="btn" data-act="share">🟢 ${esc(t('action.share'))}</button><button class="btn btn-ghost" data-act="save">☆ ${esc(t('route.save'))}</button></div>
     </div>`;
   }

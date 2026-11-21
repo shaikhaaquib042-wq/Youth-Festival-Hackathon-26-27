@@ -127,6 +127,7 @@ export default {
   'route.checking': 'Checking the route…',
   'route.reason': '{what} near {where} · {evidence}',
   'route.clear': 'No water reported on or near this route',
+  'route.altCaution': 'Alternate route still needs caution · {km} km · {min} min',
   'route.altShown': 'Safer route shown in green · {km} km · {min} min',
   'route.noSafe': 'No safe route found — do not travel now',
   'route.save': 'Save',
