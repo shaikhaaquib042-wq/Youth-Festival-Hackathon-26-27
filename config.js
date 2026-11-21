@@ -3,13 +3,16 @@
 import pune from './citypacks/pune.json';
 import mumbai from './citypacks/mumbai.json';
 import bengaluru from './citypacks/bengaluru.json';
+import hyderabad from './citypacks/hyderabad.json';
 
-export const CITY_PACKS = { pune, mumbai, bengaluru };
+export const CITY_PACKS = { pune, mumbai, bengaluru, hyderabad };
 
 const env = import.meta.env;
+const urlCity = new URLSearchParams(globalThis.location?.search ?? '').get('city');
 
 export const CONFIG = {
-  CITY: env.VITE_CITY ?? 'pune',
+  // ?city=mumbai in the URL overrides (City Pack demo); else VITE_CITY; else Pune.
+  CITY: CITY_PACKS[urlCity] ? urlCity : (env.VITE_CITY ?? 'pune'),
 
   // Routing (§10). Dev → laptop OSRM in Docker; deployed build → public OSRM.
   OSRM_URL: env.VITE_OSRM_URL ?? (env.DEV ? 'http://localhost:5000' : 'https://router.project-osrm.org'),

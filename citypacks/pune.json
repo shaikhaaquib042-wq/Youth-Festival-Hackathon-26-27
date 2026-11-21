@@ -2,29 +2,68 @@
   "id": "pune",
   "name": "Pune",
   "status": "live",
-  "center": [73.8567, 18.5204],
+  "center": [
+    73.8567,
+    18.5204
+  ],
   "regionZoom": 10,
   "cityZoom": 12,
-  "bounds": [73.60, 18.35, 74.10, 18.75],
-  "tiles": "pune-20261120.pmtiles",
-  "osrmExtract": "geofabrik asia/india/western-zone, clipped to bounds",
+  "bounds": [
+    73.3,
+    18.1,
+    74.5,
+    19.0
+  ],
+  "tiles": "pune-region-20261120.pmtiles",
+  "osrmExtract": "geofabrik asia/india/western-zone, clipped to bounds (incl. PCMC, Lonavala, Khadakwasla)",
   "sachet": {
     "feed": "https://sachet.ndma.gov.in/cap_public_website/rss/rss_maharashtra.xml",
-    "match": ["pune", "पुणे", "haveli", "हवेली", "khadakwasla", "खडकवासला"]
+    "match": [
+      "pune",
+      "पुणे",
+      "haveli",
+      "हवेली",
+      "khadakwasla",
+      "खडकवासला"
+    ]
   },
   "grid": {
-    "lats": [18.40, 18.52, 18.64],
-    "lngs": [73.70, 73.82, 73.94, 74.06],
+    "lats": [
+      18.4,
+      18.52,
+      18.64
+    ],
+    "lngs": [
+      73.7,
+      73.82,
+      73.94,
+      74.06
+    ],
     "cellDeg": 0.12
   },
   "gazetteerFile": "src/data/pune-gazetteer.json",
   "hotspotsFile": "src/data/pune-hotspots.json",
   "authorityAccounts": [
-    { "name": "Pune City Traffic Police", "platform": "x" },
-    { "name": "Pune City Police", "platform": "x" },
-    { "name": "PMC Care", "platform": "x" },
-    { "name": "Collector Pune", "platform": "x" },
-    { "name": "IMD Pune", "platform": "x" }
+    {
+      "name": "Pune City Traffic Police",
+      "platform": "x"
+    },
+    {
+      "name": "Pune City Police",
+      "platform": "x"
+    },
+    {
+      "name": "PMC Care",
+      "platform": "x"
+    },
+    {
+      "name": "Collector Pune",
+      "platform": "x"
+    },
+    {
+      "name": "IMD Pune",
+      "platform": "x"
+    }
   ],
   "facts": {
     "knownSpotsTrafficPolice2026": 26,

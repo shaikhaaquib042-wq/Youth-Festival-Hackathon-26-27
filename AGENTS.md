@@ -11,7 +11,7 @@ Same map, same Pin/report flow, same alert engine for both hazards.
 npm install
 npm run dev            # http://localhost:5173
 ```
-- Basemap tiles are committed: `public/tiles/pune-20261120.pmtiles` (no R2 needed for dev).
+- Basemap tiles: `public/tiles/pune-region-20261120.pmtiles` is committed (Pune + PCMC + Lonavala + Khadakwasla; no R2 needed for dev). Mumbai/Bengaluru/Hyderabad tiles are local-only (gitignored); open `?city=mumbai` etc. on the orchestrator laptop.
 - Routing: `config.js` → `OSRM_URL`. Dev default `http://localhost:5000` (orchestrator laptop). On the worker machine create `.env.local` with
   `VITE_OSRM_URL=https://router.project-osrm.org` unless the orchestrator's OSRM is reachable.
 - SACHET alerts go through `/api/sachet` (Vite proxy in dev, `functions/api/sachet.js` in prod). Never call sachet.ndma.gov.in from the browser directly (no CORS).

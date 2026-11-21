@@ -18,7 +18,9 @@ export function createMap(container, pack = cityPack()) {
     container,
     center: pack.center,
     zoom: pack.regionZoom, // Q2 default: open on the region
-    maxBounds: [[pack.bounds[0], pack.bounds[1]], [pack.bounds[2], pack.bounds[3]]], // = PMTiles extent; beyond it is blank
+    // = PMTiles extent (beyond it is blank). Packs cover the wider metro region, so there's room to pan at regionZoom.
+    maxBounds: [[pack.bounds[0], pack.bounds[1]], [pack.bounds[2], pack.bounds[3]]],
+    minZoom: 8,
     attributionControl: false,
     style: {
       version: 8,

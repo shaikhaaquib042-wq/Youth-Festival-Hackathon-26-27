@@ -1,0 +1,29 @@
+{
+  "id": "hyderabad",
+  "name": "Hyderabad",
+  "status": "stub",
+  "center": [
+    78.4867,
+    17.385
+  ],
+  "regionZoom": 10,
+  "cityZoom": 12,
+  "bounds": [
+    78.15,
+    17.15,
+    78.8,
+    17.7
+  ],
+  "tiles": "hyderabad-20261120.pmtiles",
+  "sachet": {
+    "feed": "https://sachet.ndma.gov.in/cap_public_website/rss/rss_telangana.xml",
+    "match": [
+      "hyderabad",
+      "హైదరాబాద్",
+      "secunderabad",
+      "rangareddy",
+      "medchal"
+    ]
+  },
+  "facts": {}
+}
