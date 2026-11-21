@@ -1,0 +1,110 @@
+{
+  "disputes": [
+    {
+      "id": "rental_deposit_withholding",
+      "title": "Residential Rental Deposit Withholding",
+      "questions": [
+        { "id": "deposit_amount", "label": "Total Security Deposit Amount (INR)", "type": "number" },
+        { "id": "vacate_date", "label": "Date Property Was Vacated", "type": "date" },
+        { "id": "agreement_registered", "label": "Is Leave & License Agreement Registered?", "type": "boolean" }
+      ],
+      "routing_target": "DLSA_Pune_Lok_Adalat",
+      "statutory_timeline": "30 days pre-litigation conciliation",
+      "document_checklist": [
+        "Registered Leave & License Agreement",
+        "Bank Transfer Proof of Security Deposit",
+        "Notice of Vacating / Key Handover Ack",
+        "WhatsApp / Written Communication Log"
+      ],
+      "template_variables": ["tenant_name", "owner_name", "property_address", "deposit_amount", "vacate_date"]
+    },
+    {
+      "id": "defective_product_warranty",
+      "title": "Defective Product / Warranty Refusal",
+      "questions": [
+        { "id": "product_name", "label": "Product Name & Model", "type": "string" },
+        { "id": "purchase_cost", "label": "Purchase Price (INR)", "type": "number" },
+        { "id": "defect_description", "label": "Description of Defect", "type": "text" }
+      ],
+      "routing_target": "National_Consumer_Helpline",
+      "statutory_timeline": "30 days response period",
+      "document_checklist": [
+        "Tax Invoice / Receipt",
+        "Warranty Card",
+        "Service Center Visit Reports",
+        "Photos / Videos of Defect"
+      ],
+      "template_variables": ["customer_name", "seller_name", "product_name", "purchase_cost", "invoice_number"]
+    },
+    {
+      "id": "unpaid_wages",
+      "title": "Unpaid Wages (Informal / Contractual)",
+      "questions": [
+        { "id": "unpaid_amount", "label": "Total Unpaid Amount (INR)", "type": "number" },
+        { "id": "work_period", "label": "Period of Employment Worked", "type": "string" },
+        { "id": "employer_name", "label": "Employer / Firm Name", "type": "string" }
+      ],
+      "routing_target": "Deputy_Labour_Commissioner_Pune",
+      "statutory_timeline": "45 days conciliation window",
+      "document_checklist": [
+        "Appointment Letter / ID Card / Work Order",
+        "Bank Statement Showing Missing Salary",
+        "Attendance Log / Shift Records",
+        "Written Demand Notice Sent to Employer"
+      ],
+      "template_variables": ["worker_name", "employer_name", "unpaid_amount", "work_period"]
+    },
+    {
+      "id": "neighbor_property_damage",
+      "title": "Neighbor Construction / Drainage Property Damage",
+      "questions": [
+        { "id": "damage_type", "label": "Type of Damage (Seepage / Structural / Drainage)", "type": "string" },
+        { "id": "ward_location", "label": "PMC Ward Location", "type": "string" }
+      ],
+      "routing_target": "PMC_Ward_Office_PGRS",
+      "statutory_timeline": "7-15 days ward inspection",
+      "document_checklist": [
+        "Geo-tagged Photographs of Damage",
+        "Property Ownership / Tenancy Proof",
+        "Prior Written Requests to Neighbor"
+      ],
+      "template_variables": ["complainant_name", "neighbor_name", "address", "damage_type"]
+    }
+  ],
+  "pune_directory": {
+    "consumer_commission": {
+      "name": "District Consumer Disputes Redressal Commission (DCDRC) Pune",
+      "address": "New Administrative Building, A Wing, 4th Floor, Sadhu Vaswani Chowk, Agarkar Nagar, Pune - 411001",
+      "phone": "020-26139191",
+      "email": "confo-pu-mh@nic.in"
+    },
+    "dlsa_pune": {
+      "name": "District Legal Services Authority (DLSA) Pune",
+      "address": "New Building, District & Sessions Court Premises, Shivajinagar, Pune - 411005",
+      "phone": "8591903612 / 020-25534799",
+      "email": "pune-dlsa.mh@bhc.gov.in"
+    },
+    "labour_commissioner": {
+      "name": "Additional & Deputy Commissioner of Labour, Pune District",
+      "address": "Bungalow No. 5, Mumbai-Pune Road, Shivajinagar, Pune - 411005",
+      "phone": "020-25541613 / 020-25541619"
+    },
+    "pmc_ward_offices": [
+      { "name": "Nagar Road - Wagholi Ward Office", "address": "New Building, Nagar Road, Pune - 411014" },
+      { "name": "Yerawada - Vadgaonsheri Ward Office", "address": "Near Sargam Hotel, Gunjan Theatre Chowk, Yerawada, Pune - 411006" },
+      { "name": "Dhole Patil Road Ward Office", "address": "Rajarshi Shahu Maharaj Road, Near Madhuban Hotel, Pune - 411001" },
+      { "name": "Aundh - Baner Ward Office", "address": "Bremen Chowk, Near Body Gate Police Chowki, Opp. Atithi Hotel, Aundh, Pune" },
+      { "name": "Shivajinagar - Ghole Road Ward Office", "address": "Ghole Road, Near Merior Bungalow, Shivajinagar, Pune" },
+      { "name": "Kothrud - Bavdhan Ward Office", "address": "Golden Hind Building, Near Paranjape School, DP Road, Kothrud, Pune" },
+      { "name": "Warje - Karvenagar Ward Office", "address": "Near Swapnshilpa Building, Opp. Tara Residency, Warje, Pune" },
+      { "name": "Sinhagad Road Ward Office", "address": "Goyal Ganga Chowk, Sinhagad Road, Hingne, Pune" },
+      { "name": "Dhankawadi - Sahakarnagar Ward Office", "address": "Madhavrao Kadam Bhavan, Opp. Katraj Snake Park, Dhankawadi, Pune" },
+      { "name": "Kondhwa - Yewalewadi Ward Office", "address": "Sawant Corner, Behind JSPM Building, Katraj Chowk, Pune" },
+      { "name": "Hadapsar - Mundhwa Ward Office", "address": "Near Mantri Market, Hadapsar, Pune" },
+      { "name": "Wanawadi - Ramtekdi Ward Office", "address": "Inside Vishal Megamart Building, Fatimanagar, Pune" },
+      { "name": "Bhavani Peth Ward Office", "address": "Opp. Ladkat Petrol Pump, Near Arun Vaidya Stadium, Bhavani Peth, Pune" },
+      { "name": "Kasba - Vishrambaugwada Ward Office", "address": "Sadashiv Peth, Near Sujata Mastani, Pune" },
+      { "name": "Bibwewadi Ward Office", "address": "Satara Road, Near Utsav Hotel, Bibwewadi, Pune" }
+    ]
+  }
+}

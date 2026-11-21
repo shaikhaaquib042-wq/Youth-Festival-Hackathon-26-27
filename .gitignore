@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.wrangler/
+.env
+.env.*
+!.env.example
+.dev.vars
+qa/agy/tmp/
+qa/agy/*.json
+coverage/
+playwright-report/
+test-results/
+*.log

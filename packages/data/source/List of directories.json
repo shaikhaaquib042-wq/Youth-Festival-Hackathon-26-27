@@ -1,0 +1,1409 @@
+{
+  "metadata": {
+    "filename": "india_grievance_platforms.json",
+    "schema_version": "1.0.0",
+    "last_verified": "2026-11-21",
+    "primary_focus": "India (All Tiers) with Pune / Maharashtra hyperlocal anchor",
+    "disclaimer": "This dataset provides structured civic and procedural guidance based on public government rules; it does not constitute legal advice. Verify live portal fee schedules, file limits, and URLs before submission.",
+    "automation_summary": {
+      "public_citizen_write_apis_available": false,
+      "open_source_dpi_api_available": true,
+      "supported_prefill_channels": [
+        "WhatsApp deep-link (?text=) for official municipal & consumer WhatsApp bots",
+        "Email deep-link (mailto:?subject=&body=) for ward officers, Grievance Officers, and legal aid",
+        "Phone dialer intent (tel:) for emergency and statutory helplines",
+        "X/Twitter web intent for public municipal nudges",
+        "DIGIT / UPYOG open-source REST API (POST /pgr-services/v2/request/_create) for compatible ULBs or local sandbox demos"
+      ]
+    }
+  },
+  "platforms": [
+    {
+      "id": "cpgrams",
+      "name": "CPGRAMS (Centralized Public Grievance Redress and Monitoring System)",
+      "managing_body": "Department of Administrative Reforms & Public Grievances (DARPG), Government of India",
+      "tier": "Central Government",
+      "domain": "Public Service Delivery (Central Ministries/Departments & States/UTs)",
+      "jurisdiction": "Pan-India",
+      "urls": {
+        "home": "https://pgportal.gov.in/",
+        "registration": "https://pgportal.gov.in/Registration",
+        "login": "https://pgportal.gov.in/signin",
+        "track_status": "https://pgportal.gov.in/status",
+        "faq": "https://pgportal.gov.in/Home/Faq",
+        "dashboard": "https://pgportal.gov.in/darpgdashboard"
+      },
+      "contact_channels": {
+        "helpline": ["011-23401464", "011-23401458", "011-23401465"],
+        "whatsapp": null,
+        "email": "cpgrams-darpg@nic.in",
+        "mobile_apps": ["MyGrievance (Android)", "UMANG App"],
+        "offline_channels": ["5+ lakh Common Service Centres (CSCs)", "By post or hand to DARPG"]
+      },
+      "languages_supported": "English + 22 Eighth Schedule languages (via BHASHINI) with voice-based utility",
+      "categories": [
+        "Financial Services (Banking, Insurance, Pension Reforms)",
+        "Telecommunications",
+        "Posts",
+        "Rural Development",
+        "Health & Family Welfare",
+        "Central Board of Direct Taxes (Income Tax)",
+        "Higher Education & School Education",
+        "Consumer Affairs",
+        "Urban Development",
+        "Railways, Pensions (pgportal.gov.in/pension/), and other Central/State Departments"
+      ],
+      "fees": {
+        "online": "Free (INR 0)",
+        "offline_csc": "CSC service fee applies only when filed through a Common Service Centre"
+      },
+      "sla_and_timelines": {
+        "standard_resolution_days": 21,
+        "urgent_priority_resolution_days": 3,
+        "appeal_filing_window_days": 30,
+        "appeal_resolution_days": 30,
+        "interim_reply_rule": "If resolution exceeds 21 days, an interim Action Taken Report (ATR) must be issued."
+      },
+      "mandatory_pre_steps": [
+        "File one clear issue per grievance.",
+        "Government employees must exhaust prescribed internal departmental channels first."
+      ],
+      "exclusions": [
+        "RTI matters",
+        "Court-related or sub-judice matters",
+        "Religious matters",
+        "Personal and family disputes",
+        "Matters impacting territorial integrity or friendly foreign relations",
+        "Complaints sent via email are not entertained"
+      ],
+      "documents_required": [
+        "Complainant name, address, mobile number, and email",
+        "Application, transaction, or service reference number",
+        "Chronological event dates and previous complaint numbers",
+        "Supporting receipts, letters, or screenshots converted to PDF"
+      ],
+      "upload_constraints": {
+        "formats": ["PDF"],
+        "notes": "Verify current max file size and character limit live on portal before upload."
+      },
+      "step_by_step_guide": [
+        "Register once at pgportal.gov.in/Registration with name, address, mobile number, and email.",
+        "Sign in via OTP or password (or via UMANG / MyGrievance app).",
+        "Select Lodge Public Grievance, choose the relevant Central Ministry/Department or State, describe one specific issue and desired remedy, and attach supporting PDF.",
+        "Submit and save the unique Registration Number.",
+        "Track status at pgportal.gov.in/status and review the Action Taken Report (ATR).",
+        "Rate the disposal; selecting 'Poor' enables the Appeal option within 30 days."
+      ],
+      "escalation_path": "Rate disposal 'Poor' -> File Appeal to Nodal Appellate Authority (resolved within 30 days). Closed grievances cannot be reopened; lodge a fresh grievance citing the closed reference if needed.",
+      "automation": {
+        "public_api": false,
+        "g2g_api_note": "API integration exists only for 17 States/UTs, 4 Central Ministries, and UMANG.",
+        "url_param_prefill": false,
+        "barriers": ["OTP login", "Session-bound form"],
+        "recommended_handoff": "Generate structured complaint text and consolidated PDF packet + copy-paste field tray."
+      }
+    },
+    {
+      "id": "nch_ingram",
+      "name": "National Consumer Helpline (NCH / INGRAM)",
+      "managing_body": "Department of Consumer Affairs, Government of India",
+      "tier": "Central / Sectoral (Pre-Litigation)",
+      "domain": "Consumer Goods & Services (Informal Pre-Litigation Mediation)",
+      "jurisdiction": "Pan-India",
+      "urls": {
+        "home": "https://consumerhelpline.gov.in/",
+        "upload_documents": "https://consumerhelpline.gov.in/user/upload-docs.php",
+        "department_page": "https://consumeraffairs.gov.in/pages/nch"
+      },
+      "contact_channels": {
+        "helpline": ["1915", "1800-11-4000"],
+        "helpline_hours": "8:00 AM to 8:00 PM, 7 days a week (except national holidays), with call-back facility",
+        "whatsapp": "+918800001915",
+        "sms": "+918800001915",
+        "email": "nch-ca@gov.in",
+        "mobile_apps": ["NCH App (Android/iOS)", "UMANG App"],
+        "social_handles": ["@consaff", "@jagograhakjago"]
+      },
+      "languages_supported": "17 Indian languages",
+      "categories": [
+        "E-Commerce",
+        "Banking & Digital Payments",
+        "Telecom",
+        "Consumer Durables & Electronic Products",
+        "DTH & Cable Services",
+        "Non-Banking Financial Companies (NBFCs)",
+        "Automobiles",
+        "Insurance",
+        "Legal Metrology (Overcharging above MRP)",
+        "Food",
+        "Real Estate",
+        "Agency Services"
+      ],
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "sla_and_timelines": {
+        "nature": "Facilitative mediation via ~1,038 Convergence Partner companies",
+        "limitation_warning": "Filing on NCH does NOT pause the statutory 2-year limitation clock for formal Consumer Commissions."
+      },
+      "mandatory_pre_steps": [
+        "Raise a complaint with the seller/platform's customer care or Grievance Officer first and keep the ticket number."
+      ],
+      "exclusions": [
+        "Cannot pass legally binding orders or award punitive damages (non-adjudicatory)"
+      ],
+      "documents_required": [
+        "Invoice, bill, or receipt showing amount paid",
+        "Photo of MRP / defective product (if applicable)",
+        "Warranty card or service agreement",
+        "Prior complaint ticket number and company correspondence"
+      ],
+      "upload_constraints": {
+        "notes": "Supporting documents can also be uploaded post-registration using Docket Number at consumerhelpline.gov.in/user/upload-docs.php."
+      },
+      "step_by_step_guide": [
+        "Register on consumerhelpline.gov.in (or message WhatsApp 8800001915 / call 1915).",
+        "Select sector, company (Convergence Partner if listed), and grievance type.",
+        "Enter purchase/order details, amount paid, and brief summary of the issue.",
+        "Upload bill/invoice and support correspondence to receive a Docket Number.",
+        "Monitor company response online; escalate to e-Jagriti if unresolved."
+      ],
+      "escalation_path": "Unresolved NCH grievance -> Send 15-day written/legal notice -> File formal Consumer Complaint on e-Jagriti (or Legal Metrology department for MRP violations).",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "whatsapp_prefill_supported": true,
+        "whatsapp_prefill_url_template": "https://wa.me/918800001915?text={{encoded_grievance_summary}}",
+        "barriers": ["OTP login on web portal"],
+        "recommended_handoff": "Launch pre-populated WhatsApp chat to 8800001915 or provide Docket upload checklist."
+      }
+    },
+    {
+      "id": "e_jagriti",
+      "name": "e-Jagriti (Unified Consumer Commission Portal — Replaced e-Daakhil)",
+      "managing_body": "Department of Consumer Affairs / NCDRC, Government of India",
+      "tier": "Central / Quasi-Judicial Consumer Commissions",
+      "domain": "Formal Consumer Litigation (Refund, Replacement, Compensation)",
+      "jurisdiction": "Pan-India (District, State, and National Commissions)",
+      "urls": {
+        "home": "https://e-jagriti.gov.in/",
+        "case_status_public": "https://confonet.nic.in/",
+        "ncdrc": "https://ncdrc.nic.in/",
+        "deprecated_url": "https://edaakhil.nic.in/ (Retired on 1 January 2025; do not use)"
+      },
+      "contact_channels": {
+        "helpline": ["011-24305702", "011-24305703", "011-24305728", "011-24305752", "011-24305766"],
+        "email": "helpdesk-ejagriti@nic.in",
+        "mobile_apps": ["e-Jagriti App (Android/iOS)"],
+        "offline_channels": ["Local District Commission registry", "Common Service Centres (CSCs)"]
+      },
+      "languages_supported": "Multilingual interface with voice-to-text, chatbot, and virtual hearings (also usable by NRIs)",
+      "categories": [
+        "Defective goods (electronics, appliances, automobiles, furniture)",
+        "Deficiency in service (e-commerce, travel, education, telecom, medical, banking/insurance)",
+        "Unfair trade practices & overcharging above MRP",
+        "Builder delays with consumer elements"
+      ],
+      "eligibility_and_thresholds": {
+        "pecuniary_jurisdiction_basis": "Value of goods or services actually PAID (consideration), NOT compensation claimed",
+        "district_commission_inr": "Up to 50,00,000",
+        "state_commission_inr": "Above 50,00,000 up to 2,00,00,000",
+        "national_commission_ncdrc_inr": "Above 2,00,00,000",
+        "territorial_jurisdiction": "Where complainant resides/works, where opposite party operates, or where cause of action arose",
+        "advocate_required": false
+      },
+      "fees": {
+        "slabs_by_consideration_paid": [
+          { "range": "Up to INR 5 lakh", "fee_inr": 0 },
+          { "range": "Above INR 5 lakh to INR 10 lakh", "fee_inr": 200 },
+          { "range": "Above INR 10 lakh to INR 20 lakh", "fee_inr": 400 },
+          { "range": "Above INR 20 lakh to INR 50 lakh", "fee_inr": 1000 },
+          { "range": "Above INR 50 lakh to INR 1 crore", "fee_inr": 2000 },
+          { "range": "Above INR 1 crore to INR 2 crore", "fee_inr": 2500 },
+          { "range": "Above INR 2 crore (NCDRC)", "fee_inr": "Higher bands up to INR 7,500 ceiling" }
+        ],
+        "payment_gateways": ["Bharat Kosh", "PayGov", "Razorpay"]
+      },
+      "sla_and_timelines": {
+        "limitation_period_years": 2,
+        "limitation_section": "Section 69, Consumer Protection Act, 2019",
+        "admissibility_window_days": 21,
+        "appeal_window_days": 30
+      },
+      "mandatory_pre_steps": [
+        "Complain in writing to the seller/company first.",
+        "Recommended: Try NCH (1915) and send a 15-day written demand/legal notice via Registered Speed Post + email."
+      ],
+      "exclusions": [
+        "Large-scale commercial purchases (for resale/commercial profit)",
+        "Do not track consumer cases on regular eCourts (use e-Jagriti or Confonet instead)"
+      ],
+      "documents_required": [
+        "Government Photo ID (Aadhaar, PAN, or Driving Licence)",
+        "Index",
+        "Proforma for filing complaint",
+        "Synopsis with chronological List of Dates & Events",
+        "Memo of Parties (exact registered legal name & address of opposite party from invoice)",
+        "Drafted Consumer Complaint (facts, jurisdiction, limitation paragraph, relief sought, verification)",
+        "Notarised Affidavit (missing affidavit or Memo of Parties is the top rejection cause)",
+        "Vakalatnama (ONLY if represented by an advocate)",
+        "Annexures: invoice/bill, payment proof, warranty/agreement, defect photos, chat/email trail, prior legal notice"
+      ],
+      "upload_constraints": {
+        "formats": ["PDF", "Images"],
+        "notes": "Practitioner accounts note limits around ~10 files of a few MB each; combine and compress annexures clearly (e.g., 'Annexure C-3 service job card')."
+      },
+      "step_by_step_guide": [
+        "Sign up at e-jagriti.gov.in with mobile/email 6-digit OTP and upload ID proof.",
+        "Click 'File New Case' -> 'Consumer Complaint'.",
+        "Enter amount paid, claim value, cause-of-action date, state/district, category/subcategory, and optional priority flags (senior citizen, widow, differently abled, serious illness).",
+        "Enter complainant and opposite party details.",
+        "Upload the mandatory legal set (Index, Proforma, Synopsis, Memo of Parties, Complaint, Notarised Affidavit) plus annexures.",
+        "Select Commission, tick declaration, and carefully review Preview (no edits allowed after final submission).",
+        "Submit, save the Reference Number, and pay fee via Dashboard -> Payment History if value paid exceeds INR 5 lakh.",
+        "Cure any registry scrutiny objections online and attend physical or virtual hearings."
+      ],
+      "escalation_path": "District Commission -> State Commission -> NCDRC -> Supreme Court (within 30 days under Sec 67 for NCDRC original orders).",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "barriers": ["Mobile + Email OTP", "Notarised physical/scanned affidavit", "KYC ID upload", "Payment gateway"],
+        "recommended_handoff": "Auto-generate downloadable PDFs for Index, Proforma, Synopsis, Memo of Parties, Draft Complaint, and Affidavit template + pre-submission validator."
+      }
+    },
+    {
+      "id": "ncrp_cybercrime",
+      "name": "National Cybercrime Reporting Portal (NCRP) & 1930 Helpline",
+      "managing_body": "Indian Cyber Crime Coordination Centre (I4C), Ministry of Home Affairs",
+      "tier": "Central / Law Enforcement",
+      "domain": "Cyber Financial Fraud, Hacking & Online Harassment",
+      "jurisdiction": "Pan-India (auto-routed to State Police Cyber Cell)",
+      "urls": {
+        "home": "https://cybercrime.gov.in/",
+        "track_status": "https://cybercrime.gov.in/"
+      },
+      "contact_channels": {
+        "helpline": ["1930 (24x7 Financial Fraud Freeze)", "112 (Immediate physical danger)"],
+        "whatsapp": null,
+        "email": null,
+        "mobile_apps": []
+      },
+      "categories": [
+        "Online Financial Fraud (UPI, card, net banking, fake investment/task/job scams)",
+        "Online and Social Media Related Crime (impersonation, cyberbullying, blackmail, threats)",
+        "Hacking / Compromised Account",
+        "Report Crime Related to Women/Child (anonymous reporting available)",
+        "Cyber Terrorism"
+      ],
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "sla_and_timelines": {
+        "financial_fraud_golden_hour": "Call 1930 immediately (within minutes/24 hrs) to trigger inter-bank fund freeze",
+        "bank_zero_liability_window": "Report unauthorized third-party breach to bank within 3 working days (shadow credit within 10 working days)",
+        "upi_dispute_window_days": 120,
+        "criminal_limitation_it_act_years": 3,
+        "physical_fir_escalation_trigger": "If no response within 7-10 days or loss exceeds INR 1 lakh"
+      },
+      "mandatory_pre_steps": [
+        "For financial fraud: Call 1930 FIRST and notify your bank within the same hour (phone + written) to block cards/UPI—do not delay to collect documents."
+      ],
+      "exclusions": [
+        "Portal acknowledgement does NOT automatically guarantee an FIR has been registered; police process per procedure.",
+        "Anonymous option is NOT available for financial fraud or general cybercrime (only Women/Child route)."
+      ],
+      "documents_required": [
+        "Government Photo ID (Aadhaar, PAN, Passport, or Driving Licence) and Address Proof",
+        "Bank name, last 4 digits of account/card, exact amount, date and time",
+        "UTR / UPI transaction reference numbers and bank debit SMS/statements",
+        "Fraudster's phone number, UPI ID, bank account, website URL, or social media handle",
+        "Exported full chat logs (WhatsApp/Telegram/Instagram), timestamped screenshots, and full email headers",
+        "1930 acknowledgement number and bank complaint reference number"
+      ],
+      "step_by_step_guide": [
+        "If money was debited: Call 1930 immediately with bank, amount, time, UTR, and recipient details.",
+        "Call your bank's official helpline in the same hour, block compromised credentials, and get a written complaint reference.",
+        "Go to cybercrime.gov.in -> File a Complaint -> accept terms -> choose 'Report Cyber Crime' (or Women/Child route).",
+        "Register with State, name, and mobile OTP.",
+        "Select category/subcategory, enter chronological incident description (200+ characters), money trail, and suspect details.",
+        "Upload clearly named screenshots, statements, and chat exports; submit and save the Acknowledgement Number.",
+        "Track status on cybercrime.gov.in; carry printout to local Cyber Crime Police Station for formal FIR if stalled after 7-10 days or loss > INR 1 lakh."
+      ],
+      "escalation_path": "1930 + Bank alert -> cybercrime.gov.in -> Physical FIR at Cyber Crime Police Station -> RBI CMS (cms.rbi.org.in) if bank violates RBI limited-liability circular after 30 days.",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "dialer_intent": "tel:1930",
+        "barriers": ["Mobile OTP", "File uploads", "Strict identity verification"],
+        "recommended_handoff": "Emergency Golden-Hour screen with one-tap tel:1930, bank zero-liability email generator, and structured evidence packager."
+      }
+    },
+    {
+      "id": "rbi_cms",
+      "name": "RBI Complaint Management System (CMS — Integrated Ombudsman Scheme)",
+      "managing_body": "Reserve Bank of India (RB-IOS)",
+      "tier": "Sectoral Regulator",
+      "domain": "Banks, NBFCs, Digital Lenders, UPI/Wallets & Credit Bureaus (CIBIL/Experian)",
+      "jurisdiction": "Pan-India",
+      "urls": {
+        "home": "https://cms.rbi.org.in/"
+      },
+      "contact_channels": {
+        "helpline": ["14448 (RBI Contact Centre, 10 Indian languages)"],
+        "whatsapp": null,
+        "email": null,
+        "mobile_apps": []
+      },
+      "categories": [
+        "Commercial / Co-operative Bank service deficiencies & unauthorized transactions",
+        "NBFC & digital lender grievances (recovery agent harassment, hidden charges, KFS mismatch)",
+        "Payment system disputes (UPI, PPI wallet, prepaid card, mobile banking failures)",
+        "Credit Information Company disputes (wrong CIBIL / Experian reporting)"
+      ],
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "sla_and_timelines": {
+        "mandatory_lender_wait_days": 30,
+        "filing_limitation": "Within 1 year of lender's reply (or 1 year + 30 days if no reply)",
+        "award_compliance_window_days": 30
+      },
+      "mandatory_pre_steps": [
+        "MANDATORY: Submit a written complaint to the bank, NBFC, payment operator, or CIC first and wait for an unsatisfactory reply OR 30 days of silence. Skipping this causes automatic rejection as 'Non-maintainable'."
+      ],
+      "exclusions": [
+        "Complaints filed without completing the 30-day lender pre-step",
+        "Entities not regulated by RBI"
+      ],
+      "documents_required": [
+        "Copy of written complaint submitted to the bank/NBFC/CIC with date",
+        "Lender's reply (if received) or proof of 30 days elapsed",
+        "KYC ID proof",
+        "Transaction proofs, statements, loan KFS, or CIBIL report screenshots"
+      ],
+      "upload_constraints": {
+        "max_total_size_mb": 10
+      },
+      "step_by_step_guide": [
+        "Complete the mandatory 30-day written pre-step with your bank/NBFC/CIC.",
+        "Visit cms.rbi.org.in and click 'File a Complaint'.",
+        "Select entity category (Bank / NBFC / System Participant / CIC) and the specific regulated entity.",
+        "Verify your mobile number via OTP (becomes your permanent tracking login).",
+        "Enter personal, transaction, and relief-sought details and upload evidence (max 10 MB total).",
+        "Submit and save the Complaint Registration Number (CRN) received via SMS/email."
+      ],
+      "escalation_path": "Bank/NBFC Internal Grievance -> Principal Nodal Officer -> RBI Ombudsman (cms.rbi.org.in; binding award if accepted by complainant) -> Consumer Commission (e-Jagriti) or Civil Court.",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "barriers": ["Mobile OTP", "Mandatory 30-day pre-step attestation", "10 MB upload cap"],
+        "recommended_handoff": "Generate Step-1 written lender complaint email + start 30-day countdown reminder + auto-compress evidence under 10 MB."
+      }
+    },
+    {
+      "id": "sebi_scores",
+      "name": "SEBI SCORES 2.0 (SEBI Complaints Redress System)",
+      "managing_body": "Securities and Exchange Board of India (SEBI)",
+      "tier": "Sectoral Regulator",
+      "domain": "Stock Brokers, Mutual Funds, Listed Companies, Depositories & RTAs",
+      "jurisdiction": "Pan-India",
+      "urls": {
+        "home": "https://scores.sebi.gov.in/",
+        "market_intelligence_portal": "https://mi.sebi.gov.in/",
+        "investor_guide": "https://investor.sebi.gov.in/sebi_scores.html"
+      },
+      "contact_channels": {
+        "helpline": ["1800-22-7575", "1800-266-7575"],
+        "whatsapp": null,
+        "email": null,
+        "mobile_apps": ["SEBISCORES (Android & iOS)"]
+      },
+      "categories": [
+        "Listed companies / Registrar & Transfer Agents (unpaid dividends, share transfer delays)",
+        "Stock brokers & stock exchanges (unauthorized trades, payout delays)",
+        "Depository participants / depositories",
+        "Mutual funds & Portfolio Managers",
+        "Registered Investment Advisors & Research Analysts"
+      ],
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "sla_and_timelines": {
+        "entity_response_calendar_days": 21,
+        "limitation_period": "1 year from cause of action per SEBI official investor portal (some broker guides note 3 years; enforce stricter 1-year rule)"
+      },
+      "mandatory_pre_steps": [
+        "Lodge complaint with the broker, listed company, or intermediary first and keep its ticket/reply."
+      ],
+      "exclusions": [
+        "Investment losses caused by market price movement",
+        "Unregistered advisors or unregulated app-based schemes",
+        "Matters pending before a court or tribunal",
+        "Disputes purely between two investors",
+        "Anonymous complaints or market intelligence tips (send market-law violation tips to mi.sebi.gov.in)"
+      ],
+      "documents_required": [
+        "PAN card (mandatory KYC validation)",
+        "Mobile number and email address",
+        "Contract notes, demat/mutual fund statements, and prior correspondence with entity"
+      ],
+      "upload_constraints": {
+        "notes": "Supporting PDF attachment (legacy documentation cites 1 MB cap; keep files compact and check portal prompt)."
+      },
+      "step_by_step_guide": [
+        "Register on scores.sebi.gov.in (or SEBISCORES app) with PAN, mobile OTP, and email.",
+        "Log in, select 'Register Complaint', pick category and regulated entity name.",
+        "Enter transaction date, factual description, and relief sought, and upload supporting documents.",
+        "Submit to get a unique Complaint Registration Number; entity must respond within 21 calendar days.",
+        "If dissatisfied, request First Review (Designated Body) and, if still unresolved, Second Review (SEBI)."
+      ],
+      "escalation_path": "Entity -> SCORES 2.0 (21 days) -> Designated Body 1st Review -> SEBI 2nd Review -> SMART ODR -> Securities Appellate Tribunal (SAT) / Consumer or Civil Court.",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "barriers": ["PAN KYC validation", "Mobile OTP"],
+        "recommended_handoff": "Pre-step broker complaint email template + 21-day SLA tracker + review-stage checklist."
+      }
+    },
+    {
+      "id": "irdai_bima_bharosa_ombudsman",
+      "name": "IRDAI Bima Bharosa & Insurance Ombudsman (CIO)",
+      "managing_body": "Insurance Regulatory and Development Authority of India (IRDAI) & Council for Insurance Ombudsmen",
+      "tier": "Sectoral Regulator",
+      "domain": "Life, Health, Motor & General Insurance Claim Rejections / Servicing",
+      "jurisdiction": "Pan-India (17 territorial Insurance Ombudsman centres)",
+      "urls": {
+        "bima_bharosa_portal": "https://bimabharosa.irdai.gov.in/",
+        "bima_bharosa_verification_note": "Verify live link via irdai.gov.in before routing; live automated check returned unexpected content on this subdomain.",
+        "irdai_gro_directory": "https://irdai.gov.in/list-of-gros",
+        "insurance_ombudsman_home": "https://www.cioins.co.in/",
+        "insurance_ombudsman_online_complaint": "https://cioins.co.in/Complaint/Online"
+      },
+      "contact_channels": {
+        "helpline": ["155255", "1800-4254-732"],
+        "helpline_hours": "8:00 AM to 8:00 PM, Monday to Saturday",
+        "email": "complaints@irdai.gov.in",
+        "offline_address": "Policyholders Protection & Grievance Redressal Dept, IRDAI, Sy. No. 115/1, Financial District, Nanakramguda, Gachibowli, Hyderabad – 500032"
+      },
+      "languages_supported": "13 regional languages on Bima Bharosa 2.0",
+      "categories": [
+        "Rejected or partially settled health/life/motor claims",
+        "Claim settlement delays or unjustified deductions",
+        "Policy servicing, mis-selling, or hidden charges",
+        "TPA / broker / agent grievance"
+      ],
+      "eligibility_and_thresholds": {
+        "who_can_file": "Insured person or claimant only (third-party advocates/agents alone generally not entertained by IRDAI cell)",
+        "ombudsman_claim_limit_inr": 5000000
+      },
+      "fees": {
+        "online": "Free (INR 0) for Insurer GRO, Bima Bharosa, and Insurance Ombudsman"
+      },
+      "sla_and_timelines": {
+        "insurer_gro_resolution_days": "14 to 15 days (wait up to 30 days before Insurance Ombudsman)",
+        "ombudsman_filing_limitation": "Within 1 year of insurer rejection or 1 year from insurer failing to reply within 30 days",
+        "ombudsman_mediation_days": 30,
+        "ombudsman_award_months": "3 months (extendable to 6 months)",
+        "insurer_award_compliance_days": "30 days (INR 5,000/day delay penalty on insurer)"
+      },
+      "mandatory_pre_steps": [
+        "Submit a written grievance to the insurer's Grievance Redressal Officer (GRO) first and retain the written acknowledgement and date."
+      ],
+      "exclusions": [
+        "Insurance Ombudsman cannot hear disputes already pending in a Consumer Commission, civil court, or arbitration",
+        "Ombudsman claim limit is INR 50 lakh (including expenses)"
+      ],
+      "documents_required": [
+        "Policy schedule / certificate of insurance and claim number",
+        "Itemized hospital bills or vehicle repair estimates",
+        "Insurer's rejection / partial settlement / deduction letter",
+        "Written complaint to insurer GRO, acknowledgement, and TPA/insurer email trail"
+      ],
+      "upload_constraints": {
+        "bima_bharosa_formats": ["PDF", "JPG", "JPEG", "PNG"],
+        "bima_bharosa_max_size_mb": 10,
+        "bima_bharosa_max_filename_chars": 24
+      },
+      "step_by_step_guide": [
+        "Lodge a written grievance with your insurer's GRO (find email at irdai.gov.in/list-of-gros) and wait 14-15 days.",
+        "If unresolved, register on Bima Bharosa (verify live link from irdai.gov.in) or email complaints@irdai.gov.in / call 155255.",
+        "Upload supporting PDFs/images (keep filenames under 24 characters and total size under 10 MB) and verify via OTP.",
+        "If unresolved after 30 days from initial insurer complaint (and claim <= INR 50 lakh), file free online at cioins.co.in/Complaint/Online.",
+        "Participate in Ombudsman mediation; if unresolved, Ombudsman passes an award binding on the insurer."
+      ],
+      "escalation_path": "Insurer GRO (15 days) -> IRDAI Bima Bharosa -> Insurance Ombudsman (cioins.co.in, up to INR 50L) -> Consumer Commission (e-Jagriti) or Civil Court (complainant retains right to escalate even after Ombudsman award).",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "mailto_prefill_supported": true,
+        "mailto_template": "mailto:complaints@irdai.gov.in?subject=Insurance%20Grievance%20-%20Policy%20{{policy_no}}&body={{encoded_body}}",
+        "barriers": ["Mobile OTP", "24-character filename restriction on Bima Bharosa"],
+        "recommended_handoff": "Auto-rename uploaded files <= 24 chars, draft GRO email, track 15-day / 30-day clocks, and provide mailto/CIO handoff."
+      }
+    },
+    {
+      "id": "maharera",
+      "name": "MahaRERA (Maharashtra Real Estate Regulatory Authority)",
+      "managing_body": "Government of Maharashtra (State RERA model applies across other states)",
+      "tier": "State Sectoral Regulator",
+      "domain": "Homebuyer vs. Builder / Real Estate Agent Disputes",
+      "jurisdiction": "Maharashtra (Pune, Konkan/Mumbai, Nagpur, Aurangabad divisions)",
+      "urls": {
+        "home_and_project_search": "https://maharera.maharashtra.gov.in/",
+        "online_complaint_portal": "https://maharerait.mahaonline.gov.in/",
+        "user_manual_pdf": "https://maharerait.mahaonline.gov.in/PDF/ComplaintFilingProcess.pdf"
+      },
+      "contact_channels": {
+        "helpline": ["1800-210-3770", "022-69157100"],
+        "offline_address": "Mumbai Division Office: 501, Express Building, 14-E Road, Churchgate, Mumbai – 400020"
+      },
+      "categories": [
+        "Delay in possession / refund with statutory interest (Section 18)",
+        "Structural or workmanship defects within 5 years of possession (Section 14)",
+        "Unauthorized alteration of sanctioned plans without allottee consent (Section 14)",
+        "False advertisement / mis-selling (Section 12)",
+        "Handover offered without Occupancy Certificate (OC)",
+        "Refusal to furnish sanctioned plans or schedules (Section 19)"
+      ],
+      "fees": {
+        "conciliation_forum": "INR 1,000 + GST (payable once opposite party consents within 7 days)",
+        "formal_complaint_form_a_or_b": "INR 5,000 (+ service charges)",
+        "appeal_form_c": "INR 5,000 (within 60 days)"
+      },
+      "sla_and_timelines": {
+        "conciliation_consent_days": 7,
+        "statutory_disposal_target_days": 120,
+        "advisory_observed_timeline_months": "8 to 14 months for formal contested hearings",
+        "appeal_window_days": 60
+      },
+      "mandatory_pre_steps": [
+        "Confirm the project is registered on maharera.maharashtra.gov.in and note its MahaRERA Registration Number (e.g., P51700XXXXXX).",
+        "Mirror all developer communications via email or Registered Speed Post (verbal/WhatsApp promises are weak evidence alone)."
+      ],
+      "exclusions": [
+        "Unregistered real estate projects",
+        "Tenant vs. landlord rental deposit disputes (route to Small Causes Court / Competent Authority instead)",
+        "Forum exclusivity warning: Check before filing simultaneously in both RERA and Consumer Court for the same relief"
+      ],
+      "documents_required": [
+        "MahaRERA Project Registration Number",
+        "Copy of registered Agreement for Sale (or Allotment Letter if unregistered)",
+        "Consolidated PDF of payment receipts and bank statements",
+        "Chronological written correspondence / demand letters with builder",
+        "Complainant PAN / Aadhaar"
+      ],
+      "step_by_step_guide": [
+        "Search and verify the project's MahaRERA registration number at maharera.maharashtra.gov.in.",
+        "Register as a Citizen user at maharerait.mahaonline.gov.in using email and mobile OTP.",
+        "Choose either MahaRERA Conciliation Forum (INR 1,000 + GST, faster amicable settlement) OR Online Complaint Filing (Form A for Authority / Form B for Adjudicating Officer).",
+        "Select Division (e.g., Pune), enter project registration number, complaint type, and statutory section (e.g., Sec 18).",
+        "Upload Agreement for Sale, payment receipts, and dated correspondence PDF.",
+        "Pay INR 5,000 online, submit, and track hearing dates via your Complaint Number."
+      ],
+      "escalation_path": "Demand Letter -> MahaRERA Conciliation (INR 1,000+GST) -> MahaRERA Formal Complaint (Form A/B, INR 5,000) -> MahaRERA Appellate Tribunal (Form C within 60 days) -> Bombay High Court (substantial question of law).",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "barriers": ["CAPTCHA", "Citizen login", "Online payment gateway"],
+        "recommended_handoff": "Project-ID checker prompt + demand letter PDF generator + chronological evidence binder."
+      }
+    },
+    {
+      "id": "samadhan_labour",
+      "name": "SAMADHAN Portal (Central Labour Dispute Portal)",
+      "managing_body": "Ministry of Labour & Employment / Central Industrial Relations Machinery (CIRM)",
+      "tier": "Central Government (Labour)",
+      "domain": "Unpaid Wages, Illegal Termination, Gratuity, Bonus & Industrial Disputes (Central Sphere)",
+      "jurisdiction": "Pan-India (Central Sphere establishments handled by CIRM Regional Labour Commissioners)",
+      "urls": {
+        "home": "https://samadhan.labour.gov.in/",
+        "umang_landing": "https://web.umang.gov.in/landing/department/samadhan.html"
+      },
+      "contact_channels": {
+        "helpline": ["011-23354722"],
+        "email": "samadhan-mole@gov.in",
+        "mobile_apps": ["UMANG App"]
+      },
+      "categories": [
+        "Dismissal / Illegal termination",
+        "Delay in payment of wages / unauthorized deductions",
+        "Non-payment of Minimum Wage or Overtime allowance",
+        "Non-payment of Gratuity or Bonus",
+        "Non-payment of Maternity Benefits",
+        "Industrial disputes, charter of demands, and general labour complaints"
+      ],
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "sla_and_timelines": {
+        "process": "Conciliation notice issued by RLC/CIRM officer; referred to Labour Court/Tribunal if conciliation fails"
+      },
+      "mandatory_pre_steps": [
+        "Send a formal 7-to-15-day written Demand Notice to the employer detailing gross/net unpaid salary and exact months due."
+      ],
+      "exclusions": [
+        "Local private shops, startups, and state-sphere factories generally fall under the State Labour Commissioner (e.g., Mahakamgar in Maharashtra) rather than Central CIRM."
+      ],
+      "documents_required": [
+        "Aadhaar-linked mobile number",
+        "Appointment/offer letter and increment letters",
+        "Last 6 months' payslips and bank statements",
+        "Attendance logs / work emails / Slack proof",
+        "HR admission of pending dues (emails/messages) and 7-day Demand Notice",
+        "Brief Statement of Claim and employer registered address + HR/Director name"
+      ],
+      "step_by_step_guide": [
+        "Visit samadhan.labour.gov.in (or open SAMADHAN inside UMANG app) and register as 'Worker' using Aadhaar-linked mobile OTP.",
+        "Select 'Raise Dispute' and pick the relevant dispute category (e.g., Non-payment of wages).",
+        "Enter employer company details, registered address, and HR/Director contact.",
+        "Upload your Demand Notice, appointment letter, payslips, and Statement of Claim.",
+        "Submit to generate a Case ID and attend conciliation hearings scheduled by the Regional Labour Commissioner."
+      ],
+      "escalation_path": "7-Day Demand Notice -> SAMADHAN / RLC Conciliation (Form-H settlement) -> Labour Court / CGIT adjudication (or Civil Summary Suit under Order 37 CPC within 3 years for senior/managerial recovery).",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "barriers": ["Aadhaar-linked mobile OTP"],
+        "recommended_handoff": "Auto-draft 7-day Demand Notice & Statement of Claim PDF + Central vs. State sphere jurisdiction router."
+      }
+    },
+    {
+      "id": "mahakamgar_labour",
+      "name": "Mahakamgar (Maharashtra Department of Labour)",
+      "managing_body": "Commissioner of Labour, Government of Maharashtra",
+      "tier": "State Government (Labour)",
+      "domain": "Unpaid Wages, Shops & Establishments, Gratuity & Factory Labour Disputes (State Sphere)",
+      "jurisdiction": "Maharashtra (with Pune Division ALC/GLO & 15 Worker Facility Centers)",
+      "urls": {
+        "home": "https://mahakamgar.maharashtra.gov.in/",
+        "login_and_complaint": "https://mahakamgar.maharashtra.gov.in/login_/loginpage",
+        "department_portal": "https://labour.maharashtra.gov.in/en",
+        "pune_alc_directory": "https://pune.gov.in/en/office-of-the-deputy-commissioner-of-labour/",
+        "maharashtra_contacts": "https://mahakamgar.maharashtra.gov.in/Site/1729/Contact-Us"
+      },
+      "contact_channels": {
+        "helpline": ["022-26572922 (Mumbai HQ)", "020-25542611 (Pune Division Addl. Commissioner — verify via pune.gov.in)"],
+        "email": "mahalabourcommr@gmail.com",
+        "offline_pune_anchor": "Addl. Commissioner of Labour, Pune: Bungalow No. 5, Mumbai-Pune Road, Shivajinagar, Pune – 411005; Pune City WFC: Inaam Nagar, Tadiwala Rd (9970765491)"
+      },
+      "categories": [
+        "Unpaid salary / FnF settlement (State-sphere private companies, shops, establishments)",
+        "Wrongful termination without notice pay / statutory severance",
+        "Minimum wages, working hours, and Maharashtra Shops & Establishments violations",
+        "Delayed Gratuity (Form N before Controlling Authority/ALC; 10% p.a. statutory interest if delayed >30 days)",
+        "Unorganized & construction worker grievances"
+      ],
+      "eligibility_and_thresholds": {
+        "wage_ceiling_note": "Payment of Wages Act authority historically applied to wages up to INR 24,000/month; managerial/higher-salary recovery typically proceeds via Civil Summary Suit (Order 37 CPC, 3-year limitation). Note Maharashtra is transitioning to the four consolidated Labour Codes (2025-2026 rules)."
+      },
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "sla_and_timelines": {
+        "gratuity_due_window_days": 30,
+        "civil_recovery_limitation_years": 3
+      },
+      "mandatory_pre_steps": [
+        "Send a 7-to-15-day written Demand Notice to employer/HR specifying unpaid months and exact dues."
+      ],
+      "documents_required": [
+        "Appointment/offer letter or employment proof (emails/chats)",
+        "Last 6 months' payslips and bank account statements",
+        "Attendance records / work communication proof",
+        "Copy of written Demand Notice sent to employer"
+      ],
+      "step_by_step_guide": [
+        "Send a formal 7-15 day Demand Notice to your employer.",
+        "Log in or register on mahakamgar.maharashtra.gov.in (solving CAPTCHA) to lodge a state-sphere labour complaint.",
+        "Alternatively, visit your area Assistant Commissioner of Labour (ALC), Government Labour Officer (GLO), or taluka Worker Facility Center listed on pune.gov.in.",
+        "Attend conciliation / inspection; if employer refuses settlement, seek referral to Labour Court or file Civil Summary Suit (Order 37 CPC)."
+      ],
+      "escalation_path": "Demand Notice -> Mahakamgar / Area ALC Conciliation -> Labour Court / Civil Summary Suit (Order 37 CPC) + NALSA Free Legal Aid (all industrial workmen qualify regardless of income).",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "barriers": ["Login + CAPTCHA"],
+        "recommended_handoff": "7-day Demand Notice generator + Pune area-to-ALC/WFC lookup + NALSA workman eligibility banner."
+      }
+    },
+    {
+      "id": "she_box",
+      "name": "SHe-Box (Sexual Harassment Electronic Box)",
+      "managing_body": "Ministry of Women & Child Development, Government of India",
+      "tier": "Central / Statutory Workplace Protection",
+      "domain": "Sexual Harassment at Workplace (POSH Act, 2013)",
+      "jurisdiction": "Pan-India (Central Govt, State Govt, Private Sector, Organized & Unorganized)",
+      "urls": {
+        "home": "https://shebox.wcd.gov.in/"
+      },
+      "contact_channels": {
+        "helpline": ["14454 (Tele-Law link displayed on portal)"],
+        "email": "techsupport-shebox@gov.in",
+        "mobile_apps": ["Mission Shakti App (Android & iOS)"]
+      },
+      "categories": [
+        "Physical contact or advances",
+        "Demand or request for sexual favours",
+        "Making sexually coloured remarks",
+        "Showing pornography",
+        "Hostile work environment",
+        "Implied or explicit promise of preferential treatment or threat of detrimental treatment/employment status",
+        "Humiliating treatment likely to affect health or safety",
+        "Unwelcome physical, verbal, or non-verbal conduct of a sexual nature"
+      ],
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "exclusions": [
+        "Strictly for sexual harassment at the workplace under the POSH Act, 2013; false/malicious complaints attract statutory penalty under Section 14 and Rule 10."
+      ],
+      "documents_required": [
+        "Complainant contact and work status details",
+        "Workplace name, district, office address, and Nodal/Contact person details",
+        "Respondent name, designation, email, and working relationship",
+        "Brief incident narrative (max 500 words) and supporting evidence (emails, chats, screenshots)"
+      ],
+      "upload_constraints": {
+        "formats": ["PDF", "JPEG", "PNG"],
+        "max_size_mb": 2,
+        "description_max_words": 500
+      },
+      "step_by_step_guide": [
+        "Open shebox.wcd.gov.in (or Mission Shakti App) and click 'Register your Complaint'.",
+        "Read and accept the POSH Act Section 14 / Rule 10 statutory declaration.",
+        "Complete the 4-step form: (1) Complainant details, (2) Workplace details (Central/State/Private), (3) Respondent details, (4) Incident details & IC status.",
+        "Write description (<=500 words) and attach supporting file (<=2 MB PDF/JPEG/PNG).",
+        "Submit; the portal directly forwards the complaint to the jurisdictional Internal Committee (IC) or Local Committee (LC) Nodal Officer and provides a tracking status."
+      ],
+      "escalation_path": "SHe-Box -> Internal Committee (IC) / District Local Committee (LC) -> Police / Criminal complaint (for physical assault/stalking) + NALSA Free Legal Aid (all women qualify regardless of income).",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "barriers": ["Statutory perjury declaration", "Multi-step authenticated form", "500-word & 2 MB caps"],
+        "recommended_handoff": "Private 500-word incident draft helper (stored locally only) + 2 MB evidence compressor + direct deep link."
+      }
+    },
+    {
+      "id": "epfigms",
+      "name": "EPFiGMS (EPF i-Grievance Management System)",
+      "managing_body": "Employees' Provident Fund Organisation (EPFO)",
+      "tier": "Central Statutory Body",
+      "domain": "Provident Fund Withdrawal, KYC, Transfer & EPS Pension Grievances",
+      "jurisdiction": "Pan-India (auto-routed across 135 EPFO field offices)",
+      "urls": {
+        "home": "https://epfigms.gov.in/",
+        "register_grievance": "https://epfigms.gov.in/grievance/grievancemaster"
+      },
+      "contact_channels": {
+        "helpline": ["14470"],
+        "mobile_apps": ["UMANG App (EPFO Services)"]
+      },
+      "languages_supported": "Bilingual (English & Hindi)",
+      "categories": [
+        "PF Member grievances (withdrawal/claim settlement delay, transfer, KYC mismatch, non-deposit by employer)",
+        "EPS Pensioner grievances (PPO / monthly pension issues)",
+        "Employer & Others"
+      ],
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "documents_required": [
+        "UAN (Universal Account Number), PPO Number (pensioners), or Establishment Number",
+        "Supporting documents (claim receipt, passbook screenshot, payslips showing PF deduction)"
+      ],
+      "step_by_step_guide": [
+        "Visit epfigms.gov.in/grievance/grievancemaster (or UMANG -> EPFO Services).",
+        "Select Status (PF Member, EPS Pensioner, Employer, or Others).",
+        "Enter UAN / PPO number (auto-maps your concerned EPFO field office) and verify via OTP.",
+        "Select PF account(s), grievance category, describe the issue, and upload supporting document(s).",
+        "Submit to get a unique Registration Number via SMS & email; send reminders or feedback online."
+      ],
+      "escalation_path": "EPFiGMS -> Reminder on EPFiGMS -> CPGRAMS (Ministry of Labour & Employment).",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "barriers": ["UAN/PPO validation", "Mobile OTP"],
+        "recommended_handoff": "UAN checklist + direct deep link to epfigms.gov.in/grievance/grievancemaster."
+      }
+    },
+    {
+      "id": "aaple_sarkar_maharashtra",
+      "name": "Aaple Sarkar Grievance Redressal Portal (Maharashtra)",
+      "managing_body": "Chief Minister's Office & Directorate of Information Technology, Government of Maharashtra",
+      "tier": "State Government",
+      "domain": "State Departments, District/Taluka Offices & Municipal Escalations",
+      "jurisdiction": "Maharashtra",
+      "urls": {
+        "home": "https://grievances.maharashtra.gov.in/en",
+        "citizen_registration": "https://grievances.maharashtra.gov.in/en/citizens/verify",
+        "citizen_login": "https://grievances.maharashtra.gov.in/en/citizens/login",
+        "track_grievance": "https://grievances.maharashtra.gov.in/mr/pg-portal-grievance/track-grievance-verification",
+        "mahadbt_specific_grievance": "https://mahadbt.maharashtra.gov.in/Grievance/Grievance"
+      },
+      "contact_channels": {
+        "helpline": ["1800-120-8040 (CM Helpline Toll-Free)", "022-40293000 (Technical Support)"],
+        "mobile_apps": ["Aaple Sarkar App (Android & iOS)"]
+      },
+      "languages_supported": "English and Marathi",
+      "categories": [
+        "District Level grievances (Collector, Tehsil/Taluka, Zilla Parishad, Municipal escalation)",
+        "Mantralaya Level grievances (State Secretariat departments)",
+        "Scholarship / DBT grievances (handled separately on mahadbt.maharashtra.gov.in)"
+      ],
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "sla_and_timelines": {
+        "resolution_working_days": 21
+      },
+      "documents_required": [
+        "Mobile number and email for OTP",
+        "Full name, district, taluka, and address",
+        "Concerned department name, dates, and prior local complaint number (if escalating)",
+        "Supporting photos or PDF"
+      ],
+      "upload_constraints": {
+        "mahadbt_grievance_portal_only": "JPEG/JPG/PDF strictly between 15 KB and 256 KB"
+      },
+      "step_by_step_guide": [
+        "Register at grievances.maharashtra.gov.in/en/citizens/verify using mobile and email OTP.",
+        "Log in and click 'File a Grievance'.",
+        "Choose Administration Type: 'District Level' (local/civic/taluka) or 'Mantralaya Level' (state department).",
+        "Select District, Taluka, Department, and Subject, describe facts clearly, and upload evidence.",
+        "Submit to generate a Grievance Token Number (SMS & email).",
+        "Track status; if resolution within 21 working days is unsatisfactory, mark 'Dissatisfied' to escalate to higher authority."
+      ],
+      "escalation_path": "Municipal / Local Office -> Aaple Sarkar (21 working days) -> Mark 'Dissatisfied' for higher-authority escalation -> RTI Act Section 6(1) for Action Taken Report.",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "barriers": ["Mobile + Email OTP"],
+        "recommended_handoff": "Bilingual (English/Marathi) grievance draft generator + 21-working-day SLA timer."
+      }
+    },
+    {
+      "id": "mahapolice_pune_police",
+      "name": "Maharashtra Police CCTNS & Pune City Police Citizen Portal",
+      "managing_body": "Maharashtra Police / Pune City Police",
+      "tier": "State / City Police",
+      "domain": "Criminal Offences, e-Complaints, Lost & Found, Missing Mobile Reports",
+      "jurisdiction": "Maharashtra & Pune City",
+      "urls": {
+        "mahapolice_citizen_portal": "https://citizen.mahapolice.gov.in/citizen/mh/index.aspx",
+        "mobile_missing_form": "https://citizen.mahapolice.gov.in/Citizen/MH/MobileMissingForm.aspx",
+        "pune_lost_and_found": "https://www.punepolice.gov.in/report-us/lost-and-found",
+        "national_cctns_login": "https://www.digitalpolicecitizenservices.gov.in/centercitizen/login.htm"
+      },
+      "contact_channels": {
+        "helpline": [
+          "112 / 100 (Emergency Control Room)",
+          "1091 (Women Helpline)",
+          "1090 (Senior Citizen Helpline)",
+          "1098 (Childline)",
+          "020-26208285 (Pune Economic Offences Wing - EOW)"
+        ],
+        "whatsapp": "+918975283100 (Pune City Police)"
+      },
+      "categories": [
+        "Emergency crimes & threats to personal safety (dial 112)",
+        "e-Complaint / Cognizable offences",
+        "Lost & Found documents/items (informational report only — no police investigation)",
+        "Missing mobile phone (with IMEI blocking follow-up)"
+      ],
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "sla_and_timelines": {
+        "electronic_fir_rule": "Information submitted electronically for an FIR must be signed in person within 3 days to be taken on record."
+      },
+      "exclusions": [
+        "Pure civil disputes (e.g., routine landlord security deposit disputes or product defects) unless criminal cheating/fraud/assault is involved.",
+        "Pune Lost & Found portal is strictly informational (no investigation); false reporting is a punishable criminal offence."
+      ],
+      "documents_required": [
+        "Government ID proof and contact mobile (for OTP)",
+        "Date, time, exact place of occurrence, and brief chronological facts",
+        "For lost mobile: IMEI number, mobile number, and telecom service provider",
+        "Supporting proof (photos, call logs, financial records for EOW/cheating)"
+      ],
+      "step_by_step_guide": [
+        "For immediate danger, dial 112 or 100 immediately.",
+        "For lost documents/phone in Pune, file on punepolice.gov.in/report-us/lost-and-found (or MobileMissingForm.aspx on citizen.mahapolice.gov.in) using mobile OTP.",
+        "For criminal e-Complaints, register/login on citizen.mahapolice.gov.in and submit facts.",
+        "For a formal FIR, visit the jurisdictional police station (or sign an electronically submitted FIR information within 3 days)."
+      ],
+      "escalation_path": "Local Police Station -> Senior Police Inspector / DCP -> Magistrate / High Court or Free Legal Aid via DLSA.",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "whatsapp_prefill_supported": true,
+        "whatsapp_prefill_url_template": "https://wa.me/918975283100?text={{encoded_message}}",
+        "dialer_intent": "tel:112",
+        "barriers": ["ASP.NET WebForms session state", "OTP verification", "Criminal perjury declaration"],
+        "recommended_handoff": "Civil-vs-Criminal triage gate + one-tap tel:112 / WA prefill + written complaint PDF template."
+      }
+    },
+    {
+      "id": "pmc_care_pune",
+      "name": "PMC CARE (Pune Municipal Corporation Grievance System)",
+      "managing_body": "Pune Municipal Corporation (PMC)",
+      "tier": "Municipal (Pune)",
+      "domain": "Civic Services, Roads/Potholes, Drainage, Garbage, Water, Streetlights & Unauthorized Construction",
+      "jurisdiction": "Pune Municipal Corporation limits (15 Administrative Wards; excludes PCMC)",
+      "urls": {
+        "complaint_portal": "https://complaint.pmc.gov.in/home",
+        "pmc_care_web": "https://pmccare.in/home",
+        "online_services": "https://services.pmc.gov.in/home",
+        "open_data_portal": "https://opendata.pmc.gov.in/departments/category?id=34",
+        "ward_office_directory": "https://www.pmc.gov.in/b/encrochment-complaint-system"
+      },
+      "contact_channels": {
+        "helpline": ["1800-103-0222 (Official Toll-Free)", "020-25501000", "020-25501236 (Veterinary/Stray Dogs)", "020-25508453 (Major Drainage >600mm)"],
+        "helpline_note": "A third-party site cites 1800-233-4040, but official pmc.gov.in pages uniformly publish 1800-103-0222.",
+        "whatsapp": ["+918888251001 (PMC CARE Chatbot)", "+919689900002 (WhatsApp & SMS)"],
+        "email": ["feedback@punecorporation.org", "encroachment1@punecorporation.org"],
+        "mobile_apps": ["PMC CARE (Android/iOS)", "PMC Road Mitra (Potholes)", "PMC ISWM (Solid Waste)", "Pune Urban (Building Permissions)"],
+        "social_handles": ["@PMCPune", "@PMCCare"]
+      },
+      "categories": [
+        "Potholes & road damage (PMC Road Mitra / PMC CARE)",
+        "Garbage collection & sanitation (PMC ISWM / PMC CARE)",
+        "Drainage choke-up / chamber repair",
+        "Water supply shortage / leakage",
+        "Faulty streetlights",
+        "Unauthorized construction / neighbour encroachment",
+        "Stray dogs / veterinary issues"
+      ],
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "sla_and_timelines": {
+        "observed_third_party_estimates": "Garbage: 3-7 days; Streetlights: 7-14 days; Drainage: 15-30 days; Roads/potholes: 30-90 days (actual times vary by ward)."
+      },
+      "exclusions": [
+        "Does NOT cover Pimpri, Chinchwad, Akurdi, Nigdi, or Bhosari (route to PCMC instead).",
+        "PMC policy prohibits loading PMC web pages inside third-party iframes."
+      ],
+      "documents_required": [
+        "Clear geotagged photograph with recognizable landmark",
+        "Road name, area, Administrative Ward (1 of 15), and streetlight pole number (if applicable)",
+        "Duration of problem and complainant mobile number"
+      ],
+      "step_by_step_guide": [
+        "Take a clear photo showing the defect and a nearby landmark.",
+        "File via WhatsApp (8888251001 or 9689900002), online at complaint.pmc.gov.in/home or pmccare.in/home, PMC CARE app, or Toll-Free 1800-103-0222.",
+        "Select category/subcategory, pin GPS location/ward, attach photo, and save the Complaint Ticket Number.",
+        "If closed without actual repair, reopen quoting the old ticket number, email the specific Ward Assistant Commissioner / Zone DMC, or escalate on Aaple Sarkar."
+      ],
+      "escalation_path": "PMC CARE Ticket -> Ward Assistant Commissioner email & Zone DMC (Zones 1-5) -> Public nudge @PMCPune (with ticket ID, no personal phone) -> Aaple Sarkar (21 working days) -> RTI under Section 6(1).",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "whatsapp_prefill_supported": true,
+        "whatsapp_prefill_url_template": "https://wa.me/918888251001?text={{encoded_complaint_with_ward_and_landmark}}",
+        "mailto_prefill_supported": true,
+        "mailto_template": "mailto:{{ward_officer_email}}?cc={{zone_dmc_email}}&subject=Civic%20Complaint%20-%20{{category}}%20({{ward_name}})&body={{encoded_body}}",
+        "x_intent_template": "https://twitter.com/intent/tweet?text={{encoded_issue_and_ticket_id}}%20@PMCPune",
+        "barriers": ["No iframe embedding allowed", "Mobile registration on portal"],
+        "recommended_handoff": "GPS point-in-polygon Ward auto-detector (via DataMeet GeoJSON) -> instant WhatsApp prefill + Ward/DMC mailto escalation."
+      }
+    },
+    {
+      "id": "pcmc_grievance",
+      "name": "PCMC Citizen Grievance Portal / Sarathi (Pimpri-Chinchwad)",
+      "managing_body": "Pimpri-Chinchwad Municipal Corporation (PCMC)",
+      "tier": "Municipal (Pimpri-Chinchwad)",
+      "domain": "Civic Services in Pimpri, Chinchwad, Akurdi, Nigdi & PCMC Limits",
+      "jurisdiction": "Pimpri-Chinchwad Municipal Corporation",
+      "urls": {
+        "complaint_portal": "https://grievance.pcmcindia.gov.in:8443/Grievance/citizen/",
+        "sarathi_portal_third_party_ref": "https://sarathi.pcmcindia.gov.in/"
+      },
+      "contact_channels": {
+        "helpline": ["020-27425500 (cited in third-party Pune civic guide)"],
+        "whatsapp": "+919922501450 (Official WhatsApp & SMS — include full name and address if unregistered)"
+      },
+      "categories": [
+        "Water supply, drainage, garbage, roads, streetlights, encroachments, and municipal services in PCMC wards"
+      ],
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "documents_required": [
+        "Full name and full address (explicitly required on WhatsApp if not pre-registered)",
+        "Location landmark, ward/area, and issue photo"
+      ],
+      "step_by_step_guide": [
+        "Register as a Citizen or Housing Society at grievance.pcmcindia.gov.in:8443/Grievance/citizen/ (or send WhatsApp/SMS directly to 9922501450 with Full Name, Address, and Complaint).",
+        "Submit complaint details and save the Complaint Number.",
+        "Track status via 'Check Complaint Status' on the PCMC grievance portal."
+      ],
+      "escalation_path": "PCMC Grievance -> PCMC Ward Office -> Aaple Sarkar Grievance Redressal Portal (21 working days).",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "whatsapp_prefill_supported": true,
+        "whatsapp_prefill_url_template": "https://wa.me/919922501450?text=Name:%20{{name}}%0AAddress:%20{{address}}%0AComplaint:%20{{issue}}",
+        "barriers": ["Apache Wicket session URLs on web portal"],
+        "recommended_handoff": "Direct WhatsApp prefill to 9922501450 formatted with Name, Address, and Issue."
+      }
+    },
+    {
+      "id": "swachhata_mohua",
+      "name": "Swachhata-MoHUA (Swachh Bharat Urban Sanitation App)",
+      "managing_body": "Ministry of Housing & Urban Affairs (MoHUA), Government of India",
+      "tier": "National Municipal Sanitation",
+      "domain": "Urban Garbage, Sweeping, Dead Animals & Public Toilet Complaints",
+      "jurisdiction": "4,041 Indian towns and cities",
+      "urls": {
+        "play_store": "https://play.google.com/store/apps/details?id=com.ichangemycity.swachhbharat"
+      },
+      "contact_channels": {
+        "helpline": ["1969"],
+        "email": "support@sbmurban.org",
+        "mobile_apps": ["Swachhata-MoHUA (Android & iOS)"]
+      },
+      "categories": [
+        "Garbage dump (12-hr SLA)",
+        "Garbage vehicle not arrived (12-hr SLA)",
+        "Dustbins not cleared (12-hr SLA)",
+        "Sweeping not done (12-hr SLA)",
+        "Public toilet cleaning / blockage (12-hr SLA)",
+        "No water supply in public toilet (12-hr SLA)",
+        "No electricity in public toilet (12-hr SLA)",
+        "Dead animals (48-hr SLA)"
+      ],
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "sla_and_timelines": {
+        "action_initiation_hours": 6,
+        "sanitation_and_toilets_sla_hours": 12,
+        "dead_animals_sla_hours": 48
+      },
+      "exclusions": [
+        "Sanitation & public toilets only (not for potholes, streetlights, water bills, or construction).",
+        "App reliability caveat: Late-2026 Play Store reviews report intermittent GPS-pin and HTTP 500 errors; always display the city's native municipal portal alongside Swachhata."
+      ],
+      "documents_required": [
+        "Live geotagged photo (or gallery photo + manual location) and landmark"
+      ],
+      "step_by_step_guide": [
+        "Install Swachhata-MoHUA (Android/iOS) and capture a photo of the sanitation issue.",
+        "Select one of the 8 sanitation categories and enter the nearest landmark.",
+        "Submit; complaint routes to the local sanitary inspector/engineer.",
+        "Review the 'Resolved' photo notification and reopen if unresolved."
+      ],
+      "escalation_path": "Reopen inside Swachhata-MoHUA -> File on native city municipal portal -> State grievance portal (e.g., Aaple Sarkar).",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "barriers": ["Mobile-app-only flow"],
+        "recommended_handoff": "Surface alongside native city WhatsApp/portal as a parallel 12-hour SLA sanitation channel."
+      }
+    },
+    {
+      "id": "major_metro_municipal_portals",
+      "name": "Major Indian Metro Municipal Portals (Mumbai, Delhi, Bengaluru, Chennai, Hyderabad, Kolkata, Ahmedabad)",
+      "managing_body": "Respective Municipal Corporations",
+      "tier": "Municipal (Major Metros)",
+      "domain": "Civic Grievances Across Major Indian Cities",
+      "jurisdiction": "Metro-specific",
+      "metros": [
+        {
+          "city": "Mumbai",
+          "body": "Brihanmumbai Municipal Corporation (BMC)",
+          "urls": {
+            "grievance_portal": "https://marg.mcgm.gov.in/",
+            "legacy_portal": "https://portal.mcgm.gov.in/irj/portal/anonymous/qlChecklistLGc",
+            "property_tax": "https://ptaxportal.mcgm.gov.in/CitizenPortal/"
+          },
+          "helpline": ["1916 (24x7)", "8065320000 (Water Bill Portal)"],
+          "whatsapp": "+918999228999 (mybmc Assist)",
+          "whatsapp_prefill_url_template": "https://wa.me/918999228999?text={{encoded_message}}",
+          "mobile_apps": ["My BMC App (Android/iOS)"],
+          "social": "@mybmcWard__ (replace __ with ward letters, e.g., @mybmcWardGS)",
+          "state_escalation": "https://grievances.maharashtra.gov.in/en"
+        },
+        {
+          "city": "Delhi",
+          "body": "Municipal Corporation of Delhi (MCD) & New Delhi Municipal Council (NDMC)",
+          "urls": {
+            "mcd_portal": "https://mcdonline.nic.in/"
+          },
+          "helpline": ["155305 (MCD)", "1533 (NDMC)"],
+          "whatsapp": "+918588887773 (NDMC)",
+          "whatsapp_prefill_url_template": "https://wa.me/918588887773?text={{encoded_message}}",
+          "mobile_apps": ["MCD 311 App", "NDMC 311 App"]
+        },
+        {
+          "city": "Bengaluru",
+          "body": "Greater Bengaluru Authority (GBA — delimited into 5 Corporations in July 2025; formerly BBMP)",
+          "urls": {
+            "property_tax_grievance": "https://bbmptax.karnataka.gov.in/forms/grievancesreq.aspx",
+            "sahaaya_app": "https://play.google.com/store/apps/details?id=com.nammabengaluruNew.org"
+          },
+          "helpline": ["080-22660000", "080-22975555", "080-22221188", "1912 (BESCOM power)"],
+          "whatsapp": ["+919480685700 (BBMP)", "+919449844640 (BESCOM)"],
+          "whatsapp_prefill_url_template": "https://wa.me/919480685700?text={{encoded_message}}",
+          "mobile_apps": ["Namma Bengaluru (Sahaaya 2.0)"]
+        },
+        {
+          "city": "Chennai",
+          "body": "Greater Chennai Corporation (GCC)",
+          "urls": {
+            "home": "https://gccservices.in/pgr",
+            "register_complaint": "https://gccservices.in/pgr/registercomplaints"
+          },
+          "helpline": ["1913"],
+          "mobile_apps": ["Namma Chennai App"],
+          "categories_count": 17,
+          "upload_constraints": "Photo must be under 1 MB; OTP verification required",
+          "offline_address": "The Commissioner, Greater Chennai Corporation, Ripon Building, EVR Salai, Chennai – 600003"
+        },
+        {
+          "city": "Hyderabad",
+          "body": "Greater Hyderabad Municipal Corporation (GHMC)",
+          "urls": {
+            "home": "https://www.ghmc.gov.in/"
+          },
+          "helpline": ["040-21111111", "040-23225397"],
+          "whatsapp": "+918125966586 (My GHMC — garbage & construction debris)",
+          "whatsapp_prefill_url_template": "https://wa.me/918125966586?text={{encoded_message}}",
+          "social": "@GHMCOnline"
+        },
+        {
+          "city": "Kolkata",
+          "body": "Kolkata Municipal Corporation (KMC)",
+          "urls": {
+            "home": "https://kmc.wb.gov.in/"
+          },
+          "portal_name": "Grievance KMC 2.0"
+        },
+        {
+          "city": "Ahmedabad",
+          "body": "Amdavad Municipal Corporation (AMC)",
+          "urls": {
+            "complaint_portal": "https://amccrs.com/"
+          },
+          "helpline": ["155303"]
+        }
+      ],
+      "fees": {
+        "online": "Free (INR 0)"
+      }
+    },
+    {
+      "id": "tele_law_nyaya_bandhu",
+      "name": "Tele-Law & Nyaya Bandhu (Free Pre-Litigation Legal Advice)",
+      "managing_body": "Department of Justice, Ministry of Law & Justice (DISHA Scheme) & CSC",
+      "tier": "Central Legal Aid / Pre-Litigation",
+      "domain": "Free Pre-Litigation Legal Advice for All Citizens",
+      "jurisdiction": "Pan-India (2,50,000 CSCs + Mobile App)",
+      "urls": {
+        "home": "https://www.tele-law.in/",
+        "citizen_signup": "https://www.tele-law.in/beneficiary/auth/signup",
+        "faq": "https://www.tele-law.in/faq.html",
+        "nyaya_bandhu": "https://probono-doj.in/",
+        "umang_landing": "https://web.umang.gov.in/landing/department/tele-law.html"
+      },
+      "contact_channels": {
+        "helpline": ["14454", "011-23074401", "011-23070627"],
+        "email": ["telelaw.grievance@csc.gov.in", "help.telelaw@gmail.com", "help.nyayabandhu@gmail.com"],
+        "mobile_apps": ["Tele-Law Mobile App (Android/iOS)", "UMANG App"]
+      },
+      "categories": [
+        "Property, land & tenancy/deposit disputes",
+        "Family, maintenance of women, children & senior citizens",
+        "Wages, employment & maternity benefits",
+        "Police/FIR guidance & everyday civil disputes"
+      ],
+      "eligibility_and_thresholds": {
+        "who_qualifies": "ALL Indian citizens regardless of income (100% free)"
+      },
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "sla_and_timelines": {
+        "consultation_slot_minutes": 20,
+        "max_consultations_per_case": 3
+      },
+      "documents_required": [
+        "Name and mobile number (OTP)",
+        "Aadhaar / basic ID (may be requested at CSC)",
+        "Relevant dispute documents for the 20-minute lawyer call"
+      ],
+      "step_by_step_guide": [
+        "Sign up at tele-law.in/beneficiary/auth/signup or via the Tele-Law Mobile App (or visit nearest CSC).",
+        "Enter name and verify via mobile OTP.",
+        "Describe your legal issue and pick 3 preferred dates/times from the Panel Lawyer calendar.",
+        "Attend the 20-minute video/IVR phone consultation (you may switch lawyers if unsatisfied before closing).",
+        "Submit mandatory feedback after the consultation."
+      ],
+      "escalation_path": "Tele-Law pre-litigation advice -> NALSA / DLSA Free Legal Representation (if Sec 12 eligible) or Lok Adalat / Small Causes Court.",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "barriers": ["Mobile OTP", "Live appointment calendar booking"],
+        "recommended_handoff": "1-page 'Questions to Ask Your Tele-Law Lawyer' summary sheet + direct signup deep link."
+      }
+    },
+    {
+      "id": "nalsa_mslsa_dlsa",
+      "name": "NALSA / MSLSA / DLSA (Free Legal Aid & Lok Adalats)",
+      "managing_body": "National Legal Services Authority & Maharashtra State Legal Services Authority",
+      "tier": "National / State / District Legal Services Authorities",
+      "domain": "Free Court Representation, Drafting, Lok Adalat & Permanent Lok Adalat",
+      "jurisdiction": "Pan-India (National -> State -> District -> Taluka)",
+      "urls": {
+        "nalsa_home": "https://nalsa.gov.in/",
+        "nalsa_legal_aid": "https://nalsa.gov.in/legal-aid/",
+        "nalsa_slsa_directory": "https://nalsa.gov.in/directory/",
+        "permanent_lok_adalat": "https://nalsa.gov.in/permanent-lok-adalat/",
+        "lok_adalats": "https://nalsa.gov.in/lok-adalats/",
+        "mslsa_home": "https://maharashtra.nalsa.gov.in/",
+        "mslsa_directory": "https://maharashtra.nalsa.gov.in/directory/",
+        "pune_dlsa": "https://www.punedlsa.org/"
+      },
+      "contact_channels": {
+        "helpline": ["15100 (NALSA Toll-Free)", "1800-222-324 (Maharashtra SLSA Toll-Free)", "020-25534881 (DLSA Pune)"],
+        "email": ["nalsa-dla@nic.in", "mslsa-bhc@nic.in", "dlsapune2@gmail.com"],
+        "offline_pune_anchor": "DLSA Pune & Permanent Lok Adalat, New Building, 1st Floor, District & Sessions Court Premises, Shivajinagar, Pune – 411005 (+ 35 District Legal Aid Clinics)"
+      },
+      "categories": [
+        "Free advocate representation, court/process fees, drafting & certified copies (civil & criminal)",
+        "Regular / National Lok Adalats (amicable compromise; court fee refunded if pending case settles)",
+        "Permanent Lok Adalat (pre-litigation Public Utility Service disputes up to INR 1 crore)"
+      ],
+      "eligibility_and_thresholds": {
+        "section_12_status_exempt_no_income_cap": [
+          "Women (irrespective of income)",
+          "Children (under 18 years)",
+          "Members of Scheduled Caste (SC) or Scheduled Tribe (ST)",
+          "Persons with disability or mental illness",
+          "Industrial workmen",
+          "Persons in custody",
+          "Victims of human trafficking / begar",
+          "Victims of mass disaster, ethnic violence, caste atrocity, flood, drought, earthquake, or industrial disaster"
+        ],
+        "section_12h_income_ceiling_maharashtra_inr": 300000,
+        "supreme_court_income_ceiling_inr": 500000,
+        "section_13_genuine_case": "Subject to prima facie genuine case; income affidavit is generally sufficient under Section 13(2).",
+        "permanent_lok_adalat_rules": {
+          "pecuniary_limit_inr": 10000000,
+          "scope": "Public Utility Services only (transport, postal/telecom, power/water, public sanitation, hospital/dispensary, insurance)",
+          "pre_litigation_bar": "Must be filed BEFORE approaching any court for the same dispute",
+          "binding_adjudication": "If conciliation fails, PLA decides on merits under Sec 22C(8); award is final and executable as a civil decree (only Article 226/227 High Court writ review applies)."
+        }
+      },
+      "fees": {
+        "online": "Free (INR 0)"
+      },
+      "sla_and_timelines": {
+        "legal_aid_application_decision_days": 7
+      },
+      "documents_required": [
+        "Aadhaar card copy",
+        "Passport-size photograph",
+        "Caste certificate (if applying under SC/ST)",
+        "Income certificate or income affidavit under Section 13(2) (if applying under income category)",
+        "Brief written account of the dispute and relevant supporting papers"
+      ],
+      "step_by_step_guide": [
+        "Verify Section 12 eligibility (status-based or below state income ceiling—INR 3 lakh/year in Maharashtra).",
+        "Apply online via NALSA's LSMS portal (linked from nalsa.gov.in / maharashtra.nalsa.gov.in), by email, by post, or in person at DLSA Front Office (or call 15100).",
+        "Receive decision and Panel Advocate appointment letter within 7 days.",
+        "For pre-litigation Public Utility disputes (<= INR 1 crore), apply directly to the Permanent Lok Adalat at District Court before filing any court case."
+      ],
+      "escalation_path": "Complaint against assigned legal aid lawyer -> Written application to assigning SLSA/DLSA or email nalsa-dla@nic.in.",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "dialer_intent": "tel:15100",
+        "mailto_prefill_supported": true,
+        "mailto_template": "mailto:dlsapune2@gmail.com?subject=Free%20Legal%20Aid%20Request&body={{encoded_summary}}",
+        "recommended_handoff": "15-second Section 12 Eligibility Screener + auto-drafted Legal Aid Application & Income Affidavit PDF."
+      }
+    },
+    {
+      "id": "maharashtra_rent_small_causes_pune",
+      "name": "Maharashtra Rent Control Competent Authority & Small Causes Court (Pune)",
+      "managing_body": "District Judiciary / Competent Authority under Maharashtra Rent Control Act, 1999",
+      "tier": "Local Judiciary / Quasi-Judicial",
+      "domain": "Landlord-Tenant Security Deposit Refund & Leave-and-License Disputes",
+      "jurisdiction": "Pune District (and equivalent District/Small Causes Courts across Maharashtra)",
+      "urls": {
+        "pune_district_court": "https://pune.dcourts.gov.in/contact-us/"
+      },
+      "contact_channels": {
+        "helpline": ["020-25534799 (Registrar Office, District & Sessions Court, Pune)"],
+        "email": "mahpundc@mhstate.nic.in",
+        "offline_pune_anchor": "District & Sessions Court / Small Causes Court, CTS No. 9 & 9A, FP No. 805 & 891, Shivajinagar, Pune – 411005"
+      },
+      "categories": [
+        "Residential Leave & License possession/eviction (Competent Authority, Section 24 MRCA 1999)",
+        "Tenancies, commercial licenses, and monetary security deposit refund recovery (Court of Small Causes)"
+      ],
+      "mandatory_pre_steps": [
+        "Compile registered Leave & License Agreement (compulsory registration under Sec 55 MRCA 1999), deposit transfer proof, key handover proof, and move-out photos.",
+        "Send a formal 15-day written Demand Notice via email and Registered Speed Post.",
+        "Attempt free pre-litigation advice via Tele-Law or pre-litigation mediation/Lok Adalat via DLSA Pune."
+      ],
+      "exclusions": [
+        "Do not file pure civil security deposit recovery as a police complaint unless distinct criminal cheating/fraud occurred (e.g., forged ownership or concealed bank seizure)."
+      ],
+      "documents_required": [
+        "Registered Leave & License Agreement",
+        "UPI/NEFT/cheque proof of security deposit payment",
+        "Move-out inspection / timestamped condition photos & key handover confirmation",
+        "Paid electricity/society maintenance receipts",
+        "Copy of 15-day Demand Notice and postal tracking receipt"
+      ],
+      "step_by_step_guide": [
+        "Gather agreement, deposit payment proof, utility clearance, and move-out photos.",
+        "Send a 15-day written Demand Notice to the landlord via email + Registered Speed Post.",
+        "Book a free Tele-Law call or approach DLSA Pune for pre-litigation Lok Adalat/mediation (and free lawyer if Sec 12 eligible).",
+        "If unresolved, file a recovery suit in the Court of Small Causes, Shivajinagar, Pune."
+      ],
+      "escalation_path": "15-Day Demand Notice -> Tele-Law / DLSA Pre-Litigation Lok Adalat -> Court of Small Causes, Pune.",
+      "automation": {
+        "public_api": false,
+        "url_param_prefill": false,
+        "recommended_handoff": "15-Day Security Deposit Demand Notice PDF generator + move-out evidence checklist + DLSA/Tele-Law bridge."
+      }
+    },
+    {
+      "id": "digit_upyog_pgr_api",
+      "name": "DIGIT / UPYOG Open-Source Public Grievance Redressal (PGR) API Stack",
+      "managing_body": "eGov Foundation (DIGIT) & NIUA / MoHUA (UPYOG)",
+      "tier": "Open-Source Municipal Digital Public Infrastructure (DPI)",
+      "domain": "Programmatic Municipal Grievance Filing & Tracking",
+      "jurisdiction": "Adopted by states including Punjab (mSeva), Odisha (SUJOG), Kerala (K-SMART), Himachal Pradesh, and deployable locally via Docker",
+      "urls": {
+        "upyog_portal": "https://upyog.niua.in/",
+        "github_pgr_repo": "https://github.com/egovernments/Citizen-Complaint-Resolution-System",
+        "github_digit_core": "https://github.com/egovernments/Digit-Core",
+        "digit_pgr_docs": "https://docs.digit.org/health/deploy/configuration/hcm-service-configuration/complaints"
+      },
+      "license": "MIT License (DPGA-certified Digital Public Good)",
+      "api_specifications": {
+        "protocol": "REST JSON (all operations use HTTP POST with standard RequestInfo envelope)",
+        "endpoints": {
+          "create_complaint": "POST /pgr-services/v2/request/_create",
+          "update_complaint": "POST /pgr-services/v2/request/_update",
+          "search_complaints": "POST /pgr-services/v2/request/_search",
+          "count_complaints": "POST /pgr-services/v2/request/_count",
+          "upload_evidence": "egov-filestore (multipart upload returning fileStoreId UUID)",
+          "geo_to_tenant": "egov-location (resolves lat/long to municipal tenantId)",
+          "chatbot_module": "xstate-chatbot (WhatsApp/chatbot integration)"
+        },
+        "hackathon_note": "Live state deployments require citizen auth tokens; run locally via Docker Compose (8 GB RAM, 8 vCPU) to demonstrate real API-driven grievance creation."
+      },
+      "automation": {
+        "public_api": true,
+        "url_param_prefill": false,
+        "recommended_handoff": "Export DIGIT-compliant JSON payload or POST directly to a local DIGIT PGR Docker sandbox during demo."
+      }
+    }
+  ]
+}
