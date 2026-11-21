@@ -1,0 +1,27 @@
+{
+  "name": "@raasta/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "deploy": "wrangler deploy",
+    "dry": "wrangler deploy --dry-run --outdir .wrangler/dry",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --root ../.. apps/api"
+  },
+  "dependencies": {
+    "@raasta/config": "*",
+    "@raasta/data": "*",
+    "@raasta/i18n": "*",
+    "@raasta/rules": "*",
+    "@turf/boolean-point-in-polygon": "^7.2.0",
+    "@turf/helpers": "^7.2.0",
+    "hono": "^4.7.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251001.0",
+    "wrangler": "^4.0.0"
+  }
+}
