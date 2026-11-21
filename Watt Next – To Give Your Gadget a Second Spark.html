@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Watt Next? – To Give Your Gadget a Second Spark</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Fraunces:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#EFEBE2;--card:#fff;--tx:#333;--mu:#6b6370;--pri:#988193;--btn:#6f5a6b;--lav:#e6dfec;--sage:#7fa488;--sagebg:#dcebdf;--warn:#b5532f;--warnbg:#f6e0d6;--bd:#d9d2c6}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#25212a;--card:#332d37;--tx:#f0ecf2;--mu:#b9b0c0;--lav:#40374a;--sagebg:#2f4436;--warnbg:#4a2f26;--bd:#4a4252;--btn:#a58aa0}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;font:16px/1.6 "DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+header{background:var(--bg);color:var(--tx);border-bottom:1px solid var(--bd);position:sticky;top:env(safe-area-inset-top,0px);z-index:5;padding:.6rem 1rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+.logo{font-size:1.35rem;cursor:pointer;line-height:1.2}.logo small{display:block;font-family:"DM Sans",system-ui,sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mu)}
+nav{display:flex;gap:.2rem;flex-wrap:wrap;margin-left:auto}nav a{color:var(--mu);text-decoration:none;padding:.4rem .6rem;font-size:.9rem}nav a.on,nav a:hover{color:var(--tx);box-shadow:inset 0 -2px var(--pri)}
+#ham{display:none;margin-left:auto;background:none;border:1px solid var(--bd);color:var(--tx);border-radius:8px;padding:.3rem .6rem;font-size:1.1rem}
+select,input,textarea{font:inherit;padding:.6rem;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);max-width:100%}
+header select{padding:.3rem}
+@media(max-width:800px){#ham{display:block}nav{display:none;width:100%;flex-direction:column}nav.open{display:flex}}
+main{max-width:880px;margin:0 auto;padding:2rem 1rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:1.2rem;margin-bottom:1rem}h1,h2,h3,.logo{font-family:Fraunces,Georgia,"Times New Roman",serif;font-weight:500;letter-spacing:-.01em}
+.grid{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.btn{background:var(--btn);color:#fff;border:0;border-radius:8px;padding:.7rem 1.2rem;font-size:.95rem;font-weight:500;cursor:pointer;transition:transform .15s}.btn:hover{transform:translateY(-1px)}
+.btn.alt{background:none;color:var(--tx);border:1px solid var(--bd)}.btn.sm{padding:.4rem .8rem;font-size:.9rem}
+.hero{text-align:center;padding:3rem 1rem}.card.hero{border:0;background:none}.hero h1{font-size:clamp(1.9rem,5vw,3rem);font-weight:400;line-height:1.15;margin:.2rem}.hero>.big:first-child{display:none}.hero p{color:var(--mu);max-width:560px;margin:.5rem auto 1rem}
+.act{cursor:pointer}.act:hover{border-color:var(--pri)}.big{width:40px;height:40px;display:grid;place-items:center;border-radius:50%;background:var(--lav);color:var(--btn);margin-bottom:.6rem}.ic{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px;margin-right:.35rem}.big .ic{width:22px;height:22px;margin:0;vertical-align:0}
+.chip{display:inline-block;padding:.35rem .8rem;border-radius:99px;background:none;cursor:pointer;margin:.15rem;border:1px solid var(--bd);color:var(--tx);font:inherit;font-size:.9rem}.chip.on{background:var(--btn);color:#fff}
+.alert{background:none;border:1px solid var(--warn);padding:.7rem;border-radius:8px;margin:.6rem 0;font-size:.9rem}
+.ok{background:none;border:1px solid var(--sage);padding:.7rem;border-radius:8px;margin:.6rem 0}
+.tag{font-size:.72rem;color:var(--mu);border:1px solid var(--bd);padding:.05rem .5rem;border-radius:99px}
+.steps{display:flex;gap:.5rem;flex-wrap:wrap}.steps div{flex:1;min-width:130px;text-align:center;cursor:pointer}
+@media(max-width:600px){.steps{flex-direction:column}}
+.tl{border-left:3px solid var(--bd);margin-left:.8rem;padding-left:1rem}.tl .e{position:relative;padding:.4rem 0 .8rem;color:var(--mu)}
+.tl .e:before{content:"";position:absolute;left:-1.55rem;top:.6rem;width:14px;height:14px;border-radius:50%;background:var(--bd)}
+.tl .e.done{color:var(--tx)}.tl .e.done:before{background:var(--sage)}.tl .e.cur:before{background:var(--pri);box-shadow:0 0 0 4px var(--lav)}
+.bar{height:10px;border-radius:9px;background:var(--bd);overflow:hidden}.bar i{display:block;height:100%;background:var(--sage)}
+.row{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}.row.sp{justify-content:space-between}
+label{display:block;margin:.5rem 0 .2rem;font-weight:600;font-size:.9rem}input,select,textarea{width:100%}
+.drop{border:2px dashed var(--pri);border-radius:14px;padding:1.2rem;text-align:center;cursor:pointer}
+.toast{position:fixed;bottom:calc(1rem + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:.7rem 1.2rem;border-radius:12px;z-index:9}
+#wa{position:fixed;right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:99px;padding:.45rem .9rem;font-size:.85rem;cursor:pointer;z-index:6}
+.err{color:var(--warn);font-size:.85rem}.demo{font-size:.75rem;color:var(--mu)}
+.chart{display:flex;align-items:flex-end;gap:.6rem;height:130px}.chart div{flex:1;background:var(--pri);border-radius:6px 6px 0 0;text-align:center;font-size:.7rem;color:#fff;min-height:6px}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%}td,th{padding:.4rem;border-bottom:1px solid var(--bd);text-align:left;font-size:.9rem}
+</style></head><body>
+<header><div class="logo" onclick="go('home')">Watt Next?<small id="tag"></small></div><button id="ham" aria-label="Menu">☰</button>
+<nav id="nav"></nav><select id="lang" aria-label="Language"><option value="en">English</option><option value="hi">हिन्दी</option><option value="mr">मराठी</option></select></header>
+<main id="app"></main>
+<button id="wa">💬 Help (demo)</button><div id="toast" class="toast" hidden></div>
+<script>
+const I18N={en:{tag:"To Give Your Gadget a Second Spark.",nav:["Home","Identify","Find Disposal","Book","Track","Rewards","Staff Demo"],h:"Your Old Gadgets Deserve a Second Spark.",p:"Don’t let your old electronics become waste. Find, donate or recycle them responsibly with Watt Next?",b1:"Get Started",b2:"Find a Collection Centre"},
+hi:{tag:"अपने गैजेट को दूसरी चिंगारी दें।",nav:["होम","पहचानें","निपटान खोजें","बुक करें","ट्रैक","रिवॉर्ड","स्टाफ डेमो"],h:"आपके पुराने गैजेट्स को दूसरी चिंगारी मिलनी चाहिए।",p:"पुराने इलेक्ट्रॉनिक्स को कचरा न बनने दें। Watt Next? के साथ उन्हें ज़िम्मेदारी से रीसायकल करें।",b1:"शुरू करें",b2:"संग्रह केंद्र खोजें"},
+mr:{tag:"तुमच्या गॅजेटला दुसरी ठिणगी द्या.",nav:["मुख्यपृष्ठ","ओळखा","विल्हेवाट शोधा","बुक करा","ट्रॅक","बक्षिसे","स्टाफ डेमो"],h:"तुमच्या जुन्या गॅजेट्सना दुसरी ठिणगी मिळायला हवी.",p:"जुनी इलेक्ट्रॉनिक्स कचरा होऊ देऊ नका. Watt Next? सोबत जबाबदारीने रीसायकल करा.",b1:"सुरू करा",b2:"संकलन केंद्र शोधा"}};
+const P={phone:'<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>',plug:'<path d="M9 2v5M15 2v5M6 7h12v4a6 6 0 0 1-12 0z"/><path d="M12 17v5"/>',headphones:'<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="1"/><rect x="17" y="14" width="4" height="6" rx="1"/>',laptop:'<rect x="4" y="5" width="16" height="11" rx="1"/><path d="M2 20h20"/>',tablet:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M11 18h2"/>',keyboard:'<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>',battery:'<rect x="2" y="8" width="18" height="9" rx="2"/><path d="M22 11v3M6 11v3M10 11v3"/>',home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',pin:'<path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/>',truck:'<path d="M2 6h12v10H2zM14 9h4l4 4v3h-8"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>',users:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14a5 5 0 0 1 4 6"/>',bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',check:'<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/>',star:'<path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.5 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/>',upload:'<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v4h16v-4"/>',chat:'<path d="M4 5h16v11H9l-5 4z"/>',medal:'<circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/>',list:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 11h6M9 15h6"/>',building:'<rect x="5" y="3" width="14" height="18"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M10 21v-4h4v4"/>'};
+function ic(n){return '<svg class="ic" viewBox="0 0 24 24">'+(P[n]||'')+'</svg>'}
+const IT_IC=["phone","phone","plug","headphones","laptop","tablet","keyboard","battery","battery","home"];
+const CI={"Identify Your E-Waste":"search","Find a Collection Centre":"pin","Schedule a Pickup":"truck","Join a Community Drive":"users"};
+const EM={"🔋":"battery","🕒":"clock","📅":"calendar","🔒":"lock","📷":"upload","📋":"list","🏅":"medal","⭐":"star","✅":"check","🏬":"building","🚚":"truck","🎓":"users"};
+const ER=new RegExp("("+Object.keys(EM).join("|")+")\\uFE0F?","g");
+function deco(h){return h.replace(ER,(m,k)=>ic(EM[k]))}
+const ROUTES=["home","identify","find","book","track","rewards","staff"];
+const CATS=["Phones","Accessories","Computers","Batteries","Household"];
+const ITEMS=[["Smartphone","Phones","📱",1],["Feature phone","Phones","☎️",1],["Charger / cable","Accessories","🔌",0],["Earphones / headphones","Accessories","🎧",0],["Laptop","Computers","💻",1],["Tablet","Computers","📲",1],["Keyboard / mouse","Computers","⌨️",0],["Power bank","Batteries","🔋",1],["Loose batteries","Batteries","🪫",1],["Small appliance (iron, toaster)","Household","🔦",0]];
+const CENTRES=[["Demo E-Waste Point – Kothrud","Kothrud, Pune 411038","10am–6pm","Phones, Accessories, Computers"],["Demo Collection Hub – Baner","Baner, Pune 411045","9am–5pm","All categories"],["Demo College Cell – FYBSc","Campus, Pune 411007","11am–4pm","Phones, Accessories, Batteries"]];
+const DRIVES=[["Demo College E-Waste Drive","College campus, Pune","28 Nov, 10:00","College"],["Demo Society Collection Day","Housing society, Baner","6 Dec, 9:00","Society"],["Demo Awareness Campaign","Community hall, Kothrud","14 Dec, 11:00","Community"]];
+const SLOTS=["9–11 am","11 am–1 pm","3–5 pm","5–7 pm"];
+const PS=["Booking Created","Collector Assigned","Collected","At Aggregator Hub","At Recycler","Processing","Processed"];
+const OWN={"Collector Assigned":"collector","Collected":"collector","At Aggregator Hub":"aggregator","At Recycler":"recycler","Processing":"recycler","Processed":"recycler"};
+const $=s=>document.querySelector(s);const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let S={lang:"en",cart:[],bookings:[],role:"collector",sel:null,method:"pickup",cat:"All",q:"",img:null,last:null,trk:null};
+try{const x=localStorage.getItem("wattnext");if(x){const o=JSON.parse(x);S.bookings=o.bookings||[];S.lang=o.lang||"en";S.cart=o.cart||[]}}catch(e){}
+if(!S.bookings.length){const t=new Date().toLocaleString();S.bookings=[{id:"WN-DEMO01",demo:1,method:"pickup",items:[{n:"Smartphone",q:2,b:1},{n:"Charger / cable",q:1,b:0}],loc:"Demo address, Pune 411038",when:"Demo slot",stage:3,hist:[["Booking Created",t],["Collector Assigned",t],["Collected",t],["At Aggregator Hub",t]]}]}
+function save(){try{localStorage.setItem("wattnext",JSON.stringify({bookings:S.bookings,lang:S.lang,cart:S.cart}))}catch(e){}}
+function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,2800)}
+function go(r){location.hash=r}
+function stages(b){return b.method==="pickup"?PS:PS.filter(s=>s!=="Collector Assigned")}
+function stName(b){return stages(b)[b.stage]}
+function T(){return I18N[S.lang]}
+function nav(){const r=cur();$("#nav").innerHTML=T().nav.map((n,i)=>`<a href="#${ROUTES[i]}" class="${r===ROUTES[i]?"on":""}">${n}</a>`).join("");$("#tag").textContent=T().tag;$("#lang").value=S.lang}
+function cur(){const h=location.hash.slice(1);return ROUTES.includes(h)?h:"home"}
+function pts(){let p=0,items=0,done=0,kg=0;S.bookings.filter(b=>!b.demo).forEach(b=>{const n=b.items.reduce((a,i)=>a+i.q,0),st=stName(b);const ci=stages(b).indexOf("Collected");if(b.stage>=ci){p+=10*n;items+=n}if(st==="Processed"){p+=20*n;done++;kg+=n*.15}});return{p,items,done,kg}}
+const V={
+home(){const t=T();return`<div class="card hero"><div class="big">📱➜♻️⚡</div><div class="big" style="margin:0 auto 1rem;width:52px;height:52px">${ic("bolt")}</div><h1>${t.h}</h1><p>${t.p}</p><button class="btn" onclick="go('identify')">${t.b1}</button> <button class="btn alt" onclick="go('find')">${t.b2}</button></div>
+<div class="grid">${[["🔍","Identify Your E-Waste","Get a disposal recommendation.","identify"],["📍","Find a Collection Centre","Nearby points (demo data).","find"],["🚚","Schedule a Pickup","Book a doorstep collection.","book"],["🎓","Join a Community Drive","College & society drives.","find"]].map(c=>`<div class="card act" onclick="go('${c[3]}')"><div class="big">${ic(CI[c[1]])}</div><b>${c[1]}</b><p>${c[2]}</p></div>`).join("")}</div>
+<div class="card"><h2>How it works</h2><div class="steps">${[["Discover","home"],["Identify","identify"],["Choose a Channel","find"],["Pledge & Book","book"],["Track","track"],["Get Reward","rewards"]].map((s,i)=>`<div class="card act" onclick="go('${s[1]}')"><b>${i+1}</b><br>${s[0]}</div>`).join("")}</div></div>
+<div class="card"><h2>Why it matters</h2><div class="grid"><div><b>What is e-waste?</b><br>Anything with a plug or battery you no longer use: phones, chargers, laptops, power banks.</div><div><b>Why not the dustbin?</b><br>Batteries can start fires and toxic metals leak into soil and water.</div><div><b>Why authorised recyclers?</b><br>They recover metals safely and handle hazardous parts properly.</div></div></div>
+<div class="card"><h2>🔒 Data safety before you give up a device</h2><ul><li>Back up photos and files.</li><li>Sign out of Google / Apple / other accounts.</li><li>Follow the maker’s steps for a factory reset.</li><li>Remove SIM and memory cards.</li></ul></div>
+<div class="alert">🔋 Never open, crush or puncture a battery. Keep damaged batteries in a dry, non-metal container and tell the collector.</div>
+<p class="demo">This is a prototype. All centres, drives, collectors and tracking are demo data saved in your browser only.</p>`},
+identify(){const list=ITEMS.filter(i=>(S.cat==="All"||i[1]===S.cat)&&i[0].toLowerCase().includes(S.q.toLowerCase()));const r=S.sel!=null?ITEMS[S.sel]:null;
+return`<h2>What’s sitting unused in your drawer?</h2><div class="card"><div class="drop" onclick="$('#file').click()">${S.img?`<img src="${S.img}" alt="Preview" style="max-height:140px;border-radius:10px"><br><button class="btn sm alt" onclick="event.stopPropagation();S.img=null;render()">Remove</button>`:"📷 Drag & drop or tap to add a photo"}<input id="file" type="file" accept="image/*" hidden></div><p class="demo">Photo recognition is not connected in this prototype. The photo is only a preview – please pick the item below to confirm.</p>
+<input id="q" placeholder="Search e.g. charger" value="${esc(S.q)}" list="sg"><datalist id="sg">${ITEMS.map(i=>`<option value="${i[0]}">`).join("")}</datalist>
+<div>${["All",...CATS].map(c=>`<button class="chip ${S.cat===c?"on":""}" data-c="${c}">${c}</button>`).join("")}</div></div>
+<div class="grid">${list.map(i=>`<div class="card act" data-i="${ITEMS.indexOf(i)}"><div class="big">${ic(IT_IC[ITEMS.indexOf(i)])}</div><b>${i[0]}</b><br><span class="tag">${i[1]}</span></div>`).join("")||"<p>No match. Try another word or category.</p>"}</div>
+${r?`<div class="card"><h3>${ic(IT_IC[S.sel])} ${r[0]}</h3><p><span class="tag">${r[1]}</span> <span class="tag">Accepted (demo)</span> <span class="tag">${r[3]?"Contains battery":"No battery"}</span></p>
+${r[3]?`<div class="alert">🔋 Battery alert: don’t dismantle it. Switch the device off, tape exposed terminals, store it dry and away from heat.</div>`:""}
+<div class="ok"><b>Recommended: RECYCLE</b> (or DONATE if it still works). Choose a drop-off, pickup or community drive.</div>
+<div class="row"><button class="btn" id="addit">Add to my list</button><button class="btn alt" onclick="go('find')">Find Drop-Off</button><button class="btn alt" onclick="go('book')">Book Pickup</button></div></div>`:""}
+${S.cart.length?`<div class="card row sp"><span>📋 ${S.cart.reduce((a,i)=>a+i.q,0)} item(s) in your list</span><button class="btn" onclick="go('book')">Continue</button></div>`:""}`},
+find(){return`<h2>Find disposal</h2><div class="card"><div class="row"><input id="loc" placeholder="City, locality or PIN code" style="flex:1"><button class="btn" id="locb">Search</button></div><p class="demo">Demo locations only. GPS and live map aren’t connected; enter a place manually.</p></div>
+<h3>Drop-off centres</h3><div class="grid">${CENTRES.map((c,i)=>`<div class="card"><b>${c[0]}</b><br>${c[1]}<br>🕒 ${c[2]}<br><span class="tag">${c[3]}</span> <span class="tag">Demo</span><br><br><button class="btn sm" onclick="pick('drop',${i})">Select Centre</button></div>`).join("")}</div>
+<h3>Community drives</h3><div class="grid">${DRIVES.map((c,i)=>`<div class="card"><b>${c[0]}</b><br>${c[1]}<br>📅 ${c[2]}<br><span class="tag">${c[3]}</span> <span class="tag">Demo</span><br><br><button class="btn sm" onclick="pick('drive',${i})">Register</button></div>`).join("")}</div>
+<div class="card row sp"><span>Prefer us to come to you?</span><button class="btn" onclick="pick('pickup',0)">Book a doorstep pickup</button></div>`},
+book(){if(S.last){const b=S.last;return`<div class="card ok"><h2>✅ Your ${b.method==="pickup"?"pickup request":"booking"} has been submitted!</h2><p>Booking ID: <b>${b.id}</b><br>${esc(b.loc)}<br>${b.when}<br>Items: ${b.items.map(i=>i.q+"× "+i.n).join(", ")}<br>Status: ${stName(b)}</p><button class="btn" onclick="S.trk=S.last.id;S.last=null;go('track')">View Tracking</button></div>`}
+const m=S.method;return`<h2>Pledge & booking summary</h2><div class="card"><h3>Your items</h3>${S.cart.map((c,i)=>`<div class="row sp"><span>${esc(c.n)}${c.b?" 🔋":""}</span><span><button class="btn sm alt" data-m="${i}">−</button> ${c.q} <button class="btn sm alt" data-p="${i}">+</button> <button class="btn sm alt" data-x="${i}">Remove</button></span></div>`).join("")||`<p>No items yet. <a href="#identify">Identify an item</a> first.</p>`}</div>
+<div class="card"><h3>Collection method</h3><div class="grid">${[["drop","🏬 Drop-off"],["pickup","🚚 Doorstep Pickup"],["drive","🎓 Community Drive"]].map(x=>`<div class="card act" style="${m===x[0]?"outline:2px solid var(--btn)":""}" onclick="S.method='${x[0]}';render()"><b>${x[1]}</b></div>`).join("")}</div>
+${m==="drop"?`<label>Collection centre</label><select id="ctr">${CENTRES.map((c,i)=>`<option value="${i}">${c[0]}</option>`).join("")}</select>`:""}
+${m==="drive"?`<label>Registered event</label><select id="drv">${DRIVES.map((c,i)=>`<option value="${i}">${c[0]} – ${c[2]}</option>`).join("")}</select>`:""}
+${m==="pickup"?`<label>Name & phone</label><input id="nm" placeholder="Your name, phone"><label>Address</label><input id="ad" placeholder="Flat, street, locality"><label>PIN code</label><input id="pin" inputmode="numeric" maxlength="6"><label>Date</label><input id="dt" type="date" min="${new Date().toISOString().slice(0,10)}"><label>Time slot</label><select id="sl">${SLOTS.map(s=>`<option>${s}</option>`).join("")}</select>`:""}
+<label><input type="checkbox" id="pl" style="width:auto"> I pledge to dispose of my electronic waste responsibly through Watt Next? and authorised collection channels.</label><p class="err" id="er"></p>
+<div class="row"><button class="btn alt" onclick="go('identify')">Back</button><button class="btn" id="conf">Confirm Booking</button></div></div>`},
+track(){const bs=S.bookings;const b=bs.find(x=>x.id===S.trk);return`<h2>Track your e-waste</h2><div class="card"><div class="row"><input id="tid" placeholder="Booking ID e.g. WN-DEMO01" value="${esc(S.trk||"")}" style="flex:1"><button class="btn" id="tgo">Search</button></div><p>${bs.map(x=>`<button class="chip" onclick="S.trk='${x.id}';render()">${x.id}</button>`).join("")}</p></div>
+${b?(()=>{const st=stages(b);const pct=Math.round(b.stage/(st.length-1)*100);return`<div class="card"><div class="row sp"><b>${b.id}</b>${b.demo?'<span class="tag">Demo data</span>':""}</div><p>${b.items.map(i=>i.q+"× "+i.n).join(", ")}</p><p>Current: <b>${st[b.stage]}</b></p><div class="bar"><i style="width:${pct}%"></i></div><div class="tl" style="margin-top:1rem">${st.map((s,i)=>`<div class="e ${i<b.stage||s==="Processed"&&b.stage===i?"done":i===b.stage?"cur":""}"><b>${s}</b><br><small>${b.hist[i]?b.hist[i][1]:"Pending"}</small></div>`).join("")}</div><p class="demo">Last confirmed update shown. Updates only appear when a staff user changes the status (use Staff Demo).</p>${st[b.stage]==="Processed"?`<button class="btn" onclick="go('rewards')">See rewards</button>`:""}</div>`})():S.trk?`<p class="err">No booking found with that ID.</p>`:""}`},
+rewards(){const p=pts();const badges=[["First Recycling Journey",p.done>=1],["Community Contributor",S.bookings.some(b=>!b.demo&&b.method==="drive"&&b.stage>=2)],["E-Waste Champion",p.items>=5],["Responsible Recycler",p.done>=2]];
+return`<div class="card hero"><h2>Thank you for giving your gadget a second spark!</h2><div class="big">⭐ ${p.p} points</div></div><div class="grid"><div class="card"><b>${p.items}</b><br>items collected</div><div class="card"><b>${p.done}</b><br>journeys processed</div><div class="card"><b>≈ ${p.kg.toFixed(2)} kg</b><br>e-waste diverted <span class="tag">Estimate</span></div></div>
+<div class="card"><h3>Badges</h3>${badges.map(b=>`<span class="chip ${b[1]?"on":""}">${b[1]?"🏅":"🔒"} ${b[0]}</span>`).join("")}<p class="demo">Points: 10 per item once collected, +20 per item once processing is confirmed. Pledges earn nothing. Impact uses an assumed 0.15 kg per item – an estimate, not a measurement. Demo booking excluded.</p></div>
+<div class="card"><h3>Leaderboard (sample data)</h3><table><tr><td>1. Demo Housing Society A</td><td>420</td></tr><tr><td>2. Demo College B</td><td>310</td></tr><tr><td>3. You</td><td>${p.p}</td></tr></table></div>`},
+staff(){const r=S.role;const mine=S.bookings.filter(b=>{const n=stages(b)[b.stage+1];return n&&OWN[n]===r});const tot=S.bookings.reduce((a,b)=>a+b.items.reduce((x,i)=>x+i.q,0),0);const byc={};S.bookings.forEach(b=>b.items.forEach(i=>byc[i.n]=(byc[i.n]||0)+i.q));const mx=Math.max(1,...Object.values(byc));
+return`<h2>Staff demo</h2><div class="card"><div>${["collector","aggregator","recycler","admin"].map(x=>`<button class="chip ${r===x?"on":""}" onclick="S.role='${x}';render()">${x[0].toUpperCase()+x.slice(1)}</button>`).join("")}</div><p class="demo">Role-based demo access – no real login. Changes here update the citizen’s tracking page.</p></div>
+${r==="admin"?`<div class="grid"><div class="card"><b>${S.bookings.length}</b><br>bookings</div><div class="card"><b>${tot}</b><br>items booked</div><div class="card"><b>${S.bookings.filter(b=>stName(b)==="Processed").length}</b><br>processed</div><div class="card"><b>${S.bookings.filter(b=>stName(b)!=="Processed").length}</b><br>active</div></div><div class="card"><h3>Items by type</h3><div class="chart">${Object.entries(byc).map(([k,v])=>`<div style="height:${v/mx*100}%" title="${esc(k)}">${v}</div>`).join("")}</div><small>${Object.keys(byc).map(esc).join(" · ")}</small></div><div class="card tw"><table><tr><th>ID</th><th>Method</th><th>Status</th></tr>${S.bookings.map(b=>`<tr><td>${b.id}</td><td>${b.method}</td><td>${stName(b)}</td></tr>`).join("")}</table></div>`
+:`<div class="card"><h3>${r[0].toUpperCase()+r.slice(1)} queue</h3>${mine.map(b=>{const n=stages(b)[b.stage+1];return`<div class="row sp card" style="background:var(--lav)"><span><b>${b.id}</b> · ${b.items.map(i=>i.q+"× "+esc(i.n)).join(", ")}<br><small>${esc(b.loc)} · now: ${stName(b)}</small></span><button class="btn sm" onclick="adv('${b.id}')">Mark: ${n}</button></div>`}).join("")||"<p>Nothing waiting for this role. Make a booking as a citizen first.</p>"}</div>`}`}};
+function pick(m,i){S.method=m;go("book")}
+function adv(id){const b=S.bookings.find(x=>x.id===id),n=stages(b)[b.stage+1];if(!confirm(`Change ${id} to “${n}”?`))return;b.stage++;b.hist[b.stage]=[n,new Date().toLocaleString()];save();toast("Status updated: "+n);render()}
+function render(){nav();const r=cur();$("#app").innerHTML=deco(V[r]());bind(r);$("#nav").classList.remove("open")}
+function bind(r){
+if(r==="identify"){$("#q").oninput=e=>{S.q=e.target.value;const p=e.target.selectionStart;render();const q=$("#q");q.focus();q.setSelectionRange(p,p)};
+document.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{S.cat=b.dataset.c;render()});
+document.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{S.sel=+b.dataset.i;render();window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"})});
+$("#file").onchange=e=>{const f=e.target.files[0];if(f){S.img=URL.createObjectURL(f);render()}};
+const a=$("#addit");if(a)a.onclick=()=>{const it=ITEMS[S.sel],c=S.cart.find(x=>x.n===it[0]);c?c.q++:S.cart.push({n:it[0],q:1,b:it[3]});save();toast(it[0]+" added");render()}}
+if(r==="find"){$("#locb").onclick=()=>toast($("#loc").value.trim()?"Showing demo centres for “"+$("#loc").value.trim()+"”":"Please type a city, locality or PIN")}
+if(r==="book"&&!S.last){
+document.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{S.cart[b.dataset.p].q++;save();render()});
+document.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{const c=S.cart[b.dataset.m];if(c.q>1)c.q--;save();render()});
+document.querySelectorAll("[data-x]").forEach(b=>b.onclick=()=>{S.cart.splice(b.dataset.x,1);save();render()});
+$("#conf").onclick=()=>{const er=$("#er"),m=S.method;let loc="";
+if(!S.cart.length)return er.textContent="Please add at least one item.";
+if(m==="pickup"){const nm=$("#nm").value.trim(),ad=$("#ad").value.trim(),pin=$("#pin").value.trim(),dt=$("#dt").value;if(!nm||!ad)return er.textContent="Please enter your name, phone and address.";if(!/^\d{6}$/.test(pin))return er.textContent="PIN code must be 6 digits.";if(!dt)return er.textContent="Please choose a date.";loc=ad+", "+pin;var when=dt+", "+$("#sl").value}
+else if(m==="drop"){loc=CENTRES[$("#ctr").value][0];when="Visit during opening hours"}else{const d=DRIVES[$("#drv").value];loc=d[0];when=d[2]}
+if(!$("#pl").checked)return er.textContent="Please tick the pledge to continue.";
+const id="WN-"+Math.random().toString(36).slice(2,8).toUpperCase(),t=new Date().toLocaleString();
+const b={id,method:m,items:S.cart.map(c=>({...c})),loc,when,stage:0,hist:[["Booking Created",t]]};S.bookings.unshift(b);S.cart=[];S.last=b;save();render()}}
+if(r==="track"){const g=()=>{S.trk=$("#tid").value.trim().toUpperCase();render()};$("#tgo").onclick=g;$("#tid").onkeydown=e=>{if(e.key==="Enter")g()}}}
+$("#ham").onclick=()=>$("#nav").classList.toggle("open");
+$("#lang").onchange=e=>{S.lang=e.target.value;save();render()};
+$("#wa").innerHTML=ic("chat")+"Help (demo)";$("#wa").onclick=()=>toast("Demo support only – no real WhatsApp number is configured.");
+addEventListener("hashchange",()=>{S.last=null;render();scrollTo(0,0)});
+render();
+</script></body></html>
