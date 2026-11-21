@@ -26,6 +26,7 @@ export function toast(msg, ms = 3500) {
 }
 
 const TYPES = { flood: ['flood', 'clog'], heat: ['cooling'] };
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 const AMENITY_ICONS = {
   water: '🚰',
@@ -66,6 +67,9 @@ function render() {
       <button type="button" class="btn btn-ghost" data-act="cancel" style="padding:4px 10px;font-size:18px;font-weight:700;">✕</button>
     </div>
   `;
+  if (d.transcript) {
+    html += `<div class="rs-heard">🎤 ${esc(t('voice.heard', { text: d.transcript }))}${d.placeName ? ` · 📍 ${esc(t('report.near', { name: d.placeName }))}` : ''}</div>`;
+  }
 
   if (hazard === 'flood') {
     // Step 1 (Flood): Big tiles for Water on road / Blocked drain
@@ -231,19 +235,25 @@ async function readPhoto(file) {
   render();
 }
 
-export async function openReport() {
-  if (!currentUser()) return openSignIn(() => openReport());
+/** @param {{prefill?: {type?, depth?, inUnderpass?, place?: {name,lat,lng}, transcript?: string}}} [opts] — from voice */
+export async function openReport(opts = {}) {
+  if (!currentUser()) return openSignIn(() => openReport(opts));
   ensureSheet();
   const fix = getFix() ?? (await requestLocation({ timeoutMs: 8000 })); // asks permission the first time
+  const pre = hazard === 'flood' ? opts.prefill ?? {} : {};
   draft = {
-    type: TYPES[hazard][0],
-    depth: null,
-    inUnderpass: false,
+    type: TYPES[hazard].includes(pre.type) ? pre.type : TYPES[hazard][0],
+    depth: pre.depth ?? null,
+    inUnderpass: !!pre.inUnderpass,
     passable: { bike: true, car: true },
     amenities: [],
     photo: null,
+    transcript: pre.transcript ?? null,
+    placeName: pre.place?.name ?? null,
   };
-  if (fix) map.easeTo({ center: [fix.lng, fix.lat], zoom: Math.max(map.getZoom(), 16) });
+  // GPS wins (reports must be near the reporter); a spoken place only moves the map when there is no fix.
+  if (!fix && pre.place) map.easeTo({ center: [pre.place.lng, pre.place.lat], zoom: 16 });
+  else if (fix) map.easeTo({ center: [fix.lng, fix.lat], zoom: Math.max(map.getZoom(), 16) });
   else map.easeTo({ zoom: Math.max(map.getZoom(), 15) });
   crosshair.hidden = false;
   sheet.hidden = false;

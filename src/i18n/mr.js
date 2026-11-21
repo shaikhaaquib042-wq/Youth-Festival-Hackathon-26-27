@@ -229,4 +229,17 @@ export default {
   'report.retakePhoto': 'फोटो पुन्हा काढा',
   'report.proofBadge': 'पुरावा',
   'more.city': 'शहर',
+
+  // 🎤 voice (step V/V+) — non-en machine-written, native review pending
+  'voice.button': "बोला",
+  'voice.listening': "ऐकत आहे… जागा आणि पाणी किती खोल आहे ते सांगा — किंवा “मदत” म्हणा",
+  'voice.stop': "थांबवण्यासाठी टॅप करा",
+  'voice.working': "समजून घेत आहे…",
+  'voice.heard': "तुम्ही म्हणालात: “{text}”",
+  'voice.notHeard': "नीट ऐकू आले नाही. पुन्हा बोला, किंवा बटणे वापरा.",
+  'voice.noMic': "मायक्रोफोन उपलब्ध नाही. कृपया बटणे वापरा.",
+  'voice.offline': "आवाजासाठी इंटरनेट लागते. बटणे वापरा — 🆘 नेहमी चालते.",
+  'voice.unavailable': "आवाज सुविधा अजून सुरू नाही. कृपया बटणे वापरा.",
+  'voice.tryHelp': "आणीबाणीसाठी 🆘 दाबा",
+  'help.continueReport': "आणीबाणी नाही — माझी तक्रार पुढे भरा",
 };

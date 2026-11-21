@@ -27,14 +27,22 @@ export function matchPlaces(text, gazetteer) {
     .map(({ at, ...rest }) => rest);
 }
 
-/** Guess what a post says about a place (very simple keyword rules; English + Marathi + Hindi). */
+/**
+ * Guess what a post / spoken report says about a place (simple keyword rules; en + mr + hi + kn + te).
+ * `depthKnown` is false when no depth word was found (depth then defaults to 'knee' for pasted posts;
+ * voice reports leave it for the user to pick). kn / te words are machine-written — native review pending.
+ */
 export function classifyPost(text) {
   const s = String(text).toLowerCase();
   const has = (...w) => w.some((x) => s.includes(x));
+  const above = has('waist', 'above knee', 'chest', 'कंबर', 'कमर', 'छाती', 'ಸೊಂಟ', 'ಎದೆ', 'నడుము', 'ఛాతీ');
+  const knee = has('knee', 'गुडघ', 'घुटन', 'ಮೊಣಕಾಲು', 'ಮಂಡಿ', 'మోకాలు', 'మోకాళ్ల');
+  const ankle = has('ankle', 'घोट', 'टखन', 'ಪಾದ', 'ಕಣಕಾಲು', 'చీలమండ', 'పాదం');
   return {
-    type: has('chamber', 'drain', 'clog', 'choked', 'gutter', 'गटार', 'चेंबर', 'नाली') ? 'clog' : 'flood',
-    closed: has('closed', 'diverted', 'बंद', 'वळव'),
-    underpass: has('underpass', 'subway', 'भुयारी', 'अंडरपास'),
-    depth: has('waist', 'above knee', 'chest') ? 'above_knee' : has('knee', 'गुडघ') ? 'knee' : has('ankle', 'घोट') ? 'ankle' : 'knee',
+    type: has('chamber', 'drain', 'clog', 'choked', 'gutter', 'गटार', 'चेंबर', 'नाली', 'नाला', 'ಚರಂಡಿ', 'ಮೋರಿ', 'డ్రైనేజీ', 'మురుగు') ? 'clog' : 'flood',
+    closed: has('closed', 'diverted', 'बंद', 'वळव', 'ಬಂದ್', 'ಮುಚ್ಚ', 'మూసి', 'బంద్'),
+    underpass: has('underpass', 'subway', 'भुयारी', 'अंडरपास', 'ಅಂಡರ್‌ಪಾಸ್', 'ಅಂಡರ್ಪಾಸ್', 'అండర్‌పాస్', 'అండర్పాస్'),
+    depth: above ? 'above_knee' : knee ? 'knee' : ankle ? 'ankle' : 'knee',
+    depthKnown: above || knee || ankle,
   };
 }

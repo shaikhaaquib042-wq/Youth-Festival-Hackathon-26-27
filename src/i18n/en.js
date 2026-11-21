@@ -250,4 +250,17 @@ export default {
   'report.retakePhoto': 'Retake photo',
   'report.proofBadge': 'Proof',
   'more.city': 'City',
+
+  // 🎤 voice (step V/V+) — non-en machine-written, native review pending
+  'voice.button': "Speak",
+  'voice.listening': "Listening… say the place and how deep the water is — or say “help”",
+  'voice.stop': "Tap to stop",
+  'voice.working': "Understanding…",
+  'voice.heard': "You said: “{text}”",
+  'voice.notHeard': "Didn't catch that. Try again, or use the buttons.",
+  'voice.noMic': "Microphone not available. Please use the buttons.",
+  'voice.offline': "Voice needs internet. Use the buttons — 🆘 always works.",
+  'voice.unavailable': "Voice is not switched on yet. Please use the buttons.",
+  'voice.tryHelp': "For emergencies tap 🆘",
+  'help.continueReport': "Not an emergency — continue my report",
 };

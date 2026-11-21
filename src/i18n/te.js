@@ -229,4 +229,17 @@ export default {
   'report.retakePhoto': 'ఫోటో మళ్లీ తీయండి',
   'report.proofBadge': 'రుజువు',
   'more.city': 'నగరం',
+
+  // 🎤 voice (step V/V+) — non-en machine-written, native review pending
+  'voice.button': "మాట్లాడండి",
+  'voice.listening': "వింటోంది… ప్రదేశం, నీరు ఎంత లోతు ఉందో చెప్పండి — లేదా “సహాయం” అనండి",
+  'voice.stop': "ఆపడానికి ట్యాప్ చేయండి",
+  'voice.working': "అర్థం చేసుకుంటోంది…",
+  'voice.heard': "మీరు అన్నది: “{text}”",
+  'voice.notHeard': "సరిగా వినిపించలేదు. మళ్లీ చెప్పండి, లేదా బటన్లు వాడండి.",
+  'voice.noMic': "మైక్రోఫోన్ అందుబాటులో లేదు. దయచేసి బటన్లు వాడండి.",
+  'voice.offline': "వాయిస్‌కు ఇంటర్నెట్ కావాలి. బటన్లు వాడండి — 🆘 ఎప్పుడూ పనిచేస్తుంది.",
+  'voice.unavailable': "వాయిస్ సదుపాయం ఇంకా ఆన్ కాలేదు. దయచేసి బటన్లు వాడండి.",
+  'voice.tryHelp': "అత్యవసరమైతే 🆘 నొక్కండి",
+  'help.continueReport': "అత్యవసరం కాదు — నా రిపోర్ట్ కొనసాగించండి",
 };

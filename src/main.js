@@ -5,7 +5,7 @@ import { initAlerts } from './ui/alerts.js';
 import { CONFIG, cityPack } from '../config.js';
 import { t, initLang, setLang, onLang, pickerLangs, LANGS } from './i18n/index.js';
 import { speak, voiceSupport } from './i18n/speak.js';
-import { startStore, getPins } from './store.js';
+import { startStore, getPins, gazetteer } from './store.js';
 import { initReport, onVote, setReportHazard, openReport } from './ui/report.js';
 import { mountAccountChip } from './ui/signin.js';
 import { initLocation, getFix } from './location.js';
@@ -14,7 +14,8 @@ import { initShift } from './heat/ui/shift.js';
 import { initUnwell } from './heat/ui/unwell.js';
 import { initScenario } from './scenario/player.js';
 import { initMore } from './ui/more.js';
-import { initHelp } from './ui/help.js';
+import { initHelp, openHelp } from './ui/help.js';
+import { initVoice, handleTranscript } from './ui/voice.js';
 import { startOnboarding } from './ui/onboarding.js';
 import { startWeather } from './feeds/openmeteo.js';
 import { initWeatherLayers } from './map/weather.js';
@@ -78,6 +79,9 @@ initScenario();
 // Simple shell (UX pass): More menu, Help sheet, 💧 near-me toggle, first-run setup.
 initMore(map, { openReportCooling: () => openReport() });
 initHelp();
+// 🎤 Voice: spoken help → Help sheet; otherwise a pre-filled report (step V / V+). window.__voice('…') runs it on typed text.
+initVoice({ gazetteer, openHelp, openReport, getHazard: () => document.body.dataset.hazard ?? 'flood' });
+window.__voice = handleTranscript;
 let coolingOn = false;
 document.getElementById('cool-btn').addEventListener('click', () => {
   coolingOn = !coolingOn;

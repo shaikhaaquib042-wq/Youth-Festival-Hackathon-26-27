@@ -229,4 +229,17 @@ export default {
   'report.retakePhoto': 'ಮತ್ತೆ ಫೋಟೋ ತೆಗೆಯಿರಿ',
   'report.proofBadge': 'ಪುರಾವೆ',
   'more.city': 'ನಗರ',
+
+  // 🎤 voice (step V/V+) — non-en machine-written, native review pending
+  'voice.button': "ಮಾತನಾಡಿ",
+  'voice.listening': "ಕೇಳುತ್ತಿದೆ… ಸ್ಥಳ ಮತ್ತು ನೀರು ಎಷ್ಟು ಆಳ ಎಂದು ಹೇಳಿ — ಅಥವಾ “ಸಹಾಯ” ಎನ್ನಿ",
+  'voice.stop': "ನಿಲ್ಲಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ",
+  'voice.working': "ಅರ್ಥಮಾಡಿಕೊಳ್ಳುತ್ತಿದೆ…",
+  'voice.heard': "ನೀವು ಹೇಳಿದ್ದು: “{text}”",
+  'voice.notHeard': "ಸರಿಯಾಗಿ ಕೇಳಿಸಲಿಲ್ಲ. ಮತ್ತೆ ಹೇಳಿ, ಅಥವಾ ಬಟನ್ ಬಳಸಿ.",
+  'voice.noMic': "ಮೈಕ್ರೊಫೋನ್ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಬಟನ್ ಬಳಸಿ.",
+  'voice.offline': "ಧ್ವನಿಗೆ ಇಂಟರ್ನೆಟ್ ಬೇಕು. ಬಟನ್ ಬಳಸಿ — 🆘 ಯಾವಾಗಲೂ ಕೆಲಸ ಮಾಡುತ್ತದೆ.",
+  'voice.unavailable': "ಧ್ವನಿ ಸೌಲಭ್ಯ ಇನ್ನೂ ಆನ್ ಆಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಬಟನ್ ಬಳಸಿ.",
+  'voice.tryHelp': "ತುರ್ತು ಪರಿಸ್ಥಿತಿಯಲ್ಲಿ 🆘 ಒತ್ತಿ",
+  'help.continueReport': "ತುರ್ತು ಅಲ್ಲ — ನನ್ನ ವರದಿ ಮುಂದುವರಿಸಿ",
 };
