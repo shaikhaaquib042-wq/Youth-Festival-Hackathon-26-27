@@ -2,95 +2,118 @@
 
 import React from "react";
 import Link from "next/link";
+import { AppHeader } from "@/components/AppHeader";
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="space-y-5 pb-8">
-      {/* Header */}
-      <div className="flex items-center justify-between border-b border-[var(--ln)] pb-3">
-        <div className="flex items-center gap-2.5">
-          <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--tint)] text-[var(--rt)]">
-            <span className="text-xl">🛡️</span>
+    <div className="space-y-6 pb-12">
+      <AppHeader
+        title="Privacy &amp; DPDP Act Compliance Policy"
+        subtitle="Digital Personal Data Protection Act, 2023 • Regulatory Framework"
+        backHref="/"
+        backLabel="Home"
+      />
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Main Content (8 Cols on Desktop) */}
+        <div className="lg:col-span-8 space-y-6">
+          <div className="card space-y-5 p-6 sm:p-8 bg-[var(--sf)] text-xs leading-relaxed text-[var(--ink)]">
+            <div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--ink)] mb-1.5 flex items-center gap-1.5">
+                <span>1.</span> Intermediary Status &amp; Legal Framework
+              </h2>
+              <p className="text-[var(--mu)] leading-relaxed">
+                BloodLink Pune operates strictly as a digital voluntary coordination intermediary connecting accredited Pune hospitals and licensed blood centres with willing voluntary donors. BloodLink does not collect, test, store, process, or deliver blood or blood components. All transfusions and clinical fitness determinations are solely conducted on-site by registered medical officers under the Drugs and Cosmetics Act.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--ink)] mb-1.5 flex items-center gap-1.5">
+                <span>2.</span> Strict Purpose Limitation (Zero Advertising &amp; Commercialization)
+              </h2>
+              <p className="text-[var(--mu)] leading-relaxed">
+                In strict adherence to Section 4 of the Digital Personal Data Protection (DPDP) Act 2023, personal data is processed solely for computing hyper-local distance-ranked matching waves. We never sell, rent, monetize, or transfer your contact data to private advertisers, third-party brokers, or pharmaceutical marketers.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--ink)] mb-1.5 flex items-center gap-1.5">
+                <span>3.</span> Zero Public Directory Architecture (No Scraping)
+              </h2>
+              <p className="text-[var(--mu)] leading-relaxed">
+                Unlike legacy blood donation sites that expose phone numbers publicly and cause midnight harassment, BloodLink never exposes donor phone numbers or names on public pages, search engines, or open tracking links. Communication is orchestrated via private, unguessable UUID capability tokens and automated WhatsApp webhooks.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--ink)] mb-1.5 flex items-center gap-1.5">
+                <span>4.</span> Data Retention &amp; Automatic Slip Purge Policy
+              </h2>
+              <ul className="list-disc pl-4 space-y-1.5 text-[var(--mu)]">
+                <li>
+                  <strong>Official Hospital Requisition Slips:</strong> Requisition photos stored in encrypted buckets are automatically purged 7 days after the requisition reaches <code>FULFILLED</code> or <code>EXPIRED</code> status.
+                </li>
+                <li>
+                  <strong>Donor Registrations:</strong> Retained until the donor requests erasure. You can pause alerts or delete your profile instantly at any time from your private donor portal.
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--ink)] mb-1.5 flex items-center gap-1.5">
+                <span>5.</span> Right to Withdraw Consent &amp; Absolute Erasure
+              </h2>
+              <p className="text-[var(--mu)] leading-relaxed">
+                Under Section 6(4) of the DPDP Act 2023, data principals hold the absolute right to withdraw consent. Clicking <strong>Delete My Data Permanently</strong> on your private donor portal immediately erases your profile, phone number, and history from active matching tables.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--ink)] mb-1.5 flex items-center gap-1.5">
+                <span>6.</span> National Blood Transfusion Council (NBTC) Health Guardrails
+              </h2>
+              <p className="text-[var(--mu)] leading-relaxed">
+                To safeguard voluntary donors from over-donation, automated cooldown periods (90 days for males and 120 days for females for whole blood, and 14 days for platelet apheresis) are programmatically enforced in database RPC functions before any donor is included in a matching wave.
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-lg font-bold text-[var(--ink)]">Privacy &amp; DPDP Policy</h1>
-            <p className="text-xs text-[var(--mu)]">Digital Personal Data Protection Act, 2023</p>
+        </div>
+
+        {/* Sidebar Summary (4 Cols on Desktop) */}
+        <div className="lg:col-span-4 space-y-5 lg:sticky lg:top-24">
+          <div className="card space-y-4 p-5 sm:p-6 bg-[var(--sf)]">
+            <h3 className="text-xs font-bold text-[var(--ink)] uppercase tracking-wider">
+              Quick Summary
+            </h3>
+            <div className="space-y-3 text-xs text-[var(--mu)]">
+              <div className="flex items-start gap-2">
+                <span className="text-[var(--ok)] font-bold">✓</span>
+                <span>No phone numbers ever exposed publicly.</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-[var(--ok)] font-bold">✓</span>
+                <span>Slip images purged 7 days post-donation.</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-[var(--ok)] font-bold">✓</span>
+                <span>90/120-day NBTC health cooldowns enforced.</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-[var(--ok)] font-bold">✓</span>
+                <span>1-tap permanent deletion anytime.</span>
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-[var(--ln)] space-y-2">
+              <Link href="/join" className="btn2 w-full min-h-[42px] text-xs font-semibold flex items-center justify-center">
+                Register as Voluntary Donor
+              </Link>
+              <Link href="/request" className="btn w-full min-h-[42px] text-xs font-semibold flex items-center justify-center">
+                Submit Blood Request
+              </Link>
+            </div>
           </div>
         </div>
-        <Link href="/" className="text-xs text-[var(--mu)] hover:text-[var(--ink)]">
-          ✕ Back
-        </Link>
-      </div>
-
-      <div className="card space-y-4 text-xs leading-relaxed text-[var(--ink)]">
-        <div>
-          <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--ink)] mb-1">
-            1. Intermediary Status &amp; Legal Scope
-          </h2>
-          <p className="text-[var(--mu)]">
-            BloodLink operates strictly as a digital technology coordination intermediary connecting verified Pune hospitals and accredited blood centres with voluntary donors. BloodLink does not collect, test, store, process, or deliver blood or blood components. Clinical fitness is determined solely on-site by registered medical officers under the Drugs and Cosmetics Act.
-          </p>
-        </div>
-
-        <div>
-          <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--ink)] mb-1">
-            2. Strict Purpose Limitation (Zero Marketing)
-          </h2>
-          <p className="text-[var(--mu)]">
-            In compliance with Section 4 of the DPDP Act 2023, data is gathered strictly for calculating distance-ranked donor matching waves. We do not sell, rent, monetize, or transfer your contact data to private advertisers, third-party brokers, or pharmaceutical marketers.
-          </p>
-        </div>
-
-        <div>
-          <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--ink)] mb-1">
-            3. Zero Public Directory Pledge
-          </h2>
-          <p className="text-[var(--mu)]">
-            Unlike legacy donor databases, BloodLink never exposes donor phone numbers or names on public pages, search engines, or open tracking links. Communication is orchestrated through private, unguessable UUID capability tokens and automated WhatsApp webhooks.
-          </p>
-        </div>
-
-        <div>
-          <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--ink)] mb-1">
-            4. Data Retention &amp; Automatic Slip Purge
-          </h2>
-          <ul className="list-disc pl-4 space-y-1 text-[var(--mu)]">
-            <li>
-              <strong>Hospital Requisition Slips:</strong> Official requisition photos uploaded to Supabase Storage are automatically purged 7 days after the requisition reaches <code>FULFILLED</code> or <code>EXPIRED</code> status.
-            </li>
-            <li>
-              <strong>Donor Profiles:</strong> Maintained until you request deletion. You can pause alerts or delete your profile instantly at any time from your private donor portal.
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--ink)] mb-1">
-            5. Right to Withdraw Consent &amp; Erasure
-          </h2>
-          <p className="text-[var(--mu)]">
-            Under Section 6(4) of the DPDP Act 2023, you hold the absolute right to withdraw consent. Clicking <strong>Delete My Data Permanently</strong> on your private donor portal immediately wipes your name, phone number, locality, and past wave dispatches from active tables.
-          </p>
-        </div>
-
-        <div>
-          <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--ink)] mb-1">
-            6. NBTC Cooldown Safeguards
-          </h2>
-          <p className="text-[var(--mu)]">
-            To protect voluntary donors from over-donation, automated cooldown periods (90 days for males and 120 days for females for whole blood) are programmatically enforced in database RPC functions before any donor is included in a matching wave.
-          </p>
-        </div>
-      </div>
-
-      {/* Action Footer */}
-      <div className="grid grid-cols-2 gap-2 pt-2">
-        <Link href="/join" className="btn2 w-full min-h-[44px] text-xs font-semibold text-center flex items-center justify-center">
-          Register as Donor
-        </Link>
-        <Link href="/request" className="btn w-full min-h-[44px] text-xs font-semibold text-center flex items-center justify-center">
-          Request Blood Urgently
-        </Link>
       </div>
     </div>
   );
