@@ -31,7 +31,7 @@
   --alert-700: #B91C1C;
 
   --paper: #FFFFFF;
-  --ground: #FBF9F4;
+  --ground: #F4FAFD;
   --line: #E6EFE2;
 
   --r-field: 14px;
@@ -245,7 +245,7 @@ a:hover { color: var(--ink); }
 }
 .wave-top {
   margin-bottom: -1px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 48' preserveAspectRatio='none'%3E%3Cpath d='M0 48V24Q180 0 360 24T720 24T1080 24T1440 24V48Z' fill='%23FBF9F4'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 48' preserveAspectRatio='none'%3E%3Cpath d='M0 48V24Q180 0 360 24T720 24T1080 24T1440 24V48Z' fill='%23F4FAFD'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
 }
 .wave-bottom {
   margin-top: -1px;

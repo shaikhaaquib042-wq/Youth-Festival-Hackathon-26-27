@@ -3,9 +3,26 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import legacy from "@vitejs/plugin-legacy";
 import { fileURLToPath } from "node:url";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 
 const LOCAL_WORKER = "http://127.0.0.1:8787";
 const LOCAL_API = { "/api": LOCAL_WORKER, "/r": LOCAL_WORKER };
+
+// Local preview behaves like Cloudflare Pages: /help serves dist/help/index.html (the prerendered page), not the landing.
+const pagesLikePreview = {
+  name: "raasta-pages-like-preview",
+  configurePreviewServer(server: { config: { build: { outDir: string }; root: string }; middlewares: { use: (fn: (req: { url?: string }, res: unknown, next: () => void) => void) => void } }) {
+    const out = join(server.config.root, server.config.build.outDir);
+    server.middlewares.use((req, _res, next) => {
+      const [path, query] = (req.url ?? "/").split("?");
+      if (path && !path.endsWith("/") && !/\.[a-z0-9]+$/i.test(path) && existsSync(join(out, path, "index.html"))) {
+        req.url = `${path}/${query ? `?${query}` : ""}`;
+      }
+      next();
+    });
+  },
+};
 
 const TARGETS = ["defaults", "Chrome >= 61", "Safari >= 12", "Samsung >= 8", "Firefox ESR", "not dead"];
 
@@ -21,7 +38,7 @@ const devFonts = {
 };
 
 export default defineConfig(({ isSsrBuild, command }) => ({
-  plugins: [react(), tailwindcss(), devFonts, ...(isSsrBuild ? [] : [legacy({ targets: TARGETS })])],
+  plugins: [react(), tailwindcss(), devFonts, pagesLikePreview, ...(isSsrBuild ? [] : [legacy({ targets: TARGETS })])],
   // Local only: /api and /r go to the local Worker (scripts/local.mjs starts it). Never to the hosted site.
   server: { port: 5173, proxy: LOCAL_API },
   preview: { port: 4173, proxy: LOCAL_API },

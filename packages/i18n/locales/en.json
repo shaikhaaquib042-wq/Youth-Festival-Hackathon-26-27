@@ -370,6 +370,7 @@
   "ui.help.lead": "Choose the kind of problem you have. Each topic leads to a few short questions and then the right door.",
   "ui.help.start": "Start",
   "ui.home.ask_short": "Ask",
+  "ui.home.chat_status": "Free and private, in your language",
   "ui.home.common": "Common complaints",
   "ui.home.examples": "Example problems",
   "ui.home.h1": "Tell us what happened. We'll show you the right door.",

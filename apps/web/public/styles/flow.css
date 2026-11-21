@@ -8,8 +8,8 @@
   min-height: calc(100vh - 220px);
   padding: 40px 16px 80px;
   background:
-    radial-gradient(700px 360px at 85% 0%, #FFE6CC 0%, rgba(255, 230, 204, 0) 70%),
-    radial-gradient(600px 360px at 0% 100%, #EAF3E5 0%, rgba(234, 243, 229, 0) 70%),
+    radial-gradient(700px 360px at 85% 0%, #D9F1F8 0%, rgba(217, 241, 248, 0) 70%),
+    radial-gradient(600px 360px at 0% 100%, #E2ECFB 0%, rgba(226, 236, 251, 0) 70%),
     var(--ground);
 }
 .q-card {
@@ -82,8 +82,8 @@
 .res-hero {
   padding: 34px 0 0;
   background:
-    radial-gradient(800px 360px at 90% 0%, #FFE6CC 0%, rgba(255, 230, 204, 0) 70%),
-    linear-gradient(180deg, #FFFBF5 0%, var(--ground) 100%);
+    radial-gradient(800px 360px at 90% 0%, #D9F1F8 0%, rgba(217, 241, 248, 0) 70%),
+    linear-gradient(180deg, #EEF8FC 0%, var(--ground) 100%);
 }
 .res-hero h1 { font-size: 2rem; margin-bottom: 4px; }
 @media (min-width: 768px) { .res-hero h1 { font-size: 2.7rem; } }
@@ -197,7 +197,7 @@
 .official-list a { font-weight: 700; }
 
 /* ---------- Tool pages: guide, labels, directions, offices lookup, legal-aid result ---------- */
-main { background: linear-gradient(180deg, #FFFBF5 0, var(--ground) 420px); }
+main { background: linear-gradient(180deg, #EEF8FC 0, var(--ground) 420px); }
 .tool-page { max-width: 980px; padding-top: 36px; padding-bottom: 72px; }
 .tool-page > h1 { font-size: 2rem; margin-bottom: 4px; }
 @media (min-width: 768px) { .tool-page > h1 { font-size: 2.5rem; } }
