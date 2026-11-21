@@ -378,37 +378,6 @@ npm run build
 
 ---
 
-## 14. 3-Minute Hackathon Pitch Script
-
-*Tone: Confident, crisp, authoritative, empathetic.*
-
-### [0:00 - 0:30] Scene 1: The Hook — 500 vs 5
-*"Judges, imagine your family member is in the ICU at Ruby Hall Clinic needing urgent B+ blood. What do you do today? You panic. You write a frantic message, attach your personal phone number, and forward it to twenty WhatsApp groups.*
-
-*Within an hour, that message is in 500 family chats across Pune. It reaches people who donated last week, people living in Mumbai, and people asleep at 2 AM. Your phone rings off the hook for three days with irrelevant calls—and worst of all, three weeks from now, people will still be forwarding that same message.*
-
-*This is the zombie forward problem. We built RaktSetu to replace 500 random forwards with 5 intelligent matches."*
-
-### [0:30 - 1:15] Scenes 2 & 3: Speed & Precision in Action
-*(Point to the 3D map as Scene 2 & 3 play)*
-*"Here is RaktSetu's command center. When Dr. Joshi at Ruby Hall Clinic issues a verified request for 2 units of B+ blood, our matching engine doesn't broadcast. In less than 10 milliseconds, it runs pure clinical compatibility, checks NBTC donation intervals, computes Haversine proximity, and ranks candidates.*
-
-*Instead of spraying spam, it activates Tier 1: exactly 5 compatible, eligible donors within 5 kilometers of the hospital."*
-
-### [1:15 - 2:00] Scenes 4 & 5: Escalation & Privacy
-*(Switch to Donor Smartphone simulator)*
-*"On the donor's smartphone, Rahul Deshmukh in Kothrud receives a clean, non-intrusive alert. He taps it, completes a confidential 4-question health check that never leaves his phone, and confirms acceptance.*
-
-*Notice what happened: Rahul's phone number was never broadcast. The hospital only sees his contact after mutual acceptance, and every single access is recorded in an immutable cryptographic audit log. Privacy is built into our data structure."*
-
-### [2:00 - 2:30] Scene 6 & 7: Closure & Strategic Analytics
-*(Point to the status flip and Blood Desert Heatmap)*
-*"The moment the second unit is accepted, RaktSetu automatically fulfills and closes the request. All pending alerts expire instantly. The zombie forward is killed at the root.*
-
-*Beyond emergency response, RaktSetu gives Pune public health officials unprecedented strategic foresight. Our Blood Desert Heatmap pinpoints supply deficits in areas like Rasta Peth, while our Lean-Month Forecast predicts seasonal shortages during May summer vacations and festival seasons—empowering colleges like COEP and PICT to schedule pre-emptive donation camps before the crisis hits."*
-
-### [2:30 - 3:00] Scene 8: The Conclusion
-*"In an emergency, every second counts, and every notification matters. RaktSetu delivers an 88% reduction in response time, prevents 94% of spam broadcasts, and protects donor privacy unconditionally.*
 
 *RaktSetu: Connecting Every Drop. Saving Every Moment. Thank you, and we welcome your questions."*
 
