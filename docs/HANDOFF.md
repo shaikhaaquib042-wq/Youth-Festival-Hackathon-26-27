@@ -1,4 +1,4 @@
-# Sajag — Handoff (21 Nov 2026, updated 15:25 IST)
+# Sajag — Handoff (21 Nov 2026, updated 15:35 IST — session hand-over)
 
 Hackathon: Naya Bharat 2047 · Code for Bharat (Rotary × Rotaract Youth Festival, Pune). **Code freeze 21:00, submission before 22:00 IST.**
 Problem statements: **7.3** "Which road is flooded right now?" (primary) + **7.2** "Too hot to work, too poor to stop".
@@ -12,7 +12,7 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 
 | What | Where |
 |---|---|
-| Repo (local) | `~/NayaBharat Hackathon/sajag` — branch **`team/sajag`** (34 commits, **nothing pushed yet**) |
+| Repo (local) | `~/NayaBharat Hackathon/sajag` — branch **`team/sajag`** (37 commits, **nothing pushed yet**) |
 | Remote | github.com/shaikhaaquib042-wq/Youth-Festival-Hackathon-26-27 — **we only have READ access**; waiting for organisers to add the team account as collaborator. Never push `main`. Devang handles git (one email per team). |
 | Dev server | `npm run dev` → http://localhost:5173 (`?city=pune|mumbai|bengaluru|hyderabad`, `?hazard=flood|heat`) |
 | Routing (OSRM) | Docker container `osrm-pune` on **localhost:5000** (Colima on the M1 Mac; `colima start` after reboot). Data in `~/osrm`, rebuild with `npm run osrm`. Covers 73.30–74.50 E, 18.10–19.00 N. |
@@ -87,28 +87,31 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 
 1. **GitHub collaborator access** (organisers) → then push `team/sajag`.
 2. **Google sign-in**: Google Cloud → OAuth client (Web), redirect `https://icknjgvstmvglggqauev.supabase.co/auth/v1/callback` → paste ID/secret in Supabase → Auth → Providers → Google; add judges as test users or publish the consent screen.
-3. **Supabase URL config**: Site URL `http://localhost:5173`; redirect URLs `http://localhost:5173/**`, `https://sajag.pages.dev/**`.
+3. **Supabase URL config**: Site URL `http://localhost:5173`; redirect URLs `http://localhost:5173/**` + the Vercel production/preview URLs once deployed (e.g. `https://sajag-*.vercel.app/**`).
 4. **Email codes** (optional): custom SMTP (Gmail app password, smtp.gmail.com:465) + magic-link template showing `{{ .Token }}`.
 5. **Audio clips**: generate from `docs/audio-script.md` (Marathi first).
-6. **R2 / Cloudflare** (for the public URL): `npx wrangler login`.
+6. **R2 / Cloudflare**: no longer needed if we deploy on Vercel (tiles fit there).
+9. **Deepgram API key** ($200 free credit): create in the Deepgram console → put in `sajag/.env.local` as `DEEPGRAM_API_KEY=...` (server-side only — NO `VITE_` prefix, never paste in chat). The agent adds it to Vercel env when deploying.
 7. **Vercel** (alternative host): CLI now logged in as personal account `ingaledevang-3418` (team `devang_hobby`). Was `devangingale-4954` / Secura Pod before — don't deploy there.
 8. **Mac power (set 21 Nov ~15:10):** `sudo pmset -a disablesleep 1` is ON so OSRM + dev server survive a closed lid. Keep it plugged in; don't press the power button. **After submission undo:** `sudo pmset -a disablesleep 0`.
 
-## 5. Next steps (PRD §18, re-planned — time now ~14:35)
+## 5. Next steps (as of 15:35 — code freeze 21:00, submission by 22:00)
 
-| # | Due | Step | Suggested owner |
-|---|---|---|---|
-| 3 | — | Route check | ✅ done |
-| H2 | — | Heat shift + I feel unwell | ✅ done |
-| 4 | — | Status cards, weather grid, radar, advisory | ✅ done (agy) + integrated |
-| 5 | 18:00 | Paste-in police post → gazetteer → pins | agy |
-| 6 | — | Scenario player | ✅ done |
-| City | — | City auto-switch + per-city data + City picker | ✅ done (Codex) |
-| UX | — | Simplified UI/UX (shell + cards + map + report) | ✅ done (Claude + agy) |
-| 7 | 20:00 | PWA manifest + service worker + shortcuts, WhatsApp share, CSV for PMC, deploy (Pages + R2) | both |
-| 8 | 21:00 | Rehearse ×3, slides, code freeze | team |
+**Done:** steps 0–4, 6, H2 (heat shift + unwell), City auto-switch, UX simplification. All worker worktrees merged and removed; nothing running.
 
-Cut rule (18:00): drop paste-in extras, CSV, Pages deploy, co-worker mode, Mumbai humid scenario. Never cut: Scenario player, route verdict, Call 108 path.
+| # | Due | Step | Owner | Notes |
+|---|---|---|---|---|
+| A | now | **Google sign-in setup** (§4 items 2–3) | Devang | Unblocks reporting, the report-form visual check, and judges filing reports live. Then test: sign in → Report → picture tiles → send → pin appears on a 2nd device via Realtime. |
+| 7 | 17:00 | **Deploy to Vercel** (personal account `ingaledevang-3418`, team `devang_hobby`) + PWA manifest/service worker/home-screen shortcuts ("Rain check", "Heat shift" via `?hazard=`) | Claude | Env vars: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `DEEPGRAM_API_KEY` (server). SACHET proxy → port `functions/api/sachet.js` to a Vercel Function at `/api/sachet`. OSRM in prod = public router (config default). Pune tiles ship in `public/tiles` (Vercel allows the size). Add Vercel URL to Supabase redirect URLs. Make a QR code for the slide. |
+| V | 17:30 | **🎤 Voice reporting with Deepgram** (new, 15:30) | worker (agy or Codex) — launch **without `--activate`** | Hold-to-talk mic on the Report screen → MediaRecorder (webm/opus) → **server** function `/api/transcribe` (Vercel Function; Vite dev middleware for localhost) → Deepgram `POST /v1/listen?model=nova-3&language=<mr|hi|kn|te|en-IN>&smart_format=true` (or `language=multi` for code-switching) → transcript → `matchPlaces()` + `classifyPost()` (`src/engine/gazetteer.js`; add Kannada/Telugu depth & type keywords) → report form **pre-filled** (place from GPS / matched landmark, depth, type) + transcript shown → user taps Send. Key never in the browser. Deepgram **TTS has no Indian languages** (checked 21 Nov) → keep browser TTS + recorded clips for alerts. Roadmap slide: WhatsApp voice-note → report; voice "Is my route safe?". |
+| 5 | 18:00 | Paste-in police post → gazetteer → pins (matcher + classifier already exist) | worker | Small textarea in ⋯ More (or Authority tab) → `matchPlaces` → official-tier pins (simulated:false only if a human confirms; label source "Pasted by …"). |
+| 7b | 18:30 | WhatsApp share polish, CSV export for PMC (Authority list) | Claude | Cut first if late. |
+| T | 19:00 | Native-speaker read of mr / hi / kn / te; audio clips (Marathi first) dropped into `public/audio/mr/` + `CONFIG.HEAT.AUDIO_CLIP_LANGS = ['mr']` | team | `docs/audio-script.md` |
+| 8 | 20:00–21:00 | Rehearse ×3 (`?scenario=pune-2019-09-25`, `?scenario=pune-heat-afternoon`), slides (pitch numbers in PRD §22.7 / §23), code freeze 21:00 | team | GitHub push once collaborator access exists. After submission: `sudo pmset -a disablesleep 0`. |
+
+**Cut rule (18:00):** drop paste-in (5), CSV, voice reporting if not working by 18:30 (keep as roadmap slide). **Never cut:** Scenario player, route verdict, Call 108 path, LIVE/SIMULATED labels.
+
+**Rules for the next session:** update this handoff when tasks finish, before starting new work · launch Orca workers without `--activate` · don't create test users directly in the hosted DB (refused by safety check) · Supabase CLI v3 needs `--remote` + dry-run first.
 
 ## 6. How to resume (any agent)
 
