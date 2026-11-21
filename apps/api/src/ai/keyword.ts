@@ -7,7 +7,7 @@ const RULES: { type: DisputeType; words: string[] }[] = [
   { type: "cyber_fraud", words: ["upi", "otp", "scam", "fraud", "phishing", "cyber", "1930", "online fraud", "धोखाधड़ी", "ठगी", "फसवणूक", "ऑनलाइन"] },
   { type: "lost_mobile", words: ["lost phone", "lost my phone", "lost mobile", "lost my mobile", "lost my cell", "mobile stolen", "phone was stolen", "mobile was stolen", "phone got stolen", "mobile got stolen", "phone is lost", "mobile is lost", "phone missing", "mobile missing", "stolen phone", "stolen mobile", "phone stolen", "imei", "मोबाइल खो", "फोन खो", "मोबाईल हरवला", "फोन चोरी"] },
   { type: "security_deposit", words: ["deposit", "landlord", "rent", "tenant", "जमा राशि", "किराया", "मकान मालिक", "डिपॉझिट", "घरमालक", "भाडे"] },
-  { type: "unpaid_wages", words: ["salary", "wages", "not paid", "unpaid", "employer", "पगार", "वेतन", "तनख्वाह", "मजदूरी", "नियोक्ता", "मालक"] },
+  { type: "unpaid_wages", words: ["salary", "wages", "stipend", "honorarium", "payslip", "overtime pay", "not paid", "unpaid", "employer", "पगार", "वेतन", "तनख्वाह", "मजदूरी", "नियोक्ता", "मालक"] },
   { type: "workplace_harassment", words: ["sexual harassment", "harass at work", "workplace", "boss harass", "कार्यस्थल", "छेड़छाड़", "छळ"] },
   { type: "mrp_overcharge", words: ["mrp", "overcharg", "charged more", "extra charge", "एमआरपी", "ज्यादा पैसे", "जास्त पैसे"] },
   { type: "insurance_claim", words: ["insurance", "claim rejected", "policy", "बीमा", "विमा"] },

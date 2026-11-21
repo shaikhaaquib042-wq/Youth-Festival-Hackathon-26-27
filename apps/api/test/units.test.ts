@@ -85,3 +85,19 @@ describe("geo", () => {
     expect(decodePolyline5("_p~iF~ps|U_ulLnnqC_mqNvxq`@")[0]).toEqual([38.5, -120.2]);
   });
 });
+
+import { lenientSlots } from "../src/ai/intake";
+import { classifyKeyword } from "../src/ai/keyword";
+describe("intake keeps a good AI answer even when one field is odd", () => {
+  it("drops null, wrong enums and string numbers instead of discarding everything", () => {
+    const out = lenientSlots({ dispute_type: "Unpaid_Wages", summary: "x", employer_sphere: "private", amount_inr: "5000", state_code: null, days_since_incident: 12.6 });
+    expect(out.dispute_type).toBe("unpaid_wages");
+    expect(out.amount_inr).toBe(5000);
+    expect(out.days_since_incident).toBe(13);
+    expect(out.employer_sphere).toBeUndefined();
+    expect("state_code" in out).toBe(false);
+  });
+  it("knows a stipend is wages without AI", () => {
+    expect(classifyKeyword("My head did not give me my stipend")).toBe("unpaid_wages");
+  });
+});
