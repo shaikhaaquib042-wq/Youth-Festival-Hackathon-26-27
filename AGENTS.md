@@ -14,7 +14,7 @@ npm run dev            # http://localhost:5173
 - Basemap tiles: `public/tiles/pune-region-20261120.pmtiles` is committed (Pune + PCMC + Lonavala + Khadakwasla; no R2 needed for dev). Mumbai/Bengaluru/Hyderabad tiles are local-only (gitignored); open `?city=mumbai` etc. on the orchestrator laptop.
 - Routing: `config.js` → `OSRM_URL`. Dev default `http://localhost:5000` (orchestrator laptop). On the worker machine create `.env.local` with
   `VITE_OSRM_URL=https://router.project-osrm.org` unless the orchestrator's OSRM is reachable.
-- SACHET alerts go through `/api/sachet` (Vite proxy in dev, `functions/api/sachet.js` in prod). Never call sachet.ndma.gov.in from the browser directly (no CORS).
+- SACHET alerts go through `/api/sachet` (Vite proxy in dev, Vercel Function `api/sachet.js` in prod; `functions/api/sachet.js` is the unused Cloudflare twin). Never call sachet.ndma.gov.in from the browser directly (no CORS).
 
 ## Stack (do not swap)
 Vanilla JS ES modules + Vite 7. MapLibre GL 5 + pmtiles 4 + @protomaps/basemaps 5. **Supabase** (supabase-js 2.119.0, pinned) for login + shared reports — use the wrappers in `src/backend/`, never `createClient` yourself. No React, no TypeScript, no CSS framework, no own server.

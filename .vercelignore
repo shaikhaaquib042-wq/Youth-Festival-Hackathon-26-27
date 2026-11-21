@@ -1,0 +1,13 @@
+node_modules
+dist
+.env
+.env.*
+.wrangler
+.vercel
+infra
+docs
+supabase
+scripts
+functions
+*.md
+!README.md

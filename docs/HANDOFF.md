@@ -1,4 +1,4 @@
-# Sajag — Handoff (21 Nov 2026, updated 15:35 IST — session hand-over)
+# Sajag — Handoff (21 Nov 2026, updated 15:40 IST — Vercel deploy live)
 
 Hackathon: Naya Bharat 2047 · Code for Bharat (Rotary × Rotaract Youth Festival, Pune). **Code freeze 21:00, submission before 22:00 IST.**
 Problem statements: **7.3** "Which road is flooded right now?" (primary) + **7.2** "Too hot to work, too poor to stop".
@@ -14,6 +14,7 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 |---|---|
 | Repo (local) | `~/NayaBharat Hackathon/sajag` — branch **`team/sajag`** (37 commits, **nothing pushed yet**) |
 | Remote | github.com/shaikhaaquib042-wq/Youth-Festival-Hackathon-26-27 — **we only have READ access**; waiting for organisers to add the team account as collaborator. Never push `main`. Devang handles git (one email per team). |
+| **Live app** | **https://sajag-inky.vercel.app** (also sajag-pod5.vercel.app) — Vercel project `sajag`, team `devang_hobby` (id `pod5`), personal account `ingaledevang-3418`. Deployed from the CLI (no Git link — repo access missing). QR codes: `docs/slides/sajag-qr.png` (app), `docs/slides/sajag-qr-flood-demo.png` (`?scenario=pune-2019-09-25`). |
 | Dev server | `npm run dev` → http://localhost:5173 (`?city=pune|mumbai|bengaluru|hyderabad`, `?hazard=flood|heat`) |
 | Routing (OSRM) | Docker container `osrm-pune` on **localhost:5000** (Colima on the M1 Mac; `colima start` after reboot). Data in `~/osrm`, rebuild with `npm run osrm`. Covers 73.30–74.50 E, 18.10–19.00 N. |
 | Map tiles | `public/tiles/pune-region-20261120.pmtiles` (committed). Mumbai / Bengaluru / Hyderabad `.pmtiles` are local only (gitignored, >25 MiB Cloudflare Pages limit → need R2 for public deploy). |
@@ -87,7 +88,7 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 
 1. **GitHub collaborator access** (organisers) → then push `team/sajag`.
 2. **Google sign-in**: Google Cloud → OAuth client (Web), redirect `https://icknjgvstmvglggqauev.supabase.co/auth/v1/callback` → paste ID/secret in Supabase → Auth → Providers → Google; add judges as test users or publish the consent screen.
-3. **Supabase URL config**: Site URL `http://localhost:5173`; redirect URLs `http://localhost:5173/**` + the Vercel production/preview URLs once deployed (e.g. `https://sajag-*.vercel.app/**`).
+3. **Supabase URL config**: Site URL `https://sajag-inky.vercel.app`; redirect URLs `http://localhost:5173/**`, `https://sajag-inky.vercel.app/**`, `https://sajag-*-pod5.vercel.app/**`.
 4. **Email codes** (optional): custom SMTP (Gmail app password, smtp.gmail.com:465) + magic-link template showing `{{ .Token }}`.
 5. **Audio clips**: generate from `docs/audio-script.md` (Marathi first).
 6. **R2 / Cloudflare**: no longer needed if we deploy on Vercel (tiles fit there).
@@ -97,12 +98,13 @@ Read in this order: this file → `AGENTS.md` (rules for any coding agent) → `
 
 ## 5. Next steps (as of 15:35 — code freeze 21:00, submission by 22:00)
 
-**Done:** steps 0–4, 6, H2 (heat shift + unwell), City auto-switch, UX simplification. All worker worktrees merged and removed; nothing running.
+**Done:** steps 0–4, 6, **7 (Vercel deploy, 15:40)**, H2 (heat shift + unwell), City auto-switch, UX simplification. All worker worktrees merged and removed; nothing running.
 
 | # | Due | Step | Owner | Notes |
 |---|---|---|---|---|
 | A | now | **Google sign-in setup** (§4 items 2–3) | Devang | Unblocks reporting, the report-form visual check, and judges filing reports live. Then test: sign in → Report → picture tiles → send → pin appears on a 2nd device via Realtime. |
-| 7 | 17:00 | **Deploy to Vercel** (personal account `ingaledevang-3418`, team `devang_hobby`) + PWA manifest/service worker/home-screen shortcuts ("Rain check", "Heat shift" via `?hazard=`) | Claude | Env vars: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `DEEPGRAM_API_KEY` (server). SACHET proxy → port `functions/api/sachet.js` to a Vercel Function at `/api/sachet`. OSRM in prod = public router (config default). Pune tiles ship in `public/tiles` (Vercel allows the size). Add Vercel URL to Supabase redirect URLs. Make a QR code for the slide. |
+| ~~7~~ | done 15:40 | ~~Deploy to Vercel~~ — live at https://sajag-inky.vercel.app. PWA manifest + icons + home-screen shortcuts (Rain check / Heat shift), service worker (network-first app shell; skips /tiles, /api, other origins; prod only), `api/sachet.js` Vercel Function, `vercel.json`, `.vercelignore`, env `VITE_SUPABASE_URL` + `VITE_SUPABASE_PUBLISHABLE_KEY` on all envs. Verified by curl: page, manifest, SW, SACHET proxy (RSS 200), tiles range 206 (all 4 cities shipped), Supabase ref in bundle, public OSRM CORS OK. **Not yet:** browser visual check (Chrome extension was offline); Supabase redirect URL `https://sajag-inky.vercel.app/**` still to add (Devang, with Google setup); `DEEPGRAM_API_KEY` to add once it exists. **Redeploy:** `cd sajag && vercel deploy --prod` (note: on this Git-less project even plain `vercel deploy` lands on production). | Claude | (original plan below) |
+| 7-orig | 17:00 | **Deploy to Vercel** (personal account `ingaledevang-3418`, team `devang_hobby`) + PWA manifest/service worker/home-screen shortcuts ("Rain check", "Heat shift" via `?hazard=`) | Claude | Env vars: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `DEEPGRAM_API_KEY` (server). SACHET proxy → port `functions/api/sachet.js` to a Vercel Function at `/api/sachet`. OSRM in prod = public router (config default). Pune tiles ship in `public/tiles` (Vercel allows the size). Add Vercel URL to Supabase redirect URLs. Make a QR code for the slide. |
 | V | 17:30 | **🎤 Voice reporting with Deepgram** (new, 15:30) | worker (agy or Codex) — launch **without `--activate`** | Hold-to-talk mic on the Report screen → MediaRecorder (webm/opus) → **server** function `/api/transcribe` (Vercel Function; Vite dev middleware for localhost) → Deepgram `POST /v1/listen?model=nova-3&language=<mr|hi|kn|te|en-IN>&smart_format=true` (or `language=multi` for code-switching) → transcript → `matchPlaces()` + `classifyPost()` (`src/engine/gazetteer.js`; add Kannada/Telugu depth & type keywords) → report form **pre-filled** (place from GPS / matched landmark, depth, type) + transcript shown → user taps Send. Key never in the browser. Deepgram **TTS has no Indian languages** (checked 21 Nov) → keep browser TTS + recorded clips for alerts. Roadmap slide: WhatsApp voice-note → report; voice "Is my route safe?". |
 | 5 | 18:00 | Paste-in police post → gazetteer → pins (matcher + classifier already exist) | worker | Small textarea in ⋯ More (or Authority tab) → `matchPlaces` → official-tier pins (simulated:false only if a human confirms; label source "Pasted by …"). |
 | 7b | 18:30 | WhatsApp share polish, CSV export for PMC (Authority list) | Claude | Cut first if late. |

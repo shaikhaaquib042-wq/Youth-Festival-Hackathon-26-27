@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 
-// SACHET has no CORS → proxy in dev. Prod uses functions/api/sachet.js (Cloudflare Pages Function).
+// SACHET has no CORS → proxy in dev. Prod uses api/sachet.js (Vercel Function).
 // /api/sachet?state=karnataka switches feed; default maharashtra.
 export default defineConfig({
   server: {

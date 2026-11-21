@@ -104,3 +104,8 @@ initCards(map, {
 // ==== city switch (codex) ====
 initCitySwitch();
 // ==== end city switch ====
+
+// ==== PWA: service worker (production only — would fight Vite HMR in dev) ====
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+}

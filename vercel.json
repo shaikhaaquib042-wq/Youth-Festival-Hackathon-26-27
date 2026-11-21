@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "buildCommand": "vite build",
+  "outputDirectory": "dist",
+  "functions": { "api/*.js": { "maxDuration": 15 } },
+  "headers": [
+    { "source": "/sw.js", "headers": [{ "key": "cache-control", "value": "no-cache" }] },
+    { "source": "/tiles/(.*)", "headers": [{ "key": "cache-control", "value": "public, max-age=604800, immutable" }] }
+  ]
+}
