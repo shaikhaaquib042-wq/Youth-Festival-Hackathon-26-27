@@ -106,13 +106,20 @@ BEGIN
     INTO v_req
     FROM requisitions r
    WHERE r.id = p_requisition_id
-     AND r.status = 'VERIFIED_ACTIVE'
-     AND r.units_accepted < r.units_needed
-     AND r.expires_at > now()
      FOR UPDATE;
 
   IF NOT FOUND THEN
-    RAISE EXCEPTION 'Requisition not found, not active, already fulfilled, or expired.';
+    RAISE EXCEPTION 'Requisition not found.';
+  END IF;
+
+  -- Auto-expire if past expiration window
+  IF v_req.status = 'VERIFIED_ACTIVE' AND v_req.expires_at < now() THEN
+    UPDATE requisitions SET status = 'EXPIRED' WHERE id = v_req.id;
+    RAISE EXCEPTION 'Requisition has expired past its expiration deadline.';
+  END IF;
+
+  IF v_req.status <> 'VERIFIED_ACTIVE' OR v_req.units_accepted >= v_req.units_needed THEN
+    RAISE EXCEPTION 'Requisition not active or already fulfilled.';
   END IF;
 
   -- 2. Determine wave number
@@ -287,6 +294,12 @@ BEGIN
     FROM requisitions
    WHERE id = v_wave.requisition_id
      FOR UPDATE;
+
+  -- Auto-expire if past expiration window
+  IF v_req.status = 'VERIFIED_ACTIVE' AND v_req.expires_at < now() THEN
+    UPDATE requisitions SET status = 'EXPIRED' WHERE id = v_req.id;
+    v_req.status := 'EXPIRED';
+  END IF;
 
   -- Check if need is already met or requisition inactive
   IF v_req.status IN ('FULFILLED', 'EXPIRED', 'REJECTED') OR v_req.units_accepted >= v_req.units_needed THEN

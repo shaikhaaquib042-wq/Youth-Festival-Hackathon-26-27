@@ -42,7 +42,17 @@ declare
 begin
   select * into v_req from requisitions where id = p_requisition_id for update;
 
-  if not found or v_req.status <> 'VERIFIED_ACTIVE' or v_req.units_accepted >= v_req.units_needed then
+  if not found then
+    return jsonb_build_object('ok', false, 'reason', 'REQUISITION_NOT_FOUND');
+  end if;
+
+  -- Auto-expire if past expiration window
+  if v_req.status = 'VERIFIED_ACTIVE' and v_req.expires_at < now() then
+    update requisitions set status = 'EXPIRED' where id = v_req.id;
+    return jsonb_build_object('ok', false, 'reason', 'REQUISITION_EXPIRED');
+  end if;
+
+  if v_req.status <> 'VERIFIED_ACTIVE' or v_req.units_accepted >= v_req.units_needed then
     return jsonb_build_object('ok', false, 'reason', 'REQUISITION_NOT_ACTIVE');
   end if;
 
@@ -143,8 +153,14 @@ begin
 
   select * into v_req from requisitions where id = v_wave.requisition_id for update;
 
+  -- Auto-expire if past expiration window
+  if v_req.status = 'VERIFIED_ACTIVE' and v_req.expires_at < now() then
+    update requisitions set status = 'EXPIRED' where id = v_req.id;
+    v_req.status := 'EXPIRED';
+  end if;
+
   if v_req.status in ('FULFILLED', 'EXPIRED', 'REJECTED') or v_req.units_accepted >= v_req.units_needed then
-    return jsonb_build_object('ok', false, 'reason', 'NEED_ALREADY_MET', 'fulfilled_at', v_req.fulfilled_at);
+    return jsonb_build_object('ok', false, 'reason', case when v_req.status = 'EXPIRED' then 'REQUISITION_EXPIRED' else 'NEED_ALREADY_MET' end, 'fulfilled_at', v_req.fulfilled_at);
   end if;
 
   if p_action = 'ACCEPTED' then
@@ -181,6 +197,27 @@ begin
   end if;
 
   return jsonb_build_object('ok', false, 'reason', 'INVALID_ACTION');
+end;
+$$;
+
+-- ============================================================================
+-- 3b. HELPER RPC: EXPIRE STALE REQUISITIONS (PAST 12-HOUR WINDOW)
+-- ============================================================================
+create or replace function expire_stale_requisitions()
+returns int
+language plpgsql
+security definer
+as $$
+declare
+  v_count int;
+begin
+  update requisitions
+     set status = 'EXPIRED'
+   where status in ('PENDING_VERIFICATION', 'VERIFIED_ACTIVE')
+     and expires_at < now();
+
+  get diagnostics v_count = row_count;
+  return v_count;
 end;
 $$;
 

@@ -406,7 +406,20 @@ class BloodLinkStore {
 
   // --- REQUISITIONS ---
   public getRequisitions(): StoredRequisition[] {
-    return this.getStorage(STORAGE_KEYS.REQS, INITIAL_REQS);
+    const reqs = this.getStorage(STORAGE_KEYS.REQS, INITIAL_REQS);
+    let modified = false;
+    const now = new Date();
+    reqs.forEach((r) => {
+      // Auto-expire if verified active but past expiration timestamp
+      if (r.status === "VERIFIED_ACTIVE" && new Date(r.expires_at) < now) {
+        r.status = "EXPIRED";
+        modified = true;
+      }
+    });
+    if (modified) {
+      this.setStorage(STORAGE_KEYS.REQS, reqs);
+    }
+    return reqs;
   }
 
   public getRequisitionById(id: string): StoredRequisition | undefined {
@@ -548,6 +561,19 @@ class BloodLinkStore {
     for (const req of allReqs) {
       const wave = req.waves.find((w) => w.id === waveId);
       if (wave) {
+        // Check if expired past window
+        if (req.status === "VERIFIED_ACTIVE" && new Date(req.expires_at) < new Date()) {
+          req.status = "EXPIRED";
+          wave.response_status = "SNOOZED";
+          wave.responded_at = new Date().toISOString();
+          this.setStorage(STORAGE_KEYS.REQS, allReqs);
+          return {
+            ok: false,
+            reason: "REQUISITION_EXPIRED",
+            message: "This blood requisition has expired past its 12-hour window.",
+          };
+        }
+
         // If already fulfilled or expired
         if (req.status === "FULFILLED" || req.status === "EXPIRED" || req.status === "REJECTED" || req.units_accepted >= req.units_needed) {
           wave.response_status = "SNOOZED";

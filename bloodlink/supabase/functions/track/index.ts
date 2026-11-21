@@ -60,6 +60,12 @@ serve(async (req: Request) => {
       });
     }
 
+    // Auto-expire if verified active but past expiration timestamp
+    if (requisition.status === "VERIFIED_ACTIVE" && new Date(requisition.expires_at) < new Date()) {
+      await supabase.from("requisitions").update({ status: "EXPIRED" }).eq("id", requestId);
+      requisition.status = "EXPIRED";
+    }
+
     // Fetch hospital blood bank contact
     const { data: hospital } = await supabase
       .from("verified_hospitals")

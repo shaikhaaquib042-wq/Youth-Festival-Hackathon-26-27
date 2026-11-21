@@ -53,6 +53,12 @@ serve(async (req: Request) => {
         });
       }
 
+      // Auto-expire if verified active but past expiration timestamp
+      if (requisition.status === "VERIFIED_ACTIVE" && new Date(requisition.expires_at) < new Date()) {
+        await supabase.from("requisitions").update({ status: "EXPIRED" }).eq("id", requisition.id);
+        requisition.status = "EXPIRED";
+      }
+
       // Generate signed URL for slip image (valid 1 hour)
       let slipImageUrl = null;
       if (requisition.slip_image_path) {
