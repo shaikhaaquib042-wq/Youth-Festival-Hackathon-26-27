@@ -29,10 +29,20 @@ const subs = new Set();
 export const now = () => clock();
 export function setClock(fn) { clock = fn || (() => new Date()); notify(); }
 
+// Clock label shown to people (HH:MM). Real time normally; the Scenario player maps its clock to the replayed time of day.
+const realFmt = (d) => d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Kolkata' });
+let fmt = realFmt;
+export const fmtClock = (d) => fmt(d instanceof Date ? d : new Date(d));
+export function setClockFormat(fn) { fmt = fn || realFmt; }
+
 /** All pins with derived status + landmark label. Cooling seed points are excluded unless asked (1,800+ points). */
 export function getPins({ includeCooling = true } = {}) {
   const t = now();
-  const reports = [...live, ...local.filter((l) => !live.some((x) => x.id === l.id)), ...scenario]
+  // During a replay the clock runs ahead of real time; shift REAL reports by the same amount so they keep their real age.
+  const shift = t.getTime() - Date.now();
+  const real = [...live, ...local.filter((l) => !live.some((x) => x.id === l.id))]
+    .map((p) => (Math.abs(shift) < 1000 ? p : { ...p, createdAt: new Date(Date.parse(p.createdAt) + shift).toISOString() }));
+  const reports = [...real, ...scenario]
     .filter((p) => Date.parse(p.createdAt) <= t.getTime()); // scenario pins appear only when the clock reaches them
   const withStatus = reports.map((p) => ({ ...p }));
   for (const p of withStatus) p.status = deriveStatus(p, withStatus, t, CONFIG);

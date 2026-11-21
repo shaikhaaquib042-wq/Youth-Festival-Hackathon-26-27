@@ -5,7 +5,7 @@
 import { t, onLang } from '../../i18n/index.js';
 import { speak } from '../../i18n/speak.js';
 import { CONFIG, cityPack } from '../../../config.js';
-import { now } from '../../store.js';
+import { now, fmtClock, subscribe } from '../../store.js';
 import { getFix, requestLocation } from '../../location.js';
 import { estimateWBGT, assessWork } from '../index.js';
 import { SEV_COLOR } from '../../map/pins.js';
@@ -19,7 +19,7 @@ let provider = null; // async ({lat,lng}) => { t, tw, sr, simulated? } — set b
 
 export const loadPrefs = () => { try { return { workType: 'moderate', newToHeat: false, ...JSON.parse(localStorage.getItem(PREFS_KEY)) }; } catch { return { workType: 'moderate', newToHeat: false }; } };
 const savePrefs = (p) => { try { localStorage.setItem(PREFS_KEY, JSON.stringify(p)); } catch { /* ignore */ } };
-const hhmm = (d) => d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Kolkata' });
+const hhmm = (d) => fmtClock(d);
 const addMin = (d, m) => new Date(d.getTime() + m * 60000);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -58,9 +58,13 @@ function startPhase(phase) {
   if (phase === 'rest') speak('heat.breakStart', { n: a.rest });
 }
 
+let lastKey = '';
 function tick() {
   if (!shift) return;
   const n = now();
+  if (shift.checkedAt && n < shift.checkedAt) { // clock went backwards (scenario scrub) → restart the timers from here
+    Object.assign(shift, { nextCheck: n, nextWater: addMin(n, CONFIG.HEAT.HYDRATION_MIN), phaseEnd: null, checkedAt: n });
+  }
   if (n >= shift.nextWater) { speak('heat.water'); shift.nextWater = addMin(n, CONFIG.HEAT.HYDRATION_MIN); flash(t('heat.water')); }
   if (shift.phaseEnd && n >= shift.phaseEnd && shift.assessment) {
     const a = shift.assessment;
@@ -68,7 +72,9 @@ function tick() {
     else startPhase('work');
   }
   if (n >= shift.nextCheck) assess(false);
-  render();
+  // Re-render only when something visible changed (keeps buttons clickable while the scenario clock runs).
+  const key = [shift.level, shift.phase, hhmm(shift.phaseEnd ?? n), hhmm(shift.nextWater), shift.wbgt?.toFixed(1), el.hidden].join('|');
+  if (key !== lastKey) { lastKey = key; render(); }
 }
 
 function flash(msg) { const b = document.getElementById('toast'); if (b) { b.textContent = msg; b.hidden = false; setTimeout(() => { b.hidden = true; }, 5000); } }
@@ -90,7 +96,7 @@ function stop() {
 
 function crewText() {
   const a = shift.assessment;
-  return `${t('app.name')} · ${t('shift.crewHead', { time: hhmm(now()) })}: ${t('severity.' + LEVEL_TO_SEV[a.level])} — ${t(a.i18nKey, a.vars)}. ${t('heat.water')}.\n${t('disclaimer')}\n${location.origin}/?hazard=heat`;
+  return `${t('app.name')} · ${t('shift.crewHead', { time: hhmm(now()) })}: ${t('heat.level.' + a.level)} — ${t(a.i18nKey, a.vars)}. ${t('heat.water')}.\n${t('disclaimer')}\n${location.origin}/?hazard=heat`;
 }
 
 function render() {
@@ -113,7 +119,7 @@ function render() {
   el.innerHTML = `<div class="rp-head"><b>☀️ ${esc(t('work.' + shift.workType))}${shift.newToHeat ? ' · ' + esc(t('shift.new')) : ''}</b>
       <button class="btn btn-ghost" data-act="min">▾</button></div>
     <div class="shift-status" style="border-color:${SEV_COLOR[sev]}">
-      <div class="rv-head" style="color:${SEV_COLOR[sev]}">${a ? esc(t('severity.' + sev)) : '…'}${shift.cond?.simulated ? ` <span class="tag-sim">${esc(t('tag.simulated'))}</span>` : ''}</div>
+      <div class="rv-head" style="color:${SEV_COLOR[sev]}">${a ? esc(t('heat.level.' + a.level)) : '…'}${shift.cond?.simulated ? ` <span class="tag-sim">${esc(t('tag.simulated'))}</span>` : ''}</div>
       ${a ? `<div class="shift-advice">${esc(t(a.i18nKey, a.vars))}</div>` : ''}
       ${shift.cond ? `<div class="muted">${esc(t('shift.reading', { t: Math.round(shift.cond.t), wbgt: shift.wbgt?.toFixed(1) }))}</div>` : ''}
       ${shift.phaseEnd && a?.rest ? `<div>${esc(shift.phase === 'rest' ? t('shift.onBreak', { time: hhmm(shift.phaseEnd) }) : t('shift.nextBreak', { time: hhmm(shift.phaseEnd) }))}</div>` : ''}
@@ -147,6 +153,7 @@ export function initShift() {
   document.addEventListener('visibilitychange', async () => { if (shift && document.visibilityState === 'visible') { try { wakeLock = await navigator.wakeLock?.request('screen'); } catch { /* ignore */ } } });
   window.addEventListener('sajag:hazard', (e) => { const heat = e.detail.hazard === 'heat'; btn.hidden = !heat; document.getElementById('unwell-btn').hidden = !heat; if (!heat) el.hidden = true; });
   onLang(render);
+  subscribe(() => { if (shift) tick(); }); // scenario clock jumps (scrubbing) are picked up immediately
 }
 
 export const shiftState = () => shift;

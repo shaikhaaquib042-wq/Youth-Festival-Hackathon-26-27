@@ -161,7 +161,14 @@ export function initRoute(m) {
   });
   onLang(() => { btn.textContent = '🛣 ' + t('action.checkRoute'); render(); });
   // Live: when reports change (new report, confirmation, expiry, scenario tick) re-plan the active route.
-  subscribe(() => { if (!active) return; clearTimeout(timer); timer = setTimeout(() => recheck(), 800); });
+  let sig = '';
+  subscribe(() => {
+    if (!active) return;
+    const s = getPins({ includeCooling: false }).filter((p) => p.type === 'flood' || p.type === 'clog')
+      .map((p) => `${p.id}:${p.status}:${p.depth}:${p.inUnderpass}`).join('|') + mode;
+    if (s === sig) return; sig = s;
+    clearTimeout(timer); timer = setTimeout(() => recheck(), 400);
+  });
   window.addEventListener('sajag:hazard', (e) => { btn.hidden = e.detail.hazard !== 'flood'; if (btn.hidden) toggle(false); });
   if (map.isStyleLoaded()) ensureLayers(); else map.once('load', ensureLayers);
 }

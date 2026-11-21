@@ -113,3 +113,17 @@ a.btn.btn-danger { color: #fff; }
 .shift-status { border: 2px solid; border-radius: 12px; padding: 10px 12px; margin: 8px 0; display: grid; gap: 4px; font-size: 14px; }
 .shift-advice { font-size: 16px; font-weight: 700; }
 .sop { margin: 0; font-size: 13px; background: #fff4e5; border-radius: 8px; padding: 6px 8px; }
+#alert-banner.simulated { background: #f3e8ff; border-color: var(--chip-sim); }
+
+/* ── Scenario player ──────────────────────────────────────────── */
+#mode-chip { cursor: pointer; }
+#mode-chip.scenario { background: var(--chip-sim); }
+#scenario-bar { position: absolute; top: 56px; left: 12px; right: 56px; z-index: 5; background: #fff; border: 2px solid var(--chip-sim);
+  border-radius: 12px; padding: 8px 12px; box-shadow: 0 4px 16px rgb(0 0 0 / .18); display: grid; gap: 6px; }
+#scenario-bar[hidden] { display: none; }
+#scenario-bar ~ #alert-banner, body:has(#scenario-bar:not([hidden])) #alert-banner { top: 168px; }
+.sb-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: space-between; }
+.sb-controls { justify-content: flex-start; }
+.sb-controls input[type=range] { flex: 1; min-width: 120px; accent-color: var(--chip-sim); }
+.sb-clock { font: 700 14px/1 ui-monospace, monospace; color: var(--chip-sim); }
+.sb-sub { font-size: 12px; }

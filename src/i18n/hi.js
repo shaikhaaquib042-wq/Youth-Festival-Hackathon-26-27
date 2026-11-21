@@ -152,4 +152,12 @@ export default {
   'unwell.sign.cramps': 'मांसपेशियों में ऐंठन',
   'unwell.sign.weakness': 'कमज़ोरी',
   'unwell.sign.fastPulse': 'तेज़ धड़कन',
+  'scenario.pick': 'अभ्यास चुनें',
+  'scenario.note': 'अभ्यास नमूना है (हर जगह SIMULATED लिखा)। नक्शा, रास्ता, आधिकारिक सूचनाएँ और असली रिपोर्ट साथ में चलती रहती हैं।',
+  'scenario.speed': 'गति',
+  'scenario.back': 'लाइव पर वापस',
+  'heat.level.green': 'काम करना सुरक्षित',
+  'heat.level.yellow': 'सावधानी रखें',
+  'heat.level.orange': 'गर्मी का ज़्यादा तनाव',
+  'heat.level.red': 'खतरा — काम सीमित करें',
 };

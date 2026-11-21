@@ -152,4 +152,12 @@ export default {
   'unwell.sign.cramps': 'स्नायूंमध्ये पेटके',
   'unwell.sign.weakness': 'अशक्तपणा',
   'unwell.sign.fastPulse': 'हृदयाचे ठोके जलद',
+  'scenario.pick': 'सराव निवडा',
+  'scenario.note': 'सराव नमुना आहे (सर्वत्र SIMULATED असे लिहिलेले). नकाशा, मार्ग, अधिकृत सूचना व खऱ्या तक्रारी सोबत चालू राहतात.',
+  'scenario.speed': 'वेग',
+  'scenario.back': 'थेट मोडवर परत',
+  'heat.level.green': 'काम करणे सुरक्षित',
+  'heat.level.yellow': 'काळजी घ्या',
+  'heat.level.orange': 'उष्णतेचा जास्त ताण',
+  'heat.level.red': 'धोका — काम मर्यादित करा',
 };

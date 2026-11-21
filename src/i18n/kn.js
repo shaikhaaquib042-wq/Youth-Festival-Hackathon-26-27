@@ -152,4 +152,12 @@ export default {
   'unwell.sign.cramps': 'ಸ್ನಾಯು ಸೆಳೆತ',
   'unwell.sign.weakness': 'ದೌರ್ಬಲ್ಯ',
   'unwell.sign.fastPulse': 'ವೇಗದ ಹೃದಯ ಬಡಿತ',
+  'scenario.pick': 'ಅಭ್ಯಾಸ ಆಯ್ಕೆಮಾಡಿ',
+  'scenario.note': 'ಅಭ್ಯಾಸವು ಮಾದರಿ (ಎಲ್ಲೆಡೆ SIMULATED ಎಂದು ಗುರುತಿಸಲಾಗಿದೆ). ನಕ್ಷೆ, ಮಾರ್ಗ, ಅಧಿಕೃತ ಮಾಹಿತಿ ಮತ್ತು ನಿಜವಾದ ವರದಿಗಳು ಜೊತೆಗೆ ನಡೆಯುತ್ತವೆ.',
+  'scenario.speed': 'ವೇಗ',
+  'scenario.back': 'ನೇರಕ್ಕೆ ಹಿಂತಿರುಗಿ',
+  'heat.level.green': 'ಕೆಲಸ ಮಾಡಲು ಸುರಕ್ಷಿತ',
+  'heat.level.yellow': 'ಎಚ್ಚರಿಕೆ ವಹಿಸಿ',
+  'heat.level.orange': 'ಹೆಚ್ಚಿನ ಉಷ್ಣ ಒತ್ತಡ',
+  'heat.level.red': 'ಅಪಾಯ — ಕೆಲಸ ಕಡಿಮೆ ಮಾಡಿ',
 };

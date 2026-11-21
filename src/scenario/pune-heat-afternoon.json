@@ -1,0 +1,23 @@
+{
+  "id": "pune-heat-afternoon",
+  "hazard": "heat",
+  "city": "pune",
+  "title": "Pune heatwave afternoon (pre-monsoon)",
+  "subtitle": "A dry pre-monsoon afternoon with the air reaching ~41.5 °C. Conditions below are SIMULATED.",
+  "clockStart": "11:00",
+  "durationMin": 360,
+  "speed": 120,
+  "events": [
+    { "t": 0,   "kind": "alert", "source": "IMD Mumbai", "category": "Met",
+      "title": "पुणे जिल्ह्यात उष्णतेची लाट येण्याची शक्यता. दुपारी १२ ते ४ उन्हात जाणे टाळा. / Heat wave conditions likely over Pune district; avoid going out 12–4 pm." },
+    { "t": 0,   "kind": "heat", "t2m": 36.0, "tw": 20.0, "sr": 850 },
+    { "t": 60,  "kind": "heat", "t2m": 38.5, "tw": 22.0, "sr": 900 },
+    { "t": 90,  "kind": "heat", "t2m": 39.5, "tw": 22.8, "sr": 920 },
+    { "t": 120, "kind": "heat", "t2m": 40.5, "tw": 23.5, "sr": 900 },
+    { "t": 180, "kind": "heat", "t2m": 41.5, "tw": 24.0, "sr": 820 },
+    { "t": 240, "kind": "heat", "t2m": 40.0, "tw": 23.0, "sr": 650 },
+    { "t": 300, "kind": "heat", "t2m": 37.5, "tw": 22.0, "sr": 400 },
+    { "t": 360, "kind": "heat", "t2m": 35.0, "tw": 21.0, "sr": 150 },
+    { "t": 30,  "kind": "cooling", "id": "s-cool-1", "name": "Free water — shop near Swargate", "lat": 18.5012, "lng": 73.8590, "amenities": ["water", "shade"] }
+  ]
+}

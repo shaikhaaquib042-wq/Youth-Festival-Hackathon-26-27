@@ -152,4 +152,12 @@ export default {
   'unwell.sign.cramps': 'కండరాల తిమ్మిర్లు',
   'unwell.sign.weakness': 'నీరసం',
   'unwell.sign.fastPulse': 'గుండె వేగంగా కొట్టుకోవడం',
+  'scenario.pick': 'అభ్యాసం ఎంచుకోండి',
+  'scenario.note': 'అభ్యాసం నమూనా మాత్రమే (అన్ని చోట్లా SIMULATED అని ఉంటుంది). మ్యాప్, మార్గం, అధికారిక సమాచారం, నిజమైన రిపోర్టులు కొనసాగుతాయి.',
+  'scenario.speed': 'వేగం',
+  'scenario.back': 'లైవ్‌కు తిరిగి',
+  'heat.level.green': 'పని చేయడం సురక్షితం',
+  'heat.level.yellow': 'జాగ్రత్తగా ఉండండి',
+  'heat.level.orange': 'అధిక ఉష్ణ ఒత్తిడి',
+  'heat.level.red': 'ప్రమాదం — పని తగ్గించండి',
 };

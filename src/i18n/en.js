@@ -161,4 +161,12 @@ export default {
   'unwell.sign.cramps': 'Muscle cramps',
   'unwell.sign.weakness': 'Weakness',
   'unwell.sign.fastPulse': 'Fast heartbeat',
+  'scenario.pick': 'Choose a replay',
+  'scenario.note': 'Replays are SIMULATED (tagged everywhere). The map, routing, official feeds and real reports keep running underneath.',
+  'scenario.speed': 'Speed',
+  'scenario.back': 'Back to LIVE',
+  'heat.level.green': 'Safe to work',
+  'heat.level.yellow': 'Take care',
+  'heat.level.orange': 'High heat stress',
+  'heat.level.red': 'Danger — limit work',
 };
