@@ -140,19 +140,34 @@ export interface ScheduledCamp {
   status: 'scheduled' | 'completed' | 'cancelled';
 }
 
+export interface AppDataStore {
+  version: string;
+  seedHash: string;
+  donors: Donor[];
+  hospitals: Hospital[];
+  bloodBanks: BloodBank[];
+  requests: BloodRequest[];
+  notifications: Notification[];
+  donationEvents: DonationEvent[];
+  auditLogs: AuditEntry[];
+  historicalRequests: HistoricalRequest[];
+  campuses: Campus[];
+  scheduledCamps: ScheduledCamp[];
+}
+
 // Domain Events for pure event-sourcing fold
 export type DomainEvent =
   | { type: 'RequestCreated'; payload: BloodRequest; timestamp: string }
-  | { type: 'VerificationSucceeded'; payload: { requestId: string; verifiedBy: string; timestamp: string } }
-  | { type: 'VerificationFailed'; payload: { requestId: string; attempts: number; timestamp: string } }
+  | { type: 'VerificationSucceeded'; payload: { requestId: string; verifiedBy: string }; timestamp: string }
+  | { type: 'VerificationFailed'; payload: { requestId: string; attempts: number }; timestamp: string }
   | { type: 'TierNotified'; payload: { requestId: string; tier: MatchingTier; donorIds: string[]; notifications: Notification[] }; timestamp: string }
-  | { type: 'DonorAccepted'; payload: { requestId: string; donorId: string; notificationId: string; timestamp: string } }
-  | { type: 'DonorDeclined'; payload: { requestId: string; donorId: string; notificationId: string; reason?: string; timestamp: string } }
+  | { type: 'DonorAccepted'; payload: { requestId: string; donorId: string; notificationId: string }; timestamp: string }
+  | { type: 'DonorDeclined'; payload: { requestId: string; donorId: string; notificationId: string; reason?: string }; timestamp: string }
   | { type: 'UnitsFulfilled'; payload: { requestId: string; unitsFulfilled: number; donationEvent: DonationEvent }; timestamp: string }
-  | { type: 'RequestExpired'; payload: { requestId: string; timestamp: string } }
-  | { type: 'RequestCancelled'; payload: { requestId: string; reason: string; timestamp: string } }
+  | { type: 'RequestExpired'; payload: { requestId: string }; timestamp: string }
+  | { type: 'RequestCancelled'; payload: { requestId: string; reason: string }; timestamp: string }
   | { type: 'ContactRevealed'; payload: { requestId: string; donorId: string; auditEntry: AuditEntry }; timestamp: string }
-  | { type: 'PiiPurged'; payload: { requestId: string; timestamp: string } };
+  | { type: 'PiiPurged'; payload: { requestId: string }; timestamp: string };
 
 // Clock and PRNG interfaces for pure operations
 export interface Clock {

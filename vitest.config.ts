@@ -2,9 +2,11 @@ import { defineConfig } from 'vitest/config';
 import path from 'path';
 
 export default defineConfig({
+  cacheDir: path.resolve(__dirname, 'node_modules/.vite'),
   test: {
-    environment: 'jsdom',
     globals: true,
+    pool: 'forks',
+    environment: 'node',
   },
   resolve: {
     alias: {
