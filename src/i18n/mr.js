@@ -1,7 +1,7 @@
 // मराठी — REVIEW by a native speaker before the demo.
 export default {
   'lang.name': 'मराठी',
-  'app.name': 'मौसम मित्र',
+  'app.name': 'सजग',
   'app.tagline': 'ऊन-पावसात तुमचा सोबती',
   'mode.live': 'थेट',
   'mode.scenario': 'सराव',

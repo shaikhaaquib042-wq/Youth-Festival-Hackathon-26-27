@@ -1,7 +1,7 @@
-# Mausam Mitra — guide for coding agents
+# Sajag — guide for coding agents
 
 Hackathon build, **submission before 22:00 IST, 21 Nov 2026; code freeze 21:00**. Spec: `docs/PRD.md` (read §5, §6, §9, §10, §18 before coding; heat = §21).
-Mausam Mitra (मौसम मित्र) = one safety companion for people who cannot stay indoors — commuters, two-wheeler/delivery riders, outdoor workers — in Pune.
+Sajag (सजग) = one safety companion for people who cannot stay indoors — commuters, two-wheeler/delivery riders, outdoor workers — in Pune.
 - **Flood module (PS 7.3, primary):** live verified map of waterlogged roads — citizen reports + official alerts + radar/weather → route verdict Safe / Caution / AVOID.
 - **Heat module (PS 7.2):** hyperlocal heat alerts from public weather data, continuous in-shift checks with work/rest advice, heat-illness signs + help, crowdsourced cooling points (water, shade, ORS), voice alerts in Marathi/Hindi.
 Same map, same Pin/report flow, same alert engine for both hazards.
@@ -30,7 +30,7 @@ Need a change in a file you don't own? Leave a `// REQUEST(orchestrator): …` n
 `src/main.js` is the wiring point: export functions from your modules (e.g. `initReportUI(map, store)`); the orchestrator wires them in. Small, obvious wiring additions to `main.js` are OK if you say so in the commit.
 
 ## Git
-- Branch: **`team/mausam-mitra`**. Never commit to or push `main`.
+- Branch: **`team/sajag`**. Never commit to or push `main`.
 - Small commits after every working step; `git pull --rebase` before push.
 - Never commit `.env*` (except `.env.example`), `node_modules/`, `dist/`.
 

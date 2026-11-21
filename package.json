@@ -1,7 +1,7 @@
 {
-  "name": "mausam-mitra",
+  "name": "sajag",
   "version": "1.0.0",
-  "description": "Mausam Mitra (मौसम मित्र) — live flood-road and heat safety companion for people who cannot stay indoors (Naya Bharat 2047, PS 7.3 + 7.2)",
+  "description": "Sajag (सजग) — live flood-road and heat safety companion for people who cannot stay indoors (Naya Bharat 2047, PS 7.3 + 7.2)",
   "directories": {
     "doc": "docs"
   },

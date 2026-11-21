@@ -1,4 +1,4 @@
-// Mausam Mitra runtime config — ORCHESTRATOR-OWNED (see AGENTS.md).
+// Sajag runtime config — ORCHESTRATOR-OWNED (see AGENTS.md).
 // Everything tunable lives here so it can be changed without touching engine code.
 import pune from './citypacks/pune.json';
 import mumbai from './citypacks/mumbai.json';

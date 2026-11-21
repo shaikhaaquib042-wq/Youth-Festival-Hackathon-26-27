@@ -1,7 +1,7 @@
 // हिन्दी — REVIEW by a native speaker before the demo.
 export default {
   'lang.name': 'हिन्दी',
-  'app.name': 'मौसम मित्र',
+  'app.name': 'सजग',
   'app.tagline': 'धूप और बारिश में आपका साथी',
   'mode.live': 'लाइव',
   'mode.scenario': 'अभ्यास',

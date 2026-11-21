@@ -1,7 +1,7 @@
 // తెలుగు — REVIEW by a native speaker before the demo.
 export default {
   'lang.name': 'తెలుగు',
-  'app.name': 'మౌసమ్ మిత్ర',
+  'app.name': 'సజగ్',
   'app.tagline': 'ఎండలో, వానలో మీ తోడు',
   'mode.live': 'లైవ్',
   'mode.scenario': 'అభ్యాసం',

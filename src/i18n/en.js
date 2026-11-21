@@ -1,8 +1,8 @@
 // English — BASE table. Every key must exist here; other languages fall back to it.
 export default {
   'lang.name': 'English',
-  'app.name': 'Mausam Mitra',
-  'app.tagline': 'Your companion in heat and rain',
+  'app.name': 'Sajag',
+  'app.tagline': 'Stay alert in heat and rain',
 
   'mode.live': 'LIVE',
   'mode.scenario': 'SCENARIO',

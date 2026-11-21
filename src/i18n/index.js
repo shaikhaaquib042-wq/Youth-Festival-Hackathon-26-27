@@ -19,7 +19,7 @@ export const LANGS = {
   te: { bcp47: 'te-IN', name: te['lang.name'] },
 };
 
-const STORE_KEY = 'mm.lang';
+const STORE_KEY = 'sajag.lang';
 let current = 'en';
 
 const fill = (s, vars) => s.replace(/\{(\w+)\}/g, (_, k) => (vars?.[k] ?? `{${k}}`));

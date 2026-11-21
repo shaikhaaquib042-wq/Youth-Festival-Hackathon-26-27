@@ -1,7 +1,7 @@
 // ಕನ್ನಡ — REVIEW by a native speaker before the demo.
 export default {
   'lang.name': 'ಕನ್ನಡ',
-  'app.name': 'ಮೌಸಮ್ ಮಿತ್ರ',
+  'app.name': 'ಸಜಗ',
   'app.tagline': 'ಬಿಸಿಲು ಮತ್ತು ಮಳೆಯಲ್ಲಿ ನಿಮ್ಮ ಜೊತೆಗಾರ',
   'mode.live': 'ನೇರ',
   'mode.scenario': 'ಅಭ್ಯಾಸ',
