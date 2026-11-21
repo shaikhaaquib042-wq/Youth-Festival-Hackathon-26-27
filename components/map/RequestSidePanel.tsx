@@ -171,7 +171,12 @@ export const RequestSidePanel: React.FC<RequestSidePanelProps> = ({
             </div>
 
             {/* Time to First Acceptance Ticker */}
-            <div className="p-3 rounded-xl bg-surface-elevated/60 border border-surface-border">
+            <div
+              className="p-3 rounded-xl bg-surface-elevated/60 border border-surface-border"
+              role="status"
+              aria-live="polite"
+              aria-label="Time to first acceptance"
+            >
               <div className="flex items-center justify-between text-xs mb-1">
                 <span className="text-slate-400 font-medium flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-cyan" />

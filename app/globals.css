@@ -73,3 +73,33 @@ h1, h2, h3, h4, .font-display {
 ::-webkit-scrollbar-thumb:hover {
   background: #2D3A50;
 }
+
+/* WCAG AA Focus Ring Utility */
+:focus-visible {
+  outline: 2px solid var(--cyan) !important;
+  outline-offset: 2px !important;
+}
+
+/* Presenter Mode High-Contrast Enhancement */
+.presenter-mode {
+  --text-primary: #FFFFFF;
+  --text-secondary: #E2E8F0;
+  --text-muted: #94A3B8;
+  font-size: 1.05rem;
+}
+
+.presenter-mode .glass-panel,
+.presenter-mode .glass-panel-elevated {
+  background: rgba(10, 14, 22, 0.95);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* prefers-reduced-motion compliance (SPEC §10) */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

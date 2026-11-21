@@ -103,6 +103,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRunDemo }) => {
               <button
                 onClick={toggleClockPause}
                 title={clock.isPaused ? 'Resume Clock' : 'Pause Clock'}
+                aria-label={clock.isPaused ? 'Resume Clock' : 'Pause Clock'}
                 className="p-1 hover:text-white text-slate-400"
               >
                 {clock.isPaused ? <Play className="w-3 h-3 text-emerald-400" /> : <Pause className="w-3 h-3" />}
@@ -110,6 +111,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRunDemo }) => {
               <button
                 onClick={() => setClockSpeed(clock.speed === 1 ? 5 : clock.speed === 5 ? 20 : 1)}
                 title="Cycle Clock Speed"
+                aria-label="Cycle Clock Speed"
                 className="px-1 py-0.5 rounded text-[10px] bg-surface hover:bg-surface-border text-cyan font-bold"
               >
                 {clock.speed}x
@@ -117,6 +119,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRunDemo }) => {
               <button
                 onClick={() => advanceClock(10)}
                 title="Fast forward +10 minutes"
+                aria-label="Fast forward 10 minutes"
                 className="p-1 hover:text-amber text-slate-400"
               >
                 <FastForward className="w-3 h-3" />
@@ -128,6 +131,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRunDemo }) => {
           <button
             onClick={togglePresenterMode}
             title={ui.isPresenterMode ? 'Exit Presenter Mode' : 'Enter Presenter Mode (Larger Contrast)'}
+            aria-label={ui.isPresenterMode ? 'Exit Presenter Mode' : 'Enter Presenter Mode (Larger Contrast)'}
             className={`p-2 rounded-lg border transition-colors ${
               ui.isPresenterMode
                 ? 'bg-amber/20 border-amber text-amber'

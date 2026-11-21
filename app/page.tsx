@@ -98,7 +98,7 @@ export default function HomePage() {
   return (
     <div
       className={`min-h-screen flex flex-col bg-background text-slate-100 ${
-        ui.isPresenterMode ? 'text-base font-normal contrast-125' : 'text-sm'
+        ui.isPresenterMode ? 'presenter-mode contrast-125' : 'text-sm'
       }`}
     >
       <Navbar onRunDemo={handleRunDemo} />
@@ -138,46 +138,60 @@ export default function HomePage() {
 
         {ui.activeView === 'donor' && (
           <div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)]">
-            <DonorPhoneMock onClose={() => setActiveView('map')} />
+            <ErrorBoundary fallbackTitle="Phone Simulator Offline" fallbackMessage="Recovering donor interaction frame.">
+              <DonorPhoneMock onClose={() => setActiveView('map')} />
+            </ErrorBoundary>
           </div>
         )}
 
         {ui.activeView === 'request' && (
           <div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)]">
-            <CreateRequestModal
-              isOpen={true}
-              onClose={() => setActiveView('map')}
-            />
+            <ErrorBoundary fallbackTitle="Request Dispatch Error" fallbackMessage="Unable to render request creation form.">
+              <CreateRequestModal
+                isOpen={true}
+                onClose={() => setActiveView('map')}
+              />
+            </ErrorBoundary>
           </div>
         )}
 
         {ui.activeView === 'impact' && (
           <div className="py-2">
-            <ImpactComparison />
+            <ErrorBoundary fallbackTitle="Impact Comparison Offline" fallbackMessage="Unable to load impact comparison metrics.">
+              <ImpactComparison />
+            </ErrorBoundary>
           </div>
         )}
 
         {ui.activeView === 'heatmap' && (
           <div className="py-2">
-            <BloodDesertHeatmap />
+            <ErrorBoundary fallbackTitle="Blood Desert Heatmap Offline" fallbackMessage="Unable to render geospatial deficit analytics.">
+              <BloodDesertHeatmap />
+            </ErrorBoundary>
           </div>
         )}
 
         {ui.activeView === 'forecast' && (
           <div className="py-2">
-            <LeanMonthForecast />
+            <ErrorBoundary fallbackTitle="Forecast Engine Offline" fallbackMessage="Unable to calculate seasonal inventory projections.">
+              <LeanMonthForecast />
+            </ErrorBoundary>
           </div>
         )}
 
         {ui.activeView === 'campus' && (
           <div className="py-2">
-            <CampusNetwork />
+            <ErrorBoundary fallbackTitle="Campus Network Offline" fallbackMessage="Unable to display college network leaderboard.">
+              <CampusNetwork />
+            </ErrorBoundary>
           </div>
         )}
 
         {ui.activeView === 'privacy' && (
           <div className="py-2">
-            <PrivacyCenter />
+            <ErrorBoundary fallbackTitle="Privacy Center Offline" fallbackMessage="Unable to render security and compliance records.">
+              <PrivacyCenter />
+            </ErrorBoundary>
           </div>
         )}
       </main>
