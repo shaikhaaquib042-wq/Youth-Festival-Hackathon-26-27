@@ -1,120 +1,159 @@
 # Raasta
 
-**Find the right door for an everyday dispute.**
+**Which door do I knock on?**
 
-Raasta turns a plain-language problem into a clear, practical route to the right Indian authority. It identifies the first peaceful step, the correct office or portal, required documents, deadlines, legal-aid eligibility, nearby offices, and a ready-to-send letter or postal label.
+Raasta means "the way" in Hindi and Marathi. It is a calm, multilingual access-to-justice guide that helps a person turn an everyday dispute into one clear first step.
+
+Describe a problem in plain language, and Raasta identifies:
+
+1. **The first free or peaceful step** you can take today.
+2. **The exact office or portal** that handles it, along with fees, expected timing, and documents.
+3. **The next door** to try if the first one does not resolve the matter.
 
 Built for the Rotary x Rotaract **Naya Bharat 2047, Code for Bharat** hackathon, **Problem 1.2: Access to justice for everyday disputes**.
 
-[Try Raasta](https://raasta.safalmutha.in) · [Pitch presentation](https://docs.google.com/presentation/d/1dnuOC1ywQWUNKwZHfftk374Q-fy9hMWIxCEiY3u8N7M/edit?usp=sharing) · [Pitch notes](docs/PITCH.md)
+[Open Raasta](https://raasta.safalmutha.in) · [View presentation](https://docs.google.com/presentation/d/1dnuOC1ywQWUNKwZHfftk374Q-fy9hMWIxCEiY3u8N7M/edit?usp=sharing)
 
 ---
 
 ## The problem
 
-An unpaid deposit, faulty product, unpaid wages, UPI fraud, a pothole, or a neighbour's construction can become a lasting conflict when a person does not know where to begin.
+An unpaid deposit, faulty product, unpaid wage, UPI fraud, pothole, or neighbour dispute often stops at one question: which authority handles this?
 
-The hardest question is often not "what happened?" It is "which office handles this?" Raasta helps residents move from uncertainty to a first safe, free, or peaceful action without pretending to provide legal advice.
+The DAKSH Access to Justice survey found that 74% of people first turn to friends and family. Without a clear answer, many give up. A small dispute can become a lasting grudge, and then a conflict no one intended to start.
 
-The DAKSH Access to Justice survey reports that 74% of people first turn to friends and family when they face a dispute.
+The right route could lead to police, a consumer commission, labour office, ward office, Lok Adalat, banking ombudsman, or legal aid. Raasta connects those paths without assuming a person knows the legal system.
 
 ## What Raasta does
 
-### One answer, in three parts
+- Accepts free-text problems or common-dispute choices.
+- Asks at most three short questions, and only when the answer changes the route.
+- Works in 12 Indian languages, including Urdu with a correct right-to-left layout.
+- Covers 19 kinds of everyday disputes across all 36 states and union territories.
+- Generates a properly formatted PDF letter, postal label, email, and WhatsApp draft.
+- Finds nearby offices and checks eligibility for a free government lawyer under Section 12.
+- Walks people through portals that do not offer direct filing APIs.
+- Works with JavaScript disabled, making the journey usable on old phones and slow networks.
+- Uses one tap to apply a person's state or city and localize offices and complaint channels.
 
-1. **Start here** - the safest and most peaceful first step.
-2. **The right door** - the office or portal, fees, documents, deadlines, and a ready draft.
-3. **If that does not work** - the next authority, escalation route, or form of help.
+### Live the journey
 
-### A complete action journey
+For a landlord keeping a deposit of Rs 30,000, Raasta can identify a fifteen-day notice as the first step, provide the correct office, explain the documents and deadline, and prepare the notice and postal label in less than a minute.
 
-- Describe a problem in your own words or choose a common dispute.
-- Answer at most three short questions.
-- Read a deterministic route in one of 12 languages.
-- Generate a PDF letter, printable postal label, email, or WhatsApp draft.
-- Find nearby offices and legal-aid services in Pune, Mumbai, Delhi, Bengaluru, Chennai, and Hyderabad.
-- Check legal-aid eligibility under Section 12 and state income limits.
-- Ask the assistant a follow-up question grounded in the selected route and verified registry.
-- Open a step-by-step guide for portals that do not provide filing APIs.
+For UPI fraud discovered just now, Raasta skips the questions and places 1930 first. It explains how the first hour may be critical, then guides the person through the bank letter and cybercrime portal. For violence or assault, Raasta prioritizes safety, emergency numbers, reporting through a police station or Zero FIR, and free legal aid.
 
-### Safety comes first
-
-Recent violence or fraud bypasses the question flow and immediately presents emergency actions:
-
-- **112** for immediate police assistance.
-- **1930** for the national cybercrime helpline.
-- **1091** for women's helpline support.
-- **108** for emergency medical assistance.
-
-### Designed for India
-
-- Hindi, Marathi, Urdu, Bengali, Gujarati, Kannada, Malayalam, Odia, Punjabi, Tamil, Telugu, and English.
-- Right-to-left Urdu layout.
-- Plain, Class 8-level action steps.
-- JavaScript is optional. The core journey works with a plain HTML form.
-- Prerendered pages and an accessible street-of-doors interface support old phones and slow networks.
+Emergency actions include **112**, **1930**, the women's helpline at **1091**, and emergency medical support at **108**.
 
 ---
 
-## How it works
+## Why Raasta is different
 
-```text
-Browser or accessible no-JavaScript form
-                    |
-                    v
-raasta.safalmutha.in
-        |
-        +--> Cloudflare Pages
-        |    Prerendered pages and 12-language routes
-        |
-        +--> Cloudflare Worker
-             |
-             +--> Intake: PII redaction and AI slot extraction
-             +--> Rules: deterministic routing and emergency guardrails
-             +--> Registry: verified offices, portals, fees, deadlines, and links
-             +--> Documents: letters, PDFs, labels, email, and WhatsApp drafts
-             +--> KV: cache
-             +--> D1: feedback
-```
+### A single route, not ten search results
 
-AI helps understand free-text facts. It does not invent an authority or route. Every office, URL, fee, phone number, deadline, and escalation comes from the verified registry through a deterministic rule engine.
+A web search leaves a person comparing blogs and advertisements. Government portals are scattered across separate logins and layouts. AI chatbots may sound convincing while inventing a phone number, fee, or deadline.
 
-### Architecture principles
+Raasta gives one situation-specific route, backs it with the official link, and uses plain language. The result is a direct first action, a correct office or portal, and a fallback route.
 
-- Same-origin Pages and Worker routes for no CORS configuration.
-- Prerendered and server-rendered results that remain usable without JavaScript.
-- Rules and public-source data kept separate from AI-generated text.
-- PII redacted before AI calls or logging.
-- HMAC-signed result links that expire after seven days.
-- No fake filing claims: real API filing remains clearly marked as a demo sandbox until credentials and a tenant are available.
+### AI understands, rules decide
 
----
+The AI is not allowed to invent the answer. It only helps extract details from what the person writes. A deterministic rule engine and a verified registry decide the route.
 
-## Technology
+The registry contains 22 official platforms, including CPGRAMS, e-Jagriti, the national cybercrime portal, RBI, SEBI, IRDAI, EPFO, SHe-Box, and NALSA. Every link, fee, phone number, and deadline must come from the registry.
 
-| Area | Stack |
-|---|---|
-| Front end | React 19, Preact in production, Vite, Tailwind 4 |
-| Server | Cloudflare Worker, Hono |
-| Hosting | Cloudflare Pages on the same hostname |
-| Data | D1, KV, typed verified registry |
-| AI | Gemini, Cloudflare Workers AI, Ollama locally, with a deterministic keyword fallback |
-| Documents | pdf-lib, print layouts, email and WhatsApp builders |
-| Testing | Vitest, TypeScript, Playwright |
+If a link cannot be verified, the system marks it "Check before you go" instead of guessing. Automated checks stop a release if a guide points outside the verified registry.
+
+### Built for low bandwidth
+
+The first page needs only about forty kilobytes of code. Raasta prerenders about 730 pages and serves from Cloudflare's edge network. A plain HTML form provides the core journey even when JavaScript is unavailable.
 
 ---
 
 ## 3-minute demo
 
-1. Open the landing page and type: **"My landlord is not returning my deposit of Rs 30000."**
-2. Answer at most two questions, then select the glowing right door.
-3. Review the first peaceful step, documents, deadline, fee, and escalation route.
-4. Open **Prepare letter**, download the PDF, or print a postal label.
-5. Ask: **"What if they do not reply?"**
-6. Type: **"Rs 20000 was taken by UPI fraud just now."** The emergency route appears immediately.
-7. Switch the site to Marathi or Urdu and use the same journey.
-8. Open legal-aid eligibility and check the income criteria.
-9. Turn JavaScript off and confirm the core flow still works.
+1. Open the landing page and show the calm street of doors.
+2. Type: **"My landlord in Pune is not returning my deposit of 30000 for 2 months."**
+3. Answer one short question, then open the result and **Show me how, step by step**.
+4. Prepare a notice, download the PDF, print a postal label, or open email and WhatsApp drafts.
+5. Ask what happens if the landlord does not reply.
+6. Type: **"Rs 20000 was taken from my account by UPI fraud just now."**
+7. Show that no questions appear and 1930 is presented immediately.
+8. Switch to Marathi, then Urdu, and test the right-to-left layout.
+9. Turn JavaScript off and repeat a journey on an old-phone-sized viewport.
+
+---
+
+## Trust and safety
+
+- No accounts or login.
+- Typed problems are not stored.
+- Aadhaar, PAN, phone, card, bank, UPI, and OTP-like numbers are masked before AI use.
+- Result links are signed and expire after seven days.
+- Strict security headers, origin checks, size limits, and rate limiting are enabled.
+- Screen-reader labels, 44-pixel touch targets, reduced-motion support, and accessible forms are included.
+- Drafts are never described as filings.
+- Real filing integrations remain clearly labelled as demos until credentials and a tenant are available.
+- Every result says that Raasta provides procedural guidance based on public rules and not legal advice.
+
+Full controls are documented in [Security](docs/SECURITY.md).
+
+---
+
+## Technology
+
+| Area | Implementation |
+|---|---|
+| Front end | React 19, Preact in production, Vite, Tailwind 4 |
+| Server | Cloudflare Worker with Hono |
+| Hosting | Cloudflare Pages and a Worker on the same hostname |
+| Data | KV, D1, typed schemas, and a verified public-source registry |
+| AI | Gemini first, Cloudflare Workers AI, Ollama locally, with keyword fallback |
+| Documents | pdf-lib, print layouts, email, and WhatsApp builders |
+| Languages | 12 languages and 5,500-plus translated lines |
+| Quality | 275 automated tests and 168 real-browser checks |
+
+### Architecture
+
+```text
+Browser
+  |
+  +--> Cloudflare Pages
+  |      prerendered 12-language pages
+  |
+  +--> Cloudflare Worker
+         |
+         +--> PII redaction
+         +--> AI slot extraction
+         +--> deterministic rules
+         +--> verified registry
+         +--> documents and chat
+         +--> KV and D1
+```
+
+The AI only fills in facts. Routes, URLs, fees, phone numbers, and deadlines come from the registry.
+
+---
+
+## Scale
+
+Raasta has already crossed the prototype stage:
+
+- 19 everyday dispute types
+- 36 states and union territories
+- 12 languages
+- About 730 prerendered pages
+- 22 official platforms in the verified registry
+- 275 automated tests
+- 168 browser checks at phone, tablet, and desktop sizes
+- Core journeys that work without JavaScript
+- Cloudflare deployment with almost no server cost
+
+The next stages are:
+
+1. Add BHASHINI live translation and speech once credentials are approved.
+2. Connect approved DIGIT or UPYOG cities to real civic complaint tracking.
+3. Verify each state's grievance portal and keep a fallback national route.
+4. Integrate more deeply with Tele-Law, NALSA, and Lok Adalats.
+5. Reach people through Common Service Centres, SMS, and voice calls.
 
 ---
 
@@ -122,26 +161,24 @@ AI helps understand free-text facts. It does not invent an authority or route. E
 
 ### Requirements
 
-- Node.js 22, 20 also works
+- Node.js 22
 - npm 10
 - Git
-- Optional: Ollama with `qwen3.5:4b` for local AI
+- Optional: Ollama with `qwen3.5:4b`
 
 No Cloudflare account or API key is required for a local run.
-
-### Start everything
 
 ```powershell
 npm run local
 ```
 
-This builds the prerendered site, creates local KV and D1 state, and starts:
+This builds the site, creates local KV and D1 state, and starts:
 
 - Website: http://localhost:4173
-- Local API and dynamic routes: http://127.0.0.1:8787
+- Local API: http://127.0.0.1:8787
 - Health check: http://localhost:4173/api/health
 
-For the full local and deployment procedure, see [run.md](run.md).
+The local run does not contact the hosted website.
 
 ### Optional local AI
 
@@ -149,9 +186,7 @@ For the full local and deployment procedure, see [run.md](run.md).
 ollama pull qwen3.5:4b
 ```
 
-The local Worker uses Ollama first and falls back to keywords if no model is running. Cloud Gemini keys may also be configured locally.
-
----
+Without Ollama, Raasta uses Gemini or Workers AI when configured and then falls back to keywords.
 
 ## Validate
 
@@ -160,66 +195,44 @@ npm test
 npm run typecheck
 ```
 
-The test suite covers data, routing, documents, API behavior, and step-by-step guides across states.
-
-Browser and accessibility checks:
+Browser journeys and accessibility checks:
 
 ```powershell
 cd qa/agy
 npx playwright test
 ```
 
-Set `BASE_URL` to test a hosted or local deployment.
+Set `BASE_URL` to test another deployed or local environment.
 
 ---
 
 ## Repository map
 
 ```text
-apps/web        Prerendered React website
-apps/api        Hono Worker for JSON and dynamic routes
-packages/data   Verified registry, schemas, and dispute data
-packages/rules  Routing engine, guardrails, timers, redaction
-packages/i18n   12-language content and RTL support
+apps/web         Prerendered website
+apps/api         Hono Worker for API and dynamic routes
+packages/data    Verified registry and dispute data
+packages/rules   Routing engine, guardrails, timers, and redaction
+packages/i18n    12-language content and RTL support
 packages/docs-gen Letters, PDFs, labels, email, and WhatsApp drafts
-scripts/        Local runner, build guards, ingestion, and environment tools
-qa/             Playwright journeys and AI intake checks
-docs/           Product, architecture, design, security, and deployment notes
+scripts/         Local runner, ingestion, and build guards
+qa/              Playwright, Ollama, and browser QA
+docs/            Product, architecture, design, security, and deployment
 ```
-
----
-
-## Trust and safety
-
-Raasta stores almost no personal data and treats every input as hostile.
-
-- Strict CSP, HSTS, and restrictive request headers.
-- Zod validation and origin checks on requests.
-- PII redaction before AI calls.
-- Request size limits and rate limiting.
-- Signed, short-lived result links.
-- URL allowlisting against the verified registry.
-- Public-source facts only. No invented logos, testimonials, fees, deadlines, or officials.
-
-Read the complete [security notes](docs/SECURITY.md).
-
-> Raasta gives procedural guidance based on public government rules. It is not legal advice.
 
 ## Documentation
 
 | Resource | Purpose |
 |---|---|
-| [Pitch presentation](https://docs.google.com/presentation/d/1dnuOC1ywQWUNKwZHfftk374Q-fy9hMWIxCEiY3u8N7M/edit?usp=sharing) | Visual slides for the hackathon presentation |
-| [Pitch notes](docs/PITCH.md) | Problem, answer, 3-minute demo, architecture, and honesty rules |
-| [Product](docs/PRODUCT.md) | Users, scope, evidence, and challenge |
 | [Run guide](run.md) | Local setup and validation |
 | [Deployment](docs/DEPLOY.md) | Cloudflare Pages and Worker deployment |
-| [Design system](docs/DESIGN.md) | Visual tokens, accessibility, and street-of-doors pattern |
+| [Product](docs/PRODUCT.md) | Users, scope, evidence, and challenge |
+| [Design system](docs/DESIGN.md) | Visual language and street-of-doors pattern |
 | [Contracts](docs/CONTRACTS.md) | Package boundaries and codebase rules |
-| [Security](docs/SECURITY.md) | Controls and owner actions |
-| [Roadmap](docs/ROADMAP.md) | Built features and planned next steps |
+| [Security](docs/SECURITY.md) | Security controls |
+| [Roadmap](docs/ROADMAP.md) | Built features and next steps |
 | [Ship checklist](docs/CHECKLIST.md) | Pre-deployment checks |
 
 ---
 
-**Raasta means "the way."** The product turns confusion into the first visible step toward resolution.
+**Every person deserves to know which door to knock on.**

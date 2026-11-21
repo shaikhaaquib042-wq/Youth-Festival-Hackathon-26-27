@@ -501,7 +501,7 @@ Mic button uses BHASHINI ASR (via Worker) for Indian languages, Web Speech API a
 - Strict `_headers` on Pages: CSP (`default-src 'self'`; `script-src 'self' https://challenges.cloudflare.com`; `connect-src 'self'`; `img-src 'self' data: https://tile.openstreetmap.org`; `font-src https://fonts.gstatic.com`; `style-src 'self' https://fonts.googleapis.com`; `frame-src https://challenges.cloudflare.com`; `frame-ancestors 'none'`; `form-action 'self'`; Trusted Types where feasible), HSTS, `nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: geolocation=(self), microphone=(self), camera=()`, COOP/CORP same-origin. `noindex` on `*.pages.dev` previews (production is `raasta.safalmutha.in`). The Worker sends the same headers on `/r/*` HTML responses.
 - Worker: same-origin only (CORS closed; `ALLOWED_ORIGINS` used for the Origin/Referer check on POSTs, which also covers no-JS form posts), origin check on mutating calls, zod on every input, escaped output in anything rendered as HTML, generic errors, secrets only via `wrangler secret`.
 - `scripts/secret-scan.mjs` (or `gitleaks` if installed) before every commit and push; `npm audit --omit=dev` clean of high/critical.
-- Load the `security-review` skill for the final pass; write `docs/SECURITY.md` with findings and owner actions.
+- Load the `security-review` skill for the final pass; write `docs/SECURITY.md` with findings.
 
 ---
 
@@ -566,8 +566,8 @@ Favicon set (SVG door + saffron path mark, ICO, 32, apple-touch, 192/512 maskabl
 2. `npx wrangler deploy` for `apps/api` with `routes: [{ "pattern": "raasta.safalmutha.in/api/*", "zone_name": "safalmutha.in" }, { "pattern": "raasta.safalmutha.in/r/*", "zone_name": "safalmutha.in" }]` in `wrangler.jsonc`. Secrets via `scripts/env-sync.mjs --deploy` only for keys present in `.env`.
 3. Pages project `raasta` (Git integration later when the repo is ready; for now `npx wrangler pages deploy apps/web/dist --project-name raasta --branch main` for production, `--branch posterguys` for previews). `NODE_VERSION=20`.
 4. Attach the custom domain **`raasta.safalmutha.in`** to the Pages project (Cloudflare API `POST /accounts/:id/pages/projects/raasta/domains` with wrangler's login token, or the dashboard: Pages > raasta > Custom domains > Set up). The `safalmutha.in` zone is already on Cloudflare, so the CNAME is created automatically. The domain is already paid for; nothing to buy.
-5. Turnstile widget (free) for `raasta.safalmutha.in`: **owner action** if the API is not reachable, documented in `docs/DEPLOY.md` step by step.
-6. WAF rate rule `/api/*` 20 req / 10 s per IP (free plan allows one rate-limiting rule; if the zone already uses it for the portfolio, rely on the Workers rate-limiting bindings instead): owner action, documented.
+5. Turnstile widget (free) for `raasta.safalmutha.in`: configure it when the API is available, documented in `docs/DEPLOY.md` step by step.
+6. WAF rate rule `/api/*` 20 req / 10 s per IP (free plan allows one rate-limiting rule; if the zone already uses it for the portfolio, rely on the Workers rate-limiting bindings instead).
 7. Everything above stays on free plans; never enable a paid add-on (Browser Rendering paid tier, Workers Paid, Argo, etc.).
 
 ---
@@ -610,9 +610,8 @@ If time runs short, cut in this order (last cut first kept): voice flag code, au
 - Old-device check: with JavaScript disabled in Playwright, complete the deposit, pothole and UPI-fraud journeys end to end (question flow, result, PDF download, email link, postal label). Run once with a 360 x 640 viewport, CPU throttled 6x and slow-3G network. Every page within the §4.0 size budgets.
 - Free check: the app works with only free keys (Gemini free tier or Workers AI, BHASHINI or Workers AI translation, ORS free key or OSRM); no paid service is configured anywhere.
 - Manual: each of the 10 MVP disputes produces a correct route matching handbook §6.1; every Action centre button does what it says; PDFs open; postal labels print at correct size; Marathi + Urdu render with the right fonts and direction.
-- safaldev pre-ship checklist reported group by group (pass / fixed / not applicable / owner action) in `docs/CHECKLIST.md`.
+- safaldev pre-ship checklist reported group by group (pass / fixed / not applicable / pending) in `docs/CHECKLIST.md`.
 - "Get there" panel on an in-person step shows the map, a route with distance and time when a routing key is set, and working OSM / maps-app links when it is not.
-- Owner actions listed clearly: fill `.env` (including the OSM routing key), Turnstile widget, WAF rule, custom domain, BHASHINI onboarding, DIGIT sandbox credentials, review translations by a native speaker.
 
 ---
 

@@ -1,6 +1,6 @@
 # Pre-ship checklist
 
-Status as of 2026-11-21. Legend: **pass**, **fixed** (found and fixed in the final pass), **n.a.**, **owner** (needs the owner).
+Status as of 2026-11-21. Legend: **pass**, **fixed** (found and fixed in the final pass), **n.a.**, **pending** (needs private setup).
 
 ## Function
 | Item | Status |
@@ -33,7 +33,7 @@ Status as of 2026-11-21. Legend: **pass**, **fixed** (found and fixed in the fin
 | JavaScript under 60 KB gzip first load, no em dashes, no console.log, no source maps (build guard) | pass |
 
 ## Security
-See [SECURITY.md](SECURITY.md). CSP, HSTS, origin checks, rate and size limits, PII redaction, signed links, URL filter, npm audit clean: pass. Turnstile, WAF rule: **owner**.
+See [SECURITY.md](SECURITY.md). CSP, HSTS, origin checks, rate and size limits, PII redaction, signed links, URL filter, npm audit clean: pass. Turnstile and WAF setup: pending.
 
 ## Content and truth
 | Item | Status |
@@ -42,12 +42,6 @@ See [SECURITY.md](SECURITY.md). CSP, HSTS, origin checks, rate and size limits, 
 | No fake numbers, testimonials or logos | pass |
 | Disclaimer on results | pass |
 | Drafts never described as filings; demo sandbox labelled | pass |
-| 12 languages complete; newest keys fall back to English | pass, native review **owner** |
-| Privacy retention wording | **owner** |
+| 12 languages complete; newest keys fall back to English | pass, native review pending |
+| Privacy retention wording | pending |
 
-## Owner actions
-1. Sign in again to Antigravity (`agy`) so the Gemini QA pass can run (its login has expired).
-2. Turnstile widget + `TURNSTILE_SECRET_KEY`.
-3. WAF rate rule on `/api/*` and `/r/*`.
-4. BHASHINI keys, DIGIT/UPYOG tenant credentials.
-5. Native-speaker translation review; confirm privacy wording.
