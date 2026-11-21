@@ -59,7 +59,12 @@ function initReveal(scope: HTMLElement) {
   let queued = false;
   const scan = () => {
     queued = false;
-    scope.querySelectorAll(".reveal:not(.in)").forEach((el) => io.observe(el));
+    const h = window.innerHeight || 800;
+    scope.querySelectorAll(".reveal:not(.in)").forEach((el) => {
+      // Already on screen: show now, never wait for an observer callback.
+      if (el.getBoundingClientRect().top < h) el.classList.add("in");
+      else io.observe(el);
+    });
   };
   scan();
   new MutationObserver(() => {

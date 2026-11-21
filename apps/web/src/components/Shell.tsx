@@ -185,16 +185,15 @@ export function Shell() {
   const tt = useT();
   const lang = useLang();
   const { pathname } = useLocation();
-  const first = useRef(true);
+  const lastPath = useRef(pathname);
   const mainRef = useRef<HTMLElement>(null);
   const sweepRef = useRef<SVGPathElement>(null);
   useDocumentMeta();
 
   useEffect(() => {
-    if (first.current) {
-      first.current = false;
-      return;
-    }
+    // Only animate real client navigations (a changed path), never the first render or a repeated effect.
+    if (lastPath.current === pathname) return;
+    lastPath.current = pathname;
     window.scrollTo(0, 0);
     void runPageTransition(mainRef.current, sweepRef.current);
   }, [pathname]);

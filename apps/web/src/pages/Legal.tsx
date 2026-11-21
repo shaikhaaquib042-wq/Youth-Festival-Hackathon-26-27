@@ -34,7 +34,7 @@ export function Privacy() {
   const tt = usePageT();
   const rows = ["cookies", "drafts", "feedback", "system", "refs", "guidance"] as const;
   return (
-    <div className="container stack page">
+    <div className="container stack page prose">
       <h1>{tt("ui.privacy.h1")}</h1>
       <p className="page-lead">{tt("ui.privacy.intro")}</p>
       <section className="stack">
@@ -88,7 +88,7 @@ export function Terms() {
   const lang = useLang();
   const sections = ["law", "advice", "warranty", "use", "content", "changes"] as const;
   return (
-    <div className="container stack page">
+    <div className="container stack page prose">
       <h1>{tt("ui.terms.h1")}</h1>
       <p className="page-lead">{tt("ui.terms.intro")}</p>
       {sections.map((s) => (
@@ -99,7 +99,7 @@ export function Terms() {
       ))}
       <p>{tt("ui.terms.contact")}</p>
       <p>
-        <Link to={localePath(lang, "/feedback")}>{tt("ui.nav.feedback")}</Link>
+        <Link to="/feedback">{tt("ui.nav.feedback")}</Link>
       </p>
       <p className="sh-muted">{tt("ui.terms.updated")}</p>
     </div>
@@ -109,7 +109,7 @@ export function Terms() {
 export function Disclaimer() {
   const tt = usePageT();
   return (
-    <div className="container stack page">
+    <div className="container stack page prose">
       <h1>{tt("ui.disclaimer.h1")}</h1>
       <p className="page-lead">{tt("ui.disclaimer.lead")}</p>
       <p>{tt("ui.disclaimer.p1")}</p>

@@ -14,7 +14,7 @@ export function StatePage() {
 
   if (!st) {
     return (
-      <div className="container stack page">
+      <div className="container stack page state-page">
         <h1>{tt("ui.state.unknown_h1")}</h1>
         <p className="page-lead">{tt("ui.state.unknown_lead")}</p>
         <p>
@@ -29,7 +29,7 @@ export function StatePage() {
   const ceiling = st.legal_aid_ceiling_inr;
 
   return (
-    <div className="container stack page">
+    <div className="container stack page state-page">
       <h1>{tt("ui.state.h1", { name })}</h1>
       <p className="page-lead">
         {st.coverage === "deep"
@@ -74,7 +74,7 @@ export function StatePage() {
         )}
         {aid?.ceiling_note ? <p className="sh-muted">{aid.ceiling_note}</p> : null}
         <p>
-          <Link className="btn btn-secondary" to={localePath(lang, "/legal-aid")}>
+          <Link className="btn btn-secondary" to="/legal-aid">
             {tt("ui.state.legal_aid_link")}
           </Link>
         </p>
