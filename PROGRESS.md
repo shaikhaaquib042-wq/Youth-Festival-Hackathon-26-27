@@ -7,7 +7,7 @@
 - [x] **Phase 4**: Live Map (deck.gl + MapLibre GL, 3D tilt, columns, arcs, pulse, fallbacks)
 - [x] **Phase 5**: Request + donor flows (Create request 3-step, verify, phone mock, accept, decline, reveal)
 - [x] **Phase 6**: Privacy (Masking, audit log, retention/purge, Privacy Center)
-- [ ] **Phase 7**: Analytics: Impact (500 vs 5), Blood Desert Heatmap, Lean-Month Forecast, Campus Network + Camp Scheduler
+- [x] **Phase 7**: Analytics: Impact (500 vs 5), Blood Desert Heatmap, Lean-Month Forecast, Campus Network + Camp Scheduler
 - [ ] **Phase 8**: Demo Mode (Scripted 8-scene walkthrough, timeline scrubber, speed controls, reset)
 - [ ] **Phase 9**: Polish: motion, accessibility, responsive, empty/error states, error boundaries
 - [ ] **Phase 10**: Documentation & pitch script: comprehensive README.md, clean build verification
@@ -19,8 +19,8 @@
 - [x] Unverified requests cannot notify; verification works end to end
 - [x] Accept, decline, reveal, audit work; contacts masked until authorized reveal
 - [ ] Fulfilment, expiry, STALE label, archive, PII purge work
-- [ ] Heatmap, forecast and leaderboard computed from real state; camp scheduler persists
-- [ ] Impact numbers computed, with illustrative labels
+- [x] Heatmap, forecast and leaderboard computed from real state; camp scheduler persists
+- [x] Impact numbers computed, with illustrative labels
 - [ ] Run Demo completes and is deterministic; pause/resume/next/previous/reset/speeds work
 - [x] Tests pass; typecheck and lint clean; `npm run build` passes; no `any`
 - [ ] No non-functional buttons; no critical console errors

@@ -8,6 +8,10 @@ import { RequestSidePanel } from '@/components/map/RequestSidePanel';
 import { CreateRequestModal } from '@/components/requests/CreateRequestModal';
 import { DonorPhoneMock } from '@/components/donors/DonorPhoneMock';
 import { PrivacyCenter } from '@/components/privacy/PrivacyCenter';
+import { ImpactComparison } from '@/components/analytics/ImpactComparison';
+import { BloodDesertHeatmap } from '@/components/analytics/BloodDesertHeatmap';
+import { LeanMonthForecast } from '@/components/analytics/LeanMonthForecast';
+import { CampusNetwork } from '@/components/analytics/CampusNetwork';
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 import seedJson from '@/data/seed.json';
 import { AppDataStore, BloodRequest } from '@/types';
@@ -77,7 +81,6 @@ export default function HomePage() {
         };
         createRequest(defaultReq).then(() => {
           setActiveRequestId(defaultReq.id);
-          // Auto-trigger Tier 1 notifications for default request
           escalateRequest(defaultReq.id);
         });
       }
@@ -137,18 +140,42 @@ export default function HomePage() {
           </div>
         )}
 
-        {ui.activeView === 'privacy' && (
-          <div className="py-2">
-            <PrivacyCenter />
-          </div>
-        )}
-
         {ui.activeView === 'request' && (
           <div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)]">
             <CreateRequestModal
               isOpen={true}
               onClose={() => setActiveView('map')}
             />
+          </div>
+        )}
+
+        {ui.activeView === 'impact' && (
+          <div className="py-2">
+            <ImpactComparison />
+          </div>
+        )}
+
+        {ui.activeView === 'heatmap' && (
+          <div className="py-2">
+            <BloodDesertHeatmap />
+          </div>
+        )}
+
+        {ui.activeView === 'forecast' && (
+          <div className="py-2">
+            <LeanMonthForecast />
+          </div>
+        )}
+
+        {ui.activeView === 'campus' && (
+          <div className="py-2">
+            <CampusNetwork />
+          </div>
+        )}
+
+        {ui.activeView === 'privacy' && (
+          <div className="py-2">
+            <PrivacyCenter />
           </div>
         )}
       </main>
