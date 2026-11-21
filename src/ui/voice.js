@@ -20,12 +20,13 @@ export function initVoice(d) {
   btn = document.createElement('button');
   btn.id = 'voice-btn';
   btn.type = 'button';
-  btn.textContent = '🎤';
+  btn.innerHTML = '<span class="ico">🎤</span><span class="lbl"></span>';
   overlay = document.createElement('div');
   overlay.id = 'voice-overlay';
   overlay.hidden = true;
-  document.getElementById('app')?.append(btn, overlay);
-  onLang(() => { btn.setAttribute('aria-label', t('voice.button')); btn.title = t('voice.button'); });
+  (document.getElementById('action-bar') ?? document.getElementById('app'))?.append(btn);
+  document.getElementById('app')?.append(overlay);
+  onLang(() => { btn.setAttribute('aria-label', t('voice.button')); btn.title = t('voice.button'); btn.querySelector('.lbl').textContent = t('voice.button'); });
   btn.addEventListener('click', () => (rec ? stop() : start()));
   overlay.addEventListener('click', () => rec && stop());
 }

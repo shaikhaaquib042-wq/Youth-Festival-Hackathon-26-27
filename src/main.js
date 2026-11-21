@@ -1,4 +1,6 @@
 import './style.css';
+import { initTheme } from './theme.js';
+initTheme(); // before the map, so it starts in the right flavor
 import { createMap } from './map/map.js';
 import { addPinLayers, showHazard } from './map/pins.js';
 import { initAlerts } from './ui/alerts.js';

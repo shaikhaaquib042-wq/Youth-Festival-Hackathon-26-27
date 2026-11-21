@@ -269,4 +269,8 @@ export default {
   'report.heatUnavailable': "Adding cooling points is not switched on yet. Please try again later.",
   'shift.checking': "Checking the heat where you are…",
   'shift.retrying': "No weather data right now — trying again…",
+  'more.theme': "Appearance",
+  'theme.auto': "Auto",
+  'theme.light': "Light",
+  'theme.dark': "Dark",
 };

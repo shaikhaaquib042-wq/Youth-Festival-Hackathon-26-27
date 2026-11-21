@@ -149,7 +149,7 @@
 
 /* Collapsed More details section */
 .card-more-details {
-  border-top: 1px solid #f0f2f5;
+  border-top: 1px solid var(--line, #f0f2f5);
   padding-top: 6px;
 }
 

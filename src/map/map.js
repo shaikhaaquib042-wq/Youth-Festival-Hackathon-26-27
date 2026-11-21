@@ -3,6 +3,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { Protocol } from 'pmtiles';
 import { layers, namedFlavor } from '@protomaps/basemaps';
+import { resolvedTheme } from '../theme.js';
 import { CONFIG, cityPack } from '../../config.js';
 
 let protocolAdded = false;
@@ -12,6 +13,7 @@ export function createMap(container, pack = cityPack()) {
     maplibregl.addProtocol('pmtiles', new Protocol().tile);
     protocolAdded = true;
   }
+  const flavor = resolvedTheme() === 'dark' ? 'dark' : 'light';
   const tilesUrl = new URL(`${CONFIG.TILES_BASE}/${pack.tiles}`, location.href).href;
 
   const map = new maplibregl.Map({
@@ -25,7 +27,7 @@ export function createMap(container, pack = cityPack()) {
     style: {
       version: 8,
       glyphs: 'https://protomaps.github.io/basemaps-assets/fonts/{fontstack}/{range}.pbf',
-      sprite: 'https://protomaps.github.io/basemaps-assets/sprites/v4/light',
+      sprite: `https://protomaps.github.io/basemaps-assets/sprites/v4/${flavor}`,
       sources: {
         protomaps: {
           type: 'vector',
@@ -33,8 +35,25 @@ export function createMap(container, pack = cityPack()) {
           attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>',
         },
       },
-      layers: layers('protomaps', namedFlavor('light'), { lang: 'en' }),
+      layers: layers('protomaps', namedFlavor(flavor), { lang: 'en' }),
     },
+  });
+
+  // Dark mode: swap only the basemap layers (keeps our pins/routes/weather layers and their sources).
+  let current = flavor;
+  window.addEventListener('sajag:theme', (e) => {
+    const next = e.detail.theme === 'dark' ? 'dark' : 'light';
+    if (next === current) return;
+    const swap = () => {
+      current = next;
+      const base = layers('protomaps', namedFlavor(next), { lang: 'en' });
+      const ids = new Set(base.map((l) => l.id));
+      const firstOwn = map.getStyle().layers.find((l) => !ids.has(l.id))?.id;
+      for (const l of map.getStyle().layers) if (ids.has(l.id)) map.removeLayer(l.id);
+      for (const l of base) map.addLayer(l, firstOwn);
+      map.setSprite?.(`https://protomaps.github.io/basemaps-assets/sprites/v4/${next}`);
+    };
+    map.isStyleLoaded() ? swap() : map.once('load', swap);
   });
 
   // Container can change size after init (split panes, PWA install, rotation) — keep the canvas filling it.

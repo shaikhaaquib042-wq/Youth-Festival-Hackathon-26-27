@@ -248,4 +248,8 @@ export default {
   'report.heatUnavailable': "थंड जागा जोडण्याची सुविधा अजून सुरू नाही. कृपया नंतर प्रयत्न करा.",
   'shift.checking': "तुमच्या ठिकाणचे तापमान तपासत आहे…",
   'shift.retrying': "हवामान माहिती मिळाली नाही — पुन्हा प्रयत्न करत आहे…",
+  'more.theme': "दिसणे",
+  'theme.auto': "आपोआप",
+  'theme.light': "उजळ",
+  'theme.dark': "गडद",
 };

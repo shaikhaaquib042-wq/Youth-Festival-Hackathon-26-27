@@ -1,3 +1,4 @@
+import { themePref, setTheme } from '../theme.js';
 // "⋯ More" — everything that isn't the one answer + three buttons lives here, as big rows.
 import { t, setLang, LANGS, pickerLangs, getLang, onLang } from '../i18n/index.js';
 import { cityPack, CITY_PACKS } from '../../config.js';
@@ -27,6 +28,8 @@ function render() {
       <div class="rs-row">${WHO.map((w) => `<button class="chip ${currentWho() === w.id ? 'on' : ''}" data-who="${w.id}">${w.icon} ${esc(t(w.key))}</button>`).join('')}</div></div>
     <div class="more-sec"><div class="more-h">🏙 ${esc(t('more.city'))}</div>
       <div class="rs-row">${Object.values(CITY_PACKS).map((c) => `<button class="chip ${cityPack().id === c.id ? 'on' : ''}" data-city="${c.id}">${esc(c.name)}</button>`).join('')}</div></div>
+    <div class="more-sec"><div class="more-h">🌓 ${esc(t('more.theme'))}</div>
+      <div class="rs-row">${['auto', 'light', 'dark'].map((m) => `<button class="chip ${themePref() === m ? 'on' : ''}" data-theme-pick="${m}">${esc(t('theme.' + m))}</button>`).join('')}</div></div>
     <button class="more-row" data-act="help">☎️ ${esc(t('more.helplines'))}</button>
     ${heat ? `<button class="more-row" data-act="cooling">➕💧 ${esc(t('more.addCooling'))}</button>` : `<button class="more-row" data-act="radar">📡 ${esc(t('more.radar'))}: ${radarOn ? '✅' : '—'}</button>`}
     ${backendReady() ? `<button class="more-row" data-act="account">👤 ${esc(u ? `${t('auth.signOut')} (${u.email ?? u.name ?? ''})` : t('auth.signIn'))}</button>` : ''}
@@ -45,6 +48,7 @@ export function initMore(m, { openReportCooling } = {}) {
     if (e.target === el) { open = false; return render(); }
     const b = e.target.closest('button'); if (!b) return;
     if (b.dataset.lang) { setLang(b.dataset.lang); return render(); }
+    if (b.dataset.themePick) { setTheme(b.dataset.themePick); return render(); }
     if (b.dataset.who) { applyWho(b.dataset.who); return render(); }
     if (b.dataset.city) { if (b.dataset.city !== cityPack().id) switchCity(b.dataset.city); return; }
     const act = b.dataset.act;

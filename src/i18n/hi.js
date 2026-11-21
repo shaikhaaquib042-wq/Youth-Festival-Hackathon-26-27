@@ -248,4 +248,8 @@ export default {
   'report.heatUnavailable': "ठंडी जगह जोड़ने की सुविधा अभी चालू नहीं है. कृपया बाद में कोशिश करें.",
   'shift.checking': "आपकी जगह की गर्मी जाँच रहे हैं…",
   'shift.retrying': "मौसम की जानकारी नहीं मिली — फिर से कोशिश कर रहे हैं…",
+  'more.theme': "रूप",
+  'theme.auto': "अपने-आप",
+  'theme.light': "हल्का",
+  'theme.dark': "गहरा",
 };
