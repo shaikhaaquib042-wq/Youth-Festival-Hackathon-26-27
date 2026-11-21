@@ -5,6 +5,8 @@
 
 ### ▶ Live app: **https://sajag-app.vercel.app**
 
+### 🎬 Demo video (48 s): **https://drive.google.com/file/d/1xgVChCzPQrWfDoncQ9R-Gsqce184M6xp/view?usp=sharing**
+
 It works in any phone browser, with no app store needed, and installs to the home screen as an app (⋯ More → **Install Sajag on your phone**).
 
 | Try this (60 seconds) | Link |
