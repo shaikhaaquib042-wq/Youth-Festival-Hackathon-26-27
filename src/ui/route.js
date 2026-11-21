@@ -12,6 +12,7 @@ const SAVED_KEY = 'sajag.routes';
 const DEMO_ROUTES = { pune: [{ name: 'Sinhagad Rd → Shivajinagar', from: 'Vitthalwadi', to: 'Shivajinagar' }] };
 
 let map, panel, btn, mode = 'commuter', active = null, result = null, pickTarget = null, timer = null;
+let editing = true; // false after a check → compact panel (route summary + verdict) so the map shows the route
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const loadSaved = () => { try { return JSON.parse(localStorage.getItem(SAVED_KEY)) ?? []; } catch { return []; } };
@@ -87,6 +88,12 @@ function render() {
       <div class="rs-row"><button class="btn" data-act="share">🟢 ${esc(t('action.share'))}</button><button class="btn btn-ghost" data-act="save">☆ ${esc(t('route.save'))}</button></div>
     </div>`;
   }
+  if (result && active && !editing) {
+    panel.innerHTML = `<div class="rp-head"><b>${esc(active.from.label)} → ${esc(active.to.label)}</b>
+      <span><button class="btn btn-ghost" data-act="edit" aria-label="${esc(t('route.title'))}">✎</button><button class="btn btn-ghost" data-act="close">✕</button></span></div>
+      <div class="rp-result">${res}</div>`;
+    return;
+  }
   panel.innerHTML = `<div class="rp-head"><b>${esc(t('route.title'))}</b><button class="btn btn-ghost" data-act="close">✕</button></div>
     <div class="rs-row">${chips}</div>
     <label class="field"><span>${esc(t('route.from'))}</span><div class="rp-in"><input list="sj-places" data-f="from" value="${esc(active?.fromText ?? '')}">
@@ -102,11 +109,18 @@ async function check(fromText, toText) {
   const [from, to] = await Promise.all([resolve(fromText), resolve(toText)]);
   if (!from || !to) return toast(t('route.notFound'));
   active = { from, to, fromText, toText };
+  editing = false;
   await recheck(true);
+  if (!result) { editing = true; render(); return; }
   const b = new maplibregl.LngLatBounds();
   (result?.chosen ?? result?.primary)?.route.coords.forEach((c) => b.extend(c));
   result?.primary.route.coords.forEach((c) => b.extend(c));
-  if (!b.isEmpty()) map.fitBounds(b, { padding: { top: 120, bottom: 260, left: 40, right: 40 }, maxZoom: 15 });
+  // Fit the route into the part of the map that is actually visible (between status card and panel / beside the left column).
+  const wide = innerWidth >= 760;
+  const padding = wide
+    ? { top: 80, bottom: 40, left: 480, right: 70 }
+    : { top: 190, bottom: Math.min(panel.offsetHeight + 110, innerHeight * 0.6), left: 30, right: 60 };
+  if (!b.isEmpty()) map.fitBounds(b, { padding, maxZoom: 15 });
 }
 
 async function recheck(announce = false) {
@@ -129,6 +143,7 @@ function onClick(e) {
   }
   const act = b.dataset.act;
   if (act === 'close') return toggle(false);
+  if (act === 'edit') { editing = true; render(); return; }
   if (act === 'check') return check(val('from'), val('to'));
   if (act === 'me') { panel.querySelector('[data-f=from]').value = t('route.myLoc'); return; }
   if (act === 'pick') { pickTarget = b.dataset.t; toast(t('route.tapMap')); return; }
@@ -142,7 +157,7 @@ function onClick(e) {
 function toggle(open) {
   panel.hidden = !open;
   window.dispatchEvent(new CustomEvent('sajag:route', { detail: { active: open } })); // pins show flood spots while checking
-  if (!open) { active = null; result = null; drawRoutes(null); }
+  if (!open) { active = null; result = null; editing = true; drawRoutes(null); }
   window.dispatchEvent(new CustomEvent('sajag:route', { detail: { active: open } }));
   render();
 }
