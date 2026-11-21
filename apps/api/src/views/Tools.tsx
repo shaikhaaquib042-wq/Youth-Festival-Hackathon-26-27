@@ -11,51 +11,107 @@ import { msg } from "./text";
 export const FIELD = "f_";
 
 // ---------- /r/doc ----------
-export function DocFormPage({ lang, tpl, values, token, office }: { lang: Locale; tpl: TemplateDef; values: Record<string, string>; token?: string; office?: string }) {
+type Var = TemplateDef["variables"][number];
+
+// Fields that only make sense for some problems. Anything not listed is always shown.
+const ONLY_FOR: Record<string, string[]> = {
+  phone_model: ["lost_mobile"], imei_numbers: ["lost_mobile"], location_lost: ["lost_mobile"],
+  accused_handle: ["cyber_harassment", "cyber_fraud"], platform_used: ["cyber_harassment", "cyber_fraud"],
+  bank_name: ["cyber_fraud", "banking_nbfc"], transaction_id: ["cyber_fraud"], transaction_date: ["cyber_fraud"],
+  neighbor_name: ["neighbour_construction"], damage_type: ["neighbour_construction", "civic_failure"],
+};
+const PERSONAL = new Set(["user_address", "user_phone", "user_email"]);
+const MONEY = new Set(["amount", "amount_paid", "purchase_cost", "mrp", "charged_price", "unpaid_amount", "deposit_amount"]);
+const MONEY_DISPUTES = new Set(["consumer_refund", "mrp_overcharge", "unpaid_wages", "security_deposit", "banking_nbfc", "insurance_claim", "investment_broker", "builder_delay", "cyber_fraud", "pension_pf"]);
+
+function VarField({ lang, v, value }: { lang: Locale; v: Var; value?: string }) {
+  const id = `f-${v.id}`;
+  const long = v.type === "textarea";
+  return (
+    <div className={`field${long ? " span-2" : ""}`}>
+      <label for={id}>
+        {v.label_en}
+        {v.required ? null : <span className="tag-optional">{t(lang, "ui.doc.optional")}</span>}
+      </label>
+      {long ? (
+        <textarea id={id} name={FIELD + v.id} rows={4} maxlength={600}>
+          {value ?? ""}
+        </textarea>
+      ) : (
+        <input
+          id={id}
+          type={v.type === "number" ? "number" : v.type === "date" ? "date" : "text"}
+          name={FIELD + v.id}
+          value={value ?? ""}
+          maxlength={v.type === "text" ? 160 : undefined}
+          {...(v.type === "number" ? { inputmode: "numeric", min: "0", step: "any" } : {})}
+        />
+      )}
+    </div>
+  );
+}
+
+export function DocFormPage({ lang, tpl, values, token, office, dispute, hasAmount }: { lang: Locale; tpl: TemplateDef; values: Record<string, string>; token?: string; office?: string; dispute?: string; hasAmount?: boolean }) {
+  const fits = (v: Var) => !dispute || !ONLY_FOR[v.id] || ONLY_FOR[v.id]!.includes(dispute);
+  const shown = tpl.variables.filter(fits);
+  // Money fields: shown directly for money disputes or when we already know an amount; otherwise behind a damage question.
+  const moneyAsk = !hasAmount && !!dispute && !MONEY_DISPUTES.has(dispute);
+  const main = shown.filter((v) => !PERSONAL.has(v.id) && !(moneyAsk && MONEY.has(v.id)));
+  const money = moneyAsk ? shown.filter((v) => MONEY.has(v.id)) : [];
+  const personal = shown.filter((v) => PERSONAL.has(v.id));
   return (
     <Layout lang={lang} title={`${tpl.title_en} | Raasta`} path={`/r/doc/${tpl.id}`} query={token ? `t=${encodeURIComponent(token)}` : undefined} noindex>
-      <div className="container stack">
-        <h1>{tpl.title_en}</h1>
-        <p>{t(lang, "ui.doc.lead")}</p>
-        <form className="stack" method="post" action={`/r/doc/${tpl.id}`}>
-          {token ? <input type="hidden" name="t" value={token} /> : null}
-          {office ? <input type="hidden" name="office" value={office} /> : null}
-          {tpl.variables.map((v) => (
-            <label key={v.id} className="field">
-              <span>
-                {v.label_en}
-                {v.required ? "" : ` (${t(lang, "ui.route.optional")})`}
-              </span>
-              {v.type === "textarea" ? (
-                <textarea name={FIELD + v.id} rows={3} maxlength={600}>
-                  {values[v.id] ?? ""}
-                </textarea>
-              ) : (
-                <input
-                  type={v.type === "number" ? "number" : v.type === "date" ? "date" : "text"}
-                  name={FIELD + v.id}
-                  value={values[v.id] ?? ""}
-                  maxlength={v.type === "text" ? 160 : undefined}
-                  {...(v.type === "number" ? { inputmode: "numeric", min: "0", step: "any" } : {})}
-                />
-              )}
-            </label>
-          ))}
-          <label className="field">
-            <span>{t(lang, "ui.doc.language")}</span>
-            <select name="doc_lang">
-              {LOCALES.map((l) => (
-                <option key={l} value={l} selected={l === (lang === "en" ? "en" : lang)}>
-                  {LANG_META[l].native}
-                </option>
+      <div className="q-stage">
+        <div className="q-card q-card-wide">
+          <h1 className="q-title">{tpl.title_en}</h1>
+          <p className="q-lead">{t(lang, "ui.doc.lead_short")}</p>
+          <form method="post" action={`/r/doc/${tpl.id}`}>
+            {token ? <input type="hidden" name="t" value={token} /> : null}
+            {office ? <input type="hidden" name="office" value={office} /> : null}
+            <div className="doc-grid">
+              {main.map((v) => (
+                <VarField key={v.id} lang={lang} v={v} value={values[v.id]} />
               ))}
-            </select>
-          </label>
-          <p className="text-meta">{t(lang, "ui.doc.privacy")}</p>
-          <button type="submit" className="btn btn-primary">
-            {t(lang, "ui.doc.build")}
-          </button>
-        </form>
+            </div>
+            {money.length ? (
+              <details className="doc-more">
+                <summary>{t(lang, "ui.doc.damage_q")}</summary>
+                <div className="doc-grid">
+                  {money.map((v) => (
+                    <VarField key={v.id} lang={lang} v={v} value={values[v.id]} />
+                  ))}
+                </div>
+              </details>
+            ) : null}
+            {personal.length ? (
+              <details className="doc-more" open>
+                <summary>{t(lang, "ui.doc.you")}</summary>
+                <p className="q-skip">{t(lang, "ui.doc.you_note")}</p>
+                <div className="doc-grid">
+                  {personal.map((v) => (
+                    <VarField key={v.id} lang={lang} v={v} value={values[v.id]} />
+                  ))}
+                </div>
+              </details>
+            ) : null}
+            <div className="doc-foot">
+              <div className="field">
+                <label for="doc-lang">{t(lang, "ui.doc.language")}</label>
+                <select id="doc-lang" name="doc_lang">
+                  {LOCALES.map((l) => (
+                    <option key={l} value={l} selected={l === lang}>
+                      {LANG_META[l].native}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <button type="submit" className="btn btn-primary">
+                {t(lang, "ui.doc.build")}
+              </button>
+            </div>
+            <p className="q-skip">{t(lang, "ui.doc.privacy")}</p>
+          </form>
+        </div>
       </div>
     </Layout>
   );

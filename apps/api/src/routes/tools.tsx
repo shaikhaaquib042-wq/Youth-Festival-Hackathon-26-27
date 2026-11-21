@@ -76,9 +76,41 @@ tools.get("/doc/:template", async (c) => {
   if (!tpl) throw new HttpError(404, "not_found");
   const raw = c.req.query("t");
   const td = await tokenData(c, raw);
-  const values = prefillVars(td?.slots, tpl.variables.map((v) => v.id));
-  const office = c.req.query("office");
-  return renderHtml(c, <DocFormPage lang={c.get("lang")} tpl={tpl} values={values} token={td ? raw : undefined} office={office && officeById(office) ? office : undefined} />);
+  const ids = tpl.variables.map((v) => v.id);
+  const values = prefillVars(td?.slots, ids);
+  const officeId = c.req.query("office");
+  const chosen = officeId ? officeById(officeId) : undefined;
+  // Fill "who is this letter to" from the route: the chosen office, else the nearest office, else the primary authority.
+  if (td) {
+    const res = route(td.slots, td.geo);
+    const near = chosen ? asRef(chosen) : res.offices[0];
+    const authority = platformById(res.primary.platform_id);
+    const toName = near?.name ?? authority?.managing_body ?? authority?.name;
+    const fill = (id: string, v: string | undefined) => {
+      if (v && ids.includes(id) && !values[id]) values[id] = v;
+    };
+    fill("department_name", toName);
+    fill("ward_name", near?.office_id.startsWith("pmc_ward") ? near.name : undefined);
+    fill("police_station", near?.office_id.includes("police") ? near.name : undefined);
+    fill("recipient_address", near?.address ? `${near.name}, ${near.address}` : undefined);
+    fill("district", td.geo.city);
+    fill("address", td.slots.city);
+  } else if (chosen) {
+    if (ids.includes("recipient_address") && chosen.address) values.recipient_address = `${chosen.name}, ${chosen.address}`;
+    if (ids.includes("department_name")) values.department_name = chosen.name;
+  }
+  return renderHtml(
+    c,
+    <DocFormPage
+      lang={c.get("lang")}
+      tpl={tpl}
+      values={values}
+      token={td ? raw : undefined}
+      office={chosen ? officeId : undefined}
+      dispute={td?.slots.dispute_type}
+      hasAmount={td?.slots.amount_inr !== undefined}
+    />,
+  );
 });
 
 function pdfResponse(bytes: Uint8Array, name: string): Response {

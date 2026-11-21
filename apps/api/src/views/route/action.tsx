@@ -114,12 +114,15 @@ function Tray({ ctx, n }: { ctx: ActionCtx; n: string }) {
   const place = [slots.city, slots.district].filter(Boolean).join(", ");
   if (place) fields.push(["place", t(lang, "ui.act.tray_place"), place]);
   return (
-    <div className="stack copy-tray">
-      <p className="text-meta">{t(lang, "ui.act.tray_note")}</p>
-      {fields.map(([k, label, value]) => (
-        <CopyBox key={k} lang={lang} id={`tray-${n}-${k}`} label={label} value={value} rows={k === "details" ? 8 : 1} />
-      ))}
-    </div>
+    <details className="tray-fold">
+      <summary className="btn btn-secondary">{t(lang, "ui.act.tray_open")}</summary>
+      <div className="stack copy-tray">
+        <p className="text-meta">{t(lang, "ui.act.tray_note")}</p>
+        {fields.map(([k, label, value]) => (
+          <CopyBox key={k} lang={lang} id={`tray-${n}-${k}`} label={label} value={value} rows={k === "details" ? 6 : 1} />
+        ))}
+      </div>
+    </details>
   );
 }
 
@@ -221,7 +224,7 @@ const KIND_LABEL: Record<SubmissionMode["kind"], string> = {
 };
 
 /** One ForumOption: why, fee, SLA, then every submission mode best-first with truthful labels. */
-export function Door({ ctx, option, heading, level, idx }: { ctx: ActionCtx; option: ForumOption; heading: string; level: 2 | 3; idx: number }) {
+export function Door({ ctx, option, heading, level, idx, compact }: { ctx: ActionCtx; option: ForumOption; heading: string; level: 2 | 3; idx: number; compact?: boolean }) {
   const { lang } = ctx;
   const platform = platformById(option.platform_id);
   const name = platform?.name ?? option.platform_id;
@@ -231,51 +234,56 @@ export function Door({ ctx, option, heading, level, idx }: { ctx: ActionCtx; opt
   })();
   const H = level === 2 ? "h2" : "h3";
   const blocked = !!option.blocked_reason_key;
-  const showName = heading !== name;
+  const modes = option.submission.filter((m) => !blocked || m.kind === "guide");
+  // Best two ways up front; the rest folded so the page is not a wall of buttons.
+  const top = modes.slice(0, compact ? 1 : 2);
+  const rest = modes.slice(top.length);
+  const renderMode = (m: (typeof modes)[number], i: number) => (
+    <li key={`${m.kind}-${i}`} className="mode">
+      <p className="mode-label">
+        <strong>{t(lang, KIND_LABEL[m.kind])}</strong>
+        {i === 0 && !blocked ? <span className="mode-best">{t(lang, "ui.act.best")}</span> : null}
+      </p>
+      <Mode ctx={ctx} option={option} mode={m} n={`${idx}-${i}`} />
+    </li>
+  );
   return (
-    <section className={blocked ? "card stack is-blocked" : "card stack"} aria-label={heading} aria-disabled={blocked ? "true" : undefined}>
-      <H>{heading}</H>
-      {showName ? (
-        <p>
-          <strong>{name}</strong>
-        </p>
-      ) : null}
-      <p>{msg(lang, option.why_key)}</p>
-      <p>
-        {t(lang, "ui.route.fee")}: {option.fee}
-      </p>
-      <p>
-        {t(lang, "ui.route.sla")}: {option.sla}
-      </p>
+    <section className={blocked ? "door-card is-blocked" : "door-card"} aria-label={heading} aria-disabled={blocked ? "true" : undefined}>
+      <H className="door-name">{name}</H>
+      <p className="door-why">{msg(lang, option.why_key)}</p>
+      <dl className="door-facts">
+        <div>
+          <dt>{t(lang, "ui.route.fee")}</dt>
+          <dd>{option.fee}</dd>
+        </div>
+        <div>
+          <dt>{t(lang, "ui.route.sla")}</dt>
+          <dd>{option.sla}</dd>
+        </div>
+      </dl>
       {blocked ? (
         <p className="notice">
           <strong>{t(lang, "ui.act.blocked")}.</strong> {msg(lang, option.blocked_reason_key as string)}
         </p>
       ) : null}
-      <div className="stack action-centre">
-        <h3 className="act-h">{t(lang, "ui.act.heading")}</h3>
-        {!blocked ? <p className="text-meta">{t(lang, "ui.act.drafted_note")}</p> : null}
-        <ol className="mode-list" role="list">
-          {option.submission
-            .filter((m) => !blocked || m.kind === "guide")
-            .map((m, i) => (
-              <li key={`${m.kind}-${i}`} className="mode">
-                <p className="mode-label">
-                  <strong>{t(lang, KIND_LABEL[m.kind])}</strong>
-                  {i === 0 && !blocked ? <span className="text-meta"> {t(lang, "ui.act.best")}</span> : null}
-                </p>
-                <Mode ctx={ctx} option={option} mode={m} n={`${idx}-${i}`} />
-              </li>
-            ))}
-        </ol>
-        {portal && !blocked ? (
-          <p>
-            <a className="btn btn-ghost" href={portal} target="_blank" rel="noopener noreferrer">
-              {t(lang, "ui.route.open_portal")}
-            </a>
-          </p>
-        ) : null}
-      </div>
+      <ol className="mode-list" role="list">
+        {top.map(renderMode)}
+      </ol>
+      {rest.length ? (
+        <details className="doc-more">
+          <summary>{t(lang, "ui.act.more_ways", { n: rest.length })}</summary>
+          <ol className="mode-list" role="list">
+            {rest.map((m, i) => renderMode(m, i + top.length))}
+          </ol>
+        </details>
+      ) : null}
+      {portal && !blocked ? (
+        <p className="door-portal">
+          <a href={portal} target="_blank" rel="noopener noreferrer">
+            {t(lang, "ui.route.open_portal")}
+          </a>
+        </p>
+      ) : null}
     </section>
   );
 }

@@ -46,28 +46,38 @@ function WardPicker({ lang, token, geo }: { lang: Locale; token: string; geo: Ge
   );
 }
 
-/** Progress street: first step, the primary door, then the other doors, joined by one dotted path. */
+/** Journey graphic: you, the free first step, the right door (open), and the other doors. Inline SVG, no JS. */
 function Street({ lang, alts }: { lang: Locale; alts: number }) {
   const n = Math.min(alts, 3);
-  const xs = [60, 220, ...Array.from({ length: n }, (_, i) => 380 + i * 90)];
-  const d = xs.map((x, i) => `${i ? "L" : "M"}${x} 70`).join(" ");
   const label = t(lang, "ui.res.street_label");
+  const door = (x: number, cls: string, fill: string, stroke: string) => (
+    <g className={cls}>
+      <rect x={x - 34} y="38" width="68" height="74" rx="18" fill={fill} stroke={stroke} stroke-width="3" />
+      <path d={`M${x - 16} 112 V78 Q${x - 16} 62 ${x} 62 Q${x + 16} 62 ${x + 16} 78 V112 Z`} fill="#FFE6A8" />
+      <path className="door" d={`M${x - 16} 112 V78 Q${x - 16} 62 ${x} 62 Q${x + 16} 62 ${x + 16} 78 V112 Z`} fill={stroke} />
+    </g>
+  );
+  const end = n ? ` S520 132 ${460 + (n - 1) * 90} 122` : "";
   return (
-    <div className="door-street" role="img" aria-label={label}>
-      <svg viewBox="0 0 640 110" xmlns="http://www.w3.org/2000/svg" focusable="false">
-        <path d="M0 92 H640" stroke="#D3E3CB" stroke-width="6" fill="none" />
-        <path id="path" d={d} stroke="#F57A2F" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round" fill="none" />
-        <circle cx="60" cy="70" r="9" fill="#2D7341" />
-        <g className="is-chosen">
-          <rect className="door" x="198" y="30" width="44" height="62" rx="6" fill="#FFE6CC" stroke="#F57A2F" stroke-width="3" />
-          <rect x="210" y="50" width="20" height="42" rx="3" fill="#FF8C42" />
+    <div className="res-street" role="img" aria-label={label}>
+      <svg viewBox="0 0 720 140" xmlns="http://www.w3.org/2000/svg" focusable="false" preserveAspectRatio="xMidYMid meet">
+        <path d="M0 96 Q180 70 360 92 T720 86 V140 H0 Z" fill="#E6EFE2" />
+        <rect x="0" y="112" width="720" height="28" fill="#F4E9D8" />
+        <path className="res-path" d={`M70 122 C150 132 170 120 230 122 S330 132 380 122${end}`} fill="none" stroke="#E56420" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 11" />
+        <g>
+          <circle cx="70" cy="92" r="11" fill="#F2C9A0" />
+          <path d="M56 122 Q56 104 70 104 Q84 104 84 122 Z" fill="#2D7341" />
         </g>
-        {xs.slice(2).map((x) => (
-          <g key={x} className="is-dim">
-            <rect x={x - 16} y="46" width="32" height="46" rx="5" fill="#E6EFE2" stroke="#8FB57F" stroke-width="2" />
-            <rect x={x - 6} y="62" width="12" height="30" rx="2" fill="#8FB57F" />
-          </g>
-        ))}
+        <g className="res-leaf">
+          <circle cx="230" cy="86" r="26" fill="#DCEFD9" />
+          <path d="M218 92 Q230 64 246 80 Q236 84 230 100 Z" fill="#3D8854" />
+        </g>
+        {door(380, "res-main is-chosen", "#FFF5EB", "#E56420")}
+        {Array.from({ length: n }, (_, i) => door(470 + i * 90, "res-alt", "#F4F8F2", "#8FB57F"))}
+        <g className="res-pin" transform="translate(380 18)">
+          <path d="M0 22 C-10 10 -13 5 -13 -1 A13 13 0 0 1 13 -1 C13 5 10 10 0 22 Z" fill="#E56420" />
+          <circle cx="0" cy="-1" r="5" fill="#FFFFFF" />
+        </g>
       </svg>
     </div>
   );
@@ -113,9 +123,8 @@ function Emergency({ lang, token, safety }: { lang: Locale; token: string; safet
 function Checklist({ lang, items }: { lang: Locale; items: ChecklistItem[] }) {
   if (!items.length) return null;
   return (
-    <section className="card stack" aria-labelledby="docs">
-      <h2 id="docs">{t(lang, "ui.route.documents")}</h2>
-      <p className="text-meta">{t(lang, "ui.res.checklist_note")}</p>
+    <section className="side-card" aria-labelledby="docs">
+      <h2 id="docs">{t(lang, "ui.res.side_docs")}</h2>
       <ul className="checklist" role="list">
         {items.map((d, i) => {
           const text = lang === "en" ? d.label_en : msg(lang, d.key) === d.key ? d.label_en : msg(lang, d.key);
@@ -125,7 +134,7 @@ function Checklist({ lang, items }: { lang: Locale; items: ChecklistItem[] }) {
                 <input type="checkbox" id={`doc-${i}`} />
                 <span className="item-text">
                   {text}
-                  <span className="item-note">{d.required ? t(lang, "ui.route.required") : t(lang, "ui.route.optional")}</span>
+                  {d.required ? null : <span className="item-note">{t(lang, "ui.doc.optional")}</span>}
                 </span>
               </label>
             </li>
@@ -152,8 +161,8 @@ function timerText(lang: Locale, tm: LiveTimer): string {
 function Timers({ lang, timers }: { lang: Locale; timers: LiveTimer[] }) {
   if (!timers.length) return null;
   return (
-    <section className="card stack" aria-labelledby="timers">
-      <h2 id="timers">{t(lang, "ui.route.timers")}</h2>
+    <section className="side-card" aria-labelledby="timers">
+      <h2 id="timers">{t(lang, "ui.res.side_time")}</h2>
       <ul className="stack" role="list">
         {timers.map((tm) => (
           <li key={tm.key}>
@@ -169,20 +178,29 @@ function Timers({ lang, timers }: { lang: Locale; timers: LiveTimer[] }) {
 
 function AidForm({ lang, token }: { lang: Locale; token: string }) {
   return (
-    <form className="stack" method="post" action="/r/legal-aid">
+    <form method="post" action="/r/legal-aid">
       <input type="hidden" name="t" value={token} />
-      <fieldset className="stack">
-        <legend>{t(lang, "ui.aid.flags_legend")}</legend>
-        {legalAid.section12_flags.map((f) => (
-          <label key={f.flag} className="cluster">
-            <input type="checkbox" name="flag" value={f.flag} /> <span>{f.label_en}</span>
-          </label>
-        ))}
+      <fieldset className="q">
+        <legend className="q-label">{t(lang, "ui.aid.flags_legend")}</legend>
+        <div className="opts">
+          {legalAid.section12_flags.map((f) => (
+            <label key={f.flag} className="opt opt-check">
+              <input className="opt-input" type="checkbox" name="flag" value={f.flag} />
+              <span className="opt-face">
+                <span className="opt-dot" aria-hidden="true"></span>
+                <span className="opt-text">{f.label_en}</span>
+              </span>
+            </label>
+          ))}
+        </div>
       </fieldset>
-      <label className="field">
-        <span>{t(lang, "ui.aid.income_label")}</span>
-        <input name="income" type="number" inputmode="numeric" min="0" max="100000000" step="1" />
-      </label>
+      <div className="field aid-income">
+        <label for="aid-income">{t(lang, "ui.aid.income_label")}</label>
+        <div className="q-input has-pre">
+          <span className="q-pre" aria-hidden="true">{"\u20B9"}</span>
+          <input id="aid-income" name="income" type="number" inputmode="numeric" min="0" max="100000000" step="1" />
+        </div>
+      </div>
       <button type="submit" className="btn btn-secondary">
         {t(lang, "ui.res.aid_check")}
       </button>
@@ -196,45 +214,80 @@ export function ResultPage({ lang, token, result, geo, timers, title, slots, dem
   const step = result.first_peaceful_step;
   const tpl = step.doc_template;
   const q = encodeURIComponent(token);
+  const emergency = result.urgency === "emergency";
   return (
     <Layout lang={lang} title={`${title} | Raasta`} path={`/r/route/${token}`} noindex>
-      <div className="container stack">
-        {result.urgency === "emergency" ? <Emergency lang={lang} token={token} safety={result.dispute_type !== "cyber_fraud"} /> : null}
-        <h1>{title}</h1>
-        <Street lang={lang} alts={result.alternatives.length} />
-        <section className="card card-warm stack" aria-labelledby="first-step">
-          <h2 id="first-step">{t(lang, "ui.route.first_step")}</h2>
-          <p>{msg(lang, step.key)}</p>
-          {step.free ? <p className="text-free">{t(lang, "ui.route.free")}</p> : null}
-          {tpl ? (
-            <p>
-              <a className="btn btn-primary" href={`/r/doc/${encodeURIComponent(tpl)}?t=${q}`}>
-                {t(lang, "ui.res.prepare_letter")}
-              </a>
-            </p>
-          ) : null}
-        </section>
-        <Door ctx={ctx} option={result.primary} heading={t(lang, "ui.route.primary")} level={2} idx={0} />
-        {result.alternatives.length ? (
-          <section className="stack" aria-labelledby="alts">
-            <h2 id="alts">{t(lang, "ui.route.alternatives")}</h2>
-            {result.alternatives.map((o, i) => (
-              <Door key={o.platform_id} ctx={ctx} option={o} heading={platformById(o.platform_id)?.name ?? o.platform_id} level={3} idx={i + 1} />
-            ))}
-          </section>
-        ) : null}
-        <Checklist lang={lang} items={result.documents} />
-        <Timers lang={lang} timers={timers} />
-        <div className="stack">
-          <LegalAidCard lang={lang} aid={result.legal_aid} />
-          <div className="card stack">
-            <AidForm lang={lang} token={token} />
-          </div>
+      <div className="res-hero">
+        <div className="container">
+          {emergency ? <Emergency lang={lang} token={token} safety={result.dispute_type !== "cyber_fraud"} /> : null}
+          <h1>{title}</h1>
+          {s.summary && s.summary !== title ? <p className="res-summary">{s.summary}</p> : null}
+          <Street lang={lang} alts={result.alternatives.length} />
         </div>
+      </div>
+      <div className="container res-grid">
+        <ol className="journey" role="list">
+          <li className="j-step j-first">
+            <span className="j-n" aria-hidden="true">1</span>
+            <div className="j-body">
+              <p className="j-kicker">{emergency ? t(lang, "ui.res.first_safety") : t(lang, "ui.res.step1")}</p>
+              <p className="j-lead">{msg(lang, step.key)}</p>
+              <div className="j-row">
+                {step.free ? <span className="text-free">{t(lang, "ui.res.free_tag")}</span> : null}
+                {tpl ? (
+                  <a className="btn btn-primary" href={`/r/doc/${encodeURIComponent(tpl)}?t=${q}`}>
+                    {t(lang, "ui.res.prepare_letter")}
+                  </a>
+                ) : null}
+              </div>
+            </div>
+          </li>
+          <li className="j-step">
+            <span className="j-n" aria-hidden="true">2</span>
+            <div className="j-body">
+              <p className="j-kicker">{t(lang, "ui.res.step2")}</p>
+              <Door ctx={ctx} option={result.primary} heading={t(lang, "ui.route.primary")} level={2} idx={0} />
+            </div>
+          </li>
+          {result.alternatives.length ? (
+            <li className="j-step">
+              <span className="j-n" aria-hidden="true">3</span>
+              <div className="j-body">
+                <p className="j-kicker">{t(lang, "ui.res.step3")}</p>
+                {result.alternatives.map((o, i) => (
+                  <details key={o.platform_id} className="alt">
+                    <summary>
+                      <span>{platformById(o.platform_id)?.name ?? o.platform_id}</span>
+                      <span className="alt-fee">{o.fee}</span>
+                    </summary>
+                    <Door ctx={ctx} option={o} heading={platformById(o.platform_id)?.name ?? o.platform_id} level={3} idx={i + 1} compact />
+                  </details>
+                ))}
+              </div>
+            </li>
+          ) : null}
+        </ol>
+        <aside className="res-side">
+          <Checklist lang={lang} items={result.documents} />
+          <Timers lang={lang} timers={timers} />
+          <section className="side-card" aria-labelledby="aid-h">
+            <h2 id="aid-h">{t(lang, "ui.res.aid_q")}</h2>
+            <LegalAidCard lang={lang} aid={result.legal_aid} />
+            <details className="doc-more">
+              <summary>{t(lang, "ui.res.aid_check")}</summary>
+              <AidForm lang={lang} token={token} />
+            </details>
+          </section>
+          {WARD_DISPUTES.has(result.dispute_type) ? <WardPicker lang={lang} token={token} geo={geo} /> : null}
+        </aside>
+      </div>
+      <div className="container res-foot">
         <Warnings lang={lang} keys={result.warnings} />
-        {WARD_DISPUTES.has(result.dispute_type) ? <WardPicker lang={lang} token={token} geo={geo} /> : null}
-        <Sources lang={lang} sources={result.sources} />
-        <p className="text-meta">{lang === "en" ? DISCLAIMER_EN : t(lang, "ui.disclaimer")}</p>
+        <details className="doc-more">
+          <summary>{t(lang, "ui.res.sources")}</summary>
+          <Sources lang={lang} sources={result.sources} />
+        </details>
+        <p className="q-skip">{lang === "en" ? DISCLAIMER_EN : t(lang, "ui.disclaimer")}</p>
         <p>
           <a className="btn btn-ghost" href="/">
             {t(lang, "ui.route.restart")}
