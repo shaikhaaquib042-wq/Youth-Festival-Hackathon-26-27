@@ -1,0 +1,373 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --pg: #E9E4E2;
+  --bg: #F6F3F2;
+  --sf: #FFFFFF;
+  --ink: #1A1414;
+  --mu: #5E5655;
+  --ln: #E2DAD8;
+  --rd: #C62828;
+  --rt: #C62828;
+  --tint: #FDECEA;
+  --ok: #1B6B3A;
+  --okt: #E3F4E8;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --pg: #0C0A0A;
+    --bg: #171313;
+    --sf: #241E1E;
+    --ink: #F4EFEE;
+    --mu: #B9AEAC;
+    --ln: #3A3232;
+    --rt: #FF8A80;
+    --tint: #3A1D1D;
+    --ok: #7FD39B;
+    --okt: #17301F;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --pg: #0C0A0A;
+  --bg: #171313;
+  --sf: #241E1E;
+  --ink: #F4EFEE;
+  --mu: #B9AEAC;
+  --ln: #3A3232;
+  --rt: #FF8A80;
+  --tint: #3A1D1D;
+  --ok: #7FD39B;
+  --okt: #17301F;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--pg);
+  color: var(--ink);
+  font: 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Phone Container Frame */
+.ph {
+  position: relative;
+  width: min(390px, 100%);
+  height: 780px;
+  background: var(--bg);
+  border: 1px solid var(--ln);
+  border-radius: 28px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.14);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 16px 8px;
+}
+
+.pill-banner {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0 16px 8px;
+  padding: 10px 12px;
+  background: var(--tint);
+  color: var(--rt);
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card {
+  background: var(--sf);
+  border: 1px solid var(--ln);
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card.off {
+  opacity: 0.7;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.g {
+  gap: 8px;
+}
+
+.fx {
+  flex: 1;
+  min-width: 0;
+}
+
+.bg-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #C62828;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  flex: none;
+}
+
+.tg {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: var(--ln);
+  color: var(--mu);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.tg.ok {
+  background: var(--okt);
+  color: var(--ok);
+  font-weight: 600;
+}
+
+.mu {
+  color: var(--mu);
+}
+
+.sm {
+  font-size: 13px;
+  margin: 0;
+}
+
+.c {
+  text-align: center;
+}
+
+.btn, .btn2, .btn3, .chip {
+  min-height: 44px;
+  border-radius: 22px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 18px;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.btn {
+  background: #C62828;
+  color: #fff;
+}
+
+.btn:hover {
+  background: #B71C1C;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  background: var(--ln);
+  color: var(--mu);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn2, .chip {
+  background: none;
+  border: 1.5px solid var(--ln);
+  color: var(--ink);
+}
+
+.btn2:hover, .chip:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.btn2:active, .chip:active {
+  transform: scale(0.98);
+}
+
+.chip.on {
+  border-color: var(--rt);
+  background: var(--tint);
+  color: var(--rt);
+}
+
+.btn3 {
+  background: var(--okt);
+  color: var(--ok);
+  font-size: 13px;
+  padding: 0 14px;
+  min-height: 36px;
+  border-radius: 18px;
+}
+
+.btn3:hover {
+  opacity: 0.9;
+}
+
+.ib {
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  border: 1px solid var(--ln);
+  background: var(--sf);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.st {
+  background: var(--okt);
+  color: var(--ok);
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.bar {
+  height: 8px;
+  background: var(--ln);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar i {
+  display: block;
+  height: 100%;
+  background: var(--ok);
+  transition: width 0.3s ease;
+}
+
+.dn {
+  border-top: 1px solid var(--ln);
+  padding-top: 8px;
+}
+
+.in-box {
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+  justify-content: center;
+}
+
+.logo-drop {
+  color: var(--rt);
+  margin-bottom: 4px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--mu);
+  font-weight: 500;
+}
+
+input, select, textarea {
+  min-height: 44px;
+  border: 1.5px solid var(--ln);
+  border-radius: 12px;
+  padding: 8px 12px;
+  font: inherit;
+  background: var(--sf);
+  color: var(--ink);
+  outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--rt);
+  outline: 2px solid var(--tint);
+}
+
+.ov {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-end;
+  z-index: 50;
+  backdrop-filter: blur(2px);
+}
+
+.md {
+  background: var(--sf);
+  width: 100%;
+  padding: 20px 16px 28px;
+  border-radius: 24px 24px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.toast {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 12px;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  z-index: 60;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+:focus-visible {
+  outline: 3px solid var(--rt);
+  outline-offset: 2px;
+}
