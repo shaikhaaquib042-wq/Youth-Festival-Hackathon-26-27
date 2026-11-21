@@ -46,7 +46,7 @@ export function Emergency() {
             <h3>{tt("ui.emergency.step1.title")}</h3>
             <p>{tt("ui.emergency.step1.body")}</p>
           </li>
-          <li className="reveal" style={{ "--d": "120ms" } as React.CSSProperties}>
+          <li className="reveal">
             <span className="em-n" aria-hidden="true">2</span>
             <h3>{tt("ui.emergency.step2.title")}</h3>
             <p>
@@ -56,7 +56,7 @@ export function Emergency() {
               </a>
             </p>
           </li>
-          <li className="reveal" style={{ "--d": "240ms" } as React.CSSProperties}>
+          <li className="reveal">
             <span className="em-n" aria-hidden="true">3</span>
             <h3>{tt("ui.emergency.step3.title")}</h3>
             <p>{tt("ui.emergency.step3.body")}</p>

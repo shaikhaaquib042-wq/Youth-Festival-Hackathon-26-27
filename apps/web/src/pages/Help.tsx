@@ -19,7 +19,7 @@ export function Help() {
           {CATEGORIES.map((c, i) => {
             const Icon = CATEGORY_ICON[c.id];
             return (
-              <li key={c.id} className="reveal" style={{ "--d": `${(i % 4) * 60}ms` } as React.CSSProperties}>
+              <li key={c.id} className="reveal">
                 <Link to={`/help/${c.id}`} className="help-tile">
                   <span className={`help-icon ${TONES[i % TONES.length]}`} aria-hidden="true">
                     <Icon size={26} />
@@ -64,7 +64,7 @@ export function HelpCategory() {
         </header>
         <ul className="dispute-list" role="list">
           {cat.disputes.map((d, i) => (
-            <li key={d} className="reveal" style={{ "--d": `${i * 60}ms` } as React.CSSProperties}>
+            <li key={d} className="reveal">
               <a className="dispute-row" href={rUrl(lang, `/r/flow/${d}/0`)}>
                 <span className="dispute-text">
                   <strong>{tt(`dispute.${d}.title`)}</strong>

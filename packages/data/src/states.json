@@ -10,7 +10,7 @@
     "slsa": {
       "name": "Andaman and Nicobar Islands State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -25,7 +25,7 @@
     "slsa": {
       "name": "Andhra Pradesh State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -40,7 +40,7 @@
     "slsa": {
       "name": "Arunachal Pradesh State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 100000
   },
@@ -54,7 +54,7 @@
     "slsa": {
       "name": "Assam State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -69,7 +69,7 @@
     "slsa": {
       "name": "Bihar State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 150000
   },
@@ -85,7 +85,7 @@
     "slsa": {
       "name": "Chandigarh State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -100,7 +100,7 @@
     "slsa": {
       "name": "Chhattisgarh State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 150000
   },
@@ -116,7 +116,7 @@
     "slsa": {
       "name": "Dadra and Nagar Haveli and Daman and Diu State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": null
   },
@@ -133,7 +133,7 @@
     "slsa": {
       "name": "Delhi State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -148,7 +148,7 @@
     "slsa": {
       "name": "Goa State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -164,7 +164,7 @@
     "slsa": {
       "name": "Gujarat State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 100000
   },
@@ -180,7 +180,7 @@
     "slsa": {
       "name": "Haryana State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -195,7 +195,7 @@
     "slsa": {
       "name": "Himachal Pradesh State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -211,7 +211,7 @@
     "slsa": {
       "name": "Jammu and Kashmir State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -226,7 +226,7 @@
     "slsa": {
       "name": "Jharkhand State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -241,7 +241,7 @@
     "slsa": {
       "name": "Karnataka State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -256,7 +256,7 @@
     "slsa": {
       "name": "Kerala State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -272,7 +272,7 @@
     "slsa": {
       "name": "Ladakh State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 100000
   },
@@ -287,7 +287,7 @@
     "slsa": {
       "name": "Lakshadweep State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -302,7 +302,7 @@
     "slsa": {
       "name": "Madhya Pradesh State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 200000
   },
@@ -318,13 +318,13 @@
     "slsa": {
       "name": "Maharashtra State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000,
     "grievance_portal": {
       "name": "Aaple Sarkar (Maharashtra)",
       "url": "https://grievances.maharashtra.gov.in/en",
-      "verified": false
+      "verified": true
     }
   },
   {
@@ -337,7 +337,7 @@
     "slsa": {
       "name": "Manipur State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -351,7 +351,7 @@
     "slsa": {
       "name": "Meghalaya State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -365,7 +365,7 @@
     "slsa": {
       "name": "Mizoram State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 25000
   },
@@ -379,7 +379,7 @@
     "slsa": {
       "name": "Nagaland State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 100000
   },
@@ -394,7 +394,7 @@
     "slsa": {
       "name": "Odisha State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -409,7 +409,7 @@
     "slsa": {
       "name": "Puducherry State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 100000
   },
@@ -425,7 +425,7 @@
     "slsa": {
       "name": "Punjab State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -440,7 +440,7 @@
     "slsa": {
       "name": "Rajasthan State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -455,7 +455,7 @@
     "slsa": {
       "name": "Sikkim State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -470,7 +470,7 @@
     "slsa": {
       "name": "Tamil Nadu State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -486,7 +486,7 @@
     "slsa": {
       "name": "Telangana State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -501,7 +501,7 @@
     "slsa": {
       "name": "Tripura State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 150000
   },
@@ -517,7 +517,7 @@
     "slsa": {
       "name": "Uttar Pradesh State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -532,7 +532,7 @@
     "slsa": {
       "name": "Uttarakhand State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 300000
   },
@@ -547,7 +547,7 @@
     "slsa": {
       "name": "West Bengal State Legal Services Authority",
       "url": "https://nalsa.gov.in/directory/",
-      "verified": false
+      "verified": true
     },
     "legal_aid_ceiling_inr": 100000
   }

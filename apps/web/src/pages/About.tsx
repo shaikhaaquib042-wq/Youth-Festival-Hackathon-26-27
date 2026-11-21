@@ -24,7 +24,7 @@ export function About() {
           <p className="la-hint">{tt("ui.about.how_lead")}</p>
           <ol className="pipe" role="list">
             {STAGES.map(({ n, Icon, tone }) => (
-              <li key={n} className="pipe-step reveal" style={{ "--d": `${n * 80}ms` } as React.CSSProperties}>
+              <li key={n} className="pipe-step reveal">
                 <span className={`pipe-icon ${tone}`} aria-hidden="true">
                   <Icon size={24} />
                 </span>
@@ -83,7 +83,7 @@ export function AboutData() {
           {sections.map((s, i) => {
             const Icon = DATA_ICON[s];
             return (
-              <section key={s} className="la-card reveal" style={{ "--d": `${(i % 3) * 80}ms` } as React.CSSProperties}>
+              <section key={s} className="la-card reveal">
                 <h2 className="fb-h">
                   <span className={`la-call-icon ${["tone-saffron", "tone-leaf", "tone-sky"][i % 3]}`} aria-hidden="true">
                     <Icon size={22} />

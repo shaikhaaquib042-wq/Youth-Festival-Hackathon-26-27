@@ -1,0 +1,531 @@
+{
+  "checked_at": "2026-11-21T12:37:00.729Z",
+  "total": 101,
+  "bad": 31,
+  "results": {
+    "https://pgportal.gov.in/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:cpgrams.home"
+    },
+    "https://pgportal.gov.in/Registration": {
+      "status": 302,
+      "ok": true,
+      "where": "platform:cpgrams.registration"
+    },
+    "https://pgportal.gov.in/signin": {
+      "status": 302,
+      "ok": true,
+      "where": "platform:cpgrams.login"
+    },
+    "https://pgportal.gov.in/status": {
+      "status": 302,
+      "ok": true,
+      "where": "platform:cpgrams.track_status"
+    },
+    "https://pgportal.gov.in/Home/Faq": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:cpgrams.faq"
+    },
+    "https://pgportal.gov.in/darpgdashboard": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:cpgrams.dashboard"
+    },
+    "https://consumerhelpline.gov.in/": {
+      "status": 302,
+      "ok": true,
+      "where": "platform:nch_ingram.home"
+    },
+    "https://consumerhelpline.gov.in/user/upload-docs.php": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:nch_ingram.upload_documents"
+    },
+    "https://consumeraffairs.gov.in/pages/nch": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:nch_ingram.department_page"
+    },
+    "https://e-jagriti.gov.in/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:e_jagriti.home"
+    },
+    "https://confonet.nic.in/": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "platform:e_jagriti.case_status_public"
+    },
+    "https://ncdrc.nic.in/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:e_jagriti.ncdrc"
+    },
+    "https://cybercrime.gov.in/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:ncrp_cybercrime.track_status"
+    },
+    "https://cms.rbi.org.in/": {
+      "status": 301,
+      "ok": true,
+      "where": "platform:rbi_cms.home"
+    },
+    "https://scores.sebi.gov.in/": {
+      "status": 505,
+      "ok": false,
+      "where": "platform:sebi_scores.home"
+    },
+    "https://mi.sebi.gov.in/": {
+      "status": 505,
+      "ok": false,
+      "where": "platform:sebi_scores.market_intelligence_portal"
+    },
+    "https://investor.sebi.gov.in/sebi_scores.html": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:sebi_scores.investor_guide"
+    },
+    "https://bimabharosa.irdai.gov.in/": {
+      "status": 500,
+      "ok": false,
+      "where": "platform:irdai_bima_bharosa_ombudsman.bima_bharosa_portal"
+    },
+    "https://irdai.gov.in/list-of-gros": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:irdai_bima_bharosa_ombudsman.irdai_gro_directory"
+    },
+    "https://www.cioins.co.in/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:irdai_bima_bharosa_ombudsman.insurance_ombudsman_home"
+    },
+    "https://cioins.co.in/Complaint/Online": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:irdai_bima_bharosa_ombudsman.insurance_ombudsman_online_complaint"
+    },
+    "https://maharera.maharashtra.gov.in/": {
+      "status": 301,
+      "ok": true,
+      "where": "platform:maharera.home_and_project_search"
+    },
+    "https://maharerait.mahaonline.gov.in/": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "platform:maharera.online_complaint_portal"
+    },
+    "https://maharerait.mahaonline.gov.in/PDF/ComplaintFilingProcess.pdf": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "platform:maharera.user_manual_pdf"
+    },
+    "https://samadhan.labour.gov.in/": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "platform:samadhan_labour.home"
+    },
+    "https://web.umang.gov.in/landing/department/samadhan.html": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:samadhan_labour.umang_landing"
+    },
+    "https://mahakamgar.maharashtra.gov.in/": {
+      "status": 404,
+      "ok": false,
+      "where": "platform:mahakamgar_labour.home"
+    },
+    "https://mahakamgar.maharashtra.gov.in/login_/loginpage": {
+      "status": 404,
+      "ok": false,
+      "where": "platform:mahakamgar_labour.login_and_complaint"
+    },
+    "https://labour.maharashtra.gov.in/en": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:mahakamgar_labour.department_portal"
+    },
+    "https://pune.gov.in/en/office-of-the-deputy-commissioner-of-labour/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:mahakamgar_labour.pune_alc_directory"
+    },
+    "https://mahakamgar.maharashtra.gov.in/Site/1729/Contact-Us": {
+      "status": 404,
+      "ok": false,
+      "where": "platform:mahakamgar_labour.maharashtra_contacts"
+    },
+    "https://shebox.wcd.gov.in/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:she_box.home"
+    },
+    "https://epfigms.gov.in/": {
+      "status": 404,
+      "ok": false,
+      "where": "platform:epfigms.home"
+    },
+    "https://epfigms.gov.in/grievance/grievancemaster": {
+      "status": 404,
+      "ok": false,
+      "where": "platform:epfigms.register_grievance"
+    },
+    "https://grievances.maharashtra.gov.in/en": {
+      "status": 200,
+      "ok": true,
+      "where": "state:MH:portal"
+    },
+    "https://grievances.maharashtra.gov.in/en/citizens/verify": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:aaple_sarkar_maharashtra.citizen_registration"
+    },
+    "https://grievances.maharashtra.gov.in/en/citizens/login": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:aaple_sarkar_maharashtra.citizen_login"
+    },
+    "https://grievances.maharashtra.gov.in/mr/pg-portal-grievance/track-grievance-verification": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:aaple_sarkar_maharashtra.track_grievance"
+    },
+    "https://mahadbt.maharashtra.gov.in/Grievance/Grievance": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:aaple_sarkar_maharashtra.mahadbt_specific_grievance"
+    },
+    "https://citizen.mahapolice.gov.in/citizen/mh/index.aspx": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:mahapolice_pune_police.mahapolice_citizen_portal"
+    },
+    "https://citizen.mahapolice.gov.in/Citizen/MH/MobileMissingForm.aspx": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:mahapolice_pune_police.mobile_missing_form"
+    },
+    "https://www.punepolice.gov.in/report-us/lost-and-found": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:mahapolice_pune_police.pune_lost_and_found"
+    },
+    "https://www.digitalpolicecitizenservices.gov.in/centercitizen/login.htm": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:mahapolice_pune_police.national_cctns_login"
+    },
+    "https://complaint.pmc.gov.in/home": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "platform:pmc_care_pune.complaint_portal"
+    },
+    "https://pmccare.in/home": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:pmc_care_pune.pmc_care_web"
+    },
+    "https://services.pmc.gov.in/home": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "platform:pmc_care_pune.online_services"
+    },
+    "https://opendata.pmc.gov.in/departments/category?id=34": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:pmc_care_pune.open_data_portal"
+    },
+    "https://www.pmc.gov.in/b/encrochment-complaint-system": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "platform:pmc_care_pune.ward_office_directory"
+    },
+    "https://grievance.pcmcindia.gov.in:8443/Grievance/citizen/": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "platform:pcmc_grievance.complaint_portal"
+    },
+    "https://sarathi.pcmcindia.gov.in/": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "platform:pcmc_grievance.sarathi_portal_third_party_ref"
+    },
+    "https://play.google.com/store/apps/details?id=com.ichangemycity.swachhbharat": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:swachhata_mohua.play_store"
+    },
+    "https://www.tele-law.in/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:tele_law_nyaya_bandhu.home"
+    },
+    "https://www.tele-law.in/beneficiary/auth/signup": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:tele_law_nyaya_bandhu.citizen_signup"
+    },
+    "https://www.tele-law.in/faq.html": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:tele_law_nyaya_bandhu.faq"
+    },
+    "https://probono-doj.in/": {
+      "status": 302,
+      "ok": true,
+      "where": "platform:tele_law_nyaya_bandhu.nyaya_bandhu"
+    },
+    "https://web.umang.gov.in/landing/department/tele-law.html": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:tele_law_nyaya_bandhu.umang_landing"
+    },
+    "https://nalsa.gov.in/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:nalsa_mslsa_dlsa.nalsa_home"
+    },
+    "https://nalsa.gov.in/legal-aid/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:nalsa_mslsa_dlsa.nalsa_legal_aid"
+    },
+    "https://nalsa.gov.in/directory/": {
+      "status": 200,
+      "ok": true,
+      "where": "state:WB:slsa"
+    },
+    "https://nalsa.gov.in/permanent-lok-adalat/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:nalsa_mslsa_dlsa.permanent_lok_adalat"
+    },
+    "https://nalsa.gov.in/lok-adalats/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:nalsa_mslsa_dlsa.lok_adalats"
+    },
+    "https://maharashtra.nalsa.gov.in/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:nalsa_mslsa_dlsa.mslsa_home"
+    },
+    "https://maharashtra.nalsa.gov.in/directory/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:nalsa_mslsa_dlsa.mslsa_directory"
+    },
+    "https://www.punedlsa.org/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:nalsa_mslsa_dlsa.pune_dlsa"
+    },
+    "https://pune.dcourts.gov.in/contact-us/": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:maharashtra_rent_small_causes_pune.pune_district_court"
+    },
+    "https://upyog.niua.in/": {
+      "status": 302,
+      "ok": true,
+      "where": "platform:digit_upyog_pgr_api.upyog_portal"
+    },
+    "https://github.com/egovernments/Citizen-Complaint-Resolution-System": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:digit_upyog_pgr_api.github_pgr_repo"
+    },
+    "https://github.com/egovernments/Digit-Core": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:digit_upyog_pgr_api.github_digit_core"
+    },
+    "https://docs.digit.org/health/deploy/configuration/hcm-service-configuration/complaints": {
+      "status": 200,
+      "ok": true,
+      "where": "platform:digit_upyog_pgr_api.digit_pgr_docs"
+    },
+    "https://portal.mcgm.gov.in": {
+      "status": 302,
+      "ok": true,
+      "where": "office:mumbai_municipal_corporation_hq:website"
+    },
+    "https://grahak.maharashtra.gov.in": {
+      "status": 200,
+      "ok": true,
+      "where": "office:mumbai_consumer_commission_south:website"
+    },
+    "https://mumbaicity.gov.in": {
+      "status": 200,
+      "ok": true,
+      "where": "office:mumbai_dlsa_city:website"
+    },
+    "https://mahakamgar.maharashtra.gov.in": {
+      "status": 404,
+      "ok": false,
+      "where": "office:mumbai_labour_commissioner:website"
+    },
+    "https://mumbaipolice.gov.in": {
+      "status": 200,
+      "ok": true,
+      "where": "office:mumbai_cyber_police_station:website"
+    },
+    "https://bombayhighcourt.nic.in": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "office:mumbai_small_causes_court:website"
+    },
+    "https://punepolice.gov.in": {
+      "status": 200,
+      "ok": true,
+      "where": "office:pune_cyber_police_station:website"
+    },
+    "https://www.pcmcindia.gov.in": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "office:pune_pcmc_headquarters:website"
+    },
+    "https://pcpc.gov.in": {
+      "status": 403,
+      "ok": false,
+      "where": "office:pune_pcmc_police_commissionerate:website"
+    },
+    "https://pune.gov.in": {
+      "status": 200,
+      "ok": true,
+      "where": "office:pune_collectorate:website"
+    },
+    "https://districts.ecourts.gov.in/pune": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "office:pune_family_court:website"
+    },
+    "https://maharera.maharashtra.gov.in": {
+      "status": 301,
+      "ok": true,
+      "where": "office:pune_maharera_division_office:website"
+    },
+    "https://mcdonline.nic.in": {
+      "status": 200,
+      "ok": true,
+      "where": "office:delhi_mcd_civic_centre:website"
+    },
+    "http://delhistatecommission.nic.in": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "office:delhi_consumer_commission_north:website"
+    },
+    "http://dslsa.org": {
+      "status": 301,
+      "ok": true,
+      "where": "office:delhi_dslsa_central:website"
+    },
+    "https://labour.delhi.gov.in": {
+      "status": 200,
+      "ok": true,
+      "where": "office:delhi_labour_commissioner:website"
+    },
+    "https://delhipolice.gov.in": {
+      "status": 404,
+      "ok": false,
+      "where": "office:delhi_police_ifso_cyber_crime:website"
+    },
+    "https://delhicourts.nic.in": {
+      "status": 200,
+      "ok": true,
+      "where": "office:delhi_tis_hazari_court:website"
+    },
+    "https://bbmp.gov.in": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "office:bengaluru_bbmp_headquarters:website"
+    },
+    "https://kscdrc.kar.nic.in": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "office:bengaluru_consumer_commission_urban:website"
+    },
+    "https://bengaluruurban.dcourts.gov.in": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "office:bengaluru_small_causes_court:website"
+    },
+    "https://labour.karnataka.gov.in": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "office:bengaluru_labour_commissioner:website"
+    },
+    "https://bengaluruurban.nic.in": {
+      "status": 200,
+      "ok": true,
+      "where": "office:bengaluru_cyber_crime_police_station:website"
+    },
+    "https://gccservices.chennaicorporation.gov.in": {
+      "status": 200,
+      "ok": true,
+      "where": "office:chennai_gcc_ripon_building:website"
+    },
+    "https://chennai.nic.in": {
+      "status": 200,
+      "ok": true,
+      "where": "office:chennai_cyber_crime_cell:website"
+    },
+    "https://chennai.dcourts.gov.in": {
+      "status": 200,
+      "ok": true,
+      "where": "office:chennai_small_causes_court:website"
+    },
+    "https://labour.tn.gov.in": {
+      "status": 200,
+      "ok": true,
+      "where": "office:chennai_labour_commissioner:website"
+    },
+    "https://www.ghmc.gov.in": {
+      "status": 404,
+      "ok": false,
+      "where": "office:hyderabad_ghmc_headquarters:website"
+    },
+    "https://confonet.nic.in": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "office:hyderabad_consumer_commission_1:website"
+    },
+    "https://districts.ecourts.gov.in/hyderabad": {
+      "status": 0,
+      "ok": false,
+      "error": "TypeError",
+      "where": "office:hyderabad_city_small_causes_court:website"
+    },
+    "https://labour.telangana.gov.in": {
+      "status": 302,
+      "ok": true,
+      "where": "office:hyderabad_labour_commissioner:website"
+    },
+    "https://www.hyderabadpolice.gov.in": {
+      "status": 200,
+      "ok": true,
+      "where": "office:hyderabad_cyber_crime_police_station:website"
+    }
+  }
+}

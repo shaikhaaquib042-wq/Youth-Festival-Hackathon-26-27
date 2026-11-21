@@ -40,7 +40,7 @@ describe("legalAidCheck", () => {
     expect(r.contact.office_id).toBe("slsa:UP");
     expect(r.contact.url).toBe("https://nalsa.gov.in/directory/");
     expect(r.contact.phone).toBe("15100");
-    expect(r.contact.verified).toBe(false);
+    expect(typeof r.contact.verified).toBe("boolean"); // set by scripts/check-links.mjs
   });
   it("Maharashtra outside Pune is SLSA, not DLSA Pune", () => {
     expect(legalAidCheck(slots({ city: "Nagpur" }), "MH").contact.office_id).toBe("slsa:MH");

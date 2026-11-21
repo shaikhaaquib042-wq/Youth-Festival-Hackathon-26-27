@@ -749,3 +749,6 @@ fieldset .opt:hover { transform: none; }
 }
 .q-textarea:focus { border-color: var(--saffron-600); box-shadow: 0 0 0 4px rgba(255, 140, 66, 0.22); }
 
+/* Stagger for reveal groups without inline style attributes (CSP style-src blocks those). */
+.reveal:nth-child(2) { --d: 80ms; } .reveal:nth-child(3) { --d: 160ms; } .reveal:nth-child(4) { --d: 240ms; }
+.reveal:nth-child(5) { --d: 320ms; } .reveal:nth-child(6) { --d: 400ms; }

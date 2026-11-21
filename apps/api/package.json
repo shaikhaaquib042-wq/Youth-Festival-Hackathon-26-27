@@ -18,7 +18,7 @@
     "@turf/boolean-point-in-polygon": "^7.2.0",
     "@turf/helpers": "^7.2.0",
     "hono": "^4.7.0",
-    "zod": "^3.24.0"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20251001.0",

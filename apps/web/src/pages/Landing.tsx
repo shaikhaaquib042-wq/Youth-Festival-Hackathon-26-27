@@ -143,7 +143,7 @@ export function Landing() {
               {COMPLAINT_TILES.map((tile, i) => {
                 const Icon = TILE_ICON[tile.key];
                 return (
-                  <li key={tile.key} style={{ "--i": i } as React.CSSProperties}>
+                  <li key={tile.key}>
                     <a className="lp-tile" href={rUrl(lang, `/r/flow/${tile.dispute}/0`)}>
                       <span className={`lp-tile-icon ${TILE_TONES[i % TILE_TONES.length]}`}>
                         <Icon size={20} aria-hidden="true" />
@@ -189,7 +189,7 @@ export function Landing() {
               {[TellIllo, DoorIllo, SendIllo].map((Illo, idx) => {
                 const n = idx + 1;
                 return (
-                  <li key={n} className="how-step reveal" style={{ "--d": `${idx * 120}ms` } as React.CSSProperties}>
+                  <li key={n} className="how-step reveal">
                     <div className="how-art">
                       <Illo />
                     </div>
