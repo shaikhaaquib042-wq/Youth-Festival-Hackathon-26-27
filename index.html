@@ -11,9 +11,17 @@
       <div id="map"></div>
       <div id="topbar">
         <div id="mode-chip">LIVE</div>
+        <div id="hazard-toggle" role="tablist">
+          <button role="tab" data-h="flood">🌧 <span data-k="hazard.flood"></span></button>
+          <button role="tab" data-h="heat">☀️ <span data-k="hazard.heat"></span></button>
+        </div>
         <select id="lang-picker" aria-label="Language / भाषा"></select>
+        <button id="account-chip" hidden></button>
       </div>
       <div id="alert-banner" hidden></div>
+      <button id="report-fab"></button>
+      <div id="disclaimer"></div>
+      <div id="toast" role="status" hidden></div>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>

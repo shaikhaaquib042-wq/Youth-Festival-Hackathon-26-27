@@ -42,6 +42,5 @@ export function createMap(container, pack = cityPack()) {
 
   map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
-  map.addControl(new maplibregl.GeolocateControl({ trackUserLocation: false }), 'top-right');
   return map;
 }
