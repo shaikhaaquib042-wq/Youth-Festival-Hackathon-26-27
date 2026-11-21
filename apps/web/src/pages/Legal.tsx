@@ -56,6 +56,7 @@ export function Privacy() {
         <h2>{tt("ui.privacy.rights_h2")}</h2>
         <p>{tt("ui.privacy.rights")}</p>
         <h2>{tt("ui.privacy.retention_h2")}</h2>
+        <div className="table-wrap">
         <table>
           <caption className="sh-muted">{tt("ui.privacy.retention_caption")}</caption>
           <thead>
@@ -75,6 +76,7 @@ export function Privacy() {
             ))}
           </tbody>
         </table>
+        </div>
         <h2>{tt("ui.privacy.security_h2")}</h2>
         <p>{tt("ui.privacy.security")}</p>
       </section>

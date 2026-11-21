@@ -1,0 +1,27 @@
+{
+  // LOCAL ONLY. Used by `npm run local` / `npm run dev:all` (scripts/local.mjs).
+  // Same Worker code as production, but every binding is simulated on this machine by Miniflare:
+  // no routes, no workers.dev, no Workers AI (that binding always calls Cloudflare), and KV / D1 live in apps/api/.wrangler/state.
+  // Nothing here talks to raasta.safalmutha.in or to the Cloudflare account. Production uses wrangler.jsonc.
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "raasta-api-local",
+  "main": "src/index.tsx",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "kv_namespaces": [{ "binding": "CACHE", "id": "local-raasta-cache" }],
+  "d1_databases": [
+    { "binding": "DB", "database_name": "raasta-db-local", "database_id": "local-raasta-db", "migrations_dir": "migrations" }
+  ],
+  "ratelimits": [
+    { "name": "CHAT_LIMITER", "namespace_id": "1001", "simple": { "limit": 20, "period": 60 } },
+    { "name": "FORM_LIMITER", "namespace_id": "1002", "simple": { "limit": 5, "period": 60 } },
+    { "name": "TRANSLATE_LIMITER", "namespace_id": "1003", "simple": { "limit": 60, "period": 60 } }
+  ],
+  "vars": {
+    "ALLOWED_ORIGINS": "http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173,http://127.0.0.1:4173,http://localhost:8787,http://127.0.0.1:8787",
+    "AI_PRIMARY": "ollama",
+    "OLLAMA_URL": "http://localhost:11434",
+    "OSM_USER_AGENT": "Raasta/1.0 (hackathon project, local)"
+  }
+}

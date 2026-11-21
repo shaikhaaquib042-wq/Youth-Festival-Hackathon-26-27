@@ -36,17 +36,24 @@ Do Step 1 before Step 2: the Worker routes need the `raasta.safalmutha.in` DNS r
 
 ## Step 2. Worker (the API)
 
-From a terminal in the repo:
+**Option A (recommended): deploy from Git with Workers Builds.**
+Dashboard > **Workers & Pages** > **Create** > **Workers** > **Import a repository**:
+- Repository: `muthasafal/raasta` (or the hackathon repo), branch `posterguys`
+- Worker name: **`raasta-api`** (must match `wrangler.jsonc`)
+- Root directory: `/`
+- Build command: `npm ci`
+- Deploy command: `npx wrangler deploy --config apps/api/wrangler.jsonc`
+
+**Option B: from a terminal.**
 
 ```powershell
-cd apps/api
 npx wrangler login
-npx wrangler deploy
+npm run deploy:api
 ```
 
 `wrangler.jsonc` already contains the KV, D1, rate-limit and Workers AI bindings, and the two routes `raasta.safalmutha.in/api/*` and `raasta.safalmutha.in/r/*`.
 
-Then set the one required secret (any long random string; it signs the shareable result links):
+Then set the one required secret `TOKEN_SECRET` (any long random string; it signs the shareable result links). With Option A add it in the Worker > **Settings** > **Variables and Secrets**; from a terminal:
 
 ```powershell
 npx wrangler secret put TOKEN_SECRET
@@ -69,19 +76,13 @@ Check: `https://raasta.safalmutha.in/api/health` returns `{"ok":true}`, and typi
 ## Updating later
 
 - Website: push to `posterguys`; Pages rebuilds by itself.
-- Worker: `cd apps/api && npx wrangler deploy` after API changes.
+- Worker: with Workers Builds, pushing to `posterguys` redeploys it too. From a terminal: `npm run deploy:api`.
 
 ## Running locally
 
-```powershell
-cd apps/api
-npx wrangler dev --local --port 8787
-```
+See [run.md](../run.md). One command, `npm run local`, builds the site and runs it with a local Worker (`apps/api/wrangler.local.jsonc`). The local run never calls `raasta.safalmutha.in`: the browser talks only to localhost, and Vite forwards `/api` and `/r` to `127.0.0.1:8787`.
 
-and in a second terminal, from the repo root:
+## Status (2026-11-21)
 
-```powershell
-npm run dev
-```
-
-Open `http://localhost:5173`. The dev server forwards `/api` and `/r` to the local Worker. `apps/api/.dev.vars` holds a local `TOKEN_SECRET` (never committed).
+- Pages: live at `https://raasta.safalmutha.in`
+- Worker: live on the same hostname; `/api/health` returns `{"ok":true}`, `POST /r/ask` and `/r/flow/*` work

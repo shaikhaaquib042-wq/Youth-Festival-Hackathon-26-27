@@ -49,9 +49,10 @@ function Logo() {
 function LangLinks({ lang, path, query }: { lang: Locale; path: string; query?: string }) {
   return (
     <details className="sh-pop sh-lang">
-      <summary className="sh-chip" aria-label={t(lang, "ui.lang.label")}>
+      <summary className="sh-chip">
         <Icon d={GLOBE} />
         <span className="sh-chip-label">{LANG_META[lang].native}</span>
+        <span className="sr-only">, {t(lang, "ui.lang.label")}</span>
       </summary>
       <ul className="sh-pop-panel" role="list">
         {LOCALES.map((l) => (
@@ -75,11 +76,12 @@ function LangLinks({ lang, path, query }: { lang: Locale; path: string; query?: 
 function LocationPop({ lang, next }: { lang: Locale; next: string }) {
   return (
     <details className="sh-pop sh-loc">
-      <summary className="sh-chip" data-loc-chip="" aria-label={t(lang, "ui.location.label")}>
+      <summary className="sh-chip" data-loc-chip="">
         <Icon d={PIN} />
         <span className="sh-chip-label" data-loc-label="">
           {t(lang, "ui.location.set")}
         </span>
+        <span className="sr-only">, {t(lang, "ui.location.label")}</span>
       </summary>
       <form className="sh-pop-panel sh-loc-form" method="post" action="/r/location">
         <button type="button" className="sh-locate" data-locate="" data-msg-busy={t(lang, "ui.location.busy")} data-msg-denied={t(lang, "ui.location.denied")} data-msg-fail={t(lang, "ui.location.fail")}>

@@ -11,3 +11,5 @@ coverage/
 playwright-report/
 test-results/
 *.log
+qa/ollama-intake-report.json
+qa/agy/test-results.json

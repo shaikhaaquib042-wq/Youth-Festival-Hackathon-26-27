@@ -41,6 +41,7 @@ export function computeMissing(slots: Omit<IntakeSlots, "missing_fields">): stri
   const d = disputeById(slots.dispute_type);
   if (!d) return [];
   if (slots.violence_indicated) return []; // never question someone reporting violence before showing help
+  if (slots.is_emergency && slots.dispute_type === "cyber_fraud") return []; // fraud just happened: show 1930 at once
   const missing: string[] = [];
   for (const q of d.questions) {
     if (!q.slot || q.slot === "summary" || q.slot === "city") continue;
@@ -102,7 +103,16 @@ export async function runIntake(
     }
   }
 
-  if (!base) base = keywordSlots(clean);
+  const kw = keywordSlots(clean);
+  if (!base) base = kw;
+  else {
+    // A small model sometimes shrugs ("other") on a plain case the keyword table knows: trust the table then.
+    if (base.dispute_type === "other" && kw.dispute_type !== "other") base.dispute_type = kw.dispute_type;
+    // Deterministic facts the model may miss: keep the safety and time signals from the keyword pass.
+    for (const k of ["amount_inr", "days_since_incident"] as const) if (base[k] === undefined && kw[k] !== undefined) base[k] = kw[k];
+    if (kw.is_emergency) base.is_emergency = true;
+    if (kw.violence_indicated) base.violence_indicated = true;
+  }
   if (!base.summary) base.summary = clean.slice(0, 280);
   if (hints.state_code && !base.state_code) base.state_code = hints.state_code.toUpperCase();
   if (hints.city && !base.city) base.city = hints.city;

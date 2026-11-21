@@ -45,6 +45,8 @@ describe("keyword extraction", () => {
     expect(extractAmount("paid 4000 rupees")).toBe(4000);
     expect(extractDays("for three months")).toBe(90);
     expect(extractDays("nothing here")).toBeUndefined();
+    expect(extractDays("money was taken by UPI fraud just now")).toBe(0);
+    expect(extractDays("it happened 10 minutes ago")).toBe(0);
   });
 });
 

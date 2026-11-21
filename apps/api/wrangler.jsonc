@@ -17,7 +17,7 @@
   ],
   "ai": { "binding": "AI" },
   "vars": {
-    "ALLOWED_ORIGINS": "https://raasta.safalmutha.in,http://localhost:5173,http://localhost:8787",
+    "ALLOWED_ORIGINS": "https://raasta.safalmutha.in",
     "AI_PRIMARY": "gemini",
     "OSM_USER_AGENT": "Raasta/1.0 (hackathon project)"
   },

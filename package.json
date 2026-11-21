@@ -10,11 +10,14 @@
     "node": ">=20"
   },
   "scripts": {
+    "local": "node scripts/local.mjs",
+    "dev:all": "node scripts/local.mjs --dev",
     "dev": "npm run dev -w @raasta/web",
     "dev:api": "npm run dev -w @raasta/api",
     "build": "npm run build -w @raasta/web",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p apps/api/tsconfig.json --noEmit && tsc -p apps/web/tsconfig.json --noEmit",
     "test": "vitest run",
+    "deploy:api": "npm run deploy -w @raasta/api",
     "ingest": "node scripts/ingest.mjs"
   },
   "devDependencies": {

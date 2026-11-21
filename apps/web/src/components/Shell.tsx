@@ -24,9 +24,10 @@ function LangSwitcher() {
   const { pathname } = useLocation();
   return (
     <details className="sh-pop sh-lang">
-      <summary className="sh-chip" aria-label={tt("ui.lang.label")}>
+      <summary className="sh-chip">
         <Languages size={18} aria-hidden="true" />
         <span className="sh-chip-label">{LANG_META[lang].native}</span>
+        <span className="sr-only">, {tt("ui.lang.label")}</span>
       </summary>
       <ul className="sh-pop-panel" role="list">
         {LOCALES.map((l) => (
@@ -48,11 +49,12 @@ function LocationChip() {
   const { pathname } = useLocation();
   return (
     <details className="sh-pop sh-loc">
-      <summary className="sh-chip" data-loc-chip="" aria-label={tt("ui.location.label")}>
+      <summary className="sh-chip" data-loc-chip="">
         <MapPin size={18} aria-hidden="true" />
         <span className="sh-chip-label" data-loc-label="">
           {tt("ui.location.set")}
         </span>
+        <span className="sr-only">, {tt("ui.location.label")}</span>
       </summary>
       <form className="sh-pop-panel sh-loc-form" method="post" action="/r/location">
         <button
@@ -117,7 +119,7 @@ function SiteHeader() {
             <span>{tt("ui.emergency")}</span>
           </Link>
           <details className="sh-pop sh-menu">
-            <summary className="sh-chip" aria-label={tt("ui.nav.menu")}>
+            <summary className="sh-chip">
               <Menu size={18} aria-hidden="true" />
               <span className="sh-chip-label">{tt("ui.nav.menu")}</span>
             </summary>

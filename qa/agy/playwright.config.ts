@@ -13,7 +13,7 @@ export default defineConfig({
     ["json", { outputFile: "./test-results.json" }],
   ],
   use: {
-    baseURL: "http://localhost:5173",
+    baseURL: process.env.BASE_URL ?? "http://localhost:4173",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },
