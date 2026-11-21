@@ -1,0 +1,22 @@
+{
+  "name": "trinetra",
+  "version": "1.0.0",
+  "description": "> **Naya Bharat 2047 (Code for Bharat) Hackathon**  \r > **Track:** Rotary Area 1 — Peacebuilding & Conflict Prevention (*Peaceful Bharat*)  \r > **Problem Statement 1.3:** *Bullied Online, Nowhere to Turn* — Help students save evidence and safely report online harassment to the right place.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@google/genai": "^3.6.1",
+    "axios": "^1.21.1",
+    "express": "^5.3.0",
+    "ffmpeg-static": "^5.3.0",
+    "fluent-ffmpeg": "^2.1.3",
+    "form-data": "^4.0.6",
+    "node-gtts": "^2.0.2"
+  }
+}
