@@ -12,6 +12,7 @@ ALTER TABLE donors ENABLE ROW LEVEL SECURITY;
 ALTER TABLE requisitions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE dispatch_waves ENABLE ROW LEVEL SECURITY;
 ALTER TABLE audit_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE lean_month_reminders ENABLE ROW LEVEL SECURITY;
 
 -- ============================================================================
 -- VERIFIED_HOSPITALS: Public read-only (hospital list is not sensitive)
@@ -94,6 +95,23 @@ CREATE POLICY "audit_deny_anon"
 
 CREATE POLICY "audit_service_full"
   ON audit_logs
+  FOR ALL
+  TO service_role
+  USING (true)
+  WITH CHECK (true);
+
+-- ============================================================================
+-- LEAN_MONTH_REMINDERS: Zero public access — internal only
+-- ============================================================================
+CREATE POLICY "lean_reminders_deny_anon"
+  ON lean_month_reminders
+  FOR ALL
+  TO anon
+  USING (false)
+  WITH CHECK (false);
+
+CREATE POLICY "lean_reminders_service_full"
+  ON lean_month_reminders
   FOR ALL
   TO service_role
   USING (true)

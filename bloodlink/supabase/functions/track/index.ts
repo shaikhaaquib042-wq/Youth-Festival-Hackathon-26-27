@@ -48,7 +48,7 @@ serve(async (req: Request) => {
       .select(`
         id, blood_group, component, units_needed, units_accepted,
         urgency, hospital_name, hospital_id, status, current_wave,
-        current_radius_meters, created_at, expires_at, verified_at
+        current_radius_meters, created_at, expires_at, verified_at, fulfilled_at
       `)
       .eq("id", requestId)
       .single();

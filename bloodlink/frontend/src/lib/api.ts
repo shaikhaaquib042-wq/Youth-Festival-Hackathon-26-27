@@ -120,6 +120,7 @@ export async function postVerification(token: string, body: any) {
         data: {
           success: true,
           message: `Verified! Wave 1 dispatched to ${updated.waves.length} nearby donors.`,
+          matching_metrics: updated.matching_metrics,
         },
         error: null,
       };
@@ -195,6 +196,7 @@ export async function registerDonor(body: any) {
     biological_sex: body.biological_sex,
     blood_group: body.blood_group,
     locality: body.locality,
+    campus_or_community: body.campus_or_community,
     gps_lat: body.gps_lat,
     gps_lng: body.gps_lng,
     is_available: true,
@@ -262,6 +264,7 @@ export async function getDonorProfile(token: string) {
       full_name: donor.full_name,
       blood_group: donor.blood_group,
       locality: donor.locality,
+      campus_or_community: donor.campus_or_community,
       is_available: donor.is_available,
       is_on_cooldown: isOnCooldown,
       cooldown_until: donor.cooldown_until,
@@ -350,3 +353,26 @@ export const URGENCY_LEVELS = [
   { value: "URGENT", label: "Urgent — Within hours" },
   { value: "SCHEDULED", label: "Scheduled — Planned" },
 ];
+
+export const CAMPUS_COMMUNITY_OPTIONS = [
+  "Fergusson College",
+  "COEP",
+  "SPPU",
+  "VIT Pune",
+  "Sinhagad Road",
+  "Kothrud",
+  "Other",
+];
+
+// ---- Demo / NBTC / Seasonal Simulators ----
+export async function getLeanMonthEligibleDonors() {
+  return store.getLeanMonthEligibleDonors();
+}
+
+export async function recordLeanReminder(donorId: string) {
+  return store.recordLeanReminder(donorId);
+}
+
+export async function simulateNoShowBackfill(reqId?: string) {
+  return store.simulateNoShowBackfill(reqId);
+}

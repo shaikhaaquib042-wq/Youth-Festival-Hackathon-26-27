@@ -142,11 +142,22 @@ serve(async (req: Request) => {
           }
         }
 
+        const firstRow = wave?.[0] as any;
+        const totalInRadius = firstRow?.total_in_radius || wave?.length || 0;
+        const excludedCooldown = firstRow?.excluded_cooldown || 0;
+        const newlyPinged = wave?.length || 0;
+
         return new Response(
           JSON.stringify({
             success: true,
-            message: `Verified! Wave 1 dispatched to ${wave?.length || 0} nearby donors.`,
-            donors_pinged: wave?.length || 0,
+            message: `Verified! Wave 1 dispatched to ${newlyPinged} nearby donors.`,
+            donors_pinged: newlyPinged,
+            matching_metrics: {
+              total_in_radius: totalInRadius,
+              excluded_cooldown: excludedCooldown,
+              newly_pinged: newlyPinged,
+              radius_km: 3,
+            },
           }),
           { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
@@ -177,7 +188,10 @@ serve(async (req: Request) => {
       if (action === "fulfill") {
         const { error: fulfillErr } = await supabase
           .from("requisitions")
-          .update({ status: "FULFILLED" })
+          .update({
+            status: "FULFILLED",
+            fulfilled_at: new Date().toISOString(),
+          })
           .eq("verify_token", verifyToken)
           .in("status", ["VERIFIED_ACTIVE", "FULFILLED"]);
 

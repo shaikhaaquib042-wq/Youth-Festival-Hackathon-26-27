@@ -71,6 +71,7 @@ serve(async (req: Request) => {
     const biologicalSex = (body.biological_sex || "").toUpperCase();
     const bloodGroup = (body.blood_group || "").toUpperCase();
     const localityLabel = (body.locality || "").trim();
+    const campusOrCommunity = (body.campus_or_community || "").trim() || null;
     const lastDonationDate = body.last_donation_date || null;
     const dpdpConsent = body.dpdp_consent === true;
     // Optional: browser GPS coordinates override locality defaults
@@ -171,6 +172,7 @@ serve(async (req: Request) => {
         blood_group: bloodGroup,
         location: locationPoint,
         locality_label: localityLabel,
+        campus_or_community: campusOrCommunity,
         last_donation_date: lastDonationDate,
         cooldown_until: cooldownUntil,
       })

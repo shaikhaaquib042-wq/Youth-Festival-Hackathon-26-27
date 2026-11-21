@@ -50,7 +50,11 @@ export default function DonorDashboardPage() {
 
     const res = await postDonorAction(donorToken, { action, wave_id: waveId });
     if (res.data?.message) {
-      alert(res.data.message);
+      if (res.data?.reason === "NEED_ALREADY_MET") {
+        setError(res.data.message);
+      } else {
+        alert(res.data.message);
+      }
     }
     await fetchProfile(false);
     setIsProcessing(false);
@@ -127,83 +131,106 @@ export default function DonorDashboardPage() {
                 Active Wave Alert ({pingedAlerts.length})
               </h2>
 
-              {pingedAlerts.map((alert: any) => (
-                <div
-                  key={alert.wave_id}
-                  className="card border-2 border-[var(--rt)]/40 space-y-4 bg-[var(--sf)] p-6"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      {/* Verified Hospital Seal */}
-                      <span className="tg ok text-[10px] uppercase font-bold">
-                        Verified Hospital Seal
-                      </span>
-                      {/* Hospital Name */}
-                      <h3 className="font-bold text-base text-[var(--ink)] mt-1">{alert.hospital_name}</h3>
-                      {/* Google Maps link */}
-                      {alert.google_maps_url && (
-                        <a
-                          href={alert.google_maps_url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-xs font-semibold text-[var(--ok)] hover:underline inline-block mt-0.5"
-                        >
-                          Google Maps Link
-                        </a>
-                      )}
-                    </div>
-                    {/* Exact distance */}
-                    <span className="font-mono font-bold text-xs bg-[var(--tint)] text-[var(--rt)] px-3 py-1.5 rounded-lg flex-none">
-                      {alert.distance_km} km away
-                    </span>
-                  </div>
+              {pingedAlerts.map((alert: any) => {
+                const isFulfilled = alert.requisition_status === "FULFILLED";
+                const isExpired = alert.requisition_status === "EXPIRED";
 
-                  {/* Blood Group & Component needed */}
-                  <div className="grid grid-cols-2 gap-3 text-xs">
-                    <div className="bg-[var(--bg)] p-3 rounded-lg border border-[var(--ln)]">
-                      <span className="text-[10px] text-[var(--mu)] uppercase font-semibold block">Blood Group &amp; Component</span>
-                      <strong className="font-mono text-[var(--ink)] text-sm">{alert.blood_group} {alert.component}</strong>
-                    </div>
-                    {/* Calm factual urgency tag */}
-                    <div className="bg-[var(--bg)] p-3 rounded-lg border border-[var(--ln)] flex flex-col justify-between">
-                      <span className="text-[10px] text-[var(--mu)] uppercase font-semibold block">Urgency</span>
-                      <UrgencyBadge urgency={alert.urgency} />
-                    </div>
-                  </div>
+                return (
+                  <div
+                    key={alert.wave_id}
+                    className="card border-2 border-[var(--rt)]/40 space-y-4 bg-[var(--sf)] p-6"
+                  >
+                    {/* Auto-Expired / Fulfilled Banner */}
+                    {(isFulfilled || isExpired) ? (
+                      <div className="card bg-[var(--okt)] border-2 border-[var(--ok)] p-5 text-center space-y-1">
+                        <span className="tg ok font-bold text-[10px] uppercase">Need Met</span>
+                        <h4 className="text-sm font-bold text-[var(--ok)]">
+                          Need Met — This request was fulfilled at {alert.fulfilled_at ? new Date(alert.fulfilled_at).toLocaleTimeString() : "recently"}.
+                        </h4>
+                        <p className="text-[11px] text-[var(--mu)] leading-relaxed">
+                          Please do not forward this message further. All active slots have been filled by nearby donors.
+                        </p>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex items-start justify-between gap-3">
+                          <div>
+                            {/* Verified Hospital Seal */}
+                            <span className="tg ok text-[10px] uppercase font-bold">
+                              Verified Hospital Seal
+                            </span>
+                            {/* Hospital Name */}
+                            <h3 className="font-bold text-base text-[var(--ink)] mt-1">{alert.hospital_name}</h3>
+                            {/* Google Maps link */}
+                            {alert.google_maps_url && (
+                              <a
+                                href={alert.google_maps_url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-xs font-semibold text-[var(--ok)] hover:underline inline-block mt-0.5"
+                              >
+                                Google Maps Link
+                              </a>
+                            )}
+                          </div>
+                          {/* Exact distance */}
+                          <span className="font-mono font-bold text-xs bg-[var(--tint)] text-[var(--rt)] px-3 py-1.5 rounded-lg flex-none">
+                            {alert.distance_km} km away
+                          </span>
+                        </div>
 
-                  {/* Self-Check Before You Travel checklist (PRD Section 3) */}
-                  <div className="bg-[var(--bg)] p-3.5 rounded-xl space-y-1.5 text-xs text-[var(--ink)] border border-[var(--ln)]">
-                    <div className="font-semibold text-[var(--mu)] uppercase text-[10px] tracking-wider">
-                      Self-Check Before You Travel:
-                    </div>
-                    <div className="text-[11px] space-y-1">
-                      <div>• Eaten in last 4 hrs</div>
-                      <div>• Feeling well</div>
-                      <div>• 90/120+ days gap</div>
-                    </div>
-                  </div>
+                        {/* Blood Group & Component needed */}
+                        <div className="grid grid-cols-2 gap-3 text-xs">
+                          <div className="bg-[var(--bg)] p-3 rounded-lg border border-[var(--ln)]">
+                            <span className="text-[10px] text-[var(--mu)] uppercase font-semibold block">Blood Group &amp; Component</span>
+                            <strong className="font-mono text-[var(--ink)] text-sm">{alert.blood_group} {alert.component}</strong>
+                          </div>
+                          {/* Calm factual urgency tag */}
+                          <div className="bg-[var(--bg)] p-3 rounded-lg border border-[var(--ln)] flex flex-col justify-between">
+                            <span className="text-[10px] text-[var(--mu)] uppercase font-semibold block">Urgency</span>
+                            <UrgencyBadge urgency={alert.urgency} />
+                          </div>
+                        </div>
 
-                  {/* One-tap Accept & Commit or Snooze / Pass buttons */}
-                  <div className="grid grid-cols-2 gap-3 pt-1">
-                    <button
-                      type="button"
-                      disabled={isProcessing}
-                      onClick={() => handleRespond(alert.wave_id, "snooze")}
-                      className="btn2 w-full min-h-[48px] text-xs font-semibold"
-                    >
-                      Snooze / Pass
-                    </button>
-                    <button
-                      type="button"
-                      disabled={isProcessing}
-                      onClick={() => handleRespond(alert.wave_id, "accept")}
-                      className="btn w-full min-h-[48px] text-xs font-semibold"
-                    >
-                      Accept &amp; Commit
-                    </button>
+                        {/* Self-Check Before You Travel checklist & Mandated Clinical Disclaimer */}
+                        <div className="bg-[var(--bg)] p-4 rounded-xl space-y-2 text-xs text-[var(--ink)] border border-[var(--ln)]">
+                          <div className="font-semibold text-[var(--mu)] uppercase text-[10px] tracking-wider">
+                            Self-Check Before You Travel:
+                          </div>
+                          <div className="text-[11px] space-y-1 text-[var(--mu)]">
+                            <div>• Eaten a meal in the last 4 hours</div>
+                            <div>• Currently feeling well with no acute symptoms</div>
+                            <div>• 90+ days (Male) / 120+ days (Female) gap since last whole blood donation</div>
+                          </div>
+                          <div className="pt-2 border-t border-[var(--ln)] text-[10px] text-[var(--mu)] italic leading-relaxed">
+                            Final medical fitness and hemoglobin screening are determined solely by the hospital blood bank medical officer upon arrival.
+                          </div>
+                        </div>
+
+                        {/* One-tap Accept & Commit or Snooze / Pass buttons */}
+                        <div className="grid grid-cols-2 gap-3 pt-1">
+                          <button
+                            type="button"
+                            disabled={isProcessing}
+                            onClick={() => handleRespond(alert.wave_id, "snooze")}
+                            className="btn2 w-full min-h-[48px] text-xs font-semibold"
+                          >
+                            Snooze / Pass
+                          </button>
+                          <button
+                            type="button"
+                            disabled={isProcessing}
+                            onClick={() => handleRespond(alert.wave_id, "accept")}
+                            className="btn w-full min-h-[48px] text-xs font-semibold shadow-xs"
+                          >
+                            Accept &amp; Commit
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <div className="card p-8 text-center bg-[var(--sf)] space-y-2">

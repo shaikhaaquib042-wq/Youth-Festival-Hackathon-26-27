@@ -88,6 +88,33 @@ export default function TrackRequestIdPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column (7 cols): Status & Waves */}
         <div className="lg:col-span-7 space-y-5">
+          {/* Prominent Fulfilled Banner if Need Met */}
+          {isFulfilled && (
+            <div className="card bg-[var(--okt)] border-2 border-[var(--ok)] p-6 space-y-2 text-center">
+              <span className="tg ok font-bold text-[10px] uppercase tracking-wider">
+                Requisition Closed
+              </span>
+              <h2 className="text-base font-bold text-[var(--ok)]">
+                Need Met — This request was fulfilled at {data?.fulfilled_at ? new Date(data.fulfilled_at).toLocaleTimeString() : new Date().toLocaleTimeString()}.
+              </h2>
+              <p className="text-xs text-[var(--mu)] max-w-md mx-auto leading-relaxed">
+                Please do not forward this message further. All required units have been pledged by verified voluntary donors.
+              </p>
+            </div>
+          )}
+
+          {isExpired && (
+            <div className="card bg-[var(--tint)] border-2 border-[var(--rt)] p-6 space-y-2 text-center">
+              <span className="tg text-[10px] uppercase font-bold text-[var(--rt)]">Window Expired</span>
+              <h2 className="text-base font-bold text-[var(--rt)]">
+                Requisition Window Expired (12-Hour Limit)
+              </h2>
+              <p className="text-xs text-[var(--mu)] max-w-md mx-auto leading-relaxed">
+                If blood is still urgently required, please coordinate with the hospital desk to submit a fresh clinical intake.
+              </p>
+            </div>
+          )}
+
           {/* Verification Badge */}
           <div className="card space-y-2 p-5 bg-[var(--sf)] border-l-4 border-l-[#C62828]">
             <div className="flex items-center justify-between">

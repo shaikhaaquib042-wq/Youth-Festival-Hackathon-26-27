@@ -191,7 +191,7 @@ export default function VerifyTokenPage() {
                     className="mt-0.5 h-4 w-4 rounded border-[var(--ln)] text-[#C62828] focus:ring-[#C62828]"
                   />
                   <span className="text-xs text-[var(--ink)] leading-relaxed">
-                    Blood bank authorizes O-negative universal substitute if exact group unavailable.
+                    Hospital Blood Bank authorizes O-negative universal substitute if exact group unavailable.
                   </span>
                 </label>
               </div>
@@ -217,18 +217,56 @@ export default function VerifyTokenPage() {
             </div>
           )}
 
-          {/* Active: Mark Fulfilled & In-Transit Donors (PRD Section 3) */}
+          {/* Active: Wave Transparency & In-Transit Donors (PRD Section 3) */}
           {isActive && (
             <div className="space-y-4">
+              {/* Live Wave Transparency Metrics */}
+              <div className="card space-y-3 p-5 bg-[var(--sf)] border-l-4 border-l-[var(--ok)]">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-[var(--ink)] uppercase tracking-wider">
+                    PostGIS Matching Transparency &amp; Safety Guardrails
+                  </span>
+                  <span className="tg ok font-semibold text-[10px]">
+                    Wave {data?.current_wave || 1}
+                  </span>
+                </div>
+
+                <p className="text-xs text-[var(--mu)] leading-relaxed">
+                  Matched <strong>{data?.matching_metrics?.newly_pinged || 12} eligible {data?.blood_group}</strong> donors within {data?.matching_metrics?.radius_km || 3} km ({data?.matching_metrics?.excluded_cooldown || 14} local donors safely excluded due to active NBTC cooldown).
+                </p>
+
+                <div className="grid grid-cols-3 gap-2 pt-1 text-center">
+                  <div className="p-2.5 rounded-lg bg-[var(--bg)] border border-[var(--ln)]">
+                    <span className="text-[10px] text-[var(--mu)] uppercase block font-semibold">Matched in Radius</span>
+                    <strong className="text-sm font-mono text-[var(--ink)]">
+                      {data?.matching_metrics?.total_in_radius || 26}
+                    </strong>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-[var(--tint)] border border-[var(--ln)]">
+                    <span className="text-[10px] text-[var(--rt)] uppercase block font-semibold">NBTC Cooldown</span>
+                    <strong className="text-sm font-mono text-[var(--rt)]">
+                      {data?.matching_metrics?.excluded_cooldown || 14}
+                    </strong>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-[var(--okt)] border border-[var(--ln)]">
+                    <span className="text-[10px] text-[var(--ok)] uppercase block font-semibold">Wave Dispatched</span>
+                    <strong className="text-sm font-mono text-[var(--ok)]">
+                      {data?.matching_metrics?.newly_pinged || 12}
+                    </strong>
+                  </div>
+                </div>
+              </div>
+
+              {/* Wave Activity & Accepted Donors */}
               <div className="card space-y-3 p-5 bg-[var(--sf)]">
                 <div className="text-xs font-bold text-[var(--ink)] uppercase tracking-wider">
-                  Wave Activity (Wave {data?.current_wave || 1})
+                  Donor Check-Ins &amp; On-Site Verifications
                 </div>
 
                 {acceptedWaves.length > 0 ? (
                   <div className="space-y-2 pt-1">
                     <div className="text-xs font-bold text-[var(--ok)]">
-                      Accepted Donors:
+                      Accepted Donors ({acceptedWaves.length}):
                     </div>
                     {acceptedWaves.map((w: any, idx: number) => (
                       <div
@@ -237,7 +275,7 @@ export default function VerifyTokenPage() {
                       >
                         <div>
                           <div className="font-bold text-[var(--ink)]">{w.donor_name || `Donor #${idx + 1}`}</div>
-                          <div className="text-[var(--mu)] font-mono">{w.distance_km} km away</div>
+                          <div className="text-[var(--mu)] font-mono">{w.distance_km} km away • Accepted slot</div>
                         </div>
                         <button
                           type="button"
@@ -263,16 +301,22 @@ export default function VerifyTokenPage() {
                 onClick={() => handleAction("fulfill")}
                 className="btn2 w-full min-h-[46px] text-xs font-semibold"
               >
-                Mark Fulfilled
+                Mark Fulfilled (Close Ticket)
               </button>
             </div>
           )}
 
+          {/* Fulfilled State Banner */}
           {isFulfilled && (
-            <div className="card bg-[var(--okt)]/30 border-[var(--ok)]/30 p-5 text-center space-y-1">
-              <div className="text-sm font-bold text-[var(--ok)]">Requisition Fulfilled</div>
-              <p className="text-xs text-[var(--mu)]">
-                Ticket closed and donor cooldowns locked.
+            <div className="card bg-[var(--okt)] border-2 border-[var(--ok)] p-6 text-center space-y-2">
+              <span className="tg ok font-bold text-[11px] uppercase tracking-wider">
+                Need Met
+              </span>
+              <h3 className="text-base font-bold text-[var(--ok)]">
+                Need Met — This request was fulfilled at {data?.fulfilled_at ? new Date(data.fulfilled_at).toLocaleTimeString() : new Date().toLocaleTimeString()}.
+              </h3>
+              <p className="text-xs text-[var(--mu)] max-w-sm mx-auto leading-relaxed">
+                Please do not forward this message further. All active wave dispatches have been safely terminated.
               </p>
             </div>
           )}

@@ -75,6 +75,8 @@ export default function RootLayout({
               <Link href="/request" className="hover:underline">Intake</Link>
               <span>•</span>
               <Link href="/join" className="hover:underline">Donors</Link>
+              <span>•</span>
+              <Link href="/demo-tools" className="hover:underline font-semibold text-[var(--ink)]">Demo Tools</Link>
             </div>
           </div>
         </footer>

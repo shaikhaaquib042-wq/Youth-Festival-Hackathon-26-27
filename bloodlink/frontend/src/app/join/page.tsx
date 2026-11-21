@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { AppHeader } from "@/components/AppHeader";
 import { BloodGroupGrid } from "@/components/BloodGroupGrid";
-import { registerDonor, PUNE_LOCALITIES } from "@/lib/api";
+import { registerDonor, PUNE_LOCALITIES, CAMPUS_COMMUNITY_OPTIONS } from "@/lib/api";
 
 export default function JoinPage() {
   const [fullName, setFullName] = useState("");
@@ -12,6 +12,7 @@ export default function JoinPage() {
   const [biologicalSex, setBiologicalSex] = useState<"MALE" | "FEMALE">("MALE");
   const [bloodGroup, setBloodGroup] = useState("O+");
   const [locality, setLocality] = useState(PUNE_LOCALITIES[0]);
+  const [campusOrCommunity, setCampusOrCommunity] = useState("");
   const [searchLocality, setSearchLocality] = useState("");
   const [gpsLat, setGpsLat] = useState<number | null>(null);
   const [gpsLng, setGpsLng] = useState<number | null>(null);
@@ -77,6 +78,7 @@ export default function JoinPage() {
         biological_sex: biologicalSex,
         blood_group: bloodGroup,
         locality: locality,
+        campus_or_community: campusOrCommunity.trim() || undefined,
         dpdp_consent: true,
       };
 
@@ -266,6 +268,48 @@ export default function JoinPage() {
                     ? "GPS Coordinates Attached"
                     : "Attach Browser GPS Pin Drop (Optional)"}
                 </button>
+              </div>
+
+              {/* College & Community Registry (Optional) */}
+              <div className="card space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-semibold text-[var(--ink)]">
+                    College / Campus / Community Registry (Optional)
+                  </label>
+                  <span className="text-[10px] text-[var(--mu)]">Student &amp; Local Drives</span>
+                </div>
+                <p className="text-[11px] text-[var(--mu)] leading-relaxed">
+                  Support targeted mobilization across Pune student campuses and residential clusters during seasonal lean months.
+                </p>
+
+                {/* Quick-select pills */}
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {CAMPUS_COMMUNITY_OPTIONS.map((opt) => {
+                    const isSelected = campusOrCommunity === opt;
+                    return (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => setCampusOrCommunity(isSelected ? "" : opt)}
+                        className={`text-xs px-2.5 py-1.5 rounded-lg border transition-all ${
+                          isSelected
+                            ? "bg-[var(--ink)] text-[var(--bg)] border-[var(--ink)] font-semibold"
+                            : "bg-[var(--sf)] border-[var(--ln)] text-[var(--mu)] hover:text-[var(--ink)] hover:bg-[var(--bg)]"
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <input
+                  type="text"
+                  placeholder="Or enter campus/neighborhood name..."
+                  value={campusOrCommunity}
+                  onChange={(e) => setCampusOrCommunity(e.target.value)}
+                  className="w-full text-xs font-medium mt-1"
+                />
               </div>
 
               {/* Last Donation Date */}

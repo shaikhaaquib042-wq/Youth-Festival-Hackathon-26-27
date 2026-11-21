@@ -57,7 +57,7 @@ serve(async (req: Request) => {
           arrival_deadline,
           requisitions!inner (
             id, blood_group, component, units_needed, units_accepted,
-            urgency, hospital_name, hospital_id, status
+            urgency, hospital_name, hospital_id, status, fulfilled_at
           )
         `)
         .eq("donor_id", donor.id)
@@ -98,6 +98,8 @@ serve(async (req: Request) => {
           urgency: req?.urgency,
           units_needed: req?.units_needed,
           units_accepted: req?.units_accepted,
+          requisition_status: req?.status,
+          fulfilled_at: req?.fulfilled_at,
           hospital_name: req?.hospital_name,
           hospital_address: hospital.address || null,
           hospital_phone: hospital.official_bloodbank_phone || null,
@@ -123,6 +125,7 @@ serve(async (req: Request) => {
           full_name: donor.full_name,
           blood_group: donor.blood_group,
           locality: donor.locality_label,
+          campus_or_community: donor.campus_or_community,
           is_available: donor.is_available,
           is_on_cooldown: isOnCooldown,
           cooldown_until: isOnCooldown ? donor.cooldown_until : null,

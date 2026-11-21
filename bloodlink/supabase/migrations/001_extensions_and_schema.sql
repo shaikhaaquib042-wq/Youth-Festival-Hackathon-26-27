@@ -36,9 +36,11 @@ CREATE TABLE donors (
   blood_group           TEXT NOT NULL CHECK (blood_group IN ('A+','A-','B+','B-','AB+','AB-','O+','O-')),
   location              GEOGRAPHY(Point, 4326) NOT NULL,
   locality_label        TEXT NOT NULL,          -- e.g. 'Kothrud', 'Warje'
+  campus_or_community   TEXT,                   -- e.g. 'Fergusson College', 'COEP', 'SPPU', 'Sinhagad Road'
   is_available          BOOLEAN NOT NULL DEFAULT true,
   last_donation_date    DATE,
   cooldown_until        TIMESTAMPTZ NOT NULL DEFAULT now(),
+  last_lean_reminder_at TIMESTAMPTZ,
   no_show_count         INT NOT NULL DEFAULT 0,
   dpdp_consent_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
   created_at            TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -79,6 +81,7 @@ CREATE TABLE requisitions (
                             'REJECTED'
                           )),
   verified_at           TIMESTAMPTZ,
+  fulfilled_at          TIMESTAMPTZ,
   expires_at            TIMESTAMPTZ NOT NULL DEFAULT (now() + INTERVAL '12 hours'),
   created_at            TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -121,3 +124,17 @@ CREATE TABLE audit_logs (
 
 CREATE INDEX idx_audit_entity ON audit_logs (entity_type, entity_id);
 CREATE INDEX idx_audit_created ON audit_logs (created_at);
+
+-- ============================================================================
+-- 6. LEAN MONTH REMINDERS (Seasonal Cooldown Audit Trail)
+-- ============================================================================
+CREATE TABLE lean_month_reminders (
+  id                    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  donor_id              UUID NOT NULL REFERENCES donors(id) ON DELETE CASCADE,
+  season_type           TEXT NOT NULL,          -- 'SUMMER_LEAN' | 'FESTIVAL_LEAN' | 'STANDARD_COOLDOWN_EXPIRED'
+  reminder_channel      TEXT NOT NULL DEFAULT 'WHATSAPP',
+  sent_at               TIMESTAMPTZ NOT NULL DEFAULT now(),
+  metadata              JSONB
+);
+
+CREATE INDEX idx_lean_reminders_donor ON lean_month_reminders (donor_id, sent_at);

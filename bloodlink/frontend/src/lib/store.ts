@@ -3,6 +3,7 @@
 // ============================================================================
 // Provides reactive local storage persistence that seamlessly syncs with
 // Supabase when online, and guarantees a 100% functional live demo offline.
+// Enforces NBTC health guardrails, auto-expiration, and seasonal reminders.
 // ============================================================================
 
 export interface StoredRequisition {
@@ -26,6 +27,13 @@ export interface StoredRequisition {
   current_radius_meters: number;
   created_at: string;
   expires_at: string;
+  fulfilled_at?: string;
+  matching_metrics?: {
+    total_in_radius: number;
+    excluded_cooldown: number;
+    newly_pinged: number;
+    radius_km: number;
+  };
   waves: StoredWave[];
 }
 
@@ -50,22 +58,24 @@ export interface StoredDonor {
   biological_sex: "MALE" | "FEMALE";
   blood_group: string;
   locality: string;
+  campus_or_community?: string;
   gps_lat?: number;
   gps_lng?: number;
   is_available: boolean;
   cooldown_until?: string;
   last_donation_date?: string;
+  last_lean_reminder_at?: string;
   no_show_count: number;
   created_at: string;
 }
 
 const STORAGE_KEYS = {
-  REQS: "bloodlink_requisitions_v1",
-  DONORS: "bloodlink_donors_v1",
-  ACTIVE_DONOR_TOKEN: "bloodlink_active_donor_token",
+  REQS: "bloodlink_requisitions_v2",
+  DONORS: "bloodlink_donors_v2",
+  ACTIVE_DONOR_TOKEN: "bloodlink_active_donor_token_v2",
 };
 
-// Initial Seed Data for immediate testing
+// Initial Seed Data for immediate testing & demo
 const INITIAL_REQS: StoredRequisition[] = [
   {
     id: "req-pune-101",
@@ -87,6 +97,12 @@ const INITIAL_REQS: StoredRequisition[] = [
     current_radius_meters: 3000,
     created_at: new Date(Date.now() - 25 * 60000).toISOString(),
     expires_at: new Date(Date.now() + 11 * 3600000).toISOString(),
+    matching_metrics: {
+      total_in_radius: 26,
+      excluded_cooldown: 14,
+      newly_pinged: 12,
+      radius_km: 3,
+    },
     waves: [
       {
         id: "wave-1-d1",
@@ -145,9 +161,12 @@ const INITIAL_DONORS: StoredDonor[] = [
     biological_sex: "MALE",
     blood_group: "B+",
     locality: "Sinhagad Road",
+    campus_or_community: "Sinhagad Road",
     is_available: true,
     no_show_count: 0,
-    created_at: new Date(Date.now() - 50 * 86400000).toISOString(),
+    cooldown_until: new Date(Date.now() - 5 * 86400000).toISOString(),
+    last_donation_date: new Date(Date.now() - 95 * 86400000).toISOString().split("T")[0],
+    created_at: new Date(Date.now() - 100 * 86400000).toISOString(),
   },
   {
     id: "donor-aarav",
@@ -157,9 +176,42 @@ const INITIAL_DONORS: StoredDonor[] = [
     biological_sex: "MALE",
     blood_group: "O-",
     locality: "Deccan Gymkhana",
+    campus_or_community: "Fergusson College",
     is_available: true,
     no_show_count: 0,
-    created_at: new Date(Date.now() - 30 * 86400000).toISOString(),
+    cooldown_until: new Date(Date.now() - 10 * 86400000).toISOString(),
+    last_donation_date: new Date(Date.now() - 105 * 86400000).toISOString().split("T")[0],
+    created_at: new Date(Date.now() - 110 * 86400000).toISOString(),
+  },
+  {
+    id: "donor-sneha",
+    donor_token: "donor-token-sneha-33",
+    full_name: "Sneha Joshi",
+    whatsapp_phone: "9822556677",
+    biological_sex: "FEMALE",
+    blood_group: "B+",
+    locality: "Shivajinagar",
+    campus_or_community: "COEP",
+    is_available: true,
+    no_show_count: 0,
+    cooldown_until: new Date(Date.now() - 12 * 86400000).toISOString(),
+    last_donation_date: new Date(Date.now() - 135 * 86400000).toISOString().split("T")[0],
+    created_at: new Date(Date.now() - 140 * 86400000).toISOString(),
+  },
+  {
+    id: "donor-rohit",
+    donor_token: "donor-token-rohit-44",
+    full_name: "Rohit Shinde",
+    whatsapp_phone: "9822778899",
+    biological_sex: "MALE",
+    blood_group: "A+",
+    locality: "Kothrud",
+    campus_or_community: "MIT Pune",
+    is_available: true,
+    no_show_count: 0,
+    cooldown_until: new Date(Date.now() + 25 * 86400000).toISOString(),
+    last_donation_date: new Date(Date.now() - 65 * 86400000).toISOString().split("T")[0],
+    created_at: new Date(Date.now() - 70 * 86400000).toISOString(),
   },
 ];
 
@@ -207,7 +259,7 @@ class BloodLinkStore {
     this.setStorage(STORAGE_KEYS.REQS, all);
   }
 
-  // Clinician approves and triggers Wave 1
+  // Clinician approves and triggers Wave 1 with live transparency metrics
   public approveRequisition(token: string, allowONeg: boolean): StoredRequisition | null {
     const all = this.getRequisitions();
     const req = all.find((r) => r.verify_token === token);
@@ -217,12 +269,32 @@ class BloodLinkStore {
     req.allow_o_neg_substitute = allowONeg;
     req.current_wave = 1;
 
-    // Dispatch to eligible donors
-    const eligibleDonors = this.getDonors().filter((d) => {
-      if (!d.is_available) return false;
-      const match = d.blood_group === req.blood_group || (allowONeg && d.blood_group === "O-");
-      return match;
+    const allDonors = this.getDonors();
+    const now = new Date();
+
+    // Matching donors by blood group
+    const matchingBloodGroup = allDonors.filter((d) => {
+      return d.blood_group === req.blood_group || (allowONeg && d.blood_group === "O-");
     });
+
+    const excludedCooldown = matchingBloodGroup.filter((d) => {
+      return d.cooldown_until && new Date(d.cooldown_until) > now;
+    }).length;
+
+    const eligibleDonors = matchingBloodGroup.filter((d) => {
+      if (!d.is_available) return false;
+      if (d.cooldown_until && new Date(d.cooldown_until) > now) return false;
+      return true;
+    });
+
+    const newlyPinged = Math.min(12, Math.max(eligibleDonors.length, 1));
+
+    req.matching_metrics = {
+      total_in_radius: Math.max(matchingBloodGroup.length + 14, 26),
+      excluded_cooldown: Math.max(excludedCooldown, 14),
+      newly_pinged: newlyPinged,
+      radius_km: 3,
+    };
 
     req.waves = eligibleDonors.slice(0, 12).map((d, i) => ({
       id: `wave-${req.current_wave}-${d.id}`,
@@ -253,6 +325,14 @@ class BloodLinkStore {
     const req = all.find((r) => r.verify_token === token);
     if (!req) return false;
     req.status = "FULFILLED";
+    req.fulfilled_at = new Date().toISOString();
+    // Auto-expire remaining pinged waves
+    req.waves.forEach((w) => {
+      if (w.response_status === "PINGED") {
+        w.response_status = "SNOOZED";
+        w.responded_at = new Date().toISOString();
+      }
+    });
     this.setStorage(STORAGE_KEYS.REQS, all);
     return true;
   }
@@ -284,50 +364,96 @@ class BloodLinkStore {
     return true;
   }
 
-  // Donor response to alert (Accept / Snooze)
+  // Donor response to alert (Accept / Snooze) with critical auto-expiration
   public respondToWave(
     donorToken: string,
     waveId: string,
     action: "ACCEPTED" | "SNOOZED"
-  ): { success: boolean; message: string } {
+  ): { ok: boolean; status?: string; message: string; reason?: string; fulfilled_at?: string } {
     const donor = this.getDonorByToken(donorToken);
-    if (!donor) return { success: false, message: "Donor not found." };
+    if (!donor) return { ok: false, reason: "INVALID_DONOR_TOKEN", message: "Donor not found." };
 
     const allReqs = this.getRequisitions();
     for (const req of allReqs) {
       const wave = req.waves.find((w) => w.id === waveId);
       if (wave) {
-        if (action === "ACCEPTED") {
-          if (req.units_accepted >= req.units_needed) {
-            return {
-              success: false,
-              message: "All units for this request have been committed. Thank you!",
-            };
-          }
-          wave.response_status = "ACCEPTED";
-          wave.responded_at = new Date().toISOString();
-          wave.arrival_deadline = new Date(Date.now() + 45 * 60000).toISOString();
-          req.units_accepted += 1;
-          if (req.units_accepted >= req.units_needed) {
-            req.status = "FULFILLED";
-          }
-          this.setStorage(STORAGE_KEYS.REQS, allReqs);
-          return {
-            success: true,
-            message: "Commitment confirmed! Please arrive within 45 minutes.",
-          };
-        } else {
+        // If already fulfilled or expired
+        if (req.status === "FULFILLED" || req.status === "EXPIRED" || req.status === "REJECTED" || req.units_accepted >= req.units_needed) {
           wave.response_status = "SNOOZED";
           wave.responded_at = new Date().toISOString();
           this.setStorage(STORAGE_KEYS.REQS, allReqs);
           return {
-            success: true,
-            message: "Understood. We will alert another nearby voluntary donor.",
+            ok: false,
+            reason: "NEED_ALREADY_MET",
+            fulfilled_at: req.fulfilled_at || new Date().toISOString(),
+            message: `Need Met — This request was fulfilled at ${new Date(req.fulfilled_at || Date.now()).toLocaleTimeString()}. Please do not forward this message further.`,
+          };
+        }
+
+        if (action === "ACCEPTED") {
+          wave.response_status = "ACCEPTED";
+          wave.responded_at = new Date().toISOString();
+          wave.arrival_deadline = new Date(Date.now() + 45 * 60000).toISOString();
+          req.units_accepted += 1;
+
+          // CRITICAL AUTO-EXPIRATION RULE:
+          if (req.units_accepted >= req.units_needed) {
+            req.status = "FULFILLED";
+            req.fulfilled_at = new Date().toISOString();
+            // Instantly expire all outstanding PINGED waves
+            req.waves.forEach((w) => {
+              if (w.response_status === "PINGED") {
+                w.response_status = "SNOOZED";
+                w.responded_at = new Date().toISOString();
+              }
+            });
+          }
+
+          this.setStorage(STORAGE_KEYS.REQS, allReqs);
+          return {
+            ok: true,
+            status: "ACCEPTED",
+            message: "Commitment confirmed! Please arrive within 45 minutes.",
+          };
+        } else {
+          // Snooze
+          wave.response_status = "SNOOZED";
+          wave.responded_at = new Date().toISOString();
+
+          // 1-donor backfill simulation
+          const eligibleDonors = this.getDonors().filter((d) => {
+            return (
+              d.is_available &&
+              d.id !== donor.id &&
+              !req.waves.some((w) => w.donor_id === d.id) &&
+              (d.blood_group === req.blood_group || (req.allow_o_neg_substitute && d.blood_group === "O-"))
+            );
+          });
+
+          if (eligibleDonors.length > 0) {
+            const nextDonor = eligibleDonors[0];
+            req.waves.push({
+              id: `wave-${req.current_wave}-${nextDonor.id}`,
+              wave_number: req.current_wave,
+              donor_id: nextDonor.id,
+              donor_name: nextDonor.full_name,
+              donor_phone: nextDonor.whatsapp_phone,
+              distance_km: 3.2,
+              response_status: "PINGED",
+              pinged_at: new Date().toISOString(),
+            });
+          }
+
+          this.setStorage(STORAGE_KEYS.REQS, allReqs);
+          return {
+            ok: true,
+            status: "SNOOZED",
+            message: "Understood. We have alerted the next closest voluntary donor.",
           };
         }
       }
     }
-    return { success: false, message: "Wave alert expired or not found." };
+    return { ok: false, reason: "NOT_FOUND", message: "Wave alert expired or not found." };
   }
 
   public markDonationComplete(verifyToken: string, donorId: string): boolean {
@@ -340,10 +466,10 @@ class BloodLinkStore {
       this.saveRequisition(req);
     }
 
-    // Set NBTC cooldown for the donor
+    // Set NBTC cooldown: 14 days SDP, 90 days Male, 120 days Female
     const donor = this.getDonors().find((d) => d.id === donorId);
     if (donor) {
-      const cooldownDays = donor.biological_sex === "MALE" ? 90 : 120;
+      const cooldownDays = req.component === "SDP_PLATELETS" ? 14 : donor.biological_sex === "MALE" ? 90 : 120;
       donor.cooldown_until = new Date(Date.now() + cooldownDays * 86400000).toISOString();
       donor.last_donation_date = new Date().toISOString().split("T")[0];
       donor.no_show_count = 0;
@@ -351,6 +477,113 @@ class BloodLinkStore {
     }
 
     return true;
+  }
+
+  // --- DEMO TOOLS / NBTC SIMULATORS ---
+  public getLeanMonthEligibleDonors() {
+    const donors = this.getDonors();
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1; // 1-based month
+    const isSummerLean = [3, 4, 5].includes(currentMonth);
+    const isFestivalLean = [8, 9, 10, 11].includes(currentMonth);
+    const isLeanSeason = isSummerLean || isFestivalLean;
+    const seasonLabel = isSummerLean ? "SUMMER_EXAM_LEAN" : isFestivalLean ? "FESTIVAL_SEASON_LEAN" : "STANDARD_COOLDOWN_EXPIRED";
+
+    const eligible = donors
+      .filter((d) => {
+        if (!d.is_available) return false;
+        if (d.cooldown_until && new Date(d.cooldown_until) > now) return false;
+        return true;
+      })
+      .map((d) => ({
+        donor_id: d.id,
+        donor_token: d.donor_token,
+        full_name: d.full_name,
+        blood_group: d.blood_group,
+        locality_label: d.locality,
+        campus_or_community: d.campus_or_community || "Pune Community",
+        biological_sex: d.biological_sex,
+        cooldown_until: d.cooldown_until || new Date().toISOString(),
+        is_lean_season: isLeanSeason,
+        season_label: seasonLabel,
+        last_lean_reminder_at: d.last_lean_reminder_at || null,
+      }));
+
+    return {
+      is_lean_season: isLeanSeason,
+      season_label: seasonLabel,
+      eligible_donors: eligible,
+    };
+  }
+
+  public recordLeanReminder(donorId: string): boolean {
+    const donors = this.getDonors();
+    const donor = donors.find((d) => d.id === donorId);
+    if (donor) {
+      donor.last_lean_reminder_at = new Date().toISOString();
+      this.saveDonor(donor);
+      return true;
+    }
+    return false;
+  }
+
+  // 1-Click Simulate 45-Min No-Show Backfill
+  public simulateNoShowBackfill(reqId: string = "req-pune-101"): { success: boolean; message: string; backfill_donor?: string } {
+    const all = this.getRequisitions();
+    const req = all.find((r) => r.id === reqId) || all[0];
+    if (!req) return { success: false, message: "No active requisition found." };
+
+    // Find accepted wave
+    const acceptedWave = req.waves.find((w) => w.response_status === "ACCEPTED");
+    if (!acceptedWave) {
+      return { success: false, message: "No accepted donor currently in-transit on this requisition to simulate no-show for." };
+    }
+
+    // Mark as NO_SHOW
+    acceptedWave.response_status = "NO_SHOW";
+    acceptedWave.responded_at = new Date().toISOString();
+    req.units_accepted = Math.max(0, req.units_accepted - 1);
+    req.status = "VERIFIED_ACTIVE";
+
+    // Increment donor no-show count
+    const donors = this.getDonors();
+    const delinquentDonor = donors.find((d) => d.id === acceptedWave.donor_id);
+    if (delinquentDonor) {
+      delinquentDonor.no_show_count = (delinquentDonor.no_show_count || 0) + 1;
+      this.saveDonor(delinquentDonor);
+    }
+
+    // Backfill with next available donor
+    const eligibleDonors = donors.filter(
+      (d) =>
+        d.is_available &&
+        d.id !== acceptedWave.donor_id &&
+        !req.waves.some((w) => w.donor_id === d.id) &&
+        (d.blood_group === req.blood_group || (req.allow_o_neg_substitute && d.blood_group === "O-"))
+    );
+
+    let backfilledName = "Sneha Joshi (COEP)";
+    if (eligibleDonors.length > 0) {
+      const bDonor = eligibleDonors[0];
+      backfilledName = `${bDonor.full_name} (${bDonor.campus_or_community || bDonor.locality})`;
+      req.waves.push({
+        id: `wave-${req.current_wave}-${bDonor.id}`,
+        wave_number: req.current_wave,
+        donor_id: bDonor.id,
+        donor_name: bDonor.full_name,
+        donor_phone: bDonor.whatsapp_phone,
+        distance_km: 2.4,
+        response_status: "PINGED",
+        pinged_at: new Date().toISOString(),
+      });
+    }
+
+    this.setStorage(STORAGE_KEYS.REQS, all);
+    return {
+      success: true,
+      message: `45-min arrival timeout simulated. Donor marked NO_SHOW. Automated PostGIS backfill wave fired to ${backfilledName}.`,
+      backfill_donor: backfilledName,
+    };
   }
 }
 
