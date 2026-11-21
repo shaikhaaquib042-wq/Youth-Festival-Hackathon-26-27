@@ -103,7 +103,8 @@ pages.post("/ask", async (c) => {
 // ---------- /r/flow/:dispute/:step ----------
 function flowParams(c: Context<AppEnv>) {
   const dispute = disputeById(c.req.param("dispute") ?? "");
-  const step = Number(c.req.param("step"));
+  // Links across the site start at /0 (docs/CONTRACTS.md); treat 0 as the first question.
+  const step = Math.max(1, Number(c.req.param("step")));
   if (!dispute || !Number.isInteger(step) || step < 1 || step > dispute.questions.length) throw new HttpError(404, "not_found");
   return { dispute, step };
 }

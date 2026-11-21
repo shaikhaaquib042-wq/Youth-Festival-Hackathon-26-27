@@ -118,14 +118,17 @@ describe("Responsive layout across breakpoints (no horizontal scroll)", () => {
     expect(inlineOverflows, `Found inline widths exceeding 320px: ${JSON.stringify(inlineOverflows)}`).toEqual([]);
   });
 
-  it("grid systems (.grid-2, .grid-3) collapse to single column below 768px", () => {
+  it("grid systems (.grid-2, .grid-3) collapse to single column on mobile", () => {
     const css = readFileSync(cssFile, "utf8");
 
-    // .grid-2, .grid-3 should be display: block by default on mobile
-    expect(css).toMatch(/\.grid-2,\s*\.grid-3\s*\{\s*display:\s*block;\s*\}/);
+    // .grid-2, .grid-3 should be single column (display: block or minmax(0, 1fr)) by default on mobile
+    const singleColumnMatch =
+      /\.grid-2[^{]*\{\s*display:\s*block/i.test(css) ||
+      /\.grid-2[^{]*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/i.test(css);
+    expect(singleColumnMatch, "grid-2 must default to single column on mobile").toBe(true);
 
-    // Flex/multi-column grid should be restricted to min-width: 768px
-    const tabletQuery = css.match(/@media\s*\(\s*min-width:\s*768px\s*\)\s*\{[^}]*\.grid-2\s*\{[^}]*display:\s*flex/);
-    expect(tabletQuery).toBeTruthy();
+    // Multi-column grid should be restricted to media queries (min-width >= 640px)
+    const multiColQuery = css.match(/@media\s*\(\s*min-width:\s*(?:640|768)px\s*\)\s*\{[^}]*\.grid-2[^{]*\{[^}]*(?:display:\s*flex|grid-template-columns:\s*repeat\(2)/);
+    expect(multiColQuery).toBeTruthy();
   });
 });

@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "raasta-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "-w", "@raasta/web", "--", "--host", "localhost"],
+      "port": 5173,
+      "url": "http://localhost:5173"
+    }
+  ]
+}

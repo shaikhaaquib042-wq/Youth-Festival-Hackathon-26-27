@@ -6,8 +6,19 @@ import { fileURLToPath } from "node:url";
 
 const TARGETS = ["defaults", "Chrome >= 61", "Safari >= 12", "Samsung >= 8", "Firefox ESR", "not dead"];
 
+// Dev server only: the production prerender injects per-locale font links itself (scripts/prerender.mjs fontLinks).
+const devFonts = {
+  name: "raasta-dev-fonts",
+  apply: "serve" as const,
+  transformIndexHtml: (html: string) =>
+    html.replace(
+      "<!--head-->",
+      '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&family=Caveat:wght@600&display=swap"><!--head-->',
+    ),
+};
+
 export default defineConfig(({ isSsrBuild, command }) => ({
-  plugins: [react(), tailwindcss(), ...(isSsrBuild ? [] : [legacy({ targets: TARGETS })])],
+  plugins: [react(), tailwindcss(), devFonts, ...(isSsrBuild ? [] : [legacy({ targets: TARGETS })])],
   server: {
     port: 5173,
     proxy: {

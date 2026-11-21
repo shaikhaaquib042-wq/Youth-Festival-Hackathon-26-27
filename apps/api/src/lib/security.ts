@@ -9,7 +9,7 @@ export const CSP = [
   "script-src 'self' https://challenges.cloudflare.com",
   "connect-src 'self'",
   "img-src 'self' data: https://tile.openstreetmap.org",
-  "font-src https://fonts.gstatic.com",
+  "font-src 'self' https://fonts.gstatic.com",
   "style-src 'self' https://fonts.googleapis.com",
   "frame-src https://challenges.cloudflare.com",
   "frame-ancestors 'none'",
@@ -22,7 +22,7 @@ export const securityHeaders: MiddlewareHandler<AppEnv> = async (c, next) => {
   await next();
   const h = c.res.headers;
   if (!h.has("Content-Security-Policy")) h.set("Content-Security-Policy", CSP);
-  h.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  h.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
   h.set("X-Content-Type-Options", "nosniff");
   h.set("Referrer-Policy", "strict-origin-when-cross-origin");
   h.set("Permissions-Policy", "geolocation=(self), microphone=(self), camera=()");

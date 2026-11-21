@@ -6,9 +6,9 @@ const DEFAULT_FONT_LOCALES = new Set<string>(["en", "hi", "mr"]);
 
 export function fontHref(lang: Locale): string {
   const fams: string[] = [];
-  if (DEFAULT_FONT_LOCALES.has(lang)) fams.push("family=Baloo+2:wght@600;700");
-  else fams.push(`family=${LANG_META[lang].font.replace(/ /g, "+")}:wght@400;600;700`);
-  fams.push("family=Nunito:wght@400;600;700");
+  if (DEFAULT_FONT_LOCALES.has(lang)) fams.push("family=Baloo+2:wght@500;600;700;800");
+  else fams.push(`family=${LANG_META[lang].font.replace(/ /g, "+")}:wght@400;500;600;700;800`);
+  fams.push("family=Nunito:wght@400;600;700;800");
   return `https://fonts.googleapis.com/css2?${fams.join("&")}&display=swap`;
 }
 

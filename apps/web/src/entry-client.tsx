@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router";
 import { isLocale, LANG_META, type Locale } from "@raasta/i18n";
 import { App } from "./App";
 import { LangProvider, basenameFor } from "./lib/lang";
+import { canAnimate } from "./lib/motion";
 import "./styles/app.css";
 
 function detectLang(): Locale {
@@ -28,4 +29,34 @@ if (root) {
   );
   if (root.hasChildNodes()) hydrateRoot(root, tree);
   else createRoot(root).render(tree);
+  initReveal(root);
+}
+
+/** Scroll reveal for elements with class "reveal". Only on capable devices; prerendered content stays visible otherwise. */
+function initReveal(scope: HTMLElement) {
+  if (!canAnimate() || !("IntersectionObserver" in window)) return;
+  document.documentElement.classList.add("motion");
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          io.unobserve(e.target);
+        }
+      }
+    },
+    { rootMargin: "0px 0px -8% 0px" },
+  );
+  let queued = false;
+  const scan = () => {
+    queued = false;
+    scope.querySelectorAll(".reveal:not(.in)").forEach((el) => io.observe(el));
+  };
+  scan();
+  new MutationObserver(() => {
+    if (!queued) {
+      queued = true;
+      requestAnimationFrame(scan);
+    }
+  }).observe(scope, { childList: true, subtree: true });
 }

@@ -1,79 +1,185 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 260" role="img" aria-hidden="true" focusable="false">
-  <title>Street of doors</title>
-  <rect x="0" y="0" width="1200" height="260" fill="none"/>
-  <circle cx="600" cy="38" r="26" fill="#FFE6CC"/>
-  <g fill="#FFFFFF" opacity="0.85">
-    <ellipse cx="150" cy="52" rx="58" ry="14"/>
-    <ellipse cx="420" cy="30" rx="70" ry="13"/>
-    <ellipse cx="930" cy="50" rx="62" ry="14"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 330" role="img" aria-label="A street of offices: police, consumer commission, labour office, ward office, legal aid, bank and post office">
+  <g class="sky">
+    <g class="sun" transform="translate(1080 64)"><circle r="30" fill="#FFD27A"/>
+      <g class="rays" stroke="#FFD27A" stroke-width="5" stroke-linecap="round">
+        <line x1="0" y1="-44" x2="0" y2="-54"/><line x1="0" y1="44" x2="0" y2="54"/><line x1="-44" y1="0" x2="-54" y2="0"/><line x1="44" y1="0" x2="54" y2="0"/>
+        <line x1="31" y1="31" x2="38" y2="38"/><line x1="-31" y1="31" x2="-38" y2="38"/><line x1="31" y1="-31" x2="38" y2="-38"/><line x1="-31" y1="-31" x2="-38" y2="-38"/></g></g>
+    <g class="cloud c1" transform="translate(90 40) scale(0.9)">
+    <path d="M0 20 Q0 0 22 2 Q30 -14 50 -6 Q70 -16 80 4 Q100 4 98 20 Z" fill="#FFFFFF"/></g><g class="cloud c2" transform="translate(520 22) scale(0.7)">
+    <path d="M0 20 Q0 0 22 2 Q30 -14 50 -6 Q70 -16 80 4 Q100 4 98 20 Z" fill="#FFFFFF"/></g><g class="cloud c3" transform="translate(820 56) scale(0.8)">
+    <path d="M0 20 Q0 0 22 2 Q30 -14 50 -6 Q70 -16 80 4 Q100 4 98 20 Z" fill="#FFFFFF"/></g>
   </g>
-  <path d="M0 160 Q150 110 300 150 T600 140 T900 150 T1200 120 V260 H0Z" fill="#E6EFE2"/>
-  <path d="M0 196 Q200 152 420 188 T840 182 T1200 172 V260 H0Z" fill="#D3E3CB"/>
-  <rect x="0" y="232" width="1200" height="28" fill="#D3E3CB"/>
-  <path d="M0 232 H1200" stroke="#8FB57F" stroke-width="2" fill="none"/>
-
-  <g id="door-police" stroke="#3B4A40" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-    <rect x="20" y="82" width="140" height="150" rx="14" fill="#FFE6CC"/>
-    <rect x="34" y="96" width="112" height="26" rx="13" fill="#FFFFFF"/>
-    <rect x="34" y="130" width="26" height="22" rx="6" fill="#FFFFFF"/>
-    <rect x="120" y="130" width="26" height="22" rx="6" fill="#FFFFFF"/>
-    <rect class="door" x="72" y="178" width="36" height="54" rx="18" fill="#8FB57F"/>
-    <text x="90" y="113" font-family="Nunito, Arial, sans-serif" font-size="12" font-weight="700" fill="#1D2B22" stroke="none" text-anchor="middle">Police Chowki</text>
+  <path d="M0 210 Q150 150 320 196 T640 184 T960 192 T1200 170 L1200 330 L0 330 Z" fill="#E6EFE2"/>
+  <path d="M0 240 Q200 200 420 236 T820 228 T1200 222 L1200 330 L0 330 Z" fill="#D3E3CB"/>
+  <g class="tree" transform="translate(100 292) scale(0.78)">
+    <rect x="-4" y="-40" width="8" height="40" rx="4" fill="#8A6D3B"/>
+    <circle cx="0" cy="-54" r="22" fill="#8FB57F"/><circle cx="-14" cy="-42" r="14" fill="#7AA86B"/><circle cx="14" cy="-44" r="15" fill="#A8CB98"/></g><g class="tree" transform="translate(1188 292) scale(0.7)">
+    <rect x="-4" y="-40" width="8" height="40" rx="4" fill="#8A6D3B"/>
+    <circle cx="0" cy="-54" r="22" fill="#8FB57F"/><circle cx="-14" cy="-42" r="14" fill="#7AA86B"/><circle cx="14" cy="-44" r="15" fill="#A8CB98"/></g>
+  <rect x="0" y="292" width="1200" height="38" fill="#F4E9D8"/>
+  <path d="M0 292 L1200 292" stroke="#E2D3BC" stroke-width="3"/>
+  
+  <g id="door-police" data-door="police" class="bld" transform="translate(132 132)">
+    <ellipse cx="62" cy="164" rx="72" ry="7" fill="#1D2B22" opacity=".08"/>
+    <rect x="0" y="0" width="124" height="160" rx="20" fill="#E8EEF9" stroke="#1F3A8A" stroke-width="3"/>
+    <rect x="-6" y="-14" width="136" height="18" rx="9" fill="#1F3A8A"/>
+      <rect x="52" y="-30" width="20" height="16" rx="6" fill="#FFFFFF" stroke="#1F3A8A" stroke-width="3"/>
+      <circle class="beacon" cx="62" cy="-22" r="4" fill="#E56420"/>
+    <rect x="12" y="16" width="100" height="28" rx="14" fill="#FFFFFF" stroke="#1F3A8A" stroke-width="2.5"/>
+    <text x="62" y="35.5" text-anchor="middle" font-family="'Baloo 2','Nunito',sans-serif" font-weight="700" font-size="15" fill="#1D2B22">Police</text>
+    <rect x="16" y="58" width="26" height="26" rx="10" fill="#FFFFFF" stroke="#1F3A8A" stroke-width="2.5"/>
+    <rect x="82" y="58" width="26" height="26" rx="10" fill="#FFFFFF" stroke="#1F3A8A" stroke-width="2.5"/>
+    <path d="M35 160 L35 112 Q35 88 62 88 Q89 88 89 112 L89 160 Z" fill="#1F3A8A" opacity=".22"/>
+    <path class="door-glow" d="M41 160 L41 114 Q41 94 62 94 Q83 94 83 114 L83 160 Z" fill="#FFE6A8"/>
+    <g class="door">
+      <path d="M41 160 L41 114 Q41 94 62 94 Q83 94 83 114 L83 160 Z" fill="#1F3A8A"/>
+      <circle cx="74" cy="133" r="3.2" fill="#FFFFFF"/>
+    </g>
+    <g class="pin" transform="translate(62 -74)">
+      <path d="M0 26 C-12 12 -15 6 -15 -1 A15 15 0 0 1 15 -1 C15 6 12 12 0 26 Z" fill="#E56420"/>
+      <circle cx="0" cy="-1" r="6" fill="#FFFFFF"/>
+    </g>
   </g>
-
-  <g id="door-consumer" stroke="#3B4A40" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-    <rect x="190" y="104" width="140" height="128" rx="14" fill="#F4F8F2"/>
-    <rect x="204" y="118" width="112" height="26" rx="13" fill="#FFFFFF"/>
-    <rect x="204" y="152" width="26" height="22" rx="6" fill="#FFFFFF"/>
-    <rect x="290" y="152" width="26" height="22" rx="6" fill="#FFFFFF"/>
-    <rect class="door" x="242" y="178" width="36" height="54" rx="18" fill="#8FB57F"/>
-    <text x="260" y="135" font-family="Nunito, Arial, sans-serif" font-size="12" font-weight="700" fill="#1D2B22" stroke="none" text-anchor="middle">Consumer Commission</text>
+  <g id="door-consumer" data-door="consumer" class="bld" transform="translate(282 132)">
+    <ellipse cx="62" cy="164" rx="72" ry="7" fill="#1D2B22" opacity=".08"/>
+    <rect x="0" y="0" width="124" height="160" rx="20" fill="#FFF1E2" stroke="#F57A2F" stroke-width="3"/>
+    <path d="M-8 4 Q62 -46 132 4 Z" fill="#F57A2F"/>
+      <path d="M8 2 Q62 -30 116 2" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+    <rect x="12" y="16" width="100" height="28" rx="14" fill="#FFFFFF" stroke="#F57A2F" stroke-width="2.5"/>
+    <text x="62" y="35.5" text-anchor="middle" font-family="'Baloo 2','Nunito',sans-serif" font-weight="700" font-size="15" fill="#1D2B22">Consumer</text>
+    <rect x="16" y="58" width="26" height="26" rx="10" fill="#FFFFFF" stroke="#F57A2F" stroke-width="2.5"/>
+    <rect x="82" y="58" width="26" height="26" rx="10" fill="#FFFFFF" stroke="#F57A2F" stroke-width="2.5"/>
+    <path d="M35 160 L35 112 Q35 88 62 88 Q89 88 89 112 L89 160 Z" fill="#F57A2F" opacity=".22"/>
+    <path class="door-glow" d="M41 160 L41 114 Q41 94 62 94 Q83 94 83 114 L83 160 Z" fill="#FFE6A8"/>
+    <g class="door">
+      <path d="M41 160 L41 114 Q41 94 62 94 Q83 94 83 114 L83 160 Z" fill="#F57A2F"/>
+      <circle cx="74" cy="133" r="3.2" fill="#FFFFFF"/>
+    </g>
+    <g class="pin" transform="translate(62 -74)">
+      <path d="M0 26 C-12 12 -15 6 -15 -1 A15 15 0 0 1 15 -1 C15 6 12 12 0 26 Z" fill="#E56420"/>
+      <circle cx="0" cy="-1" r="6" fill="#FFFFFF"/>
+    </g>
   </g>
-
-  <g id="door-labour" stroke="#3B4A40" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-    <rect x="360" y="70" width="140" height="162" rx="14" fill="#FFE6CC"/>
-    <rect x="374" y="84" width="112" height="26" rx="13" fill="#FFFFFF"/>
-    <rect x="374" y="118" width="26" height="22" rx="6" fill="#FFFFFF"/>
-    <rect x="460" y="118" width="26" height="22" rx="6" fill="#FFFFFF"/>
-    <rect class="door" x="412" y="178" width="36" height="54" rx="18" fill="#8FB57F"/>
-    <text x="430" y="101" font-family="Nunito, Arial, sans-serif" font-size="12" font-weight="700" fill="#1D2B22" stroke="none" text-anchor="middle">Labour Office</text>
+  <g id="door-labour" data-door="labour" class="bld" transform="translate(432 132)">
+    <ellipse cx="62" cy="164" rx="72" ry="7" fill="#1D2B22" opacity=".08"/>
+    <rect x="0" y="0" width="124" height="160" rx="20" fill="#EAF3E5" stroke="#3D8854" stroke-width="3"/>
+    <path d="M-4 6 L-4 -10 Q8 -26 24 -10 Q36 -26 52 -10 Q64 -26 80 -10 Q92 -26 108 -10 L128 -10 L128 6 Z" fill="#3D8854"/>
+      <rect x="94" y="-52" width="16" height="44" rx="8" fill="#3D8854"/>
+      <circle class="smoke" cx="102" cy="-62" r="7" fill="#DDE7D8"/>
+      <circle class="smoke smoke-2" cx="110" cy="-76" r="9" fill="#E9F0E5"/>
+    <rect x="12" y="16" width="100" height="28" rx="14" fill="#FFFFFF" stroke="#3D8854" stroke-width="2.5"/>
+    <text x="62" y="35.5" text-anchor="middle" font-family="'Baloo 2','Nunito',sans-serif" font-weight="700" font-size="15" fill="#1D2B22">Labour</text>
+    <rect x="16" y="58" width="26" height="26" rx="10" fill="#FFFFFF" stroke="#3D8854" stroke-width="2.5"/>
+    <rect x="82" y="58" width="26" height="26" rx="10" fill="#FFFFFF" stroke="#3D8854" stroke-width="2.5"/>
+    <path d="M35 160 L35 112 Q35 88 62 88 Q89 88 89 112 L89 160 Z" fill="#3D8854" opacity=".22"/>
+    <path class="door-glow" d="M41 160 L41 114 Q41 94 62 94 Q83 94 83 114 L83 160 Z" fill="#FFE6A8"/>
+    <g class="door">
+      <path d="M41 160 L41 114 Q41 94 62 94 Q83 94 83 114 L83 160 Z" fill="#3D8854"/>
+      <circle cx="74" cy="133" r="3.2" fill="#FFFFFF"/>
+    </g>
+    <g class="pin" transform="translate(62 -74)">
+      <path d="M0 26 C-12 12 -15 6 -15 -1 A15 15 0 0 1 15 -1 C15 6 12 12 0 26 Z" fill="#E56420"/>
+      <circle cx="0" cy="-1" r="6" fill="#FFFFFF"/>
+    </g>
   </g>
-
-  <g id="door-ward" stroke="#3B4A40" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-    <rect x="530" y="112" width="140" height="120" rx="14" fill="#F4F8F2"/>
-    <rect x="544" y="126" width="112" height="26" rx="13" fill="#FFFFFF"/>
-    <rect x="544" y="160" width="26" height="22" rx="6" fill="#FFFFFF"/>
-    <rect x="630" y="160" width="26" height="22" rx="6" fill="#FFFFFF"/>
-    <rect class="door" x="582" y="178" width="36" height="54" rx="18" fill="#8FB57F"/>
-    <text x="600" y="143" font-family="Nunito, Arial, sans-serif" font-size="12" font-weight="700" fill="#1D2B22" stroke="none" text-anchor="middle">Ward Office</text>
+  <g id="door-ward" data-door="ward" class="bld" transform="translate(582 132)">
+    <ellipse cx="62" cy="164" rx="72" ry="7" fill="#1D2B22" opacity=".08"/>
+    <rect x="0" y="0" width="124" height="160" rx="20" fill="#FFF8EC" stroke="#E56420" stroke-width="3"/>
+    <path d="M-6 6 Q-6 -10 10 -10 L114 -10 Q130 -10 130 6 Z" fill="#E56420"/>
+      <path d="M32 -10 Q62 -58 92 -10 Z" fill="#E56420"/>
+      <circle cx="62" cy="-50" r="5" fill="#FFD27A"/>
+    <rect x="12" y="16" width="100" height="28" rx="14" fill="#FFFFFF" stroke="#E56420" stroke-width="2.5"/>
+    <text x="62" y="35.5" text-anchor="middle" font-family="'Baloo 2','Nunito',sans-serif" font-weight="700" font-size="15" fill="#1D2B22">Ward office</text>
+    <rect x="16" y="58" width="26" height="26" rx="10" fill="#FFFFFF" stroke="#E56420" stroke-width="2.5"/>
+    <rect x="82" y="58" width="26" height="26" rx="10" fill="#FFFFFF" stroke="#E56420" stroke-width="2.5"/>
+    <path d="M35 160 L35 112 Q35 88 62 88 Q89 88 89 112 L89 160 Z" fill="#E56420" opacity=".22"/>
+    <path class="door-glow" d="M41 160 L41 114 Q41 94 62 94 Q83 94 83 114 L83 160 Z" fill="#FFE6A8"/>
+    <g class="door">
+      <path d="M41 160 L41 114 Q41 94 62 94 Q83 94 83 114 L83 160 Z" fill="#E56420"/>
+      <circle cx="74" cy="133" r="3.2" fill="#FFFFFF"/>
+    </g>
+    <g class="pin" transform="translate(62 -104)">
+      <path d="M0 26 C-12 12 -15 6 -15 -1 A15 15 0 0 1 15 -1 C15 6 12 12 0 26 Z" fill="#E56420"/>
+      <circle cx="0" cy="-1" r="6" fill="#FFFFFF"/>
+    </g>
   </g>
-
-  <g id="door-legal_aid" stroke="#3B4A40" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-    <rect x="700" y="76" width="140" height="156" rx="14" fill="#FFE6CC"/>
-    <rect x="714" y="90" width="112" height="26" rx="13" fill="#FFFFFF"/>
-    <rect x="714" y="124" width="26" height="22" rx="6" fill="#FFFFFF"/>
-    <rect x="800" y="124" width="26" height="22" rx="6" fill="#FFFFFF"/>
-    <rect class="door" x="752" y="178" width="36" height="54" rx="18" fill="#8FB57F"/>
-    <text x="770" y="107" font-family="Nunito, Arial, sans-serif" font-size="12" font-weight="700" fill="#1D2B22" stroke="none" text-anchor="middle">Legal Aid</text>
+  <g id="door-legal_aid" data-door="legal_aid" class="bld" transform="translate(732 132)">
+    <ellipse cx="62" cy="164" rx="72" ry="7" fill="#1D2B22" opacity=".08"/>
+    <rect x="0" y="0" width="124" height="160" rx="20" fill="#E9F6EC" stroke="#2D7341" stroke-width="3"/>
+    <path d="M-6 6 Q-6 -10 10 -10 L114 -10 Q130 -10 130 6 Z" fill="#2D7341"/>
+      <path d="M28 -10 Q62 -62 96 -10 Z" fill="#2D7341"/>
+      <line x1="62" y1="-48" x2="62" y2="-86" stroke="#3B4A40" stroke-width="3" stroke-linecap="round"/>
+      <g class="flag"><path d="M62 -86 Q76 -92 88 -84 Q76 -78 62 -72 Z" fill="#FF8C42"/>
+      <path d="M62 -79 Q75 -85 88 -77" fill="none" stroke="#FFFFFF" stroke-width="3"/></g>
+    <rect x="12" y="16" width="100" height="28" rx="14" fill="#FFFFFF" stroke="#2D7341" stroke-width="2.5"/>
+    <text x="62" y="35.5" text-anchor="middle" font-family="'Baloo 2','Nunito',sans-serif" font-weight="700" font-size="15" fill="#1D2B22">Legal aid</text>
+    <rect x="16" y="58" width="26" height="26" rx="10" fill="#FFFFFF" stroke="#2D7341" stroke-width="2.5"/>
+    <rect x="82" y="58" width="26" height="26" rx="10" fill="#FFFFFF" stroke="#2D7341" stroke-width="2.5"/>
+    <path d="M35 160 L35 112 Q35 88 62 88 Q89 88 89 112 L89 160 Z" fill="#2D7341" opacity=".22"/>
+    <path class="door-glow" d="M41 160 L41 114 Q41 94 62 94 Q83 94 83 114 L83 160 Z" fill="#FFE6A8"/>
+    <g class="door">
+      <path d="M41 160 L41 114 Q41 94 62 94 Q83 94 83 114 L83 160 Z" fill="#2D7341"/>
+      <circle cx="74" cy="133" r="3.2" fill="#FFFFFF"/>
+    </g>
+    <g class="pin" transform="translate(62 -104)">
+      <path d="M0 26 C-12 12 -15 6 -15 -1 A15 15 0 0 1 15 -1 C15 6 12 12 0 26 Z" fill="#E56420"/>
+      <circle cx="0" cy="-1" r="6" fill="#FFFFFF"/>
+    </g>
   </g>
-
-  <g id="door-bank" stroke="#3B4A40" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-    <rect x="870" y="98" width="140" height="134" rx="14" fill="#F4F8F2"/>
-    <rect x="884" y="112" width="112" height="26" rx="13" fill="#FFFFFF"/>
-    <rect x="884" y="146" width="26" height="22" rx="6" fill="#FFFFFF"/>
-    <rect x="970" y="146" width="26" height="22" rx="6" fill="#FFFFFF"/>
-    <rect class="door" x="922" y="178" width="36" height="54" rx="18" fill="#8FB57F"/>
-    <text x="940" y="129" font-family="Nunito, Arial, sans-serif" font-size="12" font-weight="700" fill="#1D2B22" stroke="none" text-anchor="middle">Bank</text>
+  <g id="door-bank" data-door="bank" class="bld" transform="translate(882 132)">
+    <ellipse cx="62" cy="164" rx="72" ry="7" fill="#1D2B22" opacity=".08"/>
+    <rect x="0" y="0" width="124" height="160" rx="20" fill="#F3EFE6" stroke="#8A6D3B" stroke-width="3"/>
+    <path d="M-8 4 Q62 -46 132 4 Z" fill="#8A6D3B"/>
+      <circle cx="62" cy="-14" r="10" fill="#FFD27A" stroke="#FFFFFF" stroke-width="3"/>
+    <rect x="12" y="16" width="100" height="28" rx="14" fill="#FFFFFF" stroke="#8A6D3B" stroke-width="2.5"/>
+    <text x="62" y="35.5" text-anchor="middle" font-family="'Baloo 2','Nunito',sans-serif" font-weight="700" font-size="15" fill="#1D2B22">Bank</text>
+    <rect x="16" y="58" width="26" height="26" rx="10" fill="#FFFFFF" stroke="#8A6D3B" stroke-width="2.5"/>
+    <rect x="82" y="58" width="26" height="26" rx="10" fill="#FFFFFF" stroke="#8A6D3B" stroke-width="2.5"/>
+    <path d="M35 160 L35 112 Q35 88 62 88 Q89 88 89 112 L89 160 Z" fill="#8A6D3B" opacity=".22"/>
+    <path class="door-glow" d="M41 160 L41 114 Q41 94 62 94 Q83 94 83 114 L83 160 Z" fill="#FFE6A8"/>
+    <g class="door">
+      <path d="M41 160 L41 114 Q41 94 62 94 Q83 94 83 114 L83 160 Z" fill="#8A6D3B"/>
+      <circle cx="74" cy="133" r="3.2" fill="#FFFFFF"/>
+    </g>
+    <g class="pin" transform="translate(62 -74)">
+      <path d="M0 26 C-12 12 -15 6 -15 -1 A15 15 0 0 1 15 -1 C15 6 12 12 0 26 Z" fill="#E56420"/>
+      <circle cx="0" cy="-1" r="6" fill="#FFFFFF"/>
+    </g>
   </g>
-
-  <g id="door-post" stroke="#3B4A40" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-    <rect x="1040" y="86" width="140" height="146" rx="14" fill="#FFE6CC"/>
-    <rect x="1054" y="100" width="112" height="26" rx="13" fill="#FFFFFF"/>
-    <rect x="1054" y="134" width="26" height="22" rx="6" fill="#FFFFFF"/>
-    <rect x="1140" y="134" width="26" height="22" rx="6" fill="#FFFFFF"/>
-    <rect class="door" x="1092" y="178" width="36" height="54" rx="18" fill="#8FB57F"/>
-    <text x="1110" y="117" font-family="Nunito, Arial, sans-serif" font-size="12" font-weight="700" fill="#1D2B22" stroke="none" text-anchor="middle">Post Office</text>
+  <g id="door-post" data-door="post" class="bld" transform="translate(1032 132)">
+    <ellipse cx="62" cy="164" rx="72" ry="7" fill="#1D2B22" opacity=".08"/>
+    <rect x="0" y="0" width="124" height="160" rx="20" fill="#FDEDEA" stroke="#C0392B" stroke-width="3"/>
+    <path d="M-6 8 Q62 -50 130 8 Z" fill="#C0392B"/>
+      <rect x="130" y="114" width="20" height="46" rx="10" fill="#C0392B"/>
+      <rect x="133" y="122" width="14" height="5" rx="2.5" fill="#FFFFFF" opacity=".85"/>
+    <rect x="12" y="16" width="100" height="28" rx="14" fill="#FFFFFF" stroke="#C0392B" stroke-width="2.5"/>
+    <text x="62" y="35.5" text-anchor="middle" font-family="'Baloo 2','Nunito',sans-serif" font-weight="700" font-size="15" fill="#1D2B22">Post</text>
+    <rect x="16" y="58" width="26" height="26" rx="10" fill="#FFFFFF" stroke="#C0392B" stroke-width="2.5"/>
+    <rect x="82" y="58" width="26" height="26" rx="10" fill="#FFFFFF" stroke="#C0392B" stroke-width="2.5"/>
+    <path d="M35 160 L35 112 Q35 88 62 88 Q89 88 89 112 L89 160 Z" fill="#C0392B" opacity=".22"/>
+    <path class="door-glow" d="M41 160 L41 114 Q41 94 62 94 Q83 94 83 114 L83 160 Z" fill="#FFE6A8"/>
+    <g class="door">
+      <path d="M41 160 L41 114 Q41 94 62 94 Q83 94 83 114 L83 160 Z" fill="#C0392B"/>
+      <circle cx="74" cy="133" r="3.2" fill="#FFFFFF"/>
+    </g>
+    <g class="pin" transform="translate(62 -74)">
+      <path d="M0 26 C-12 12 -15 6 -15 -1 A15 15 0 0 1 15 -1 C15 6 12 12 0 26 Z" fill="#E56420"/>
+      <circle cx="0" cy="-1" r="6" fill="#FFFFFF"/>
+    </g>
   </g>
-
-  <path id="path" d="M30 248 C200 240 330 252 500 246 S820 240 1000 250 S1140 246 1176 248" fill="none" stroke="#F57A2F" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 11"/>
+  <g class="paths" fill="none" stroke="#E56420" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 11">
+    <path data-path-for="police" d="M62 306 C122 320, 104 320, 174 310 Q194 306 194 294"/>
+    <path data-path-for="consumer" d="M62 306 C122 320, 254 320, 324 310 Q344 306 344 294"/>
+    <path data-path-for="labour" d="M62 306 C122 320, 404 320, 474 310 Q494 306 494 294"/>
+    <path data-path-for="ward" d="M62 306 C122 320, 554 320, 624 310 Q644 306 644 294"/>
+    <path data-path-for="legal_aid" d="M62 306 C122 320, 704 320, 774 310 Q794 306 794 294"/>
+    <path data-path-for="bank" d="M62 306 C122 320, 854 320, 924 310 Q944 306 944 294"/>
+    <path data-path-for="post" d="M62 306 C122 320, 1004 320, 1074 310 Q1094 306 1094 294"/>
+  </g>
+  <g class="walker" transform="translate(46 302)">
+    <ellipse cx="0" cy="16" rx="14" ry="4" fill="#1D2B22" opacity=".12"/>
+    <path d="M-11 14 Q-11 -6 0 -6 Q11 -6 11 14 Z" fill="#2D7341"/>
+    <circle cx="0" cy="-16" r="9" fill="#F2C9A0"/>
+    <path d="M-9 -19 Q0 -32 9 -19 Q4 -23 0 -22 Q-4 -23 -9 -19 Z" fill="#1D2B22"/>
+  </g>
 </svg>

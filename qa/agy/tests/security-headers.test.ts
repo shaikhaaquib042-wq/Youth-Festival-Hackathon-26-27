@@ -54,7 +54,7 @@ describe("Security headers verification", () => {
       expect(h.get("x-content-type-options")).toBe("nosniff");
       expect(h.get("x-frame-options")).toBe("DENY");
       expect(h.get("referrer-policy")).toBe("strict-origin-when-cross-origin");
-      expect(h.get("strict-transport-security")).toContain("max-age=63072000");
+      expect(h.get("strict-transport-security")).toBe("max-age=31536000; includeSubDomains");
       expect(h.get("cross-origin-opener-policy")).toBe("same-origin");
       expect(h.get("cross-origin-resource-policy")).toBe("same-origin");
       expect(h.get("cache-control")).toBe("no-store");
@@ -142,17 +142,25 @@ describe("Security headers verification", () => {
   });
 
   describe("Header parity between static _headers and Worker security.ts", () => {
-    it("identifies HSTS max-age difference between _headers and Worker", () => {
+    it("verifies HSTS is identical between _headers and Worker", async () => {
       const content = readFileSync(headersFile, "utf8");
-      const staticHsts = content.match(/Strict-Transport-Security:\s*([^\r\n]+)/)?.[1] || "";
+      const staticHsts = content.match(/Strict-Transport-Security:\s*([^\r\n]+)/)?.[1]?.trim() || "";
 
-      // In _headers: max-age=31536000; includeSubDomains (1 year)
-      // In Worker: max-age=63072000; includeSubDomains; preload (2 years + preload)
-      expect(staticHsts).toContain("max-age=31536000");
+      const res = await app.fetch(get("/api/health"), env);
+      const workerHsts = res.headers.get("strict-transport-security") || "";
 
-      // Verify that both have at least 1 year (31536000)
-      const staticAge = parseInt(staticHsts.match(/max-age=(\d+)/)?.[1] || "0", 10);
-      expect(staticAge).toBeGreaterThanOrEqual(31536000);
+      // Both must be identical: max-age=31536000; includeSubDomains (no preload)
+      expect(staticHsts).toBe("max-age=31536000; includeSubDomains");
+      expect(workerHsts).toBe("max-age=31536000; includeSubDomains");
+    });
+
+    it("verifies CSP font-src includes 'self' on both static _headers and Worker", async () => {
+      const content = readFileSync(headersFile, "utf8");
+      expect(content).toMatch(/font-src\s+[^;]*'self'/);
+
+      const res = await app.fetch(get("/api/health"), env);
+      const workerCsp = res.headers.get("content-security-policy") || "";
+      expect(workerCsp).toMatch(/font-src\s+[^;]*'self'/);
     });
   });
 });

@@ -53,13 +53,13 @@ function LocationChip() {
       </summary>
       <form className="sh-pop-panel card stack" method="post" action="/r/location">
         <p className="sh-muted">{tt("ui.location.help")}</p>
-        <label className="field">
+        <label className="field" htmlFor="header-loc-state">
           <span>{tt("ui.location.state")}</span>
-          <input name="state" type="text" autoComplete="address-level1" maxLength={60} />
+          <input id="header-loc-state" name="state" type="text" autoComplete="address-level1" maxLength={60} />
         </label>
-        <label className="field">
+        <label className="field" htmlFor="header-loc-city">
           <span>{tt("ui.location.city")}</span>
-          <input name="city" type="text" autoComplete="address-level2" maxLength={60} />
+          <input id="header-loc-city" name="city" type="text" autoComplete="address-level2" maxLength={60} />
         </label>
         <input type="hidden" name="next" value={localePath(lang, pathname)} />
         <input type="hidden" name="lang" value={lang} />

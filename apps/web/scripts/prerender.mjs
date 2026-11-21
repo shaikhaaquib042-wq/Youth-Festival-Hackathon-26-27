@@ -31,11 +31,12 @@ function fontLinks(lang) {
   const fams = [];
   if (!DEFAULT_FONT_LOCALES.has(lang)) {
     const f = LANG_META[lang].font.replace(/ /g, "+");
-    fams.push(`family=${f}:wght@400;600;700`);
+    fams.push(`family=${f}:wght@400;500;600;700;800`);
   } else {
-    fams.push("family=Baloo+2:wght@600;700");
+    fams.push("family=Baloo+2:wght@500;600;700;800");
   }
-  fams.push("family=Nunito:wght@400;600;700");
+  fams.push("family=Nunito:wght@400;600;700;800");
+  fams.push("family=Caveat:wght@600");
   const href = `https://fonts.googleapis.com/css2?${fams.join("&")}&display=swap`;
   let out = `<link rel="preconnect" href="https://fonts.googleapis.com">\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n    <link rel="stylesheet" href="${href}">`;
   if (!DEFAULT_FONT_LOCALES.has(lang)) {
@@ -114,6 +115,7 @@ console.log(`prerender: wrote sitemap.xml with ${paths.length * LOCALES.length} 
 // CSP: allow every distinct inline <script> and <style> body by sha256 hash (no 'unsafe-inline').
 function listHtml(dir) {
   return readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+    if (e.name === "ui-preview.html") return [];
     const p = join(dir, e.name);
     if (e.isDirectory()) return listHtml(p);
     return e.name.endsWith(".html") ? [p] : [];
