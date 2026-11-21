@@ -5,6 +5,7 @@ import maplibregl from 'maplibre-gl';
 import { getPins, subscribe, now } from '../store.js';
 import { pinSeverity, minutesLeft } from '../engine/lifecycle.js';
 import { getFix } from '../location.js';
+import { depthIcon } from '../ui/depthIcons.js';
 import { CONFIG } from '../../config.js';
 import { t, onLang } from '../i18n/index.js';
 import { showWeatherHazard, WEATHER_LAYERS } from './weather.js';
@@ -364,7 +365,7 @@ function popup(p, actions) {
   // Type specific details
   if (p.type === 'flood') {
     lines.push(
-      `${esc(t('depth.' + p.depth) || '')}${p.inUnderpass ? ' · ' + esc(t('pin.underpass')) : ''}`,
+      `<div class="popup-depth-line">${depthIcon(p.depth, 20)} <span>${esc(t('depth.' + p.depth) || '')}${p.inUnderpass ? ' · ' + esc(t('pin.underpass')) : ''}</span></div>`,
     );
   }
   if (p.type === 'cooling') {
@@ -373,9 +374,12 @@ function popup(p, actions) {
 
   // PRD §22: Evidence line FIRST, then source + age
   if (p.type === 'flood' || p.type === 'clog') {
-    // 1. Evidence line
+    // 1. Evidence line with optional Proof badge
+    const proofBadge = p.photo
+      ? ` <span class="badge-proof">📷 ${esc(t('report.proofBadge'))}</span>`
+      : '';
     lines.push(
-      `<div><b>${esc(t('report.evidence', { n: p.confirmations + 1, age: ageMin }))}</b></div>`,
+      `<div><b>${esc(t('report.evidence', { n: p.confirmations + 1, age: ageMin }))}</b>${proofBadge}</div>`,
     );
 
     // 2. Source + age
@@ -401,7 +405,9 @@ function popup(p, actions) {
     lines.push(`<small><a href="${esc(p.source.url)}" target="_blank" rel="noopener">↗</a></small>`);
   }
   if (p.photo) {
-    lines.push(`<img src="${esc(p.photo)}" alt="" class="pin-photo">`);
+    lines.push(
+      `<img src="${esc(p.photo)}" alt="Proof photo" class="pin-photo pin-photo-clickable" onclick="this.classList.toggle('enlarged')" title="Tap to enlarge">`,
+    );
   }
 
   el.innerHTML = `<div class="pin-title">${esc(title)}</div>${lines.map((l) => `<div>${l}</div>`).join('')}`;

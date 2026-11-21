@@ -214,4 +214,7 @@ export default {
   'report.howDeep': 'How deep is the water?',
   'report.selectAmenities': 'What is available here?',
   'report.moreOptions': 'More options',
+  'report.proof': 'Add photo proof',
+  'report.retakePhoto': 'Retake photo',
+  'report.proofBadge': 'Proof',
 };

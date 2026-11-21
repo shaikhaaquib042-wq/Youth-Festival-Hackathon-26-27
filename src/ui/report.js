@@ -10,6 +10,7 @@ import { submitReport, vote } from '../backend/reports.js';
 import { addLocalPin, refreshLive } from '../store.js';
 import { openSignIn, takeIntent } from './signin.js';
 import { getFix, requestLocation } from '../location.js';
+import { depthIcon } from './depthIcons.js';
 
 let map, hazard = 'flood', sheet, crosshair, draft = null;
 
@@ -82,25 +83,32 @@ function render() {
       </div>
     `;
 
-    // Step 2 (Flood): Depth as 3 big picture tiles
+    // Step 2 (Flood): Depth as 3 big picture tiles with inline SVG standing person
     if (d.type === 'flood') {
       html += `
         <div class="report-step-title">${t('report.howDeep')}</div>
         <div class="report-tiles tiles-3">
           <button type="button" class="report-tile-btn ${d.depth === 'ankle' ? 'selected' : ''}" data-g="depth" data-v="ankle">
-            <span class="tile-icon">👣</span>
+            <span class="tile-icon">${depthIcon('ankle', 34)}</span>
             <span class="tile-text">${t('depth.ankle')}</span>
           </button>
           <button type="button" class="report-tile-btn ${d.depth === 'knee' ? 'selected' : ''}" data-g="depth" data-v="knee">
-            <span class="tile-icon">🦵</span>
+            <span class="tile-icon">${depthIcon('knee', 34)}</span>
             <span class="tile-text">${t('depth.knee')}</span>
           </button>
           <button type="button" class="report-tile-btn ${d.depth === 'above_knee' ? 'selected' : ''}" data-g="depth" data-v="above_knee">
-            <span class="tile-icon">🧍</span>
+            <span class="tile-icon">${depthIcon('above_knee', 34)}</span>
             <span class="tile-text">${t('depth.above_knee')}</span>
           </button>
         </div>
+      `;
+    }
 
+    // Prominent Photo Proof tile right under depth
+    html += renderProofTile(d);
+
+    if (d.type === 'flood') {
+      html += `
         <details class="report-more-options">
           <summary class="report-more-summary">${t('report.moreOptions')} ▾</summary>
           <div class="rs-row">
@@ -134,15 +142,10 @@ function render() {
           .join('')}
       </div>
     `;
-  }
 
-  // Optional photo
-  html += `
-    <label class="report-photo-tile ${d.photo ? 'has-photo' : ''}">
-      <span>📷 ${t('report.photo')} ${d.photo ? '✓' : ''}</span>
-      <input type="file" accept="image/*" capture="environment" data-f="photo" hidden>
-    </label>
-  `;
+    // Photo proof tile on heat side as well
+    html += renderProofTile(d);
+  }
 
   // One big full-width "Send" button
   html += `
@@ -152,6 +155,30 @@ function render() {
   `;
 
   sheet.innerHTML = html;
+}
+
+function renderProofTile(d) {
+  if (!d.photo) {
+    return `
+      <label class="report-proof-tile">
+        <span class="proof-icon">📷</span>
+        <span class="proof-label"><b>${t('report.proof')}</b> <small class="proof-opt">(${t('report.photo')})</small></span>
+        <input type="file" accept="image/*" capture="environment" data-f="photo" hidden>
+      </label>
+    `;
+  }
+  return `
+    <div class="report-proof-preview">
+      <img src="${d.photo}" alt="Proof" class="proof-thumb" />
+      <div class="proof-meta">
+        <span class="proof-badge">📷 ${t('report.proofBadge')} ✓</span>
+        <label class="btn-retake">
+          🔄 ${t('report.retakePhoto')}
+          <input type="file" accept="image/*" capture="environment" data-f="photo" hidden>
+        </label>
+      </div>
+    </div>
+  `;
 }
 
 const canSubmit = () =>
