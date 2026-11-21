@@ -39,10 +39,10 @@ export function detourPoints(coords, pin, offsetM = 1000) {
   return [{ lat: pin.lat + dLat, lng: pin.lng + dLng }, { lat: pin.lat - dLat, lng: pin.lng - dLng }];
 }
 
-async function osrm(base, pts, alternatives) {
+async function osrm(base, pts, alternatives, signal) {
   const path = pts.map((p) => `${p.lng.toFixed(6)},${p.lat.toFixed(6)}`).join(';');
   const url = `${base}/route/v1/driving/${path}?overview=full&geometries=geojson&steps=false${alternatives ? `&alternatives=${alternatives}` : ''}`;
-  const res = await fetch(url);
+  const res = await fetch(url, { signal });
   if (!res.ok) throw new Error(`OSRM ${res.status}`);
   const j = await res.json();
   if (j.code !== 'Ok') throw new Error(`OSRM ${j.code}`);
@@ -53,8 +53,8 @@ async function osrm(base, pts, alternatives) {
  * Plan a route and return the verdict.
  * @returns {Promise<{ verdict:'safe'|'caution'|'avoid', level, primary:{route,score}, chosen:{route,score}|null, noSafe:boolean, decidingHit:object|null }>}
  */
-export async function planRoute(from, to, pins, { osrmUrl, mode, bufferM, detourM, alternatives = 3 }) {
-  const cands = await osrm(osrmUrl, [from, to], alternatives);
+export async function planRoute(from, to, pins, { osrmUrl, mode, bufferM, detourM, alternatives = 3, signal }) {
+  const cands = await osrm(osrmUrl, [from, to], alternatives, signal);
   const scored = cands.map((route) => ({ route, score: scoreRoute(route.coords, pins, { mode, bufferM }) }));
   const primary = scored[0];
   let chosen = scored.find((s) => !s.score.blocker) ?? null;
@@ -62,10 +62,10 @@ export async function planRoute(from, to, pins, { osrmUrl, mode, bufferM, detour
   if (!chosen && primary.score.blocker) {
     for (const via of detourPoints(primary.route.coords, primary.score.blocker.pin, detourM)) {
       try {
-        const [r] = await osrm(osrmUrl, [from, via, to], 0);
+        const [r] = await osrm(osrmUrl, [from, via, to], 0, signal);
         const s = scoreRoute(r.coords, pins, { mode, bufferM });
         if (!s.blocker) { chosen = { route: r, score: s, detour: true }; break; }
-      } catch { /* try the other side */ }
+      } catch { signal?.throwIfAborted(); /* otherwise try the other side */ }
     }
   }
 

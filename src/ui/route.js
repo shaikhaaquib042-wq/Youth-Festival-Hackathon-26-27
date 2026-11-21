@@ -11,7 +11,8 @@ import { toast } from './report.js';
 const SAVED_KEY = 'sajag.routes';
 const DEMO_ROUTES = { pune: [{ name: 'Sinhagad Rd → Shivajinagar', from: 'Vitthalwadi', to: 'Shivajinagar' }] };
 
-let map, panel, btn, mode = 'commuter', active = null, result = null, pickTarget = null, timer = null;
+let map, panel, btn, mode = 'commuter', active = null, result = null, pickTarget = null;
+let checkId = 0, request = null, checking = false, signature = null;
 let fields = { from: '', to: '' };
 let editing = true; // false after a check → compact panel (route summary + verdict) so the map shows the route
 
@@ -92,10 +93,11 @@ function render() {
       <div class="rs-row"><button class="btn" data-act="share">🟢 ${esc(t('action.share'))}</button><button class="btn btn-ghost" data-act="save">☆ ${esc(t('route.save'))}</button></div>
     </div>`;
   }
-  if (result && active && !editing) {
-    panel.innerHTML = `<div class="rp-head"><b>${esc(active.from.label)} → ${esc(active.to.label)}</b>
+  if (!editing) {
+    const title = active ? `${fieldLabel(active.from.label)} → ${fieldLabel(active.to.label)}` : t('route.title');
+    panel.innerHTML = `<div class="rp-head"><b>${esc(title)}</b>
       <span><button class="btn btn-ghost" data-act="edit" aria-label="${esc(t('route.title'))}">✎</button><button class="btn btn-ghost" data-act="close">✕</button></span></div>
-      <div class="rp-result">${res}</div>`;
+      <div class="rp-result" aria-busy="${checking}">${checking ? esc(t('route.checking')) : res}</div>`;
     return;
   }
   panel.innerHTML = `<div class="rp-head"><b>${esc(t('route.title'))}</b><button class="btn btn-ghost" data-act="close">✕</button></div>
@@ -111,16 +113,32 @@ function render() {
 async function check(fromText, toText) {
   fields = { from: fromText, to: toText };
   pickTarget = null;
-  const [from, to] = await Promise.all([resolve(fromText), resolve(toText)]);
-  if (!from || !to) return toast(t('route.notFound'));
-  active = { from, to, fromText, toText };
+  const id = ++checkId;
+  cancelPlan();
+  active = result = null;
+  drawRoutes(null);
   editing = false;
-  await recheck(true);
-  if (!result) { editing = true; render(); return; }
+  checking = true;
+  render();
+  const [from, to] = await Promise.all([resolve(fromText), resolve(toText)]);
+  if (id !== checkId) return;
+  if (!from || !to) {
+    checking = false;
+    editing = true;
+    render();
+    return toast(t('route.notFound'));
+  }
+  active = { from, to, fromText, toText };
+  signature = null;
+  render();
+  await recheck();
+}
+
+function fitRoute(r) {
   const b = new maplibregl.LngLatBounds();
-  (result?.chosen ?? result?.primary)?.route.coords.forEach((c) => b.extend(c));
-  result?.primary.route.coords.forEach((c) => b.extend(c));
-  // Fit the route into the part of the map that is actually visible (between status card and panel / beside the left column).
+  (r.chosen ?? r.primary).route.coords.forEach((c) => b.extend(c));
+  r.primary.route.coords.forEach((c) => b.extend(c));
+  // Fit into the visible map between panels, or beside the desktop column.
   const wide = innerWidth >= 760;
   const padding = wide
     ? { top: 80, bottom: 40, left: 480, right: 70 }
@@ -128,16 +146,52 @@ async function check(fromText, toText) {
   if (!b.isEmpty()) map.fitBounds(b, { padding, maxZoom: 15 });
 }
 
-async function recheck(announce = false) {
+function cancelPlan() {
+  request?.abort();
+  request = null;
+  checking = false;
+}
+
+function pinSignature(pins) {
+  return JSON.stringify([mode, ...pins.map((p) => [
+    p.id, p.lat, p.lng, p.status, p.depth, p.inUnderpass, p.confirmations,
+  ])]);
+}
+
+async function recheck() {
   if (!active) return;
+  const pins = getPins({ includeCooling: false }).filter((p) => p.type === 'flood' || p.type === 'clog');
+  const sig = pinSignature(pins);
+  if (sig === signature) return;
+  signature = sig;
+  const prev = result?.verdict;
+  cancelPlan();
+  const controller = new AbortController();
+  request = controller;
+  checking = true;
+  drawRoutes(null);
+  if (!editing) render();
   try {
-    const prev = result?.verdict;
-    result = await planRoute(active.from, active.to, getPins({ includeCooling: false }),
-      { osrmUrl: CONFIG.OSRM_URL, mode, bufferM: CONFIG.ROUTE_BUFFER_M, detourM: CONFIG.DETOUR_OFFSET_M, alternatives: CONFIG.OSRM_ALTERNATIVES });
+    const next = await planRoute(active.from, active.to, pins,
+      { osrmUrl: CONFIG.OSRM_URL, mode, bufferM: CONFIG.ROUTE_BUFFER_M, detourM: CONFIG.DETOUR_OFFSET_M,
+        alternatives: CONFIG.OSRM_ALTERNATIVES, signal: controller.signal });
+    if (request !== controller) return;
+    checking = false;
+    result = next;
     drawRoutes(result);
-    if (!editing) render();
-    if (!announce && prev && prev !== result.verdict) toast(`${t('route.changed')}: ${t('verdict.' + result.verdict)}`);
-  } catch (e) { toast(t('auth.error', { msg: e.message })); }
+    if (!editing) {
+      render();
+      if (!prev) fitRoute(result);
+    }
+    if (prev && prev !== result.verdict) toast(`${t('route.changed')}: ${t('verdict.' + result.verdict)}`);
+  } catch (e) {
+    if (request !== controller) return;
+    checking = false;
+    active = result = null;
+    editing = true;
+    render();
+    toast(t('auth.error', { msg: e.message }));
+  }
 }
 
 function onClick(e) {
@@ -148,7 +202,16 @@ function onClick(e) {
   }
   const act = b.dataset.act;
   if (act === 'close') return toggle(false);
-  if (act === 'edit') { editing = true; render(); return; }
+  if (act === 'edit') {
+    if (checking) {
+      checkId++;
+      cancelPlan();
+      active = result = null;
+    }
+    editing = true;
+    render();
+    return;
+  }
   if (act === 'check') return check(fields.from, fields.to);
   if (act === 'me') {
     pickTarget = null;
@@ -167,6 +230,8 @@ function toggle(open) {
   panel.hidden = !open;
   window.dispatchEvent(new CustomEvent('sajag:route', { detail: { active: open } })); // pins show flood spots while checking
   if (!open) {
+    checkId++;
+    cancelPlan();
     active = result = pickTarget = null;
     fields = { from: '', to: '' };
     editing = true;
@@ -197,14 +262,7 @@ export function initRoute(m) {
   });
   onLang(() => { btn.innerHTML = `<span class="ico">🛣</span><span>${esc(t('bar.route'))}</span>`; render(); });
   // Live: when reports change (new report, confirmation, expiry, scenario tick) re-plan the active route.
-  let sig = '';
-  subscribe(() => {
-    if (!active) return;
-    const s = getPins({ includeCooling: false }).filter((p) => p.type === 'flood' || p.type === 'clog')
-      .map((p) => `${p.id}:${p.status}:${p.depth}:${p.inUnderpass}`).join('|') + mode;
-    if (s === sig) return; sig = s;
-    clearTimeout(timer); timer = setTimeout(() => recheck(), 400);
-  });
+  subscribe(recheck);
   window.addEventListener('sajag:mode', (e) => setRouteMode(e.detail.mode));
   try { mode = localStorage.getItem('sajag.userMode') || 'commuter'; } catch { /* ignore */ }
   window.addEventListener('sajag:hazard', (e) => { btn.hidden = e.detail.hazard !== 'flood'; if (btn.hidden) toggle(false); });
