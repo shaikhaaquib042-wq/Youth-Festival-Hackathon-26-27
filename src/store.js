@@ -4,10 +4,27 @@ import { CONFIG } from '../config.js';
 import { makePin, TIERS } from './engine/pin.js';
 import { deriveStatus } from './engine/lifecycle.js';
 import { nearestPlace } from './engine/geo.js';
-import hotspots from './data/pune-hotspots.json';
-import cooling from './data/pune-cooling.json';
-import gazetteer from './data/pune-gazetteer.json';
+import puneHotspots from './data/pune-hotspots.json';
+import puneCooling from './data/pune-cooling.json';
+import puneGazetteer from './data/pune-gazetteer.json';
+import mumbaiHotspots from './data/mumbai-hotspots.json';
+import mumbaiCooling from './data/mumbai-cooling.json';
+import mumbaiGazetteer from './data/mumbai-gazetteer.json';
+import bengaluruHotspots from './data/bengaluru-hotspots.json';
+import bengaluruCooling from './data/bengaluru-cooling.json';
+import bengaluruGazetteer from './data/bengaluru-gazetteer.json';
+import hyderabadHotspots from './data/hyderabad-hotspots.json';
+import hyderabadCooling from './data/hyderabad-cooling.json';
+import hyderabadGazetteer from './data/hyderabad-gazetteer.json';
 import { fetchReports, watchReports } from './backend/reports.js';
+
+const SEEDS = {
+  pune: { hotspots: puneHotspots, cooling: puneCooling, gazetteer: puneGazetteer },
+  mumbai: { hotspots: mumbaiHotspots, cooling: mumbaiCooling, gazetteer: mumbaiGazetteer },
+  bengaluru: { hotspots: bengaluruHotspots, cooling: bengaluruCooling, gazetteer: bengaluruGazetteer },
+  hyderabad: { hotspots: hyderabadHotspots, cooling: hyderabadCooling, gazetteer: hyderabadGazetteer },
+};
+const { hotspots, cooling, gazetteer } = SEEDS[CONFIG.CITY] ?? SEEDS.pune;
 
 const OSM = { kind: 'seed', name: 'OpenStreetMap', url: 'https://www.openstreetmap.org/copyright' };
 const SEED_TIME = '2026-11-01T00:00:00+05:30';

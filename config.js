@@ -9,10 +9,14 @@ export const CITY_PACKS = { pune, mumbai, bengaluru, hyderabad };
 
 const env = import.meta.env;
 const urlCity = new URLSearchParams(globalThis.location?.search ?? '').get('city');
+let savedCity = null;
+try { savedCity = globalThis.localStorage?.getItem('sajag.city'); } catch { /* private mode */ }
+const envCity = env.VITE_CITY;
+const selectedCity = [urlCity, savedCity, envCity, 'pune'].find((id) => CITY_PACKS[id]) ?? 'pune';
 
 export const CONFIG = {
-  // ?city=mumbai in the URL overrides (City Pack demo); else VITE_CITY; else Pune.
-  CITY: CITY_PACKS[urlCity] ? urlCity : (env.VITE_CITY ?? 'pune'),
+  // Explicit URL choice, saved choice, build-time choice, then Pune.
+  CITY: selectedCity,
 
   // Routing (§10). Dev → laptop OSRM in Docker; deployed build → public OSRM.
   OSRM_URL: env.VITE_OSRM_URL ?? (env.DEV ? 'http://localhost:5000' : 'https://router.project-osrm.org'),

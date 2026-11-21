@@ -1,0 +1,97 @@
+[
+  {
+    "name": "Andheri Subway",
+    "aliases": [
+      "andheri",
+      "andheri west"
+    ],
+    "lat": 19.1197,
+    "lng": 72.8468,
+    "approx": true
+  },
+  {
+    "name": "Milan Subway",
+    "aliases": [
+      "milan subway",
+      "santacruz"
+    ],
+    "lat": 19.0645,
+    "lng": 72.8464,
+    "approx": true
+  },
+  {
+    "name": "Hindmata",
+    "aliases": [
+      "hindmata junction"
+    ],
+    "lat": 19.0178,
+    "lng": 72.8565,
+    "approx": true
+  },
+  {
+    "name": "King's Circle",
+    "aliases": [
+      "kings circle",
+      "matunga"
+    ],
+    "lat": 19.0269,
+    "lng": 72.8562,
+    "approx": true
+  },
+  {
+    "name": "Sion",
+    "aliases": [
+      "sion station"
+    ],
+    "lat": 19.039,
+    "lng": 72.8619,
+    "approx": true
+  },
+  {
+    "name": "Kurla",
+    "aliases": [
+      "kurla station"
+    ],
+    "lat": 19.0726,
+    "lng": 72.8845,
+    "approx": true
+  },
+  {
+    "name": "Dadar TT",
+    "aliases": [
+      "dadar t.t.",
+      "dadar"
+    ],
+    "lat": 19.0178,
+    "lng": 72.8433,
+    "approx": true
+  },
+  {
+    "name": "Bandra",
+    "aliases": [
+      "bandra station"
+    ],
+    "lat": 19.0544,
+    "lng": 72.8402,
+    "approx": true
+  },
+  {
+    "name": "Borivali",
+    "aliases": [
+      "borivali station"
+    ],
+    "lat": 19.2307,
+    "lng": 72.8567,
+    "approx": true
+  },
+  {
+    "name": "Thane Station",
+    "aliases": [
+      "thane",
+      "thane railway station"
+    ],
+    "lat": 19.186,
+    "lng": 72.975,
+    "approx": true
+  }
+]

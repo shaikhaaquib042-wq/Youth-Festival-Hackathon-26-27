@@ -54,5 +54,19 @@
       "label": "BBMP Sahaaya",
       "verified": false
     }
-  ]
+  ],
+  "grid": {
+    "lats": [
+      12.8,
+      12.98,
+      13.16
+    ],
+    "lngs": [
+      77.4,
+      77.56,
+      77.72,
+      77.88
+    ],
+    "cellDeg": 0.15
+  }
 }

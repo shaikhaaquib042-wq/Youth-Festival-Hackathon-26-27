@@ -55,5 +55,19 @@
       "label": "BMC helpline",
       "verified": false
     }
-  ]
+  ],
+  "grid": {
+    "lats": [
+      18.95,
+      19.1,
+      19.25
+    ],
+    "lngs": [
+      72.75,
+      72.9,
+      73.05,
+      73.2
+    ],
+    "cellDeg": 0.15
+  }
 }

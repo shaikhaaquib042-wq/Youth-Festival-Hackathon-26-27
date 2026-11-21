@@ -19,6 +19,7 @@ import { startOnboarding } from './ui/onboarding.js';
 import { startWeather } from './feeds/openmeteo.js';
 import { initWeatherLayers } from './map/weather.js';
 import { initCards } from './ui/cards.js';
+import { initCitySwitch } from './ui/citySwitch.js';
 
 const pack = cityPack();
 initLang(pack);
@@ -99,3 +100,7 @@ initCards(map, {
   },
 });
 // ==== end step 4 wiring ====
+
+// ==== city switch (codex) ====
+initCitySwitch();
+// ==== end city switch ====
