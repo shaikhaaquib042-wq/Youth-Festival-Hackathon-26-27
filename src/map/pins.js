@@ -417,7 +417,7 @@ function popup(p, actions) {
   el.innerHTML = `<div class="pin-title">${esc(title)}</div>${lines.map((l) => `<div>${l}</div>`).join('')}`;
 
   // Big vote buttons with icons (✅ Still there / 🧹 Cleared) ≥ 48 px
-  if ((p.type === 'flood' || p.type === 'clog') && !p.simulated && actions.onVote) {
+  if ((p.type === 'flood' || p.type === 'clog') && !p.simulated && p.source.kind !== 'media' && actions.onVote) {
     const row = document.createElement('div');
     row.className = 'vote-row';
 

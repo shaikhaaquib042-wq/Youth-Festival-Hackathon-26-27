@@ -42,7 +42,7 @@ const seed = [
 
 let live = [];      // from Supabase
 let scenario = [];  // injected by the Scenario player (simulated: true)
-let local = [];     // optimistic pins just submitted (until Realtime echoes them back)
+let local = [];     // optimistic submissions and pasted pins that stay on this device
 let clock = () => new Date();
 const subs = new Set();
 
@@ -82,7 +82,12 @@ export function subscribe(fn) { subs.add(fn); fn(); return () => subs.delete(fn)
 function notify() { subs.forEach((fn) => fn()); }
 
 export function setScenarioPins(pins) { scenario = pins.map((p) => ({ ...p, simulated: true })); notify(); }
-export function addLocalPin(pin) { local = [...local, pin]; notify(); }
+export function addLocalPin(pin, { clockTime } = {}) {
+  // Real pins are stored in wall time. getPins projects them onto the scenario clock for display.
+  const createdAt = clockTime ? new Date(Date.parse(pin.createdAt) - clockTime.getTime() + Date.now()).toISOString() : pin.createdAt;
+  local = [...local, { ...pin, createdAt }];
+  notify();
+}
 
 export async function refreshLive() {
   try { live = await fetchReports(now()); notify(); }
